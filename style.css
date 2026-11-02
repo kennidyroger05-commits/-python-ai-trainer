@@ -1,0 +1,71 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0b1020;
+  --panel: #121a2b;
+  --card: #172033;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --border: #2b364b;
+  --accent: #4f46e5;
+  --accent-2: #6366f1;
+  --success: #16a34a;
+  --danger: #dc2626;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+button { font: inherit; }
+.app-shell { width: min(100%, 980px); margin: 0 auto; padding: 16px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+.topbar h1 { margin: 2px 0 0; font-size: clamp(1.35rem, 5vw, 2rem); }
+.eyebrow { margin: 0; color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+.xp-box { border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 10px 12px; white-space: nowrap; }
+.progress-card, .mission-card, .legend-card { border: 1px solid var(--border); background: var(--panel); border-radius: 16px; }
+.progress-card { padding: 12px; margin-bottom: 14px; }
+.progress-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: .88rem; margin-bottom: 8px; }
+.progress-track { height: 9px; background: var(--card); border-radius: 999px; overflow: hidden; }
+.progress-bar { height: 100%; width: 0; background: var(--accent); transition: width .2s ease; }
+.game-grid { display: grid; gap: 14px; }
+.mission-card, .legend-card { padding: 16px; }
+.mission-card h2 { margin: 6px 0 8px; font-size: 1.25rem; }
+.description { color: var(--muted); line-height: 1.5; }
+.data-card, .why-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.data-card span { color: var(--muted); font-size: .85rem; }
+pre { margin: 8px 0 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+h3 { margin: 18px 0 10px; font-size: 1rem; }
+.token-bank { display: flex; flex-wrap: wrap; gap: 9px; }
+.token-bank button, .actions button, .next {
+  min-height: 44px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 10px 13px;
+  cursor: pointer;
+}
+.token-bank button { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.token-bank button:active, .actions button:active { transform: scale(.98); }
+button.primary { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
+.code-display { min-height: 120px; border: 1px solid var(--border); background: #0a0f1d; border-radius: 12px; padding: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
+.code-placeholder { color: var(--muted); font-family: inherit; }
+.actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+.feedback { margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: var(--muted); line-height: 1.45; }
+.feedback.success { color: #bbf7d0; border-color: #166534; }
+.feedback.error { color: #fecaca; border-color: #7f1d1d; }
+.next { width: 100%; margin-top: 12px; }
+.hidden { display: none !important; }
+.legend-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.legend-item:last-child { border-bottom: 0; }
+.legend-item code { display: inline-block; margin-bottom: 4px; }
+.legend-item p, .why-card p { margin: 4px 0 0; color: var(--muted); line-height: 1.4; }
+.why-card { margin-top: 18px; }
+
+@media (min-width: 760px) {
+  .game-grid { grid-template-columns: minmax(0, 1.5fr) minmax(260px, .8fr); align-items: start; }
+  .legend-card { position: sticky; top: 16px; }
+}
