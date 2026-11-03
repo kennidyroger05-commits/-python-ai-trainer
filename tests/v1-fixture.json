@@ -1,0 +1,145 @@
+[
+  {
+    "id": "score-variable",
+    "module": "Fundamentos",
+    "concepts": [
+      "variável"
+    ],
+    "type": "build",
+    "title": "Guarde o score",
+    "prompt": "O classificador retornou score 0.82. Monte uma linha que guarde esse valor em score.",
+    "context": "score recebido: 0.82",
+    "blocks": [
+      "score",
+      " = ",
+      "0.82"
+    ],
+    "answers": [
+      "score = 0.82"
+    ],
+    "hints": [
+      "Uma atribuição associa um nome a um valor.",
+      "Comece por score = e use o número 0.82."
+    ],
+    "explanation": "A atribuição guarda 0.82 na variável score.",
+    "aiApplication": "Um score pode representar a confiança de um classificador.",
+    "legend": {
+      "variável": "Nome que guarda um valor.",
+      "=": "Atribui o valor à variável."
+    }
+  },
+  {
+    "id": "print-score",
+    "module": "Fundamentos",
+    "concepts": [
+      "print()"
+    ],
+    "type": "build",
+    "title": "Mostre o score",
+    "prompt": "A variável score já contém 0.82. Monte o código para mostrar esse valor.",
+    "context": "score = 0.82",
+    "blocks": [
+      "print(",
+      "score",
+      ")"
+    ],
+    "answers": [
+      "print(score)"
+    ],
+    "hints": [
+      "A função de saída recebe o valor que será mostrado.",
+      "Escreva print(score), com score dentro dos parênteses."
+    ],
+    "explanation": "print(score) mostra o valor guardado na variável score.",
+    "aiApplication": "Exibir scores ajuda a inspecionar e depurar a decisão de um modelo.",
+    "legend": {
+      "print()": "Mostra um valor na saída.",
+      "()": "Delimitam os argumentos de uma função."
+    }
+  },
+  {
+    "id": "max-scores",
+    "module": "Scores e modelos",
+    "concepts": [
+      "max()"
+    ],
+    "type": "predict",
+    "title": "Selecione o maior score",
+    "prompt": "Qual é o valor de melhor ao final deste código?",
+    "context": "scores = [0.62, 0.91, 0.75]",
+    "hints": [
+      "max() procura o maior item da coleção.",
+      "Compare os três scores: 0.62, 0.91 e 0.75."
+    ],
+    "explanation": "max(scores) retorna 0.91, o maior valor da lista, e a atribuição guarda esse resultado em melhor.",
+    "aiApplication": "Um roteador pode comparar scores para escolher o modelo mais adequado.",
+    "legend": {
+      "max()": "Retorna o maior item de uma coleção."
+    },
+    "code": "scores = [0.62, 0.91, 0.75]\nmelhor = max(scores)",
+    "options": [
+      "0.91",
+      "0.75",
+      "0.62"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "read-index",
+    "module": "Listas",
+    "concepts": [
+      "lista",
+      "índice"
+    ],
+    "type": "read",
+    "title": "Leia o segundo modelo",
+    "prompt": "O que esse código mostra?",
+    "context": "modelos = [\"local\", \"gemini\", \"groq\"]",
+    "code": "print(modelos[1])",
+    "options": [
+      "Mostra gemini, o segundo item.",
+      "Mostra local, o primeiro item.",
+      "Mostra groq, o terceiro item."
+    ],
+    "correct": 0,
+    "hints": [
+      "Uma lista guarda itens em ordem.",
+      "O primeiro índice é 0; portanto modelos[1] seleciona o segundo item."
+    ],
+    "explanation": "O índice 1 seleciona o segundo item, a string \"gemini\", que print mostra.",
+    "aiApplication": "Uma aplicação pode acessar pelo índice uma opção de modelo selecionada.",
+    "legend": {
+      "lista": "Coleção ordenada de valores.",
+      "índice": "Posição de um item; começa em 0.",
+      "print()": "Mostra o valor na saída."
+    }
+  },
+  {
+    "id": "find-index-error",
+    "module": "Listas",
+    "concepts": [
+      "índice"
+    ],
+    "type": "error",
+    "title": "Encontre o índice inválido",
+    "prompt": "Qual é o problema nesta linha?",
+    "context": "modelos = [\"local\", \"gemini\", \"groq\"]",
+    "code": "print(modelos[3])",
+    "options": [
+      "O índice 3 está fora da lista; os índices válidos são 0, 1 e 2.",
+      "A lista não pode guardar nomes de modelos.",
+      "print() não aceita valores de listas."
+    ],
+    "correct": 0,
+    "hints": [
+      "Conte quantos itens há e lembre que a contagem começa em zero.",
+      "Três itens têm os índices 0, 1 e 2; modelos[3] gera IndexError."
+    ],
+    "explanation": "A lista tem três itens. O último índice é 2, então o índice 3 gera IndexError.",
+    "aiApplication": "Validar índices evita falhas ao escolher modelos ou ferramentas de uma lista.",
+    "legend": {
+      "índice": "Posição de um item; começa em 0.",
+      "IndexError": "Erro ao acessar uma posição que não existe."
+    }
+  }
+]

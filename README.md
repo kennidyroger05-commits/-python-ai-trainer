@@ -43,3 +43,21 @@ O teste de navegador usa Playwright e Chromium já disponíveis no ambiente de d
 ## Próximo passo
 
 Depois de revisar as cinco missões com estudantes iniciantes, ampliar o conteúdo em pequenos lotes e validar cada lote antes de publicar.
+
+## V1.5 em desenvolvimento
+
+A branch V1.5 amplia o jogo para **15 missões**: 3 de montagem, 5 de leitura, 6 de previsão e 1 de identificação de erro. As cinco missões da V1 mantêm IDs, conteúdo e respostas; a chave de progresso permanece `pythonAiTrainerV1`.
+
+O seletor oferece Português, Misto (padrão) e English. As traduções são cadastradas em `exercises.json` e `language.js`. Trocar o idioma mantém a resposta selecionada ou montada. No modo Misto, traduções só deixam de aparecer junto ao termo depois de o aluno marcar explicitamente que o conhece. Elas continuam disponíveis ao toque no glossário. Idioma e familiaridade ficam em chaves próprias do localStorage.
+
+As missões 3, 8 e 14 oferecem simulação didática com estados predefinidos. É possível avançar, voltar e reiniciar; não existe interpretador Python no app. A marcação de `else` representa uma transição de controle, não uma instrução executável. As variáveis e saídas são snapshots, sem executar código enviado pelo aluno.
+
+```bash
+node tests/validate.js
+python3 tests/python-fixtures.py
+node tests/browser.cjs
+```
+
+O teste Python usa CPython apenas no desenvolvimento para conferir os exemplos confiáveis do repositório e os estados intermediários. O teste de navegador requer servidor local na porta 8000 e Playwright com Chromium (`CHROMIUM_PATH` pode selecionar o executável). A aplicação publicada continua sem dependências externas.
+
+`language.js` contém textos da interface e o glossário bilíngue. `tests/v1-fixture.json` registra a base preservada. Consulte `REPORT-V1.5.md` para resultados e limitações.
