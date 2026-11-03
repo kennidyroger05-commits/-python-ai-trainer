@@ -112,6 +112,7 @@ A validação técnica não substitui avaliação de compreensão por iniciantes
 - `0065244`: recuperação imediata do trabalho existente, motor, conteúdo, testes e push.
 - `d78dda2`: armazenamento negado, extremos de navegador e segundo push.
 - `4cb20e8`: orientação, glossário, revisão opcional e correção da avaliação, com testes.
-- A documentação final e o registro da tentativa de PR constam dos commits seguintes no histórico da branch.
+- `db275cc`: arquitetura, trilha, diretrizes e relatório de aceitação.
+- O fechamento da entrega e o bloqueio da API constam do commit seguinte, visível no histórico da branch.
 
-O destino do PR de rascunho é `feature/v2-debug-training`, nunca main. Não há autorização de merge ou publicação. O texto está em `docs/PR-V3.md`; o resultado real da tentativa será registrado no fechamento da entrega. Nenhuma V4 foi iniciada.
+O destino do PR de rascunho é `feature/v2-debug-training`, nunca main. Não há autorização de merge ou publicação. A tentativa real de `gh pr create --draft --base feature/v2-debug-training --head feature/v3-python-ai-lab` falhou com `Post https://api.github.com/graphql: Forbidden`. Nenhum PR V3 foi criado pela CLI. O texto está em `docs/PR-V3.md` e a [comparação contra V2 está disponível](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/v2-debug-training...feature/v3-python-ai-lab?expand=1). Não foram pedidas credenciais nem alteradas configurações administrativas para contornar o bloqueio. Pendências externas: abertura do rascunho/revisão do PR e validação manual no Safari/iPhone. Nenhuma V4 foi iniciada.
