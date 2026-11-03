@@ -47,6 +47,6 @@ A simulação não é interpretador Python; não cobre todas as formas equivalen
 
 ## Entrega e próxima etapa
 
-Commits organizam implementação/conteúdo e testes/documentação. A branch será enviada ao GitHub; o PR solicitado é de rascunho contra `feature/v1-5-learning`. Caso a API continue bloqueada, o link de comparação e o corpo do PR ficam disponíveis para criação manual. Não alterar configuração administrativa ou a política de rede como parte desta missão.
+Commits organizam implementação/conteúdo e testes/documentação. A branch foi enviada ao GitHub. Commits: `a4eb752` (implementação, conteúdo e testes) e `d921da3` (documentação inicial). O registro de entrega está em um commit posterior, visível no histórico da branch. A tentativa de criar o PR de rascunho contra `feature/v1-5-learning` falhou com `Post https://api.github.com/graphql: Forbidden`; nenhum PR V2 foi criado pela CLI. [Comparação para revisão](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/v1-5-learning...feature/v2-debug-training?expand=1). O corpo preparado está em `docs/PR-V2.md`. Não alterar configuração administrativa ou a política de rede como parte desta missão.
 
 Recomenda-se revisar a V1.5 e então a V2, testar com iniciantes no Safari/iPhone e avaliar acessibilidade antes de aprovar publicação. Nenhuma V3 foi iniciada.
