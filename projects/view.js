@@ -26,7 +26,7 @@
     }
     function renderStep(a){
       const r=E.get(state,a),s=a.steps.find(s=>s.id===r.currentStepId),draft=E.stepState(state,a,s),lang=language();
-      E.present(state,E.unitKey(a,s),s.concept,s.skills);$('pTitle').textContent=a.title[lang];$('pGoal').textContent=a.goal[lang];$('pNavigationSummary').textContent=t('Etapas do projeto','Project stages');$('pContext').textContent=a.context[lang];$('pLimit').textContent=a.limitations[lang];
+      E.present(state,E.unitKey(a,s),s.concept,s.skills);$('pTitle').textContent=a.title[lang];$('pGoal').textContent=a.goal[lang];$('pNavigationSummary').textContent=t('Etapas da atividade','Activity stages');$('pContext').textContent=a.context[lang];$('pLimit').textContent=a.limitations[lang];
       $('pStep').textContent=`${a.steps.indexOf(s)+1}/${a.steps.length} · ${s.title[lang]}`;$('pPrompt').textContent=s.prompt[lang];$('pCode').textContent=s.code||'';$('pEvidence').hidden=!s.evidence;$('pEvidence').textContent=s.evidence?JSON.stringify(s.evidence,null,2):'';
       $('pProgress').textContent=`${a.steps.filter(st=>r.steps[st.id]?.passed).length}/${a.steps.length} ${t('etapas validadas','validated steps')}`;
       $('pStepList').replaceChildren();for(const st of a.steps){const b=button($('pStepList'),st.title[lang],()=>{r.currentStepId=st.id;r.conclusion=false;r.layer=null;r.term=null;render();save();focusHeading('pStep');},{'data-step':st.id});b.disabled=!st.requires.every(id=>r.steps[id]?.passed);if(st.id===s.id)b.setAttribute('aria-current','step');}

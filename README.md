@@ -1,35 +1,32 @@
-# Python AI Trainer — V2 em desenvolvimento
+# Python AI Trainer — Python AI Lab (V3)
 
-Jogo mobile de Python aplicado a IA e inglês técnico, com 40 missões originais, seis modalidades, depuração, revisão e laboratórios simulados. HTML, CSS e JavaScript; sem backend, banco, frameworks ou APIs externas.
+Aprendizado de Python aplicado a IA e inglês técnico por missões e projetos guiados. A V3 conserva as **40 missões da V2** e acrescenta quatro projetos, oito desafios de debugging e uma introdução a testes. Funciona como site estático, com HTML, CSS e JavaScript, sem backend, framework ou APIs de modelos.
 
-A V2 está em `feature/v2-debug-training`, baseada em `feature/v1-5-learning`. Não está publicada. `main` e o PR #1 não são integrados por este trabalho.
+Desenvolvimento em `feature/v3-python-ai-lab`, baseado em `feature/v2-debug-training`. Esta branch não foi publicada nem integrada. A versão de `main` e os PRs anteriores permanecem preservados.
 
-## Aprendizado e funcionalidades
+## Projetos guiados
 
-- Montar código, prever saída, ler, encontrar erros, corrigir linhas e completar trechos, sem digitação obrigatória.
-- Português, Misto (padrão) e English; resposta e código preservados ao trocar idioma.
-- Glossário bilíngue com 37 termos, duas dicas por missão e explicações práticas.
-- Seis traces didáticos com variáveis, saída, fluxo de condições/funções e erro.
-- Seis cenários de debugging: SyntaxError, TypeError, KeyError, IndexError, NameError e erro lógico.
-- Cinco fluxos de IA fictícios: classificação, extração JSON, roteamento, fallback e erro HTTP.
-- XP por ID, progresso local, migração da V1/V1.5, reinício de módulo e reset confirmado.
-- Revisões em lotes finitos de até três conceitos, respeitando pré-requisitos e desempenho.
-- Layout para toque e redução de movimento.
+Cada projeto tem dez etapas que interpretam, modificam ou verificam um mesmo artefato. Não são quarenta missões independentes adicionais.
 
-## Módulos
+| Projeto | Entrega didática |
+| --- | --- |
+| Roteador de modelos | Política para fast/quality/local, fallback, erro lógico e casos de teste |
+| Cliente de API de IA | Requisição fictícia, texto JSON, campos, validação e respostas de erro |
+| Avaliação de modelos | Dataset de quatro tarefas, acurácia, falhas, latência/custo fictícios e relatório |
+| Mini pipeline de treinamento | Separação treino/validação, lotes, épocas, logs, sobreajuste e checkpoint |
 
-| Trilha | Assunto | Quantidade |
-| --- | --- | ---: |
-| A | Fundamentos aplicados | 7 |
-| B | Decisões e roteamento | 3 |
-| C | Dados de IA | 6 |
-| D | Funções e ferramentas | 4 |
-| E | APIs simuladas | 3 |
-| F | Debugging | 7 |
-| G | Fluxos de IA | 6 |
-| H | Treinamento e avaliação | 4 |
+O Lab mantém rascunho, dicas, respostas, etapa e fluxo ao recarregar. É possível voltar e revisitar etapas. Reiniciar uma atividade limpa suas etapas, mas conserva o XP já concedido e o histórico de dificuldade, evitando pontos duplicados.
 
-Distribuição por modalidade: 3 montagem, 16 previsão, 10 leitura, 1 identificação de erro, 6 correção e 4 completar. O percurso revisita módulos mantendo as 15 missões-base; consulte [caminho pedagógico](docs/LEARNING-PATH.md).
+## Recursos
+
+- As seis modalidades das missões, três idiomas (Português, Misto padrão e English), glossário, revisão e simulações da V2.
+- Workspace acumulado: respostas incorretas não alteram o artefato; decisões corretas atualizam a construção. Testes didáticos comparam esperado e obtido usando funções cadastradas.
+- Oito casos novos de debugging: chave interna, conversão de tipo, retorno ausente, limite invertido, fallback inalcançável, JSON malformado, coleção vazia e denominador da métrica.
+- Tutorial de testes com seis etapas: entrada/esperado, positivo, negativo, borda, asserção e vocabulário contextual.
+- Fluxos de referência interativos, explicações em três camadas e glossário disponível offline depois do carregamento.
+- Evidências de dez competências, sem atribuir nível profissional: apresentado, praticado, acertado e revisão sugerida, com metodologia visível.
+- Revisão opcional orientada por erros: revisar uma missão, ver exemplo ou continuar. O retorno conserva o rascunho do projeto.
+- “Meus projetos” com exportação Markdown local de projetos concluídos, identificados como didáticos e simulados. Sem upload automático.
 
 ## Rodar
 
@@ -37,48 +34,60 @@ Distribuição por modalidade: 3 montagem, 16 previsão, 10 leitura, 1 identific
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra `http://localhost:8000`. É necessário HTTP para carregar os arquivos JSON. Depois do carregamento, glossário, missões e laboratórios funcionam sem rede; não há suporte a recarregamento offline completo por service worker.
+Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter os arquivos JSON. Não há service worker: recarregar totalmente offline não é garantido. Nenhum Python do aluno é executado.
+
+## Persistência e compatibilidade
+
+As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
+
+Registros danificados são normalizados e uma cópia local `.recovery` é preservada antes da substituição. O reset geral confirmado remove também os dados e cópias de recuperação deste app, preservando chaves de outros aplicativos. Se o armazenamento estiver bloqueado ou sem quota, a interface avisa que a sessão pode não ser salva. Downloads já salvos pelo usuário não são removidos.
 
 ## Testes
 
-Na raiz, com Node e Python 3.12:
+Na raiz, com Node, Python 3.12 e o servidor HTTP ativo:
 
 ```bash
 node tests/validate.js
 node tests/core.cjs
 python3 tests/python-fixtures.py
+node tests/projects-core.cjs
+node tests/projects-data.cjs
+node tests/storage-migration.cjs
+python3 tests/projects-python.py
 node tests/browser.cjs
 node tests/labs-browser.cjs
+node tests/projects-browser.cjs
+node tests/projects-edge-browser.cjs
+node tests/project-evaluation-browser.cjs
 ```
 
-As duas últimas suítes exigem o servidor local, Playwright e Chromium. No ambiente Codex já estão disponíveis. Fora dele, uma opção de instalação isolada é:
+As quatro suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
+
+Em outro ambiente, uma instalação isolada das ferramentas de teste é possível:
 
 ```bash
 npm install --prefix /tmp/python-ai-trainer-tests playwright
-NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/browser.cjs
-NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/labs-browser.cjs
+NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/projects-browser.cjs
 ```
 
-`CHROMIUM_PATH` seleciona o navegador instalado. Playwright é ferramenta de desenvolvimento e não é enviado como dependência do site. CPython só executa fixtures confiáveis do repositório durante os testes, nunca respostas de usuários.
+Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode selecionar um Chromium instalado.
 
-## Estrutura e conteúdo
+## Estrutura
 
-- `app.js`: interface e eventos do jogo.
-- `game.js`: respostas e XP.
-- `core/`: conteúdo, sessões, persistência/revisão e traces.
-- `language.js`, `glossary-v2.json`: idiomas e termos.
-- `exercises.json`: 40 missões e metadados de debugging/simulação.
-- `labs.js`, `labs.json`: interface e cinco fluxos de IA.
-- `tests/`: lógica, mutações inválidas, migração, fixtures Python e interação mobile.
+- `app.js`, `game.js`, `core/`: missões, respostas, XP, persistência, revisão e sessões V2.
+- `language.js`, `glossary-v2.json`, `exercises.json`, `labs.*`: conteúdo e laboratórios preservados da V2.
+- `projects/engine.js`: estado, validação, navegação, XP, evidências e retomada das atividades.
+- `projects/models.js`: transformações determinísticas das soluções cadastradas.
+- `projects/catalog.json`, `debugging.json`, `testing.json`, `datasets.json`, `terms.json`: projetos, cenários, tutorial, dados e vocabulário.
+- `projects/view.js`, `flow-view.js`, `portfolio.js`, `projects.css`: interface, fluxos e exportação.
+- `tests/`: regressões V1–V2, preservação de conteúdo, estado V3, fixtures e navegador.
 
-Para adicionar missões, traduções e traces, siga [as regras de conteúdo](docs/CONTENT-GUIDELINES.md). A [arquitetura](docs/ARCHITECTURE.md) explica estado, persistência e limites. Os IDs anteriores não devem ser renomeados. Novas traduções usam a mesma resposta e o mesmo código.
+Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/LEARNING-PATH.md), as [diretrizes para cadastrar conteúdo](docs/CONTENT-GUIDELINES.md), a [matriz de compatibilidade](docs/COMPATIBILITY-V3.md) e o [relatório V3](docs/REPORT-V3.md).
 
-## GitHub Pages
+## Publicação e limites
 
-O site funciona servido pela raiz do repositório. A configuração atual de Pages permanece na branch `main`. A V2 só deve ser integrada e publicada após revisão explícita; este trabalho envia apenas uma branch e solicita um PR de rascunho contra V1.5.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; o PR V3 é de rascunho contra V2.
 
-## Limitações e próximos passos
+A V3 usa escolhas, correções e funções previamente cadastradas, não um interpretador Python geral ou editor de código livre. Fluxos, modelos, APIs, custos e treinamento são simulados. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
-Simulações usam snapshots predefinidos. Validação aceita soluções cadastradas e substituições específicas; não interpreta Python arbitrário nem prova equivalência geral de programas. Dados e respostas de APIs são fictícios. Os testes mobile usam Chromium; Safari/iPhone real ainda precisa ser validado. As preferências e o histórico são locais ao navegador.
-
-Antes de publicar: revisar no Safari, acompanhar iniciantes e aprovar conteúdo/PRs. Professor opcional, voz, executor isolado, APIs reais, Kaggle/Colab e experimentos de modelos são possibilidades futuras, sem integrações ou botões nesta versão. Consulte [relatório V2](docs/REPORT-V2.md).
+Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação manual. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Próximos passos: revisão com iniciantes e testes no iPhone antes de qualquer publicação; integrações de voz, professor opcional ou executor isolado ficam fora desta versão.

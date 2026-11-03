@@ -23,3 +23,9 @@ Defeitos encontrados no código: nomes de alguns módulos permaneciam em portugu
 | Portfólio | Exportação local e sem upload | Conteúdo Markdown e download no navegador |
 
 Safari/WebKit e iPhone real não estavam disponíveis na auditoria inicial. Chromium com viewport e toque não equivale a teste físico no iPhone.
+
+## Resultado após recuperação e integração
+
+As regressões de quarenta missões e laboratórios V2 passaram novamente em 320/375/390 px. O percurso V3 completou 70 etapas nas três larguras, incluindo recarga, idiomas, revisão opcional, fluxos e download real. Casos extremos de V1/V1.5/V2, registros inválidos e armazenamento negado passaram em navegador. A última correção da avaliação, relativa à listagem de previsões ausentes, recebeu verificação focada com CPython/JavaScript e exportação nas três larguras.
+
+O relatório final detalha escopo, metodologia, problemas corrigidos e riscos: `REPORT-V3.md`. A auditoria não substitui validação manual no Safari/iPhone.
