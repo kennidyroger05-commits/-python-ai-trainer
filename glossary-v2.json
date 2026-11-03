@@ -1,0 +1,227 @@
+{
+  "addition": [
+    "addition",
+    "adição",
+    "+ soma dois números.",
+    "+ adds two numbers.",
+    "prompt_tokens = 120\nreply_tokens = 30\nprint(prompt_tokens + reply_tokens)",
+    "Somar contagens ajuda a estimar o tamanho de uma requisição.",
+    "Adding counts helps estimate request size."
+  ],
+  "length": [
+    "length",
+    "quantidade",
+    "len() retorna a quantidade de itens.",
+    "len() returns the number of items.",
+    "models = [\"local\", \"small\", \"remote\"]\nprint(len(models))",
+    "A quantidade pode validar se há modelos disponíveis.",
+    "The count can check model availability."
+  ],
+  "loop": [
+    "loop",
+    "repetição",
+    "for repete um bloco para cada item.",
+    "for repeats a block for each item.",
+    "tools = [\"search\", \"calculate\"]\nfor tool in tools:\n    print(tool)",
+    "Laços percorrem coleções de ferramentas.",
+    "Loops visit collections of tools."
+  ],
+  "records": [
+    "records",
+    "registros",
+    "Lista de dicionários reúne registros ordenados.",
+    "A list of dictionaries stores ordered records.",
+    "responses = [{\"model\": \"local\"}, {\"model\": \"remote\"}]\nprint(responses[1][\"model\"])",
+    "Lotes de inferência retornam coleções de registros.",
+    "Batch inference returns collections of records."
+  ],
+  "JSON": [
+    "JSON",
+    "JSON",
+    "json.loads() converte texto JSON; import prepara a biblioteca.",
+    "json.loads() parses JSON text; import loads the library.",
+    "import json\npayload = '{\"label\": \"support\"}'\nresponse = json.loads(payload)\nprint(response[\"label\"])",
+    "APIs normalmente transportam dados como texto JSON.",
+    "APIs commonly transport data as JSON text."
+  ],
+  "default": [
+    "default",
+    "valor padrão",
+    "dict.get() lê uma chave com valor padrão.",
+    "dict.get() reads a key with a default.",
+    "response = {\"model\": \"local\"}\nprint(response.get(\"label\", \"unknown\"))",
+    "Campos opcionais precisam de um comportamento explícito.",
+    "Optional fields need explicit fallback behavior."
+  ],
+  "argument": [
+    "argument",
+    "argumento nomeado",
+    "nome=valor fornece um argumento pelo nome.",
+    "name=value passes an argument by name.",
+    "def choose_model(model_name):\n    return model_name\nprint(choose_model(model_name=\"small\"))",
+    "Argumentos nomeados deixam chamadas de ferramentas mais legíveis.",
+    "Keyword arguments make tool calls easier to read."
+  ],
+  "deterministic": [
+    "deterministic",
+    "determinístico",
+    "Determinístico significa previsível para as mesmas entradas.",
+    "Deterministic means predictable for the same inputs.",
+    "def add_tokens(first, second):\n    return first + second\nprint(add_tokens(10, 5))",
+    "Uma ferramenta determinística retorna o mesmo resultado para as mesmas entradas.",
+    "A deterministic tool returns the same result for the same inputs."
+  ],
+  "status": [
+    "status",
+    "estado HTTP",
+    "Status HTTP indica o resultado de uma requisição.",
+    "HTTP status indicates the result of a request.",
+    "response = {\"status\": 200, \"body\": \"ready\"}\nprint(response[\"status\"])",
+    "Esta resposta é um dicionário fictício, sem requisição de rede.",
+    "This response is fictional data, with no network request."
+  ],
+  "envelope": [
+    "envelope",
+    "envelope de resposta",
+    "Um dicionário pode conter outro dicionário.",
+    "A dictionary can contain another dictionary.",
+    "response = {\"status\": 200, \"body\": {\"model\": \"small\"}}\nprint(response[\"body\"][\"model\"])",
+    "Respostas simuladas separam metadados e corpo.",
+    "Simulated responses separate metadata and body."
+  ],
+  "equality": [
+    "equality",
+    "igualdade",
+    "== verifica se dois valores são iguais.",
+    "== checks whether two values are equal.",
+    "response = {\"status\": 503}\nif response[\"status\"] == 200:\n    print(\"ready\")\nelse:\n    print(\"retry later\")",
+    "Um serviço indisponível pede uma decisão de tratamento explícita.",
+    "An unavailable service needs an explicit handling decision."
+  ],
+  "syntax": [
+    "syntax",
+    "sintaxe",
+    "SyntaxError indica código que não pode ser analisado.",
+    "SyntaxError means the code cannot be parsed.",
+    "score = 0.8\nif score > 0.7:\n    print(\"ready\")",
+    "Um erro de sintaxe impede o código de começar a executar.",
+    "A syntax error prevents code from starting."
+  ],
+  "type-error": [
+    "type-error",
+    "tipos incompatíveis",
+    "TypeError indica uma operação incompatível com os tipos.",
+    "TypeError indicates an operation with incompatible types.",
+    "score = 0.8\nprint(score + 0.1)",
+    "Não presuma que campos vindos de uma API já têm o tipo esperado.",
+    "Do not assume API fields have the expected type."
+  ],
+  "missing-key": [
+    "missing-key",
+    "chave ausente",
+    "KeyError indica uma chave que não existe.",
+    "KeyError indicates a missing dictionary key.",
+    "response = {\"score\": 0.9}\nprint(response[\"score\"])",
+    "Contratos de resposta devem corresponder aos campos acessados.",
+    "Response contracts must match the fields being accessed."
+  ],
+  "bounds": [
+    "bounds",
+    "limites",
+    "IndexError indica uma posição fora da coleção.",
+    "IndexError indicates a position outside the collection.",
+    "models = [\"local\", \"remote\"]\nprint(models[1])",
+    "A seleção de modelos deve respeitar o tamanho da lista.",
+    "Model selection must respect list bounds."
+  ],
+  "name-error": [
+    "name-error",
+    "nome inexistente",
+    "NameError indica um nome não definido.",
+    "NameError indicates an undefined name.",
+    "confidence_score = 0.8\nprint(confidence_score)",
+    "Erros de digitação também afetam fluxos de IA.",
+    "Typos also affect AI workflows."
+  ],
+  "logic-error": [
+    "logic-error",
+    "erro lógico",
+    "Erro lógico produz um resultado contrário ao esperado.",
+    "A logic error produces a result that violates expectations.",
+    "score = 0.6\nif score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+    "Código sem exceções ainda pode violar regras de negócio.",
+    "Code without exceptions can still violate business rules."
+  ],
+  "tool-call": [
+    "tool-call",
+    "chamada de ferramenta",
+    "Tool call é uma descrição estruturada de uma ação.",
+    "A tool call is a structured description of an action.",
+    "tool_call = {\"name\": \"search\", \"arguments\": {\"query\": \"Python\"}}\nprint(tool_call[\"name\"])",
+    "Um orquestrador precisa validar a chamada antes de executar.",
+    "An orchestrator must validate a call before execution."
+  ],
+  "type-check": [
+    "type-check",
+    "verificação de tipo",
+    "isinstance(valor, tipo) verifica o tipo do valor.",
+    "isinstance(value, type) checks a value type.",
+    "response = {\"score\": \"0.9\"}\nprint(isinstance(response[\"score\"], float))",
+    "Validar tipos evita cálculos com entradas malformadas.",
+    "Type checks prevent calculations on malformed input."
+  ],
+  "classification": [
+    "classification",
+    "classificação",
+    "Classificação atribui uma categoria a uma entrada.",
+    "Classification assigns a category to an input.",
+    "response = {\"label\": \"math\"}\nif response[\"label\"] == \"math\":\n    print(\"calculate\")\nelse:\n    print(\"search\")",
+    "Uma classificação pode alimentar um roteador determinístico.",
+    "A classification can feed a deterministic router."
+  ],
+  "allowlist": [
+    "allowlist",
+    "lista de permitidos",
+    "Uma allowlist limita as ações reconhecidas.",
+    "An allowlist restricts recognized actions.",
+    "allowed = {\"math\": \"calculate\", \"web\": \"search\"}\nprint(allowed.get(\"shell\", \"review\"))",
+    "Um nome sugerido por modelo não deve liberar ações arbitrárias.",
+    "A model-suggested name must not enable arbitrary actions."
+  ],
+  "dataset": [
+    "dataset",
+    "conjunto de dados",
+    "Dataset reúne exemplos usados em treinamento ou avaliação.",
+    "A dataset groups examples for training or evaluation.",
+    "dataset = [{\"input\": \"2+2\", \"target\": \"4\"}]\nprint(dataset[0][\"target\"])",
+    "Datasets supervisionados associam entradas e alvos.",
+    "Supervised datasets pair inputs and targets."
+  ],
+  "epoch": [
+    "epoch",
+    "época",
+    "Uma época é uma passagem pelos exemplos de treinamento.",
+    "An epoch is one pass through the training examples.",
+    "log = {\"epoch\": 2, \"examples_per_epoch\": 100}\nprint(log[\"epoch\"])",
+    "Épocas descrevem treinamento, não chamadas de inferência.",
+    "Epochs describe training, not inference calls."
+  ],
+  "loss": [
+    "loss",
+    "perda",
+    "Loss mede erro segundo uma função definida no treinamento.",
+    "Loss measures error using a defined training objective.",
+    "loss_before = 0.8\nloss_after = 0.5\nprint(loss_before > loss_after)",
+    "Treinamento e avaliação em dados separados medem aspectos diferentes.",
+    "Training and held-out evaluation measure different things."
+  ],
+  "evaluation": [
+    "evaluation",
+    "avaliação",
+    "Avaliação mede desempenho; inferência gera uma resposta.",
+    "Evaluation measures performance; inference produces an answer.",
+    "report = {\"correct\": 8, \"total\": 10}\nprint(report[\"correct\"])",
+    "Avaliar em dados separados ajuda a estimar generalização sem garanti-la.",
+    "Held-out evaluation helps estimate generalization without guaranteeing it."
+  ]
+}
