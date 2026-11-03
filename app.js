@@ -27,7 +27,7 @@
     $('homeProgress').textContent=`${state.progress.completed.length} ${t.of} ${state.exercises.length} ${t.progress}`;
     if (!$('mission').hidden) {
       const e = exercise(), c = content();
-      $('module').textContent=state.language==='en' ? ({Fundamentos:'Basics','Scores e modelos':'Scores and models',Listas:'Lists','Decisões':'Decisions',Respostas:'Responses','Funções':'Functions','Integração':'Integration'})[e.module]||e.module : e.module;
+      $('module').textContent=state.language==='en' ? ({Fundamentos:'Basics','Scores e modelos':'Scores and models',Listas:'Lists','Decisões':'Decisions',Respostas:'Responses','Funções':'Functions','Integração':'Integration','APIs simuladas':'Simulated APIs','Debugging':'Debugging','Fluxos de IA':'AI workflows','Treinamento':'Training'})[e.module]||e.module : e.module;
       $('counter').textContent=`${t.mission} ${state.index+1} ${t.of} ${state.exercises.length}`;
       const term=languageData.glossary[e.terms[0]];
       $('title').textContent=state.language==='mixed' ? `${e.title} · ${term[0]}${state.known.includes(e.terms[0])?'':` (${term[1]})`}` : c.title;
@@ -134,7 +134,8 @@
     const glossaryResponse=await fetch('glossary-v2.json');if(!glossaryResponse.ok)throw Error('Glossary unavailable');Object.assign(languageData.glossary,await glossaryResponse.json());
     state.exercises=await window.TrainerContent.load(languageData.glossary);state.progress=game.loadProgress(storage);syncProgress();
     const labResponse=await fetch('labs.json');if(!labResponse.ok)throw Error('Labs unavailable');labs=window.TrainerLabs.create(await labResponse.json(),()=>state.language,renderHome);
-    state.language=['pt','mixed','en'].includes(storage.getItem('trainer-language'))?storage.getItem('trainer-language'):'mixed';
+    let preferredLanguage=null;try{preferredLanguage=storage.getItem('trainer-language');}catch{}
+    state.language=['pt','mixed','en'].includes(preferredLanguage)?preferredLanguage:'mixed';
     try{state.known=JSON.parse(storage.getItem('trainer-known'))||[];if(!Array.isArray(state.known))state.known=[];}catch{state.known=[];}
     $('language').onchange=()=>{state.language=$('language').value;preference();updateText();saveSession();};
     $('simulate').onclick=()=>{$('simulation').hidden=!$('simulation').hidden;renderSimulation();saveSession();};
