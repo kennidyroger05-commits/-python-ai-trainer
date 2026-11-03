@@ -26,7 +26,51 @@
     "legend": {
       "variável": "Nome que guarda um valor.",
       "=": "Atribui o valor à variável."
-    }
+    },
+    "translations": {
+      "pt": {
+        "title": "Guarde o score",
+        "prompt": "O classificador retornou score 0.82. Monte uma linha que guarde esse valor em score.",
+        "hints": [
+          "Uma atribuição associa um nome a um valor.",
+          "Comece por score = e use o número 0.82."
+        ],
+        "explanation": "A atribuição guarda 0.82 na variável score.",
+        "aiApplication": "Um score pode representar a confiança de um classificador."
+      },
+      "mixed": {
+        "title": "Guarde o score · variable",
+        "prompt": "O classificador retornou score 0.82. Monte uma linha que guarde esse valor em score.",
+        "hints": [
+          "Uma atribuição associa um nome a um valor.",
+          "Comece por score = e use o número 0.82."
+        ],
+        "explanation": "A atribuição guarda 0.82 na variável score.",
+        "aiApplication": "Um score pode representar a confiança de um classificador."
+      },
+      "en": {
+        "title": "Store the score",
+        "prompt": "Store the received value 0.82 in score.",
+        "hints": [
+          "Assignment connects a name to a value.",
+          "Start with score = and use 0.82."
+        ],
+        "explanation": "Assignment stores 0.82 in score.",
+        "aiApplication": "A score can rank classifier outputs.",
+        "legend": {
+          "variável": "A name that stores a value.",
+          "=": "Assigns a value to a variable."
+        },
+        "context": "Received score: 0.82"
+      }
+    },
+    "terms": [
+      "variable"
+    ],
+    "requires": [],
+    "introduces": [
+      "assignment"
+    ]
   },
   {
     "id": "print-score",
@@ -55,7 +99,53 @@
     "legend": {
       "print()": "Mostra um valor na saída.",
       "()": "Delimitam os argumentos de uma função."
-    }
+    },
+    "translations": {
+      "pt": {
+        "title": "Mostre o score",
+        "prompt": "A variável score já contém 0.82. Monte o código para mostrar esse valor.",
+        "hints": [
+          "A função de saída recebe o valor que será mostrado.",
+          "Escreva print(score), com score dentro dos parênteses."
+        ],
+        "explanation": "print(score) mostra o valor guardado na variável score.",
+        "aiApplication": "Exibir scores ajuda a inspecionar e depurar a decisão de um modelo."
+      },
+      "mixed": {
+        "title": "Mostre o score · print",
+        "prompt": "A variável score já contém 0.82. Monte o código para mostrar esse valor.",
+        "hints": [
+          "A função de saída recebe o valor que será mostrado.",
+          "Escreva print(score), com score dentro dos parênteses."
+        ],
+        "explanation": "print(score) mostra o valor guardado na variável score.",
+        "aiApplication": "Exibir scores ajuda a inspecionar e depurar a decisão de um modelo."
+      },
+      "en": {
+        "title": "Show the score",
+        "prompt": "Show the value stored in score.",
+        "hints": [
+          "The output function receives a value.",
+          "Put score inside print parentheses."
+        ],
+        "explanation": "print(score) shows 0.82.",
+        "aiApplication": "Printing helps inspect model decisions.",
+        "legend": {
+          "print()": "Displays a value.",
+          "()": "Enclose function arguments."
+        },
+        "context": "score = 0.82"
+      }
+    },
+    "terms": [
+      "print"
+    ],
+    "requires": [
+      "score-variable"
+    ],
+    "introduces": [
+      "print"
+    ]
   },
   {
     "id": "max-scores",
@@ -82,7 +172,124 @@
       "0.75",
       "0.62"
     ],
-    "correct": 0
+    "correct": 0,
+    "translations": {
+      "pt": {
+        "title": "Selecione o maior score",
+        "prompt": "Qual é o valor de melhor ao final deste código?",
+        "hints": [
+          "max() procura o maior item da coleção.",
+          "Compare os três scores: 0.62, 0.91 e 0.75."
+        ],
+        "explanation": "max(scores) retorna 0.91, o maior valor da lista, e a atribuição guarda esse resultado em melhor.",
+        "aiApplication": "Um roteador pode comparar scores para escolher o modelo mais adequado.",
+        "options": [
+          "0.91",
+          "0.75",
+          "0.62"
+        ]
+      },
+      "mixed": {
+        "title": "Selecione o maior score · maximum",
+        "prompt": "Qual é o valor de melhor ao final deste código?",
+        "hints": [
+          "max() procura o maior item da coleção.",
+          "Compare os três scores: 0.62, 0.91 e 0.75."
+        ],
+        "explanation": "max(scores) retorna 0.91, o maior valor da lista, e a atribuição guarda esse resultado em melhor.",
+        "aiApplication": "Um roteador pode comparar scores para escolher o modelo mais adequado.",
+        "options": [
+          "0.91",
+          "0.75",
+          "0.62"
+        ]
+      },
+      "en": {
+        "title": "Select the highest score",
+        "prompt": "What is the final value of melhor?",
+        "hints": [
+          "max() finds the largest item.",
+          "Compare 0.62, 0.91 and 0.75."
+        ],
+        "explanation": "max(scores) returns 0.91 and stores it in melhor.",
+        "aiApplication": "Scores can rank models; they are not necessarily calibrated probabilities.",
+        "options": [
+          "0.91",
+          "0.75",
+          "0.62"
+        ],
+        "legend": {
+          "max()": "Returns the largest item in a collection."
+        },
+        "context": "scores = [0.62, 0.91, 0.75]"
+      }
+    },
+    "terms": [
+      "maximum"
+    ],
+    "requires": [
+      "print-score"
+    ],
+    "simulation": {
+      "code": "scores = [0.62, 0.91, 0.75]\nmelhor = max(scores)\nprint(melhor)",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {
+            "scores": [
+              0.62,
+              0.91,
+              0.75
+            ]
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Guarda a lista de scores.",
+            "mixed": "Guarda a lista de scores.",
+            "en": "Stores the score list."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "scores": [
+              0.62,
+              0.91,
+              0.75
+            ],
+            "melhor": 0.91
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Guarda o maior score em melhor.",
+            "mixed": "Guarda o maior score em melhor.",
+            "en": "Stores the highest score in melhor."
+          }
+        },
+        {
+          "line": 2,
+          "variables": {
+            "scores": [
+              0.62,
+              0.91,
+              0.75
+            ],
+            "melhor": 0.91
+          },
+          "output": [
+            "0.91"
+          ],
+          "explanation": {
+            "pt": "Mostra o maior score.",
+            "mixed": "Mostra o maior score.",
+            "en": "Displays the highest score."
+          }
+        }
+      ]
+    },
+    "introduces": [
+      "max"
+    ]
   },
   {
     "id": "read-index",
@@ -112,7 +319,69 @@
       "lista": "Coleção ordenada de valores.",
       "índice": "Posição de um item; começa em 0.",
       "print()": "Mostra o valor na saída."
-    }
+    },
+    "translations": {
+      "pt": {
+        "title": "Leia o segundo modelo",
+        "prompt": "O que esse código mostra?",
+        "hints": [
+          "Uma lista guarda itens em ordem.",
+          "O primeiro índice é 0; portanto modelos[1] seleciona o segundo item."
+        ],
+        "explanation": "O índice 1 seleciona o segundo item, a string \"gemini\", que print mostra.",
+        "aiApplication": "Uma aplicação pode acessar pelo índice uma opção de modelo selecionada.",
+        "options": [
+          "Mostra gemini, o segundo item.",
+          "Mostra local, o primeiro item.",
+          "Mostra groq, o terceiro item."
+        ]
+      },
+      "mixed": {
+        "title": "Leia o segundo modelo · index",
+        "prompt": "O que esse código mostra?",
+        "hints": [
+          "Uma lista guarda itens em ordem.",
+          "O primeiro índice é 0; portanto modelos[1] seleciona o segundo item."
+        ],
+        "explanation": "O índice 1 seleciona o segundo item, a string \"gemini\", que print mostra.",
+        "aiApplication": "Uma aplicação pode acessar pelo índice uma opção de modelo selecionada.",
+        "options": [
+          "Mostra gemini, o segundo item.",
+          "Mostra local, o primeiro item.",
+          "Mostra groq, o terceiro item."
+        ]
+      },
+      "en": {
+        "title": "Read the second model",
+        "prompt": "What does this code display?",
+        "hints": [
+          "Lists store items in order.",
+          "Index 0 is first; index 1 is second."
+        ],
+        "explanation": "Index 1 selects gemini, which print displays.",
+        "aiApplication": "Use an index to select a model.",
+        "options": [
+          "gemini, the second item.",
+          "local, the first item.",
+          "groq, the third item."
+        ],
+        "legend": {
+          "lista": "An ordered collection of values.",
+          "índice": "An item position, starting at 0.",
+          "print()": "Displays a value."
+        },
+        "context": "modelos = [\"local\", \"gemini\", \"groq\"]"
+      }
+    },
+    "terms": [
+      "index"
+    ],
+    "requires": [
+      "max-scores"
+    ],
+    "introduces": [
+      "index"
+    ]
   },
   {
     "id": "find-index-error",
@@ -140,6 +409,1058 @@
     "legend": {
       "índice": "Posição de um item; começa em 0.",
       "IndexError": "Erro ao acessar uma posição que não existe."
-    }
+    },
+    "translations": {
+      "pt": {
+        "title": "Encontre o índice inválido",
+        "prompt": "Qual é o problema nesta linha?",
+        "hints": [
+          "Conte quantos itens há e lembre que a contagem começa em zero.",
+          "Três itens têm os índices 0, 1 e 2; modelos[3] gera IndexError."
+        ],
+        "explanation": "A lista tem três itens. O último índice é 2, então o índice 3 gera IndexError.",
+        "aiApplication": "Validar índices evita falhas ao escolher modelos ou ferramentas de uma lista.",
+        "options": [
+          "O índice 3 está fora da lista; os índices válidos são 0, 1 e 2.",
+          "A lista não pode guardar nomes de modelos.",
+          "print() não aceita valores de listas."
+        ]
+      },
+      "mixed": {
+        "title": "Encontre o índice inválido · index",
+        "prompt": "Qual é o problema nesta linha?",
+        "hints": [
+          "Conte quantos itens há e lembre que a contagem começa em zero.",
+          "Três itens têm os índices 0, 1 e 2; modelos[3] gera IndexError."
+        ],
+        "explanation": "A lista tem três itens. O último índice é 2, então o índice 3 gera IndexError.",
+        "aiApplication": "Validar índices evita falhas ao escolher modelos ou ferramentas de uma lista.",
+        "options": [
+          "O índice 3 está fora da lista; os índices válidos são 0, 1 e 2.",
+          "A lista não pode guardar nomes de modelos.",
+          "print() não aceita valores de listas."
+        ]
+      },
+      "en": {
+        "title": "Find the invalid index",
+        "prompt": "What is wrong with this line?",
+        "hints": [
+          "Count items starting from zero.",
+          "Three items have indices 0, 1 and 2."
+        ],
+        "explanation": "Index 3 does not exist and raises IndexError.",
+        "aiApplication": "Checking indices prevents model-selection failures.",
+        "options": [
+          "Index 3 is outside the list; valid indices are 0, 1 and 2.",
+          "A list cannot store model names.",
+          "print() cannot display list values."
+        ],
+        "legend": {
+          "índice": "An item position, starting at 0.",
+          "IndexError": "An error from accessing a missing position."
+        },
+        "context": "modelos = [\"local\", \"gemini\", \"groq\"]"
+      }
+    },
+    "terms": [
+      "index"
+    ],
+    "requires": [
+      "read-index"
+    ],
+    "introduces": [
+      "index-error"
+    ]
+  },
+  {
+    "id": "compare-scores",
+    "module": "Decisões",
+    "concepts": [
+      "comparison"
+    ],
+    "type": "predict",
+    "title": "Compare dois scores",
+    "prompt": "Qual valor será mostrado?",
+    "code": "primary_score = 0.81\nbackup_score = 0.72\nprint(primary_score > backup_score)",
+    "options": [
+      "True",
+      "False",
+      "0.81"
+    ],
+    "correct": 0,
+    "hints": [
+      "Compare os valores dos dois lados de >.",
+      "0.81 é maior que 0.72; a comparação é verdadeira."
+    ],
+    "explanation": "A comparação retorna True porque 0.81 é maior que 0.72.",
+    "aiApplication": "Scores ajudam a ordenar modelos; não são necessariamente probabilidades calibradas.",
+    "legend": {
+      ">": "Compara se o valor à esquerda é maior.",
+      "True / False": "Resultados verdadeiro e falso de uma comparação."
+    },
+    "translations": {
+      "pt": {
+        "title": "Compare dois scores",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "Compare os valores dos dois lados de >.",
+          "0.81 é maior que 0.72; a comparação é verdadeira."
+        ],
+        "explanation": "A comparação retorna True porque 0.81 é maior que 0.72.",
+        "aiApplication": "Scores ajudam a ordenar modelos; não são necessariamente probabilidades calibradas.",
+        "options": [
+          "True",
+          "False",
+          "0.81"
+        ]
+      },
+      "mixed": {
+        "title": "Compare dois scores · comparison",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "Compare os valores dos dois lados de >.",
+          "0.81 é maior que 0.72; a comparação é verdadeira."
+        ],
+        "explanation": "A comparação retorna True porque 0.81 é maior que 0.72.",
+        "aiApplication": "Scores ajudam a ordenar modelos; não são necessariamente probabilidades calibradas.",
+        "options": [
+          "True",
+          "False",
+          "0.81"
+        ]
+      },
+      "en": {
+        "title": "Compare two scores",
+        "prompt": "What value is displayed?",
+        "hints": [
+          "Compare both sides of >.",
+          "0.81 is greater than 0.72."
+        ],
+        "explanation": "The comparison returns True.",
+        "aiApplication": "Scores rank models; they are not necessarily calibrated probabilities.",
+        "options": [
+          "True",
+          "False",
+          "0.81"
+        ],
+        "legend": {
+          ">": "Checks whether the left value is greater.",
+          "True / False": "True and false comparison results."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "comparison"
+    ],
+    "requires": [
+      "find-index-error"
+    ],
+    "introduces": [
+      "comparison"
+    ]
+  },
+  {
+    "id": "minimum-confidence",
+    "module": "Decisões",
+    "concepts": [
+      "if"
+    ],
+    "type": "read",
+    "title": "Verifique o limite",
+    "prompt": "O que acontece neste código?",
+    "code": "confidence_score = 0.81\nif confidence_score > 0.7:\n    print(\"ready\")",
+    "options": [
+      "Mostra ready.",
+      "Não mostra nada.",
+      "Mostra 0.7."
+    ],
+    "correct": 0,
+    "hints": [
+      "O bloco indentado só roda se a condição for verdadeira.",
+      "0.81 supera 0.7; o print pertence ao bloco if."
+    ],
+    "explanation": "A condição é verdadeira, então o bloco mostra ready.",
+    "aiApplication": "Um limite definido pela aplicação pode decidir quando aceitar uma resposta.",
+    "legend": {
+      "if": "Executa um bloco quando a condição é verdadeira.",
+      ": e indentação": "Delimitam o bloco condicionado pelo if."
+    },
+    "translations": {
+      "pt": {
+        "title": "Verifique o limite",
+        "prompt": "O que acontece neste código?",
+        "hints": [
+          "O bloco indentado só roda se a condição for verdadeira.",
+          "0.81 supera 0.7; o print pertence ao bloco if."
+        ],
+        "explanation": "A condição é verdadeira, então o bloco mostra ready.",
+        "aiApplication": "Um limite definido pela aplicação pode decidir quando aceitar uma resposta.",
+        "options": [
+          "Mostra ready.",
+          "Não mostra nada.",
+          "Mostra 0.7."
+        ]
+      },
+      "mixed": {
+        "title": "Verifique o limite · condition",
+        "prompt": "O que acontece neste código?",
+        "hints": [
+          "O bloco indentado só roda se a condição for verdadeira.",
+          "0.81 supera 0.7; o print pertence ao bloco if."
+        ],
+        "explanation": "A condição é verdadeira, então o bloco mostra ready.",
+        "aiApplication": "Um limite definido pela aplicação pode decidir quando aceitar uma resposta.",
+        "options": [
+          "Mostra ready.",
+          "Não mostra nada.",
+          "Mostra 0.7."
+        ]
+      },
+      "en": {
+        "title": "Check the threshold",
+        "prompt": "What happens in this code?",
+        "hints": [
+          "The indented block runs only if the condition is true.",
+          "0.81 is greater than 0.7."
+        ],
+        "explanation": "The true condition runs the block and displays ready.",
+        "aiApplication": "An application threshold can decide when to accept a response.",
+        "options": [
+          "Displays ready.",
+          "Displays nothing.",
+          "Displays 0.7."
+        ],
+        "legend": {
+          "if": "Runs a block when its condition is true.",
+          ": e indentação": "Mark the conditional block."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "condition"
+    ],
+    "requires": [
+      "compare-scores"
+    ],
+    "introduces": [
+      "if"
+    ]
+  },
+  {
+    "id": "choose-fallback",
+    "module": "Decisões",
+    "concepts": [
+      "else"
+    ],
+    "type": "predict",
+    "title": "Escolha uma alternativa",
+    "prompt": "Qual modelo será mostrado?",
+    "code": "confidence_score = 0.61\nif confidence_score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+    "options": [
+      "primary",
+      "backup",
+      "primary e backup"
+    ],
+    "correct": 1,
+    "hints": [
+      "Só um dos dois blocos será executado.",
+      "0.61 não supera 0.7; siga o bloco else."
+    ],
+    "explanation": "Como a condição é falsa, else mostra backup.",
+    "aiApplication": "Fallback é uma alternativa determinística quando o score não atende ao limite.",
+    "legend": {
+      "else": "Executa o bloco alternativo quando a condição é falsa."
+    },
+    "translations": {
+      "pt": {
+        "title": "Escolha uma alternativa",
+        "prompt": "Qual modelo será mostrado?",
+        "hints": [
+          "Só um dos dois blocos será executado.",
+          "0.61 não supera 0.7; siga o bloco else."
+        ],
+        "explanation": "Como a condição é falsa, else mostra backup.",
+        "aiApplication": "Fallback é uma alternativa determinística quando o score não atende ao limite.",
+        "options": [
+          "primary",
+          "backup",
+          "primary e backup"
+        ]
+      },
+      "mixed": {
+        "title": "Escolha uma alternativa · fallback",
+        "prompt": "Qual modelo será mostrado?",
+        "hints": [
+          "Só um dos dois blocos será executado.",
+          "0.61 não supera 0.7; siga o bloco else."
+        ],
+        "explanation": "Como a condição é falsa, else mostra backup.",
+        "aiApplication": "Fallback é uma alternativa determinística quando o score não atende ao limite.",
+        "options": [
+          "primary",
+          "backup",
+          "primary e backup"
+        ]
+      },
+      "en": {
+        "title": "Choose a fallback",
+        "prompt": "Which model is displayed?",
+        "hints": [
+          "Only one branch runs.",
+          "0.61 is not greater than 0.7; follow else."
+        ],
+        "explanation": "The false condition selects backup.",
+        "aiApplication": "A fallback handles a score below an application threshold.",
+        "options": [
+          "primary",
+          "backup",
+          "primary and backup"
+        ],
+        "legend": {
+          "else": "Runs an alternative block when the condition is false."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "fallback"
+    ],
+    "requires": [
+      "minimum-confidence"
+    ],
+    "simulation": {
+      "code": "confidence_score = 0.61\nif confidence_score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {
+            "confidence_score": 0.61
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Guarda o score.",
+            "mixed": "Guarda o score.",
+            "en": "Stores the score."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "confidence_score": 0.61
+          },
+          "output": [],
+          "explanation": {
+            "pt": "A condição é falsa.",
+            "mixed": "A condição é falsa.",
+            "en": "The condition is false."
+          }
+        },
+        {
+          "line": 3,
+          "variables": {
+            "confidence_score": 0.61
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Segue a alternativa else.",
+            "mixed": "Segue a alternativa else.",
+            "en": "Follows the else branch."
+          }
+        },
+        {
+          "line": 4,
+          "variables": {
+            "confidence_score": 0.61
+          },
+          "output": [
+            "backup"
+          ],
+          "explanation": {
+            "pt": "Mostra backup.",
+            "mixed": "Mostra backup.",
+            "en": "Displays backup."
+          }
+        }
+      ]
+    },
+    "introduces": [
+      "else"
+    ]
+  },
+  {
+    "id": "response-dictionary",
+    "module": "Respostas",
+    "concepts": [
+      "dictionary"
+    ],
+    "type": "read",
+    "title": "Leia uma resposta estruturada",
+    "prompt": "O que a variável response guarda?",
+    "code": "response = {\"model\": \"local\", \"score\": 0.91}",
+    "options": [
+      "Um texto contendo apenas local.",
+      "Uma lista de dois modelos.",
+      "Um dicionário com as chaves model e score."
+    ],
+    "correct": 2,
+    "hints": [
+      "Observe as chaves externas e os pares separados por dois-pontos.",
+      "model aponta para local e score aponta para 0.91."
+    ],
+    "explanation": "response guarda dois pares chave: valor em um dicionário.",
+    "aiApplication": "Uma resposta de API pode ser representada com campos semelhantes; isto é um dicionário Python, não uma chamada de API.",
+    "legend": {
+      "{}": "Delimitam um dicionário de pares chave: valor."
+    },
+    "translations": {
+      "pt": {
+        "title": "Leia uma resposta estruturada",
+        "prompt": "O que a variável response guarda?",
+        "hints": [
+          "Observe as chaves externas e os pares separados por dois-pontos.",
+          "model aponta para local e score aponta para 0.91."
+        ],
+        "explanation": "response guarda dois pares chave: valor em um dicionário.",
+        "aiApplication": "Uma resposta de API pode ser representada com campos semelhantes; isto é um dicionário Python, não uma chamada de API.",
+        "options": [
+          "Um texto contendo apenas local.",
+          "Uma lista de dois modelos.",
+          "Um dicionário com as chaves model e score."
+        ]
+      },
+      "mixed": {
+        "title": "Leia uma resposta estruturada · dictionary",
+        "prompt": "O que a variável response guarda?",
+        "hints": [
+          "Observe as chaves externas e os pares separados por dois-pontos.",
+          "model aponta para local e score aponta para 0.91."
+        ],
+        "explanation": "response guarda dois pares chave: valor em um dicionário.",
+        "aiApplication": "Uma resposta de API pode ser representada com campos semelhantes; isto é um dicionário Python, não uma chamada de API.",
+        "options": [
+          "Um texto contendo apenas local.",
+          "Uma lista de dois modelos.",
+          "Um dicionário com as chaves model e score."
+        ]
+      },
+      "en": {
+        "title": "Read a structured response",
+        "prompt": "What does response store?",
+        "hints": [
+          "Look at the braces and key: value pairs.",
+          "model maps to local and score maps to 0.91."
+        ],
+        "explanation": "response stores two key: value pairs.",
+        "aiApplication": "API responses often have similar fields; this is a Python dictionary.",
+        "options": [
+          "Only the text local.",
+          "A list of two models.",
+          "A dictionary with model and score keys."
+        ],
+        "legend": {
+          "{}": "Enclose dictionary key: value pairs."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "dictionary"
+    ],
+    "requires": [
+      "choose-fallback"
+    ],
+    "introduces": [
+      "dictionary"
+    ]
+  },
+  {
+    "id": "read-response-field",
+    "module": "Respostas",
+    "concepts": [
+      "key-access"
+    ],
+    "type": "predict",
+    "title": "Obtenha um campo",
+    "prompt": "Qual valor será mostrado?",
+    "code": "response = {\"model\": \"local\", \"score\": 0.91}\nprint(response[\"score\"])",
+    "options": [
+      "local",
+      "score",
+      "0.91"
+    ],
+    "correct": 2,
+    "hints": [
+      "A chave entre colchetes escolhe qual valor acessar.",
+      "A chave score está associada ao número 0.91."
+    ],
+    "explanation": "O acesso pela chave score retorna 0.91.",
+    "aiApplication": "Aplicações extraem campos específicos de respostas estruturadas.",
+    "legend": {
+      "[\"score\"]": "Acessa o valor associado à chave score."
+    },
+    "translations": {
+      "pt": {
+        "title": "Obtenha um campo",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "A chave entre colchetes escolhe qual valor acessar.",
+          "A chave score está associada ao número 0.91."
+        ],
+        "explanation": "O acesso pela chave score retorna 0.91.",
+        "aiApplication": "Aplicações extraem campos específicos de respostas estruturadas.",
+        "options": [
+          "local",
+          "score",
+          "0.91"
+        ]
+      },
+      "mixed": {
+        "title": "Obtenha um campo · key",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "A chave entre colchetes escolhe qual valor acessar.",
+          "A chave score está associada ao número 0.91."
+        ],
+        "explanation": "O acesso pela chave score retorna 0.91.",
+        "aiApplication": "Aplicações extraem campos específicos de respostas estruturadas.",
+        "options": [
+          "local",
+          "score",
+          "0.91"
+        ]
+      },
+      "en": {
+        "title": "Get a response field",
+        "prompt": "What value is displayed?",
+        "hints": [
+          "The key in brackets selects a value.",
+          "The score key maps to 0.91."
+        ],
+        "explanation": "The score key returns 0.91.",
+        "aiApplication": "Applications extract specific response fields.",
+        "options": [
+          "local",
+          "score",
+          "0.91"
+        ],
+        "legend": {
+          "[\"score\"]": "Accesses the value associated with the score key."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "key"
+    ],
+    "requires": [
+      "response-dictionary"
+    ],
+    "introduces": [
+      "key-access"
+    ]
+  },
+  {
+    "id": "english-variable-names",
+    "module": "Respostas",
+    "concepts": [
+      "naming"
+    ],
+    "type": "read",
+    "title": "Reconheça nomes em inglês",
+    "prompt": "O que a última linha mostra?",
+    "code": "model_name = \"local\"\nconfidence_score = 0.91\nresponse = {\"model\": model_name, \"score\": confidence_score}\nprint(response[\"model\"])",
+    "options": [
+      "local",
+      "0.91",
+      "model_name"
+    ],
+    "correct": 0,
+    "hints": [
+      "Nomes em inglês continuam sendo nomes de variáveis comuns.",
+      "O campo model recebe o valor de model_name, que é local."
+    ],
+    "explanation": "response[\"model\"] retorna local, o valor guardado em model_name.",
+    "aiApplication": "Esses nomes aparecem com frequência em SDKs de modelos.",
+    "legend": {
+      "model_name": "Nome do modelo em inglês.",
+      "confidence_score": "Nome comum para um score de confiança."
+    },
+    "translations": {
+      "pt": {
+        "title": "Reconheça nomes em inglês",
+        "prompt": "O que a última linha mostra?",
+        "hints": [
+          "Nomes em inglês continuam sendo nomes de variáveis comuns.",
+          "O campo model recebe o valor de model_name, que é local."
+        ],
+        "explanation": "response[\"model\"] retorna local, o valor guardado em model_name.",
+        "aiApplication": "Esses nomes aparecem com frequência em SDKs de modelos.",
+        "options": [
+          "local",
+          "0.91",
+          "model_name"
+        ]
+      },
+      "mixed": {
+        "title": "Reconheça nomes em inglês · model",
+        "prompt": "O que a última linha mostra?",
+        "hints": [
+          "Nomes em inglês continuam sendo nomes de variáveis comuns.",
+          "O campo model recebe o valor de model_name, que é local."
+        ],
+        "explanation": "response[\"model\"] retorna local, o valor guardado em model_name.",
+        "aiApplication": "Esses nomes aparecem com frequência em SDKs de modelos.",
+        "options": [
+          "local",
+          "0.91",
+          "model_name"
+        ]
+      },
+      "en": {
+        "title": "Read English variable names",
+        "prompt": "What does the last line display?",
+        "hints": [
+          "English names are ordinary variable names.",
+          "The model field receives local from model_name."
+        ],
+        "explanation": "The model field returns local.",
+        "aiApplication": "These names are common in model SDKs.",
+        "options": [
+          "local",
+          "0.91",
+          "model_name"
+        ],
+        "legend": {
+          "model_name": "An English name for the model variable.",
+          "confidence_score": "A common name for a confidence score."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "model"
+    ],
+    "requires": [
+      "read-response-field"
+    ],
+    "introduces": [
+      "naming"
+    ]
+  },
+  {
+    "id": "define-tool",
+    "module": "Funções",
+    "concepts": [
+      "function"
+    ],
+    "type": "read",
+    "title": "Defina uma ferramenta",
+    "prompt": "O que acontece ao executar somente estas duas linhas?",
+    "code": "def show_score(score):\n    print(score)",
+    "options": [
+      "Mostra score imediatamente.",
+      "Define uma função; ainda não mostra nada.",
+      "Mostra 0.91."
+    ],
+    "correct": 1,
+    "hints": [
+      "Definir uma função não é o mesmo que chamá-la.",
+      "O bloco só será executado quando show_score receber uma chamada."
+    ],
+    "explanation": "def registra uma função com um parâmetro; não há chamada aqui.",
+    "aiApplication": "Uma ferramenta determinística pode receber dados como parâmetros.",
+    "legend": {
+      "def": "Define uma função com nome e parâmetros.",
+      "parâmetro": "Nome que recebe um valor quando a função é chamada."
+    },
+    "translations": {
+      "pt": {
+        "title": "Defina uma ferramenta",
+        "prompt": "O que acontece ao executar somente estas duas linhas?",
+        "hints": [
+          "Definir uma função não é o mesmo que chamá-la.",
+          "O bloco só será executado quando show_score receber uma chamada."
+        ],
+        "explanation": "def registra uma função com um parâmetro; não há chamada aqui.",
+        "aiApplication": "Uma ferramenta determinística pode receber dados como parâmetros.",
+        "options": [
+          "Mostra score imediatamente.",
+          "Define uma função; ainda não mostra nada.",
+          "Mostra 0.91."
+        ]
+      },
+      "mixed": {
+        "title": "Defina uma ferramenta · function",
+        "prompt": "O que acontece ao executar somente estas duas linhas?",
+        "hints": [
+          "Definir uma função não é o mesmo que chamá-la.",
+          "O bloco só será executado quando show_score receber uma chamada."
+        ],
+        "explanation": "def registra uma função com um parâmetro; não há chamada aqui.",
+        "aiApplication": "Uma ferramenta determinística pode receber dados como parâmetros.",
+        "options": [
+          "Mostra score imediatamente.",
+          "Define uma função; ainda não mostra nada.",
+          "Mostra 0.91."
+        ]
+      },
+      "en": {
+        "title": "Define a tool",
+        "prompt": "What happens when only these two lines run?",
+        "hints": [
+          "Defining a function does not call it.",
+          "The block runs when show_score is called."
+        ],
+        "explanation": "def registers a function with a parameter; there is no call here.",
+        "aiApplication": "A deterministic tool can receive parameters.",
+        "options": [
+          "Displays score immediately.",
+          "Defines a function; displays nothing yet.",
+          "Displays 0.91."
+        ],
+        "legend": {
+          "def": "Defines a function with a name and parameters.",
+          "parâmetro": "A name that receives a value when the function is called."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "function"
+    ],
+    "requires": [
+      "english-variable-names"
+    ],
+    "introduces": [
+      "function"
+    ]
+  },
+  {
+    "id": "return-score",
+    "module": "Funções",
+    "concepts": [
+      "return"
+    ],
+    "type": "predict",
+    "title": "Acompanhe o retorno",
+    "prompt": "Qual valor será mostrado?",
+    "code": "def keep_score(score):\n    return score\nprint(keep_score(0.84))",
+    "options": [
+      "score",
+      "None",
+      "0.84"
+    ],
+    "correct": 2,
+    "hints": [
+      "A chamada fornece 0.84 ao parâmetro score.",
+      "return devolve esse valor ao print externo."
+    ],
+    "explanation": "keep_score devolve 0.84 e print mostra esse número.",
+    "aiApplication": "Ferramentas devolvem resultados para quem as chamou.",
+    "legend": {
+      "return": "Devolve um valor produzido por uma função."
+    },
+    "translations": {
+      "pt": {
+        "title": "Acompanhe o retorno",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "A chamada fornece 0.84 ao parâmetro score.",
+          "return devolve esse valor ao print externo."
+        ],
+        "explanation": "keep_score devolve 0.84 e print mostra esse número.",
+        "aiApplication": "Ferramentas devolvem resultados para quem as chamou.",
+        "options": [
+          "score",
+          "None",
+          "0.84"
+        ]
+      },
+      "mixed": {
+        "title": "Acompanhe o retorno · return",
+        "prompt": "Qual valor será mostrado?",
+        "hints": [
+          "A chamada fornece 0.84 ao parâmetro score.",
+          "return devolve esse valor ao print externo."
+        ],
+        "explanation": "keep_score devolve 0.84 e print mostra esse número.",
+        "aiApplication": "Ferramentas devolvem resultados para quem as chamou.",
+        "options": [
+          "score",
+          "None",
+          "0.84"
+        ]
+      },
+      "en": {
+        "title": "Follow the return value",
+        "prompt": "What value is displayed?",
+        "hints": [
+          "The call passes 0.84 to score.",
+          "return sends that value to print."
+        ],
+        "explanation": "keep_score returns 0.84 and print displays it.",
+        "aiApplication": "Tools return results to their callers.",
+        "options": [
+          "score",
+          "None",
+          "0.84"
+        ],
+        "legend": {
+          "return": "Sends a function result back to the caller."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "return"
+    ],
+    "requires": [
+      "define-tool"
+    ],
+    "introduces": [
+      "return"
+    ]
+  },
+  {
+    "id": "trace-selection",
+    "module": "Integração",
+    "concepts": [
+      "flow"
+    ],
+    "type": "predict",
+    "title": "Siga a seleção do modelo",
+    "prompt": "Qual nome será mostrado ao final?",
+    "code": "model_name = \"local\"\nconfidence_score = 0.65\nif confidence_score > 0.7:\n    model_name = \"primary\"\nelse:\n    model_name = \"backup\"\nprint(model_name)",
+    "options": [
+      "local",
+      "primary",
+      "backup"
+    ],
+    "correct": 2,
+    "hints": [
+      "A variável pode receber outro valor ao longo do fluxo.",
+      "A condição é falsa, então model_name recebe backup antes do print."
+    ],
+    "explanation": "O bloco else substitui local por backup e a última linha mostra backup.",
+    "aiApplication": "Roteadores simples atualizam a escolha com base em regras conhecidas.",
+    "legend": {
+      "atribuição": "Pode substituir o valor anterior de uma variável."
+    },
+    "translations": {
+      "pt": {
+        "title": "Siga a seleção do modelo",
+        "prompt": "Qual nome será mostrado ao final?",
+        "hints": [
+          "A variável pode receber outro valor ao longo do fluxo.",
+          "A condição é falsa, então model_name recebe backup antes do print."
+        ],
+        "explanation": "O bloco else substitui local por backup e a última linha mostra backup.",
+        "aiApplication": "Roteadores simples atualizam a escolha com base em regras conhecidas.",
+        "options": [
+          "local",
+          "primary",
+          "backup"
+        ]
+      },
+      "mixed": {
+        "title": "Siga a seleção do modelo · model",
+        "prompt": "Qual nome será mostrado ao final?",
+        "hints": [
+          "A variável pode receber outro valor ao longo do fluxo.",
+          "A condição é falsa, então model_name recebe backup antes do print."
+        ],
+        "explanation": "O bloco else substitui local por backup e a última linha mostra backup.",
+        "aiApplication": "Roteadores simples atualizam a escolha com base em regras conhecidas.",
+        "options": [
+          "local",
+          "primary",
+          "backup"
+        ]
+      },
+      "en": {
+        "title": "Trace model selection",
+        "prompt": "Which name is displayed at the end?",
+        "hints": [
+          "A variable can receive a new value.",
+          "The false condition assigns backup before print."
+        ],
+        "explanation": "else replaces local with backup; print displays backup.",
+        "aiApplication": "Simple routers update model choices using explicit rules.",
+        "options": [
+          "local",
+          "primary",
+          "backup"
+        ],
+        "legend": {
+          "atribuição": "Can replace the previous value of a variable."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "model"
+    ],
+    "requires": [
+      "return-score"
+    ],
+    "simulation": {
+      "code": "model_name = \"local\"\nconfidence_score = 0.65\nif confidence_score > 0.7:\n    model_name = \"primary\"\nelse:\n    model_name = \"backup\"\nprint(model_name)",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {
+            "model_name": "local"
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Escolha inicial: local.",
+            "mixed": "Escolha inicial: local.",
+            "en": "Initial choice: local."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "model_name": "local",
+            "confidence_score": 0.65
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Guarda o score.",
+            "mixed": "Guarda o score.",
+            "en": "Stores the score."
+          }
+        },
+        {
+          "line": 2,
+          "variables": {
+            "model_name": "local",
+            "confidence_score": 0.65
+          },
+          "output": [],
+          "explanation": {
+            "pt": "A condição é falsa.",
+            "mixed": "A condição é falsa.",
+            "en": "The condition is false."
+          }
+        },
+        {
+          "line": 4,
+          "variables": {
+            "model_name": "local",
+            "confidence_score": 0.65
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Segue else.",
+            "mixed": "Segue else.",
+            "en": "Follows else."
+          }
+        },
+        {
+          "line": 5,
+          "variables": {
+            "model_name": "backup",
+            "confidence_score": 0.65
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Atualiza a escolha para backup.",
+            "mixed": "Atualiza a escolha para backup.",
+            "en": "Updates the choice to backup."
+          }
+        },
+        {
+          "line": 6,
+          "variables": {
+            "model_name": "backup",
+            "confidence_score": 0.65
+          },
+          "output": [
+            "backup"
+          ],
+          "explanation": {
+            "pt": "Mostra a escolha final.",
+            "mixed": "Mostra a escolha final.",
+            "en": "Displays the final choice."
+          }
+        }
+      ]
+    },
+    "introduces": []
+  },
+  {
+    "id": "fallback-challenge",
+    "module": "Integração",
+    "concepts": [
+      "flow"
+    ],
+    "type": "build",
+    "title": "Monte uma decisão de fallback",
+    "prompt": "Monte o fluxo que mostra primary acima do limite e backup caso contrário.",
+    "code": "confidence_score = 0.61",
+    "hints": [
+      "Organize primeiro a condição e a ação; depois a alternativa.",
+      "Use if, print(\"primary\"), else e print(\"backup\") nessa ordem."
+    ],
+    "explanation": "Com score 0.61, a condição é falsa e o fluxo mostra backup.",
+    "aiApplication": "Regras explícitas tornam uma decisão de fallback fácil de inspecionar.",
+    "legend": {
+      "if / else": "Escolhem entre dois blocos mutuamente exclusivos."
+    },
+    "blocks": [
+      "if confidence_score > 0.7:\n",
+      "    print(\"primary\")\n",
+      "else:\n",
+      "    print(\"backup\")"
+    ],
+    "answers": [
+      "if confidence_score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Monte uma decisão de fallback",
+        "prompt": "Monte o fluxo que mostra primary acima do limite e backup caso contrário.",
+        "hints": [
+          "Organize primeiro a condição e a ação; depois a alternativa.",
+          "Use if, print(\"primary\"), else e print(\"backup\") nessa ordem."
+        ],
+        "explanation": "Com score 0.61, a condição é falsa e o fluxo mostra backup.",
+        "aiApplication": "Regras explícitas tornam uma decisão de fallback fácil de inspecionar."
+      },
+      "mixed": {
+        "title": "Monte uma decisão de fallback · fallback",
+        "prompt": "Monte o fluxo que mostra primary acima do limite e backup caso contrário.",
+        "hints": [
+          "Organize primeiro a condição e a ação; depois a alternativa.",
+          "Use if, print(\"primary\"), else e print(\"backup\") nessa ordem."
+        ],
+        "explanation": "Com score 0.61, a condição é falsa e o fluxo mostra backup.",
+        "aiApplication": "Regras explícitas tornam uma decisão de fallback fácil de inspecionar."
+      },
+      "en": {
+        "title": "Build a fallback decision",
+        "prompt": "Build the flow that displays primary above the threshold and backup otherwise.",
+        "hints": [
+          "Arrange the condition and action before the alternative.",
+          "Use if, primary print, else and backup print in that order."
+        ],
+        "explanation": "With score 0.61, the false condition displays backup.",
+        "aiApplication": "Explicit rules make fallback decisions easy to inspect.",
+        "legend": {
+          "if / else": "Select between two mutually exclusive blocks."
+        },
+        "context": ""
+      }
+    },
+    "terms": [
+      "fallback"
+    ],
+    "requires": [
+      "trace-selection"
+    ],
+    "introduces": []
   }
 ]

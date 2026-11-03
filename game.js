@@ -8,7 +8,7 @@
   const XP_HINT = 2;
   function checkAnswer(exercise, answer) {
     if (exercise.type === 'build') return exercise.answers.includes(answer.trim());
-    return Number(answer) === exercise.correct;
+    return /^(0|[1-9][0-9]*)$/.test(String(answer)) && Number(answer) === exercise.correct;
   }
   function awardXP(progress, exerciseId, attempts, usedHint) {
     if (progress.completed.includes(exerciseId)) return 0;
@@ -23,7 +23,7 @@
   function loadProgress(storage) {
     try {
       const saved = JSON.parse(storage.getItem('pythonAiTrainerV1'));
-      if (!saved || !Array.isArray(saved.completed) || !Number.isFinite(saved.xp)) return createProgress();
+      if (!saved || !Array.isArray(saved.completed) || !Number.isFinite(saved.xp) || saved.xp < 0 || !Number.isInteger(saved.current) || saved.current < 0 || !Array.isArray(saved.unlocked) || !saved.attempts || typeof saved.attempts !== 'object') return createProgress();
       return { ...createProgress(), ...saved };
     } catch { return createProgress(); }
   }
