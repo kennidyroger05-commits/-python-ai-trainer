@@ -69,3 +69,12 @@ button.primary { background: var(--accent); border-color: var(--accent); color: 
   .game-grid { grid-template-columns: minmax(0, 1.5fr) minmax(260px, .8fr); align-items: start; }
   .legend-card { position: sticky; top: 16px; }
 }
+[hidden] { display:none !important; }
+button { min-height:48px; padding:10px 14px; border:1px solid var(--border); border-radius:12px; background:var(--card); color:var(--text); cursor:pointer; }
+button.selected { outline:3px solid var(--accent-2); }
+#answer { display:grid; gap:10px; margin:14px 0; }
+#answer button { width:100%; text-align:left; white-space:normal; }
+#homeStats, #glossaryList article, #mission .mission-card { padding:16px; margin:12px 0; border:1px solid var(--border); border-radius:14px; background:var(--panel); }
+@media(max-width:480px){.app-shell{padding:12px}.topbar{align-items:flex-start;flex-direction:column}.actions{display:grid;grid-template-columns:1fr}pre{max-width:100%}}
+[hidden]{display:none!important}
+#home,#mission{width:100%}.app-shell{width:min(100%,600px);padding:16px}.mission-card{padding:16px;margin:12px 0}.answer{display:grid;gap:10px;margin:16px 0}.answer button,.actions button,#continue,#reset,#restartModule,#homeButton,#next{min-height:48px;padding:12px;border-radius:12px;white-space:normal;overflow-wrap:anywhere}.answer button{text-align:left}.selected{outline:3px solid var(--accent-2)}.legend{padding:10px 0;color:var(--muted);font-size:.92rem}.legend p{margin:7px 0}.code-display,pre{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}.progress-card p{display:inline-block;margin:4px 12px 8px 0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.feedback{line-height:1.5;overflow-wrap:anywhere}button{touch-action:manipulation}@media(max-width:360px){.app-shell{padding:10px}.actions{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.mission-card{padding:12px}}

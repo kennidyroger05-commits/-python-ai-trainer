@@ -1,82 +1,45 @@
 # Python AI Trainer
 
-MVP de uma web app inspirada em Duolingo para aprender Python aplicado a IA, automação e resolução de problemas.
+Um jogo curto, sem dependências externas, para praticar Python aplicado a scores e seleção de modelos. A versão atual tem cinco missões em HTML, CSS e JavaScript puro. Não executa Python no navegador: respostas são verificadas contra soluções explícitas e opções cadastradas em `exercises.json`.
 
-## Objetivo
+## Missões
 
-Treinar Python por meio de missões curtas em que o usuário monta código usando blocos clicáveis. O foco é aprender conceitos úteis para IA: scores, confiança, modelos, fallback, listas, dicionários e respostas estruturadas.
+1. Guardar um score em uma variável.
+2. Mostrar o score com `print()`.
+3. Prever a seleção do maior score com `max()`.
+4. Ler o segundo modelo de uma lista usando índice.
+5. Encontrar um índice fora dos limites da lista.
 
-## Tecnologias
+Cada missão apresenta duas dicas, explicação, aplicação em IA e legenda contextual. O app oferece montagem por blocos, previsão, leitura e identificação de erro. O progresso e o XP ficam no `localStorage` do navegador.
 
-- HTML
-- CSS
-- JavaScript puro
-- JSON
-- localStorage
+## Rodar localmente
 
-## Arquivos
-
-- `index.html` — interface principal
-- `style.css` — layout responsivo e mobile-first
-- `app.js` — lógica do jogo, XP e progresso
-- `exercises.json` — banco inicial de 10 missões
-
-## Como usar localmente
-
-Por segurança do navegador, `exercises.json` deve ser carregado por HTTP. Uma forma simples é executar um servidor local dentro da pasta do projeto.
-
-Com Python instalado:
+Na raiz do projeto, execute:
 
 ```bash
-python -m http.server 8000
+python3 -m http.server 8000
 ```
 
-Depois abra:
+Abra `http://localhost:8000`. O projeto também é compatível com GitHub Pages, servindo os arquivos estáticos da raiz.
 
-```text
-http://localhost:8000
+## Validar
+
+```bash
+node tests/validate.js
+node tests/browser.cjs
 ```
 
-## GitHub Pages
+O teste de navegador usa Playwright e Chromium já disponíveis no ambiente de desenvolvimento. Não são dependências da aplicação publicada.
 
-O projeto foi preparado para funcionar como site estático pelo GitHub Pages.
+## Estrutura
 
-No GitHub:
+- `index.html`: interface do jogo.
+- `style.css`: layout responsivo e controles de toque.
+- `app.js`: renderização e eventos da interface.
+- `game.js`: validação das respostas e funções puras de progresso e XP.
+- `exercises.json`: conteúdo das cinco missões.
+- `tests/`: validação de conteúdo, lógica e interação no navegador.
 
-1. Abra **Settings** do repositório.
-2. Entre em **Pages**.
-3. Em **Build and deployment**, escolha **Deploy from a branch**.
-4. Selecione a branch `main`.
-5. Selecione a pasta `/ (root)`.
-6. Salve.
+## Próximo passo
 
-Depois de alguns instantes o GitHub mostrará a URL pública do site.
-
-## Conteúdo do MVP
-
-As 10 primeiras missões introduzem gradualmente:
-
-1. variáveis
-2. listas
-3. `print()`
-4. `max()`
-5. índices
-6. comparações
-7. `if`
-8. strings
-9. dicionários
-10. acesso a valores de dicionário
-
-## Próximas etapas planejadas
-
-- modo leitura de código
-- repetição adaptativa de conceitos com erro
-- níveis e trilhas
-- JSON e APIs
-- tratamento de erros
-- tool calling
-- roteamento e fallback
-- agentes simples
-- FastAPI
-
-O MVP propositalmente não possui backend, login, banco de dados ou geração de exercícios por IA.
+Depois de revisar as cinco missões com estudantes iniciantes, ampliar o conteúdo em pequenos lotes e validar cada lote antes de publicar.

@@ -1,207 +1,70 @@
-const state = {
-  exercises: [],
-  index: 0,
-  codeParts: [],
-  xp: 0,
-  completed: []
-};
-
-const els = {
-  xp: document.getElementById('xp'),
-  missionCounter: document.getElementById('missionCounter'),
-  progressText: document.getElementById('progressText'),
-  progressBar: document.getElementById('progressBar'),
-  topic: document.getElementById('topic'),
-  title: document.getElementById('title'),
-  description: document.getElementById('description'),
-  starterCode: document.getElementById('starterCode'),
-  tokenBank: document.getElementById('tokenBank'),
-  codeDisplay: document.getElementById('codeDisplay'),
-  feedback: document.getElementById('feedback'),
-  legend: document.getElementById('legend'),
-  why: document.getElementById('why'),
-  nextBtn: document.getElementById('nextBtn'),
-  runBtn: document.getElementById('runBtn'),
-  undoBtn: document.getElementById('undoBtn'),
-  clearBtn: document.getElementById('clearBtn'),
-  hintBtn: document.getElementById('hintBtn')
-};
-
-function saveProgress() {
-  localStorage.setItem('pythonAiTrainerProgress', JSON.stringify({
-    index: state.index,
-    xp: state.xp,
-    completed: state.completed
-  }));
-}
-
-function loadProgress() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('pythonAiTrainerProgress'));
-    if (!saved) return;
-    state.index = Number.isInteger(saved.index) ? saved.index : 0;
-    state.xp = Number.isFinite(saved.xp) ? saved.xp : 0;
-    state.completed = Array.isArray(saved.completed) ? saved.completed : [];
-  } catch (_) {
-    localStorage.removeItem('pythonAiTrainerProgress');
+(() => {
+  const $ = id => document.getElementById(id);
+  const game = window.TrainerGame;
+  const state = { exercises: [], progress: game.createProgress(), index: 0, answer: '', attempts: 0, hintLevel: 0 };
+  const storage = window.localStorage;
+  function renderHome() {
+    $('home').hidden = false; $('mission').hidden = true;
+    $('xp').textContent = `${state.progress.xp} XP`;
+    $('homeProgress').textContent = `${state.progress.completed.length} de ${state.exercises.length} missões concluídas`;
   }
-}
-
-function normalize(code) {
-  return code.replace(/\r/g, '').trim();
-}
-
-function renderCode() {
-  const text = state.codeParts.join('');
-  els.codeDisplay.textContent = text || '';
-  if (!text) {
-    const span = document.createElement('span');
-    span.className = 'code-placeholder';
-    span.textContent = 'Monte o código tocando nas peças acima.';
-    els.codeDisplay.appendChild(span);
-  }
-}
-
-function renderTokens(exercise) {
-  els.tokenBank.innerHTML = '';
-  exercise.tokens.forEach(token => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = token === '\n' ? '↵ nova linha' : token === '\n    ' ? '↵ + indentação' : token;
-    button.addEventListener('click', () => {
-      state.codeParts.push(token);
-      renderCode();
+  function renderMission() {
+    const e = state.exercises[state.index];
+    state.answer = ''; state.attempts = 0; state.hintLevel = 0;
+    $('home').hidden = true; $('mission').hidden = false;
+    $('xp').textContent = `${state.progress.xp} XP`;
+    $('module').textContent = e.module;
+    $('counter').textContent = `Missão ${state.index + 1} de ${state.exercises.length}`;
+    $('bar').style.width = `${state.progress.completed.length / state.exercises.length * 100}%`;
+    $('title').textContent = e.title; $('prompt').textContent = e.prompt;
+    $('context').textContent = e.context || ''; $('code').textContent = e.code || '';
+    $('assembled').hidden = e.type !== 'build'; $('assembled').textContent = '';
+    $('answer').replaceChildren(); $('feedback').textContent = ''; $('next').hidden = true;
+    $('hint').textContent = 'Dica 1'; $('legend').replaceChildren();
+    Object.entries(e.legend).forEach(([name, description]) => {
+      const row = document.createElement('p'); row.textContent = `${name}: ${description}`; $('legend').append(row);
     });
-    els.tokenBank.appendChild(button);
-  });
-}
-
-function renderLegend(exercise) {
-  els.legend.innerHTML = '';
-  Object.entries(exercise.legend).forEach(([key, value]) => {
-    const item = document.createElement('div');
-    item.className = 'legend-item';
-    item.innerHTML = `<code>${escapeHtml(key)}</code><p>${escapeHtml(value)}</p>`;
-    els.legend.appendChild(item);
-  });
-}
-
-function escapeHtml(text) {
-  return String(text)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
-
-function renderExercise() {
-  if (!state.exercises.length) return;
-  if (state.index >= state.exercises.length) state.index = state.exercises.length - 1;
-
-  const exercise = state.exercises[state.index];
-  state.codeParts = [];
-
-  els.topic.textContent = `Missão ${exercise.id} · ${exercise.topic}`;
-  els.title.textContent = exercise.title;
-  els.description.textContent = exercise.description;
-  els.starterCode.textContent = exercise.starter;
-  els.why.textContent = exercise.why;
-  els.xp.textContent = state.xp;
-  els.missionCounter.textContent = `Missão ${state.index + 1} de ${state.exercises.length}`;
-
-  const percent = Math.round((state.completed.length / state.exercises.length) * 100);
-  els.progressText.textContent = `${percent}%`;
-  els.progressBar.style.width = `${percent}%`;
-
-  els.feedback.className = 'feedback';
-  els.feedback.textContent = state.completed.includes(exercise.id)
-    ? 'Você já concluiu esta missão. Pode refazer para treinar.'
-    : 'Monte a solução usando os blocos acima.';
-  els.nextBtn.classList.add('hidden');
-
-  renderTokens(exercise);
-  renderLegend(exercise);
-  renderCode();
-}
-
-function checkAnswer() {
-  const exercise = state.exercises[state.index];
-  const userCode = normalize(state.codeParts.join(''));
-  const solution = normalize(exercise.solution);
-
-  if (!userCode) {
-    els.feedback.className = 'feedback error';
-    els.feedback.textContent = 'Você ainda não montou nenhum código.';
-    return;
+    if (e.type === 'build') {
+      e.blocks.forEach(block => { const button = document.createElement('button'); button.textContent = block; button.onclick = () => { state.answer += block; $('assembled').textContent = state.answer; }; $('answer').append(button); });
+      const undo = document.createElement('button'); undo.textContent = 'Desfazer'; undo.onclick = () => { state.answer = ''; $('assembled').textContent = ''; }; $('answer').append(undo);
+    } else e.options.forEach((option, index) => { const button = document.createElement('button'); button.textContent = option; button.onclick = () => { state.answer = String(index); [...$('answer').children].forEach(b => b.classList.remove('selected')); button.classList.add('selected'); }; $('answer').append(button); });
   }
-
-  if (userCode === solution) {
-    const firstCompletion = !state.completed.includes(exercise.id);
-    if (firstCompletion) {
-      state.completed.push(exercise.id);
-      state.xp += exercise.xp;
-    }
-
-    els.feedback.className = 'feedback success';
-    els.feedback.textContent = firstCompletion
-      ? `✅ Missão concluída! +${exercise.xp} XP`
-      : '✅ Certo novamente! Ótimo treino.';
-    els.xp.textContent = state.xp;
-    saveProgress();
-
-    if (state.index < state.exercises.length - 1) {
-      els.nextBtn.classList.remove('hidden');
-    } else {
-      els.feedback.textContent += ' Você concluiu as 10 missões do MVP.';
-    }
-
-    const percent = Math.round((state.completed.length / state.exercises.length) * 100);
-    els.progressText.textContent = `${percent}%`;
-    els.progressBar.style.width = `${percent}%`;
-  } else {
-    els.feedback.className = 'feedback error';
-    els.feedback.textContent = 'Ainda não. Compare a ordem das peças, parênteses, colchetes e quebras de linha. Use Dica se precisar.';
+  function submit() {
+    const e = state.exercises[state.index];
+    if (state.answer === '') { $('feedback').textContent = 'Escolha uma resposta antes de continuar.'; return; }
+    state.attempts++;
+    state.progress.attempts[e.id] = (state.progress.attempts[e.id] || 0) + 1;
+    if (game.checkAnswer(e, state.answer)) {
+      const gained = game.awardXP(state.progress, e.id, state.attempts, state.hintLevel > 0);
+      state.progress.current = Math.max(state.progress.current, state.index + 1);
+      const next = state.exercises[state.index + 1];
+      if (next && !state.progress.unlocked.includes(next.module)) state.progress.unlocked.push(next.module);
+      $('feedback').textContent = `${gained ? `Correto! +${gained} XP. ` : 'Correto! Missão já concluída. '}${e.explanation} ${e.aiApplication}`;
+      $('next').hidden = false;
+    } else $('feedback').textContent = 'Ainda não. Revise o código e tente novamente.';
+    game.saveProgress(storage, state.progress); $('xp').textContent = `${state.progress.xp} XP`;
   }
-}
-
-els.runBtn.addEventListener('click', checkAnswer);
-els.undoBtn.addEventListener('click', () => {
-  state.codeParts.pop();
-  renderCode();
-});
-els.clearBtn.addEventListener('click', () => {
-  state.codeParts = [];
-  renderCode();
-  els.feedback.className = 'feedback';
-  els.feedback.textContent = 'Código limpo. Tente novamente.';
-});
-els.hintBtn.addEventListener('click', () => {
-  const exercise = state.exercises[state.index];
-  els.feedback.className = 'feedback';
-  els.feedback.textContent = `💡 ${exercise.hint}`;
-});
-els.nextBtn.addEventListener('click', () => {
-  if (state.index < state.exercises.length - 1) {
-    state.index += 1;
-    saveProgress();
-    renderExercise();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  function showHint() {
+    const e = state.exercises[state.index];
+    if (state.hintLevel < 2) state.hintLevel++;
+    $('hint').textContent = state.hintLevel === 1 ? 'Dica 2' : 'Dicas usadas';
+    $('feedback').textContent = e.hints[state.hintLevel - 1];
   }
-});
-
-async function init() {
-  try {
-    const response = await fetch('exercises.json');
-    if (!response.ok) throw new Error('Falha ao carregar exercícios');
-    state.exercises = await response.json();
-    loadProgress();
-    renderExercise();
-  } catch (error) {
-    els.feedback.className = 'feedback error';
-    els.feedback.textContent = 'Não foi possível carregar as missões. Abra pelo GitHub Pages ou por um servidor local.';
-    console.error(error);
+  function restartModule() {
+    if (!window.confirm(`Recomeçar o módulo ${state.exercises[state.index].module}? O XP e as conclusões dele serão removidos.`)) return;
+    game.resetModule(state.progress, state.exercises, state.exercises[state.index].module);
+    game.saveProgress(storage, state.progress); renderHome();
   }
-}
-
-init();
+  async function init() {
+    const response = await fetch('exercises.json'); if (!response.ok) throw new Error('Falha ao carregar exercícios');
+    state.exercises = await response.json(); state.progress = game.loadProgress(storage);
+    state.index = Math.min(state.progress.current, state.exercises.length - 1);
+    $('continue').onclick = () => renderMission(); $('homeButton').onclick = renderHome;
+    $('submit').onclick = submit; $('hint').onclick = showHint;
+    $('next').onclick = () => { state.index = game.getNextIndex(state.exercises, state.index); renderMission(); };
+    $('restartModule').onclick = restartModule;
+    $('reset').onclick = () => { if (window.confirm('Apagar todo o progresso e XP?')) { storage.removeItem('pythonAiTrainerV1'); state.progress = game.createProgress(); state.index = 0; renderHome(); } };
+    renderHome();
+  }
+  init().catch(error => { $('homeProgress').textContent = 'Não foi possível carregar as missões. Inicie um servidor local.'; console.error(error); });
+})();
