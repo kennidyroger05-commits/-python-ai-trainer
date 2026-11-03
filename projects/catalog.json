@@ -1,0 +1,4895 @@
+[
+  {
+    "id": "model-router",
+    "kind": "project",
+    "title": {
+      "pt": "Roteador de modelos",
+      "mixed": "Model router (roteador de modelos)",
+      "en": "Model router"
+    },
+    "goal": {
+      "pt": "Construir e testar uma regra para escolher entre três modelos.",
+      "mixed": "Construir e testar uma regra para escolher entre três modelos.",
+      "en": "Build and test a rule to choose among three models."
+    },
+    "context": {
+      "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+      "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+      "en": "A team prioritizes quality or speed and requires a local fallback."
+    },
+    "limitations": {
+      "pt": "Modelos e critérios são fictícios. Scores não são probabilidades calibradas.",
+      "mixed": "Modelos e critérios são fictícios. Scores não são probabilidades calibradas.",
+      "en": "Models and criteria are fictional. Scores are not calibrated probabilities."
+    },
+    "result": {
+      "pt": "Roteador com regra explícita e três casos validados.",
+      "mixed": "Roteador com regra explícita e três casos validados.",
+      "en": "A router with an explicit rule and three validated cases."
+    },
+    "initialArtifact": {
+      "request": null,
+      "rule": null,
+      "fallback": null
+    },
+    "solutionCode": "def route(request, available, rule=\"correct\", fallback=\"local_model\"):\n    wants_quality = request[\"priority\"] == \"quality\"\n    if rule == \"inverted\":\n        wants_quality = not wants_quality\n    primary = \"quality_model\" if wants_quality else \"fast_model\"\n    return primary if primary in available else fallback\n",
+    "steps": [
+      {
+        "id": "read-request",
+        "title": {
+          "pt": "Interprete o pedido",
+          "mixed": "Read the request (interprete o pedido)",
+          "en": "Read the request"
+        },
+        "prompt": {
+          "pt": "Qual campo define a prioridade do pedido?",
+          "mixed": "Qual campo define a prioridade do pedido?",
+          "en": "Which field defines request priority?"
+        },
+        "code": "request = {\"priority\": \"quality\"}",
+        "choices": [
+          {
+            "id": "read-request-a",
+            "label": {
+              "pt": "priority contém quality.",
+              "mixed": "priority contém quality.",
+              "en": "priority contains quality."
+            }
+          },
+          {
+            "id": "read-request-b",
+            "label": {
+              "pt": "quality é uma probabilidade calibrada.",
+              "mixed": "quality é uma probabilidade calibrada.",
+              "en": "quality is a calibrated probability."
+            }
+          },
+          {
+            "id": "read-request-c",
+            "label": {
+              "pt": "O pedido exige chamar os três modelos.",
+              "mixed": "O pedido exige chamar os três modelos.",
+              "en": "The request requires calling all three models."
+            }
+          }
+        ],
+        "correctId": "read-request-a",
+        "hints": [
+          {
+            "pt": "Leia a chave e o valor, sem inferir métricas.",
+            "mixed": "Leia a chave e o valor, sem inferir métricas.",
+            "en": "Read the key and value without assuming metrics."
+          },
+          {
+            "pt": "A chave priority descreve a prioridade.",
+            "mixed": "A chave priority descreve a prioridade.",
+            "en": "The priority key describes the priority."
+          }
+        ],
+        "explanation": {
+          "pt": "A entrada pede qualidade; ela ainda não contém uma resposta de modelo.",
+          "mixed": "A entrada pede qualidade; ela ainda não contém uma resposta de modelo.",
+          "en": "The input asks for quality; it does not yet contain a model response."
+        },
+        "effect": {
+          "request": {
+            "priority": "quality"
+          }
+        },
+        "concept": "contract",
+        "skills": [
+          "data",
+          "ai"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "A entrada pede qualidade; ela ainda não contém uma resposta de modelo.",
+            "mixed": "A entrada pede qualidade; ela ainda não contém uma resposta de modelo.",
+            "en": "The input asks for quality; it does not yet contain a model response."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "name-variables",
+        "title": {
+          "pt": "Identifique as variáveis",
+          "mixed": "Identify variables (identifique as variáveis)",
+          "en": "Identify variables"
+        },
+        "prompt": {
+          "pt": "Qual conjunto representa os dados necessários?",
+          "mixed": "Qual conjunto representa os dados necessários?",
+          "en": "Which set represents the required data?"
+        },
+        "code": "request = {\"priority\": \"quality\"}\navailable = [\"fast_model\", \"quality_model\", \"local_model\"]",
+        "choices": [
+          {
+            "id": "name-variables-a",
+            "label": {
+              "pt": "Só uma mensagem de saída.",
+              "mixed": "Só uma mensagem de saída.",
+              "en": "Only an output message."
+            }
+          },
+          {
+            "id": "name-variables-b",
+            "label": {
+              "pt": "request e available.",
+              "mixed": "request e available.",
+              "en": "request and available."
+            }
+          },
+          {
+            "id": "name-variables-c",
+            "label": {
+              "pt": "Uma chave secreta real.",
+              "mixed": "Uma chave secreta real.",
+              "en": "A real secret key."
+            }
+          }
+        ],
+        "correctId": "name-variables-b",
+        "hints": [
+          {
+            "pt": "A escolha depende do pedido e da disponibilidade.",
+            "mixed": "A escolha depende do pedido e da disponibilidade.",
+            "en": "The choice depends on the request and availability."
+          },
+          {
+            "pt": "O código já nomeia request e available.",
+            "mixed": "O código já nomeia request e available.",
+            "en": "The code already names request and available."
+          }
+        ],
+        "explanation": {
+          "pt": "As duas variáveis permitem selecionar e verificar uma opção.",
+          "mixed": "As duas variáveis permitem selecionar e verificar uma opção.",
+          "en": "Both variables allow selection and availability checks."
+        },
+        "effect": {
+          "available": [
+            "fast_model",
+            "quality_model",
+            "local_model"
+          ]
+        },
+        "concept": "contract",
+        "skills": [
+          "fundamentals"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [
+          "read-request"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "As duas variáveis permitem selecionar e verificar uma opção.",
+            "mixed": "As duas variáveis permitem selecionar e verificar uma opção.",
+            "en": "Both variables allow selection and availability checks."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "define-policy",
+        "title": {
+          "pt": "Defina o critério",
+          "mixed": "Define the policy (defina o critério)",
+          "en": "Define the policy"
+        },
+        "prompt": {
+          "pt": "Qual regra atende ao contrato?",
+          "mixed": "Qual regra atende ao contrato?",
+          "en": "Which rule matches the contract?"
+        },
+        "code": "priority = request[\"priority\"]",
+        "choices": [
+          {
+            "id": "define-policy-a",
+            "label": {
+              "pt": "Escolher sempre fast_model.",
+              "mixed": "Escolher sempre fast_model.",
+              "en": "Always choose fast_model."
+            }
+          },
+          {
+            "id": "define-policy-b",
+            "label": {
+              "pt": "Escolher pelo tamanho do nome.",
+              "mixed": "Escolher pelo tamanho do nome.",
+              "en": "Choose by name length."
+            }
+          },
+          {
+            "id": "define-policy-c",
+            "label": {
+              "pt": "quality escolhe quality_model; fast escolhe fast_model.",
+              "mixed": "quality escolhe quality_model; fast escolhe fast_model.",
+              "en": "quality selects quality_model; fast selects fast_model."
+            }
+          }
+        ],
+        "correctId": "define-policy-c",
+        "hints": [
+          {
+            "pt": "Use a prioridade, não o nome do modelo.",
+            "mixed": "Use a prioridade, não o nome do modelo.",
+            "en": "Use priority, not model-name appearance."
+          },
+          {
+            "pt": "Há um caminho para qualidade e outro para rapidez.",
+            "mixed": "Há um caminho para qualidade e outro para rapidez.",
+            "en": "There is a quality path and a speed path."
+          }
+        ],
+        "explanation": {
+          "pt": "A regra é determinística e não presume que um score seja probabilidade.",
+          "mixed": "A regra é determinística e não presume que um score seja probabilidade.",
+          "en": "The rule is deterministic and does not assume a score is a probability."
+        },
+        "effect": {
+          "rule": "correct",
+          "policy": "priority"
+        },
+        "concept": "routing",
+        "skills": [
+          "logic",
+          "ai"
+        ],
+        "terms": [
+          "routing"
+        ],
+        "requires": [
+          "name-variables"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Escolhe um caminho por regras explícitas.",
+            "mixed": "Escolhe um caminho por regras explícitas.",
+            "en": "Chooses a path using explicit rules."
+          },
+          "example": {
+            "pt": "A regra é determinística e não presume que um score seja probabilidade.",
+            "mixed": "A regra é determinística e não presume que um score seja probabilidade.",
+            "en": "The rule is deterministic and does not assume a score is a probability."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "trace-selection"
+      },
+      {
+        "id": "select-primary",
+        "title": {
+          "pt": "Selecione o modelo principal",
+          "mixed": "Select the primary model (selecione o modelo principal)",
+          "en": "Select the primary model"
+        },
+        "prompt": {
+          "pt": "Com priority=quality e todos disponíveis, qual é o escolhido?",
+          "mixed": "Com priority=quality e todos disponíveis, qual é o escolhido?",
+          "en": "With priority=quality and all models available, which is selected?"
+        },
+        "code": "primary = \"quality_model\" if priority == \"quality\" else \"fast_model\"",
+        "choices": [
+          {
+            "id": "select-primary-a",
+            "label": {
+              "pt": "fast_model",
+              "mixed": "fast_model",
+              "en": "fast_model"
+            }
+          },
+          {
+            "id": "select-primary-b",
+            "label": {
+              "pt": "quality_model",
+              "mixed": "quality_model",
+              "en": "quality_model"
+            }
+          },
+          {
+            "id": "select-primary-c",
+            "label": {
+              "pt": "local_model",
+              "mixed": "local_model",
+              "en": "local_model"
+            }
+          }
+        ],
+        "correctId": "select-primary-b",
+        "hints": [
+          {
+            "pt": "Aplique a regra definida na etapa anterior.",
+            "mixed": "Aplique a regra definida na etapa anterior.",
+            "en": "Apply the rule from the previous stage."
+          },
+          {
+            "pt": "A prioridade atual é quality.",
+            "mixed": "A prioridade atual é quality.",
+            "en": "The current priority is quality."
+          }
+        ],
+        "explanation": {
+          "pt": "O modelo principal deste caso é quality_model.",
+          "mixed": "O modelo principal deste caso é quality_model.",
+          "en": "The primary model for this case is quality_model."
+        },
+        "effect": {
+          "primary": "quality_model"
+        },
+        "concept": "routing",
+        "skills": [
+          "logic",
+          "ai"
+        ],
+        "terms": [
+          "routing"
+        ],
+        "requires": [
+          "define-policy"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Escolhe um caminho por regras explícitas.",
+            "mixed": "Escolhe um caminho por regras explícitas.",
+            "en": "Chooses a path using explicit rules."
+          },
+          "example": {
+            "pt": "O modelo principal deste caso é quality_model.",
+            "mixed": "O modelo principal deste caso é quality_model.",
+            "en": "The primary model for this case is quality_model."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "trace-selection"
+      },
+      {
+        "id": "add-fallback",
+        "title": {
+          "pt": "Implemente a alternativa",
+          "mixed": "Add the fallback (implemente a alternativa)",
+          "en": "Add the fallback"
+        },
+        "prompt": {
+          "pt": "Se o principal estiver indisponível, qual alternativa contratada deve ser usada?",
+          "mixed": "Se o principal estiver indisponível, qual alternativa contratada deve ser usada?",
+          "en": "If the primary is unavailable, which contracted fallback should be used?"
+        },
+        "code": "return primary if primary in available else fallback",
+        "choices": [
+          {
+            "id": "add-fallback-a",
+            "label": {
+              "pt": "local_model",
+              "mixed": "local_model",
+              "en": "local_model"
+            }
+          },
+          {
+            "id": "add-fallback-b",
+            "label": {
+              "pt": "quality_model",
+              "mixed": "quality_model",
+              "en": "quality_model"
+            }
+          },
+          {
+            "id": "add-fallback-c",
+            "label": {
+              "pt": "None",
+              "mixed": "None",
+              "en": "None"
+            }
+          }
+        ],
+        "correctId": "add-fallback-a",
+        "hints": [
+          {
+            "pt": "O contrato pede uma alternativa local.",
+            "mixed": "O contrato pede uma alternativa local.",
+            "en": "The contract requires a local alternative."
+          },
+          {
+            "pt": "fallback deve apontar para local_model.",
+            "mixed": "fallback deve apontar para local_model.",
+            "en": "fallback should point to local_model."
+          }
+        ],
+        "explanation": {
+          "pt": "A regra retorna local_model quando o principal não está disponível.",
+          "mixed": "A regra retorna local_model quando o principal não está disponível.",
+          "en": "The rule returns local_model when the primary is unavailable."
+        },
+        "effect": {
+          "fallback": "local_model"
+        },
+        "concept": "availability",
+        "skills": [
+          "logic",
+          "ai"
+        ],
+        "terms": [
+          "availability"
+        ],
+        "requires": [
+          "select-primary"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Indica se uma opção pode ser usada agora.",
+            "mixed": "Indica se uma opção pode ser usada agora.",
+            "en": "Indicates whether an option can be used now."
+          },
+          "example": {
+            "pt": "A regra retorna local_model quando o principal não está disponível.",
+            "mixed": "A regra retorna local_model quando o principal não está disponível.",
+            "en": "The rule returns local_model when the primary is unavailable."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "choose-fallback"
+      },
+      {
+        "id": "inspect-decision",
+        "title": {
+          "pt": "Examine a decisão",
+          "mixed": "Inspect the decision (examine a decisão)",
+          "en": "Inspect the decision"
+        },
+        "prompt": {
+          "pt": "Qual registro permite auditar a escolha?",
+          "mixed": "Qual registro permite auditar a escolha?",
+          "en": "Which record allows auditing the choice?"
+        },
+        "code": "route({\"priority\": \"quality\"}, [\"local_model\"])",
+        "choices": [
+          {
+            "id": "inspect-decision-a",
+            "label": {
+              "pt": "Só o nome do desenvolvedor.",
+              "mixed": "Só o nome do desenvolvedor.",
+              "en": "Only the developer name."
+            }
+          },
+          {
+            "id": "inspect-decision-b",
+            "label": {
+              "pt": "Pedido, modelos disponíveis e resultado local_model.",
+              "mixed": "Pedido, modelos disponíveis e resultado local_model.",
+              "en": "Request, available models and local_model result."
+            }
+          },
+          {
+            "id": "inspect-decision-c",
+            "label": {
+              "pt": "Só o total de XP.",
+              "mixed": "Só o total de XP.",
+              "en": "Only the XP total."
+            }
+          }
+        ],
+        "correctId": "inspect-decision-b",
+        "hints": [
+          {
+            "pt": "Registre entrada, regra e saída.",
+            "mixed": "Registre entrada, regra e saída.",
+            "en": "Record input, rule and output."
+          },
+          {
+            "pt": "Neste caso o principal não está disponível.",
+            "mixed": "Neste caso o principal não está disponível.",
+            "en": "The primary is unavailable in this case."
+          }
+        ],
+        "explanation": {
+          "pt": "O registro explica por que ocorreu fallback, não apenas qual nome saiu.",
+          "mixed": "O registro explica por que ocorreu fallback, não apenas qual nome saiu.",
+          "en": "The record explains why fallback happened, not only the output name."
+        },
+        "effect": {
+          "decisionRecord": {
+            "priority": "quality",
+            "available": [
+              "local_model"
+            ],
+            "selected": "local_model"
+          }
+        },
+        "concept": "availability",
+        "skills": [
+          "debugging",
+          "ai"
+        ],
+        "terms": [
+          "availability"
+        ],
+        "requires": [
+          "add-fallback"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Indica se uma opção pode ser usada agora.",
+            "mixed": "Indica se uma opção pode ser usada agora.",
+            "en": "Indicates whether an option can be used now."
+          },
+          "example": {
+            "pt": "O registro explica por que ocorreu fallback, não apenas qual nome saiu.",
+            "mixed": "O registro explica por que ocorreu fallback, não apenas qual nome saiu.",
+            "en": "The record explains why fallback happened, not only the output name."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "choose-fallback"
+      },
+      {
+        "id": "find-inversion",
+        "title": {
+          "pt": "Investigue uma regra invertida",
+          "mixed": "Investigate an inverted rule (investigue uma regra invertida)",
+          "en": "Investigate an inverted rule"
+        },
+        "prompt": {
+          "pt": "Uma cópia defeituosa retorna fast_model para quality. Qual causa explica isso?",
+          "mixed": "Uma cópia defeituosa retorna fast_model para quality. Qual causa explica isso?",
+          "en": "A defective copy returns fast_model for quality. Which cause explains this?"
+        },
+        "code": "if priority == \"quality\":\n    primary = \"fast_model\"",
+        "choices": [
+          {
+            "id": "find-inversion-a",
+            "label": {
+              "pt": "A lista tem nomes de texto.",
+              "mixed": "A lista tem nomes de texto.",
+              "en": "The list contains text names."
+            }
+          },
+          {
+            "id": "find-inversion-b",
+            "label": {
+              "pt": "O operador == atribui um valor.",
+              "mixed": "O operador == atribui um valor.",
+              "en": "The == operator assigns a value."
+            }
+          },
+          {
+            "id": "find-inversion-c",
+            "label": {
+              "pt": "O ramo de qualidade atribui o modelo rápido.",
+              "mixed": "O ramo de qualidade atribui o modelo rápido.",
+              "en": "The quality branch assigns the fast model."
+            }
+          }
+        ],
+        "correctId": "find-inversion-c",
+        "hints": [
+          {
+            "pt": "Compare o ramo com a especificação.",
+            "mixed": "Compare o ramo com a especificação.",
+            "en": "Compare the branch with the specification."
+          },
+          {
+            "pt": "O nome escolhido contradiz a prioridade.",
+            "mixed": "O nome escolhido contradiz a prioridade.",
+            "en": "The selected name contradicts the priority."
+          }
+        ],
+        "explanation": {
+          "pt": "Este é um erro lógico: o código roda, mas viola o contrato. A cópia em investigação fica no workspace até a correção.",
+          "mixed": "Este é um erro lógico: o código roda, mas viola o contrato. A cópia em investigação fica no workspace até a correção.",
+          "en": "This is a logic error: code runs but violates the contract. The investigated copy stays in the workspace until repaired."
+        },
+        "effect": {
+          "rule": "inverted"
+        },
+        "concept": "routing",
+        "skills": [
+          "debugging",
+          "logic"
+        ],
+        "terms": [
+          "routing"
+        ],
+        "requires": [
+          "inspect-decision"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Escolhe um caminho por regras explícitas.",
+            "mixed": "Escolhe um caminho por regras explícitas.",
+            "en": "Chooses a path using explicit rules."
+          },
+          "example": {
+            "pt": "Este é um erro lógico: o código roda, mas viola o contrato. A cópia em investigação fica no workspace até a correção.",
+            "mixed": "Este é um erro lógico: o código roda, mas viola o contrato. A cópia em investigação fica no workspace até a correção.",
+            "en": "This is a logic error: code runs but violates the contract. The investigated copy stays in the workspace until repaired."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "trace-selection",
+        "evidence": {
+          "expected": "quality_model",
+          "observed": "fast_model",
+          "exception": null
+        }
+      },
+      {
+        "id": "repair-routing",
+        "title": {
+          "pt": "Corrija o ramo",
+          "mixed": "Repair the branch (corrija o ramo)",
+          "en": "Repair the branch"
+        },
+        "prompt": {
+          "pt": "Qual atribuição corrige o ramo de qualidade?",
+          "mixed": "Qual atribuição corrige o ramo de qualidade?",
+          "en": "Which assignment repairs the quality branch?"
+        },
+        "code": "if priority == \"quality\":\n    primary = ___",
+        "choices": [
+          {
+            "id": "repair-routing-a",
+            "label": {
+              "pt": "\"local_model\"",
+              "mixed": "\"local_model\"",
+              "en": "\"local_model\""
+            }
+          },
+          {
+            "id": "repair-routing-b",
+            "label": {
+              "pt": "\"quality_model\"",
+              "mixed": "\"quality_model\"",
+              "en": "\"quality_model\""
+            }
+          },
+          {
+            "id": "repair-routing-c",
+            "label": {
+              "pt": "\"fast_model\"",
+              "mixed": "\"fast_model\"",
+              "en": "\"fast_model\""
+            }
+          }
+        ],
+        "correctId": "repair-routing-b",
+        "hints": [
+          {
+            "pt": "O fallback tem outra responsabilidade.",
+            "mixed": "O fallback tem outra responsabilidade.",
+            "en": "Fallback has a separate responsibility."
+          },
+          {
+            "pt": "Use o modelo destinado à qualidade.",
+            "mixed": "Use o modelo destinado à qualidade.",
+            "en": "Use the model intended for quality."
+          }
+        ],
+        "explanation": {
+          "pt": "A regra volta a selecionar o principal conforme a prioridade.",
+          "mixed": "A regra volta a selecionar o principal conforme a prioridade.",
+          "en": "The rule again selects the primary based on priority."
+        },
+        "effect": {
+          "rule": "correct"
+        },
+        "concept": "routing",
+        "skills": [
+          "debugging",
+          "logic"
+        ],
+        "terms": [
+          "routing"
+        ],
+        "requires": [
+          "find-inversion"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Escolhe um caminho por regras explícitas.",
+            "mixed": "Escolhe um caminho por regras explícitas.",
+            "en": "Chooses a path using explicit rules."
+          },
+          "example": {
+            "pt": "A regra volta a selecionar o principal conforme a prioridade.",
+            "mixed": "A regra volta a selecionar o principal conforme a prioridade.",
+            "en": "The rule again selects the primary based on priority."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "trace-selection"
+      },
+      {
+        "id": "validate-router",
+        "title": {
+          "pt": "Execute os casos de teste",
+          "mixed": "Run test cases (execute os casos de teste)",
+          "en": "Run test cases"
+        },
+        "prompt": {
+          "pt": "Execute os testes do workspace. Qual conjunto verifica principal e fallback?",
+          "mixed": "Execute os testes do workspace. Qual conjunto verifica principal e fallback?",
+          "en": "Run the workspace tests. Which set checks primary and fallback?"
+        },
+        "code": "def route(request, available, rule=\"correct\", fallback=\"local_model\"):\n    wants_quality = request[\"priority\"] == \"quality\"\n    if rule == \"inverted\":\n        wants_quality = not wants_quality\n    primary = \"quality_model\" if wants_quality else \"fast_model\"\n    return primary if primary in available else fallback\n",
+        "choices": [
+          {
+            "id": "validate-router-a",
+            "label": {
+              "pt": "Só quality com todos disponíveis.",
+              "mixed": "Só quality com todos disponíveis.",
+              "en": "Only quality with all models available."
+            }
+          },
+          {
+            "id": "validate-router-b",
+            "label": {
+              "pt": "Nenhuma entrada; apenas ler o nome.",
+              "mixed": "Nenhuma entrada; apenas ler o nome.",
+              "en": "No inputs; only read the name."
+            }
+          },
+          {
+            "id": "validate-router-c",
+            "label": {
+              "pt": "quality, fast e principal indisponível.",
+              "mixed": "quality, fast e principal indisponível.",
+              "en": "quality, fast and unavailable primary."
+            }
+          }
+        ],
+        "correctId": "validate-router-c",
+        "hints": [
+          {
+            "pt": "Um caso comum não cobre a alternativa.",
+            "mixed": "Um caso comum não cobre a alternativa.",
+            "en": "A common case does not cover fallback."
+          },
+          {
+            "pt": "Use as três entradas cadastradas no painel de testes.",
+            "mixed": "Use as três entradas cadastradas no painel de testes.",
+            "en": "Use all three inputs registered in the test panel."
+          }
+        ],
+        "explanation": {
+          "pt": "Os três testes verificam caminhos distintos; não provam ausência de todo bug.",
+          "mixed": "Os três testes verificam caminhos distintos; não provam ausência de todo bug.",
+          "en": "The three tests check distinct paths; they do not prove the absence of all bugs."
+        },
+        "effect": {
+          "casesValidated": [
+            "quality",
+            "fast",
+            "offline"
+          ]
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging",
+          "ai"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "repair-routing"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "Os três testes verificam caminhos distintos; não provam ausência de todo bug.",
+            "mixed": "Os três testes verificam caminhos distintos; não provam ausência de todo bug.",
+            "en": "The three tests check distinct paths; they do not prove the absence of all bugs."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      },
+      {
+        "id": "explain-router",
+        "title": {
+          "pt": "Explique a solução",
+          "mixed": "Explain the solution (explique a solução)",
+          "en": "Explain the solution"
+        },
+        "prompt": {
+          "pt": "Qual descrição representa o fluxo construído?",
+          "mixed": "Qual descrição representa o fluxo construído?",
+          "en": "Which description matches the built flow?"
+        },
+        "code": "def route(request, available, rule=\"correct\", fallback=\"local_model\"):\n    wants_quality = request[\"priority\"] == \"quality\"\n    if rule == \"inverted\":\n        wants_quality = not wants_quality\n    primary = \"quality_model\" if wants_quality else \"fast_model\"\n    return primary if primary in available else fallback\n",
+        "choices": [
+          {
+            "id": "explain-router-a",
+            "label": {
+              "pt": "Lê a prioridade, escolhe principal, verifica disponibilidade e retorna alternativa local se necessário.",
+              "mixed": "Lê a prioridade, escolhe principal, verifica disponibilidade e retorna alternativa local se necessário.",
+              "en": "Reads priority, selects a primary, checks availability and returns a local fallback when needed."
+            }
+          },
+          {
+            "id": "explain-router-b",
+            "label": {
+              "pt": "Sempre chama três APIs reais.",
+              "mixed": "Sempre chama três APIs reais.",
+              "en": "Always calls three real APIs."
+            }
+          },
+          {
+            "id": "explain-router-c",
+            "label": {
+              "pt": "Garante qualidade profissional por um score.",
+              "mixed": "Garante qualidade profissional por um score.",
+              "en": "Guarantees professional quality from a score."
+            }
+          }
+        ],
+        "correctId": "explain-router-a",
+        "hints": [
+          {
+            "pt": "Explique as decisões e seus limites.",
+            "mixed": "Explique as decisões e seus limites.",
+            "en": "Explain decisions and limits."
+          },
+          {
+            "pt": "Não houve rede nem garantia de qualidade geral.",
+            "mixed": "Não houve rede nem garantia de qualidade geral.",
+            "en": "There was no network call or general quality guarantee."
+          }
+        ],
+        "explanation": {
+          "pt": "O resultado é um roteador didático com política observável e testes explícitos.",
+          "mixed": "O resultado é um roteador didático com política observável e testes explícitos.",
+          "en": "The result is an educational router with an observable policy and explicit tests."
+        },
+        "effect": {
+          "reportReady": true
+        },
+        "concept": "routing",
+        "skills": [
+          "ai",
+          "logic"
+        ],
+        "terms": [
+          "routing"
+        ],
+        "requires": [
+          "validate-router"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Escolhe um caminho por regras explícitas.",
+            "mixed": "Escolhe um caminho por regras explícitas.",
+            "en": "Chooses a path using explicit rules."
+          },
+          "example": {
+            "pt": "O resultado é um roteador didático com política observável e testes explícitos.",
+            "mixed": "O resultado é um roteador didático com política observável e testes explícitos.",
+            "en": "The result is an educational router with an observable policy and explicit tests."
+          },
+          "professional": {
+            "pt": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "mixed": "Uma equipe usa qualidade ou rapidez como prioridade e exige fallback local.",
+            "en": "A team prioritizes quality or speed and requires a local fallback."
+          }
+        },
+        "reviewMissionId": "trace-selection"
+      }
+    ],
+    "traces": [
+      {
+        "id": "quality",
+        "title": {
+          "pt": "Caminho de qualidade",
+          "mixed": "Quality path (caminho de qualidade)",
+          "en": "Quality path"
+        },
+        "nodes": [
+          {
+            "id": "input",
+            "title": {
+              "pt": "Entrada",
+              "mixed": "Input (entrada)",
+              "en": "Input"
+            },
+            "input": {
+              "request": {
+                "priority": "quality"
+              },
+              "available": [
+                "quality_model",
+                "fast_model",
+                "local_model"
+              ]
+            },
+            "output": {
+              "priority": "quality"
+            },
+            "explanation": {
+              "pt": "Leia prioridade e disponibilidade.",
+              "mixed": "Leia prioridade e disponibilidade.",
+              "en": "Read priority and availability."
+            },
+            "failure": false
+          },
+          {
+            "id": "condition",
+            "title": {
+              "pt": "Condição",
+              "mixed": "Condition (condição)",
+              "en": "Condition"
+            },
+            "input": {
+              "priority": "quality"
+            },
+            "output": {
+              "primary": "quality_model"
+            },
+            "explanation": {
+              "pt": "A prioridade define o principal.",
+              "mixed": "A prioridade define o principal.",
+              "en": "Priority defines the primary."
+            },
+            "failure": false
+          },
+          {
+            "id": "availability",
+            "title": {
+              "pt": "Disponibilidade",
+              "mixed": "Availability (disponibilidade)",
+              "en": "Availability"
+            },
+            "input": {
+              "primary": "quality_model",
+              "available": [
+                "quality_model",
+                "fast_model",
+                "local_model"
+              ]
+            },
+            "output": {
+              "available": true
+            },
+            "explanation": {
+              "pt": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "mixed": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "en": "An absent primary needs fallback, not an impossible call."
+            },
+            "failure": false
+          },
+          {
+            "id": "result",
+            "title": {
+              "pt": "Resultado",
+              "mixed": "Result (resultado)",
+              "en": "Result"
+            },
+            "input": {
+              "primary": "quality_model",
+              "fallback": "local_model"
+            },
+            "output": "quality_model",
+            "explanation": {
+              "pt": "Retorna o modelo definido pela regra; não executa inferência.",
+              "mixed": "Retorna o modelo definido pela regra; não executa inferência.",
+              "en": "Returns the model defined by the rule; no inference runs."
+            },
+            "failure": false
+          }
+        ]
+      },
+      {
+        "id": "fast",
+        "title": {
+          "pt": "Caminho rápido",
+          "mixed": "Fast path (caminho rápido)",
+          "en": "Fast path"
+        },
+        "nodes": [
+          {
+            "id": "input",
+            "title": {
+              "pt": "Entrada",
+              "mixed": "Input (entrada)",
+              "en": "Input"
+            },
+            "input": {
+              "request": {
+                "priority": "fast"
+              },
+              "available": [
+                "quality_model",
+                "fast_model",
+                "local_model"
+              ]
+            },
+            "output": {
+              "priority": "fast"
+            },
+            "explanation": {
+              "pt": "Leia prioridade e disponibilidade.",
+              "mixed": "Leia prioridade e disponibilidade.",
+              "en": "Read priority and availability."
+            },
+            "failure": false
+          },
+          {
+            "id": "condition",
+            "title": {
+              "pt": "Condição",
+              "mixed": "Condition (condição)",
+              "en": "Condition"
+            },
+            "input": {
+              "priority": "fast"
+            },
+            "output": {
+              "primary": "fast_model"
+            },
+            "explanation": {
+              "pt": "A prioridade define o principal.",
+              "mixed": "A prioridade define o principal.",
+              "en": "Priority defines the primary."
+            },
+            "failure": false
+          },
+          {
+            "id": "availability",
+            "title": {
+              "pt": "Disponibilidade",
+              "mixed": "Availability (disponibilidade)",
+              "en": "Availability"
+            },
+            "input": {
+              "primary": "fast_model",
+              "available": [
+                "quality_model",
+                "fast_model",
+                "local_model"
+              ]
+            },
+            "output": {
+              "available": true
+            },
+            "explanation": {
+              "pt": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "mixed": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "en": "An absent primary needs fallback, not an impossible call."
+            },
+            "failure": false
+          },
+          {
+            "id": "result",
+            "title": {
+              "pt": "Resultado",
+              "mixed": "Result (resultado)",
+              "en": "Result"
+            },
+            "input": {
+              "primary": "fast_model",
+              "fallback": "local_model"
+            },
+            "output": "fast_model",
+            "explanation": {
+              "pt": "Retorna o modelo definido pela regra; não executa inferência.",
+              "mixed": "Retorna o modelo definido pela regra; não executa inferência.",
+              "en": "Returns the model defined by the rule; no inference runs."
+            },
+            "failure": false
+          }
+        ]
+      },
+      {
+        "id": "offline",
+        "title": {
+          "pt": "Fallback por indisponibilidade",
+          "mixed": "Unavailable-primary fallback (fallback por indisponibilidade)",
+          "en": "Unavailable-primary fallback"
+        },
+        "nodes": [
+          {
+            "id": "input",
+            "title": {
+              "pt": "Entrada",
+              "mixed": "Input (entrada)",
+              "en": "Input"
+            },
+            "input": {
+              "request": {
+                "priority": "quality"
+              },
+              "available": [
+                "local_model"
+              ]
+            },
+            "output": {
+              "priority": "quality"
+            },
+            "explanation": {
+              "pt": "Leia prioridade e disponibilidade.",
+              "mixed": "Leia prioridade e disponibilidade.",
+              "en": "Read priority and availability."
+            },
+            "failure": false
+          },
+          {
+            "id": "condition",
+            "title": {
+              "pt": "Condição",
+              "mixed": "Condition (condição)",
+              "en": "Condition"
+            },
+            "input": {
+              "priority": "quality"
+            },
+            "output": {
+              "primary": "quality_model"
+            },
+            "explanation": {
+              "pt": "A prioridade define o principal.",
+              "mixed": "A prioridade define o principal.",
+              "en": "Priority defines the primary."
+            },
+            "failure": false
+          },
+          {
+            "id": "availability",
+            "title": {
+              "pt": "Disponibilidade",
+              "mixed": "Availability (disponibilidade)",
+              "en": "Availability"
+            },
+            "input": {
+              "primary": "quality_model",
+              "available": [
+                "local_model"
+              ]
+            },
+            "output": {
+              "available": false
+            },
+            "explanation": {
+              "pt": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "mixed": "Um principal ausente exige fallback, não uma chamada impossível.",
+              "en": "An absent primary needs fallback, not an impossible call."
+            },
+            "failure": false
+          },
+          {
+            "id": "result",
+            "title": {
+              "pt": "Resultado",
+              "mixed": "Result (resultado)",
+              "en": "Result"
+            },
+            "input": {
+              "primary": "quality_model",
+              "fallback": "local_model"
+            },
+            "output": "local_model",
+            "explanation": {
+              "pt": "Retorna o modelo definido pela regra; não executa inferência.",
+              "mixed": "Retorna o modelo definido pela regra; não executa inferência.",
+              "en": "Returns the model defined by the rule; no inference runs."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "cases": [
+      {
+        "id": "quality",
+        "input": {
+          "request": {
+            "priority": "quality"
+          },
+          "available": [
+            "quality_model",
+            "fast_model",
+            "local_model"
+          ]
+        },
+        "expected": "quality_model"
+      },
+      {
+        "id": "fast",
+        "input": {
+          "request": {
+            "priority": "fast"
+          },
+          "available": [
+            "quality_model",
+            "fast_model",
+            "local_model"
+          ]
+        },
+        "expected": "fast_model"
+      },
+      {
+        "id": "offline",
+        "input": {
+          "request": {
+            "priority": "quality"
+          },
+          "available": [
+            "local_model"
+          ]
+        },
+        "expected": "local_model"
+      }
+    ]
+  },
+  {
+    "id": "api-client",
+    "kind": "project",
+    "title": {
+      "pt": "Cliente de API de IA",
+      "mixed": "AI API client (cliente de api de ia)",
+      "en": "AI API client"
+    },
+    "goal": {
+      "pt": "Construir um cliente fictício que valida o contrato e retorna um resultado seguro.",
+      "mixed": "Construir um cliente fictício que valida o contrato e retorna um resultado seguro.",
+      "en": "Build a fictional client that validates its contract and returns a defined result."
+    },
+    "context": {
+      "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+      "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+      "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+    },
+    "limitations": {
+      "pt": "Sem serviço externo. Dados de requisição e respostas são fictícios; o cliente não cobre todo protocolo HTTP.",
+      "mixed": "Sem serviço externo. Dados de requisição e respostas são fictícios; o cliente não cobre todo protocolo HTTP.",
+      "en": "No external service. Requests and responses are fictional; this client does not cover all of HTTP."
+    },
+    "result": {
+      "pt": "Cliente simulado com sucesso, campo ausente, JSON inválido e erro de serviço testados.",
+      "mixed": "Cliente simulado com sucesso, campo ausente, JSON inválido e erro de serviço testados.",
+      "en": "A simulated client tested for success, missing fields, invalid JSON and service error."
+    },
+    "initialArtifact": {
+      "request": null,
+      "safeLookup": false,
+      "fallback": null
+    },
+    "solutionCode": "import json\n\ndef client(response, fallback=\"local_model\"):\n    if response[\"status\"] != 200:\n        return {\"model\": fallback, \"reason\": \"service_error\"}\n    try:\n        body = json.loads(response[\"body\"])\n    except (json.JSONDecodeError, TypeError):\n        return {\"model\": fallback, \"reason\": \"invalid_json\"}\n    if not isinstance(body, dict) or not isinstance(body.get(\"model\"), str) or not body[\"model\"].strip():\n        return {\"model\": fallback, \"reason\": \"missing_model\"}\n    return {\"model\": body[\"model\"], \"reason\": \"accepted\"}\n",
+    "steps": [
+      {
+        "id": "prepare-input",
+        "title": {
+          "pt": "Prepare a entrada",
+          "mixed": "Prepare input (prepare a entrada)",
+          "en": "Prepare input"
+        },
+        "prompt": {
+          "pt": "Quais dados podem formar o pedido fictício sem credenciais?",
+          "mixed": "Quais dados podem formar o pedido fictício sem credenciais?",
+          "en": "Which data can form the fictional request without credentials?"
+        },
+        "code": "request = {\"model\": \"fast_model\", \"prompt\": \"Classify this ticket\"}",
+        "choices": [
+          {
+            "id": "prepare-input-a",
+            "label": {
+              "pt": "Nome de modelo e texto do pedido.",
+              "mixed": "Nome de modelo e texto do pedido.",
+              "en": "Model name and request text."
+            }
+          },
+          {
+            "id": "prepare-input-b",
+            "label": {
+              "pt": "Uma senha pessoal real.",
+              "mixed": "Uma senha pessoal real.",
+              "en": "A real personal password."
+            }
+          },
+          {
+            "id": "prepare-input-c",
+            "label": {
+              "pt": "Só o corpo de uma resposta ainda inexistente.",
+              "mixed": "Só o corpo de uma resposta ainda inexistente.",
+              "en": "Only the body of a response that does not yet exist."
+            }
+          }
+        ],
+        "correctId": "prepare-input-a",
+        "hints": [
+          {
+            "pt": "Separe o que será enviado do que será recebido.",
+            "mixed": "Separe o que será enviado do que será recebido.",
+            "en": "Separate what will be sent from what will be received."
+          },
+          {
+            "pt": "model e prompt são entradas.",
+            "mixed": "model e prompt são entradas.",
+            "en": "model and prompt are inputs."
+          }
+        ],
+        "explanation": {
+          "pt": "O pedido define o modelo fictício e a tarefa, sem autenticação real.",
+          "mixed": "O pedido define o modelo fictício e a tarefa, sem autenticação real.",
+          "en": "The request defines a fictional model and task without real authentication."
+        },
+        "effect": {
+          "request": {
+            "model": "fast_model",
+            "prompt": "Classify this ticket",
+            "response_format": "JSON"
+          }
+        },
+        "concept": "contract",
+        "skills": [
+          "api",
+          "data"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "O pedido define o modelo fictício e a tarefa, sem autenticação real.",
+            "mixed": "O pedido define o modelo fictício e a tarefa, sem autenticação real.",
+            "en": "The request defines a fictional model and task without real authentication."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "build-request",
+        "title": {
+          "pt": "Construa a requisição",
+          "mixed": "Build the request (construa a requisição)",
+          "en": "Build the request"
+        },
+        "prompt": {
+          "pt": "Qual representação é adequada para os dados antes de serializar?",
+          "mixed": "Qual representação é adequada para os dados antes de serializar?",
+          "en": "Which representation fits the data before serialization?"
+        },
+        "code": "payload = {\"model\": \"fast_model\", \"prompt\": \"Classify this ticket\"}",
+        "choices": [
+          {
+            "id": "build-request-a",
+            "label": {
+              "pt": "Uma execução de Python recebida do usuário.",
+              "mixed": "Uma execução de Python recebida do usuário.",
+              "en": "Python code received from the user."
+            }
+          },
+          {
+            "id": "build-request-b",
+            "label": {
+              "pt": "Um dicionário com campos de entrada.",
+              "mixed": "Um dicionário com campos de entrada.",
+              "en": "A dictionary of input fields."
+            }
+          },
+          {
+            "id": "build-request-c",
+            "label": {
+              "pt": "Um número de XP.",
+              "mixed": "Um número de XP.",
+              "en": "An XP number."
+            }
+          }
+        ],
+        "correctId": "build-request-b",
+        "hints": [
+          {
+            "pt": "A estrutura local é um dicionário.",
+            "mixed": "A estrutura local é um dicionário.",
+            "en": "The local structure is a dictionary."
+          },
+          {
+            "pt": "Ela será convertida em texto para transporte.",
+            "mixed": "Ela será convertida em texto para transporte.",
+            "en": "It will be converted to text for transport."
+          }
+        ],
+        "explanation": {
+          "pt": "O payload em memória é um dicionário Python, não uma chamada real.",
+          "mixed": "O payload em memória é um dicionário Python, não uma chamada real.",
+          "en": "The in-memory payload is a Python dictionary, not a real request."
+        },
+        "effect": {
+          "payloadPrepared": true
+        },
+        "concept": "dictionary",
+        "skills": [
+          "data",
+          "api"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [
+          "prepare-input"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "O payload em memória é um dicionário Python, não uma chamada real.",
+            "mixed": "O payload em memória é um dicionário Python, não uma chamada real.",
+            "en": "The in-memory payload is a Python dictionary, not a real request."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "identify-parameters",
+        "title": {
+          "pt": "Reconheça os parâmetros",
+          "mixed": "Recognize parameters (reconheça os parâmetros)",
+          "en": "Recognize parameters"
+        },
+        "prompt": {
+          "pt": "O que response_format=\"JSON\" define neste contrato fictício?",
+          "mixed": "O que response_format=\"JSON\" define neste contrato fictício?",
+          "en": "What does response_format=\"JSON\" define in this fictional contract?"
+        },
+        "code": "response_format = \"JSON\"",
+        "choices": [
+          {
+            "id": "identify-parameters-a",
+            "label": {
+              "pt": "Uma prova de que a resposta será sempre válida.",
+              "mixed": "Uma prova de que a resposta será sempre válida.",
+              "en": "Proof that the response will always be valid."
+            }
+          },
+          {
+            "id": "identify-parameters-b",
+            "label": {
+              "pt": "Um objeto Python já recebido.",
+              "mixed": "Um objeto Python já recebido.",
+              "en": "A Python object already received."
+            }
+          },
+          {
+            "id": "identify-parameters-c",
+            "label": {
+              "pt": "Um formato pedido; ainda será necessário validar a resposta.",
+              "mixed": "Um formato pedido; ainda será necessário validar a resposta.",
+              "en": "A requested format; the response still needs validation."
+            }
+          }
+        ],
+        "correctId": "identify-parameters-c",
+        "hints": [
+          {
+            "pt": "Pedido de formato não é garantia de conteúdo.",
+            "mixed": "Pedido de formato não é garantia de conteúdo.",
+            "en": "A format request does not guarantee content."
+          },
+          {
+            "pt": "Separe parâmetro enviado de validação recebida.",
+            "mixed": "Separe parâmetro enviado de validação recebida.",
+            "en": "Separate a sent parameter from received-data validation."
+          }
+        ],
+        "explanation": {
+          "pt": "Um objeto JSON é uma estrutura do formato JSON; no transporte ele pode ser texto serializado. Após parsing, usamos um dicionário Python.",
+          "mixed": "Um objeto JSON é uma estrutura do formato JSON; no transporte ele pode ser texto serializado. Após parsing, usamos um dicionário Python.",
+          "en": "A JSON object is a structure in the JSON format; transport can use serialized text. After parsing, we use a Python dictionary."
+        },
+        "effect": {
+          "formatRequested": "JSON"
+        },
+        "concept": "serialization",
+        "skills": [
+          "api",
+          "data"
+        ],
+        "terms": [
+          "serialization"
+        ],
+        "requires": [
+          "build-request"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Converte uma estrutura em texto para transporte.",
+            "mixed": "Converte uma estrutura em texto para transporte.",
+            "en": "Converts a structure into text for transport."
+          },
+          "example": {
+            "pt": "Um objeto JSON é uma estrutura do formato JSON; no transporte ele pode ser texto serializado. Após parsing, usamos um dicionário Python.",
+            "mixed": "Um objeto JSON é uma estrutura do formato JSON; no transporte ele pode ser texto serializado. Após parsing, usamos um dicionário Python.",
+            "en": "A JSON object is a structure in the JSON format; transport can use serialized text. After parsing, we use a Python dictionary."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "parse-json"
+      },
+      {
+        "id": "receive-json",
+        "title": {
+          "pt": "Receba texto JSON",
+          "mixed": "Receive JSON text (receba texto json)",
+          "en": "Receive JSON text"
+        },
+        "prompt": {
+          "pt": "Como transformar o corpo em dados Python?",
+          "mixed": "Como transformar o corpo em dados Python?",
+          "en": "How do you convert the body into Python data?"
+        },
+        "code": "body_text = '{\"model\":\"fast_model\",\"text\":\"billing\"}'",
+        "choices": [
+          {
+            "id": "receive-json-a",
+            "label": {
+              "pt": "json.dumps(body_text)",
+              "mixed": "json.dumps(body_text)",
+              "en": "json.dumps(body_text)"
+            }
+          },
+          {
+            "id": "receive-json-b",
+            "label": {
+              "pt": "json.loads(body_text)",
+              "mixed": "json.loads(body_text)",
+              "en": "json.loads(body_text)"
+            }
+          },
+          {
+            "id": "receive-json-c",
+            "label": {
+              "pt": "body_text[\"model\"]",
+              "mixed": "body_text[\"model\"]",
+              "en": "body_text[\"model\"]"
+            }
+          }
+        ],
+        "correctId": "receive-json-b",
+        "hints": [
+          {
+            "pt": "loads interpreta texto; dumps faz o caminho oposto.",
+            "mixed": "loads interpreta texto; dumps faz o caminho oposto.",
+            "en": "loads parses text; dumps does the reverse."
+          },
+          {
+            "pt": "Uma string não aceita acesso por chave model.",
+            "mixed": "Uma string não aceita acesso por chave model.",
+            "en": "A string does not support model-key lookup."
+          }
+        ],
+        "explanation": {
+          "pt": "json.loads converte texto JSON em dicionário para este corpo.",
+          "mixed": "json.loads converte texto JSON em dicionário para este corpo.",
+          "en": "json.loads converts JSON text into a dictionary for this body."
+        },
+        "effect": {
+          "parsed": {
+            "model": "fast_model",
+            "text": "billing"
+          }
+        },
+        "concept": "serialization",
+        "skills": [
+          "data",
+          "api"
+        ],
+        "terms": [
+          "serialization"
+        ],
+        "requires": [
+          "identify-parameters"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Converte uma estrutura em texto para transporte.",
+            "mixed": "Converte uma estrutura em texto para transporte.",
+            "en": "Converts a structure into text for transport."
+          },
+          "example": {
+            "pt": "json.loads converte texto JSON em dicionário para este corpo.",
+            "mixed": "json.loads converte texto JSON em dicionário para este corpo.",
+            "en": "json.loads converts JSON text into a dictionary for this body."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "parse-json"
+      },
+      {
+        "id": "extract-fields",
+        "title": {
+          "pt": "Extraia informações",
+          "mixed": "Extract fields (extraia informações)",
+          "en": "Extract fields"
+        },
+        "prompt": {
+          "pt": "Qual campo identifica o modelo que respondeu?",
+          "mixed": "Qual campo identifica o modelo que respondeu?",
+          "en": "Which field identifies the responding model?"
+        },
+        "code": "body = {\"model\": \"fast_model\", \"text\": \"billing\"}",
+        "choices": [
+          {
+            "id": "extract-fields-a",
+            "label": {
+              "pt": "body[\"text\"]",
+              "mixed": "body[\"text\"]",
+              "en": "body[\"text\"]"
+            }
+          },
+          {
+            "id": "extract-fields-b",
+            "label": {
+              "pt": "body[\"status\"]",
+              "mixed": "body[\"status\"]",
+              "en": "body[\"status\"]"
+            }
+          },
+          {
+            "id": "extract-fields-c",
+            "label": {
+              "pt": "body[\"model\"]",
+              "mixed": "body[\"model\"]",
+              "en": "body[\"model\"]"
+            }
+          }
+        ],
+        "correctId": "extract-fields-c",
+        "hints": [
+          {
+            "pt": "Não confunda rótulo produzido com nome do modelo.",
+            "mixed": "Não confunda rótulo produzido com nome do modelo.",
+            "en": "Do not confuse the output label with the model name."
+          },
+          {
+            "pt": "model guarda fast_model.",
+            "mixed": "model guarda fast_model.",
+            "en": "model stores fast_model."
+          }
+        ],
+        "explanation": {
+          "pt": "A extração lê o valor associado à chave model.",
+          "mixed": "A extração lê o valor associado à chave model.",
+          "en": "Extraction reads the value associated with the model key."
+        },
+        "effect": {
+          "extractedModel": "fast_model"
+        },
+        "concept": "key-access",
+        "skills": [
+          "data",
+          "api"
+        ],
+        "terms": [
+          "required-field"
+        ],
+        "requires": [
+          "receive-json"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Deve existir e atender ao tipo contratado.",
+            "mixed": "Deve existir e atender ao tipo contratado.",
+            "en": "Must exist and match the contracted type."
+          },
+          "example": {
+            "pt": "A extração lê o valor associado à chave model.",
+            "mixed": "A extração lê o valor associado à chave model.",
+            "en": "Extraction reads the value associated with the model key."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "read-response-field"
+      },
+      {
+        "id": "require-fields",
+        "title": {
+          "pt": "Defina campos obrigatórios",
+          "mixed": "Define required fields (defina campos obrigatórios)",
+          "en": "Define required fields"
+        },
+        "prompt": {
+          "pt": "Qual validação atende ao contrato deste cliente?",
+          "mixed": "Qual validação atende ao contrato deste cliente?",
+          "en": "Which validation matches this client contract?"
+        },
+        "code": "body = {\"model\": \"fast_model\"}",
+        "choices": [
+          {
+            "id": "require-fields-a",
+            "label": {
+              "pt": "model deve existir e ser uma string não vazia.",
+              "mixed": "model deve existir e ser uma string não vazia.",
+              "en": "model must exist and be a nonempty string."
+            }
+          },
+          {
+            "id": "require-fields-b",
+            "label": {
+              "pt": "Qualquer status 200 dispensa conferir o corpo.",
+              "mixed": "Qualquer status 200 dispensa conferir o corpo.",
+              "en": "Any status 200 removes the need to check the body."
+            }
+          },
+          {
+            "id": "require-fields-c",
+            "label": {
+              "pt": "Basta o corpo conter a letra m.",
+              "mixed": "Basta o corpo conter a letra m.",
+              "en": "The body only needs to contain the letter m."
+            }
+          }
+        ],
+        "correctId": "require-fields-a",
+        "hints": [
+          {
+            "pt": "Tipo e presença são critérios distintos.",
+            "mixed": "Tipo e presença são critérios distintos.",
+            "en": "Type and presence are distinct criteria."
+          },
+          {
+            "pt": "Uma string vazia também não identifica um modelo.",
+            "mixed": "Uma string vazia também não identifica um modelo.",
+            "en": "An empty string does not identify a model either."
+          }
+        ],
+        "explanation": {
+          "pt": "O contrato exige um nome textual utilizável.",
+          "mixed": "O contrato exige um nome textual utilizável.",
+          "en": "The contract requires a usable text name."
+        },
+        "effect": {
+          "required": [
+            "model"
+          ],
+          "nonemptyModel": true
+        },
+        "concept": "required-field",
+        "skills": [
+          "api",
+          "data"
+        ],
+        "terms": [
+          "required-field"
+        ],
+        "requires": [
+          "extract-fields"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Deve existir e atender ao tipo contratado.",
+            "mixed": "Deve existir e atender ao tipo contratado.",
+            "en": "Must exist and match the contracted type."
+          },
+          "example": {
+            "pt": "O contrato exige um nome textual utilizável.",
+            "mixed": "O contrato exige um nome textual utilizável.",
+            "en": "The contract requires a usable text name."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "read-response-field"
+      },
+      {
+        "id": "handle-missing",
+        "title": {
+          "pt": "Trate a chave ausente",
+          "mixed": "Handle missing keys (trate a chave ausente)",
+          "en": "Handle missing keys"
+        },
+        "prompt": {
+          "pt": "Qual acesso permite verificar ausência sem gerar KeyError?",
+          "mixed": "Qual acesso permite verificar ausência sem gerar KeyError?",
+          "en": "Which access allows checking absence without KeyError?"
+        },
+        "code": "body = {\"text\": \"billing\"}",
+        "choices": [
+          {
+            "id": "handle-missing-a",
+            "label": {
+              "pt": "body[\"model\"]",
+              "mixed": "body[\"model\"]",
+              "en": "body[\"model\"]"
+            }
+          },
+          {
+            "id": "handle-missing-b",
+            "label": {
+              "pt": "body.get(\"model\")",
+              "mixed": "body.get(\"model\")",
+              "en": "body.get(\"model\")"
+            }
+          },
+          {
+            "id": "handle-missing-c",
+            "label": {
+              "pt": "body[0]",
+              "mixed": "body[0]",
+              "en": "body[0]"
+            }
+          }
+        ],
+        "correctId": "handle-missing-b",
+        "hints": [
+          {
+            "pt": "Precisamos detectar ausência, não escondê-la como sucesso.",
+            "mixed": "Precisamos detectar ausência, não escondê-la como sucesso.",
+            "en": "We need to detect absence, not hide it as success."
+          },
+          {
+            "pt": "get sem padrão retorna None para a chave ausente.",
+            "mixed": "get sem padrão retorna None para a chave ausente.",
+            "en": "get without a default returns None for a missing key."
+          }
+        ],
+        "explanation": {
+          "pt": "O valor ausente é reconhecido e tratado como missing_model.",
+          "mixed": "O valor ausente é reconhecido e tratado como missing_model.",
+          "en": "The missing value is recognized and handled as missing_model."
+        },
+        "effect": {
+          "safeLookup": true
+        },
+        "concept": "key-access",
+        "skills": [
+          "debugging",
+          "api"
+        ],
+        "terms": [
+          "required-field"
+        ],
+        "requires": [
+          "require-fields"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Deve existir e atender ao tipo contratado.",
+            "mixed": "Deve existir e atender ao tipo contratado.",
+            "en": "Must exist and match the contracted type."
+          },
+          "example": {
+            "pt": "O valor ausente é reconhecido e tratado como missing_model.",
+            "mixed": "O valor ausente é reconhecido e tratado como missing_model.",
+            "en": "The missing value is recognized and handled as missing_model."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "read-response-field"
+      },
+      {
+        "id": "inspect-service-error",
+        "title": {
+          "pt": "Interprete erro de serviço",
+          "mixed": "Interpret a service error (interprete erro de serviço)",
+          "en": "Interpret a service error"
+        },
+        "prompt": {
+          "pt": "Com status 503, o cliente deve usar o corpo como resposta válida?",
+          "mixed": "Com status 503, o cliente deve usar o corpo como resposta válida?",
+          "en": "With status 503, should the client use the body as a valid answer?"
+        },
+        "code": "response = {\"status\": 503, \"body\": \"\"}",
+        "choices": [
+          {
+            "id": "inspect-service-error-a",
+            "label": {
+              "pt": "Sim, porque é um dicionário.",
+              "mixed": "Sim, porque é um dicionário.",
+              "en": "Yes, because it is a dictionary."
+            }
+          },
+          {
+            "id": "inspect-service-error-b",
+            "label": {
+              "pt": "Sim, porque uma string vazia é uma classificação.",
+              "mixed": "Sim, porque uma string vazia é uma classificação.",
+              "en": "Yes, because an empty string is a classification."
+            }
+          },
+          {
+            "id": "inspect-service-error-c",
+            "label": {
+              "pt": "Não; deve retornar um tratamento de service_error.",
+              "mixed": "Não; deve retornar um tratamento de service_error.",
+              "en": "No; it should return service_error handling."
+            }
+          }
+        ],
+        "correctId": "inspect-service-error-c",
+        "hints": [
+          {
+            "pt": "A estrutura local existir não significa sucesso HTTP.",
+            "mixed": "A estrutura local existir não significa sucesso HTTP.",
+            "en": "Having a local structure does not mean HTTP success."
+          },
+          {
+            "pt": "O contrato aceita corpo apenas para status 200.",
+            "mixed": "O contrato aceita corpo apenas para status 200.",
+            "en": "The contract accepts a body only for status 200."
+          }
+        ],
+        "explanation": {
+          "pt": "503 sinaliza indisponibilidade simulada, sem executar requisição.",
+          "mixed": "503 sinaliza indisponibilidade simulada, sem executar requisição.",
+          "en": "503 signals simulated unavailability, without making a request."
+        },
+        "effect": {
+          "onServiceError": "service_error"
+        },
+        "concept": "contract",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [
+          "handle-missing"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "503 sinaliza indisponibilidade simulada, sem executar requisição.",
+            "mixed": "503 sinaliza indisponibilidade simulada, sem executar requisição.",
+            "en": "503 signals simulated unavailability, without making a request."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "configure-client-fallback",
+        "title": {
+          "pt": "Implemente o fallback",
+          "mixed": "Implement the fallback (implemente o fallback)",
+          "en": "Implement the fallback"
+        },
+        "prompt": {
+          "pt": "Qual resultado definido mantém a origem do erro visível?",
+          "mixed": "Qual resultado definido mantém a origem do erro visível?",
+          "en": "Which defined result keeps the error reason visible?"
+        },
+        "code": "return {\"model\": fallback, \"reason\": \"service_error\"}",
+        "choices": [
+          {
+            "id": "configure-client-fallback-a",
+            "label": {
+              "pt": "Inventar resposta bem-sucedida sem reason.",
+              "mixed": "Inventar resposta bem-sucedida sem reason.",
+              "en": "Invent a successful answer without a reason."
+            }
+          },
+          {
+            "id": "configure-client-fallback-b",
+            "label": {
+              "pt": "Usar local_model e preservar reason.",
+              "mixed": "Usar local_model e preservar reason.",
+              "en": "Use local_model and preserve reason."
+            }
+          },
+          {
+            "id": "configure-client-fallback-c",
+            "label": {
+              "pt": "Repetir chamadas externas infinitamente.",
+              "mixed": "Repetir chamadas externas infinitamente.",
+              "en": "Repeat external calls forever."
+            }
+          }
+        ],
+        "correctId": "configure-client-fallback-b",
+        "hints": [
+          {
+            "pt": "Alternativa deve ser explícita e auditável.",
+            "mixed": "Alternativa deve ser explícita e auditável.",
+            "en": "Fallback must be explicit and auditable."
+          },
+          {
+            "pt": "O nome local_model acompanha a razão do fallback.",
+            "mixed": "O nome local_model acompanha a razão do fallback.",
+            "en": "The local_model name accompanies the fallback reason."
+          }
+        ],
+        "explanation": {
+          "pt": "A alternativa não apaga a diferença entre sucesso e falha.",
+          "mixed": "A alternativa não apaga a diferença entre sucesso e falha.",
+          "en": "The fallback does not erase the difference between success and failure."
+        },
+        "effect": {
+          "fallback": "local_model"
+        },
+        "concept": "availability",
+        "skills": [
+          "api",
+          "ai"
+        ],
+        "terms": [
+          "availability"
+        ],
+        "requires": [
+          "inspect-service-error"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Indica se uma opção pode ser usada agora.",
+            "mixed": "Indica se uma opção pode ser usada agora.",
+            "en": "Indicates whether an option can be used now."
+          },
+          "example": {
+            "pt": "A alternativa não apaga a diferença entre sucesso e falha.",
+            "mixed": "A alternativa não apaga a diferença entre sucesso e falha.",
+            "en": "The fallback does not erase the difference between success and failure."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "choose-fallback"
+      },
+      {
+        "id": "verify-client",
+        "title": {
+          "pt": "Valide o cliente final",
+          "mixed": "Validate the final client (valide o cliente final)",
+          "en": "Validate the final client"
+        },
+        "prompt": {
+          "pt": "Execute os testes. Qual conjunto cobre o contrato principal?",
+          "mixed": "Execute os testes. Qual conjunto cobre o contrato principal?",
+          "en": "Run the tests. Which set covers the main contract?"
+        },
+        "code": "import json\n\ndef client(response, fallback=\"local_model\"):\n    if response[\"status\"] != 200:\n        return {\"model\": fallback, \"reason\": \"service_error\"}\n    try:\n        body = json.loads(response[\"body\"])\n    except (json.JSONDecodeError, TypeError):\n        return {\"model\": fallback, \"reason\": \"invalid_json\"}\n    if not isinstance(body, dict) or not isinstance(body.get(\"model\"), str) or not body[\"model\"].strip():\n        return {\"model\": fallback, \"reason\": \"missing_model\"}\n    return {\"model\": body[\"model\"], \"reason\": \"accepted\"}\n",
+        "choices": [
+          {
+            "id": "verify-client-a",
+            "label": {
+              "pt": "Sucesso, campo ausente, JSON inválido e status 503.",
+              "mixed": "Sucesso, campo ausente, JSON inválido e status 503.",
+              "en": "Success, missing field, invalid JSON and status 503."
+            }
+          },
+          {
+            "id": "verify-client-b",
+            "label": {
+              "pt": "Só um corpo válido com status 200.",
+              "mixed": "Só um corpo válido com status 200.",
+              "en": "Only one valid body with status 200."
+            }
+          },
+          {
+            "id": "verify-client-c",
+            "label": {
+              "pt": "Só verificar se o nome contém model.",
+              "mixed": "Só verificar se o nome contém model.",
+              "en": "Only check whether a name contains model."
+            }
+          }
+        ],
+        "correctId": "verify-client-a",
+        "hints": [
+          {
+            "pt": "Casos inválidos também têm saídas esperadas.",
+            "mixed": "Casos inválidos também têm saídas esperadas.",
+            "en": "Invalid cases also have expected outputs."
+          },
+          {
+            "pt": "Quatro respostas fictícias testam caminhos diferentes.",
+            "mixed": "Quatro respostas fictícias testam caminhos diferentes.",
+            "en": "Four fictional responses test different paths."
+          }
+        ],
+        "explanation": {
+          "pt": "Os testes confirmam estes casos do contrato, não todos os formatos possíveis de API.",
+          "mixed": "Os testes confirmam estes casos do contrato, não todos os formatos possíveis de API.",
+          "en": "Tests confirm these contract cases, not every possible API format."
+        },
+        "effect": {
+          "reportReady": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "configure-client-fallback"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "Os testes confirmam estes casos do contrato, não todos os formatos possíveis de API.",
+            "mixed": "Os testes confirmam estes casos do contrato, não todos os formatos possíveis de API.",
+            "en": "Tests confirm these contract cases, not every possible API format."
+          },
+          "professional": {
+            "pt": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "mixed": "Uma aplicação recebe status e corpo JSON como texto; precisa distinguir transporte, parsing e validação.",
+            "en": "An application receives a status and JSON text body; it must distinguish transport, parsing and validation."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "success",
+        "title": {
+          "pt": "Resposta válida",
+          "mixed": "Valid response (resposta válida)",
+          "en": "Valid response"
+        },
+        "nodes": [
+          {
+            "id": "request",
+            "title": {
+              "pt": "Requisição",
+              "mixed": "Request (requisição)",
+              "en": "Request"
+            },
+            "input": {
+              "model": "fast_model",
+              "prompt": "Classify this ticket",
+              "response_format": "JSON"
+            },
+            "output": {
+              "sent": false,
+              "simulated": true
+            },
+            "explanation": {
+              "pt": "O pedido existe apenas como dados locais.",
+              "mixed": "O pedido existe apenas como dados locais.",
+              "en": "The request exists only as local data."
+            },
+            "failure": false
+          },
+          {
+            "id": "response",
+            "title": {
+              "pt": "Resposta JSON",
+              "mixed": "JSON response (resposta json)",
+              "en": "JSON response"
+            },
+            "input": {
+              "service": "fictional"
+            },
+            "output": {
+              "status": 200,
+              "body": "{\"model\":\"fast_model\",\"text\":\"billing\"}"
+            },
+            "explanation": {
+              "pt": "O corpo é texto serializado; status é metadado.",
+              "mixed": "O corpo é texto serializado; status é metadado.",
+              "en": "The body is serialized text; status is metadata."
+            },
+            "failure": false
+          },
+          {
+            "id": "validate",
+            "title": {
+              "pt": "Validação",
+              "mixed": "Validation (validação)",
+              "en": "Validation"
+            },
+            "input": {
+              "status": 200,
+              "body": "{\"model\":\"fast_model\",\"text\":\"billing\"}"
+            },
+            "output": {
+              "accept_body": true
+            },
+            "explanation": {
+              "pt": "Somente status 200 segue para parsing e validação de campos.",
+              "mixed": "Somente status 200 segue para parsing e validação de campos.",
+              "en": "Only status 200 proceeds to parsing and field validation."
+            },
+            "failure": false
+          },
+          {
+            "id": "result",
+            "title": {
+              "pt": "Resultado",
+              "mixed": "Result (resultado)",
+              "en": "Result"
+            },
+            "input": {
+              "status": 200,
+              "body": "{\"model\":\"fast_model\",\"text\":\"billing\"}"
+            },
+            "output": {
+              "model": "fast_model",
+              "reason": "accepted"
+            },
+            "explanation": {
+              "pt": "O resultado preserva motivo e modelo.",
+              "mixed": "O resultado preserva motivo e modelo.",
+              "en": "The result preserves reason and model."
+            },
+            "failure": false
+          }
+        ]
+      },
+      {
+        "id": "error",
+        "title": {
+          "pt": "Erro de serviço",
+          "mixed": "Service error (erro de serviço)",
+          "en": "Service error"
+        },
+        "nodes": [
+          {
+            "id": "request",
+            "title": {
+              "pt": "Requisição",
+              "mixed": "Request (requisição)",
+              "en": "Request"
+            },
+            "input": {
+              "model": "fast_model",
+              "prompt": "Classify this ticket",
+              "response_format": "JSON"
+            },
+            "output": {
+              "sent": false,
+              "simulated": true
+            },
+            "explanation": {
+              "pt": "O pedido existe apenas como dados locais.",
+              "mixed": "O pedido existe apenas como dados locais.",
+              "en": "The request exists only as local data."
+            },
+            "failure": false
+          },
+          {
+            "id": "response",
+            "title": {
+              "pt": "Resposta JSON",
+              "mixed": "JSON response (resposta json)",
+              "en": "JSON response"
+            },
+            "input": {
+              "service": "fictional"
+            },
+            "output": {
+              "status": 503,
+              "body": ""
+            },
+            "explanation": {
+              "pt": "O corpo é texto serializado; status é metadado.",
+              "mixed": "O corpo é texto serializado; status é metadado.",
+              "en": "The body is serialized text; status is metadata."
+            },
+            "failure": false
+          },
+          {
+            "id": "validate",
+            "title": {
+              "pt": "Validação",
+              "mixed": "Validation (validação)",
+              "en": "Validation"
+            },
+            "input": {
+              "status": 503,
+              "body": ""
+            },
+            "output": {
+              "accept_body": false
+            },
+            "explanation": {
+              "pt": "Somente status 200 segue para parsing e validação de campos.",
+              "mixed": "Somente status 200 segue para parsing e validação de campos.",
+              "en": "Only status 200 proceeds to parsing and field validation."
+            },
+            "failure": true
+          },
+          {
+            "id": "result",
+            "title": {
+              "pt": "Resultado",
+              "mixed": "Result (resultado)",
+              "en": "Result"
+            },
+            "input": {
+              "status": 503,
+              "body": ""
+            },
+            "output": {
+              "model": "local_model",
+              "reason": "service_error"
+            },
+            "explanation": {
+              "pt": "O resultado preserva motivo e modelo.",
+              "mixed": "O resultado preserva motivo e modelo.",
+              "en": "The result preserves reason and model."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "cases": [
+      {
+        "id": "success",
+        "input": {
+          "status": 200,
+          "body": "{\"model\":\"fast_model\",\"text\":\"billing\"}"
+        },
+        "expected": {
+          "model": "fast_model",
+          "reason": "accepted"
+        }
+      },
+      {
+        "id": "missing",
+        "input": {
+          "status": 200,
+          "body": "{\"text\":\"billing\"}"
+        },
+        "expected": {
+          "model": "local_model",
+          "reason": "missing_model"
+        }
+      },
+      {
+        "id": "error",
+        "input": {
+          "status": 503,
+          "body": ""
+        },
+        "expected": {
+          "model": "local_model",
+          "reason": "service_error"
+        }
+      },
+      {
+        "id": "malformed",
+        "input": {
+          "status": 200,
+          "body": "{\"model\":}"
+        },
+        "expected": {
+          "model": "local_model",
+          "reason": "invalid_json"
+        }
+      }
+    ]
+  },
+  {
+    "id": "model-evaluation",
+    "kind": "project",
+    "title": {
+      "pt": "Avaliação de modelos",
+      "mixed": "Model evaluation (avaliação de modelos)",
+      "en": "Model evaluation"
+    },
+    "goal": {
+      "pt": "Comparar dois modelos em quatro tarefas fictícias e produzir um relatório com limites.",
+      "mixed": "Comparar dois modelos em quatro tarefas fictícias e produzir um relatório com limites.",
+      "en": "Compare two models on four fictional tasks and produce a report with limitations."
+    },
+    "context": {
+      "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+      "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+      "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+    },
+    "limitations": {
+      "pt": "Quatro tarefas não demonstram superioridade geral; igualdade textual é uma métrica limitada.",
+      "mixed": "Quatro tarefas não demonstram superioridade geral; igualdade textual é uma métrica limitada.",
+      "en": "Four tasks do not demonstrate general superiority; exact text match is a limited metric."
+    },
+    "result": {
+      "pt": "Relatório: A 3/4, B 2/4; A é mais lento e caro neste conjunto fictício.",
+      "mixed": "Relatório: A 3/4, B 2/4; A é mais lento e caro neste conjunto fictício.",
+      "en": "Report: A 3/4, B 2/4; A is slower and more expensive on this fictional dataset."
+    },
+    "initialArtifact": {
+      "datasetLoaded": false,
+      "metric": null
+    },
+    "solutionCode": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
+    "steps": [
+      {
+        "id": "read-dataset",
+        "title": {
+          "pt": "Leia o dataset",
+          "mixed": "Read the dataset (leia o dataset)",
+          "en": "Read the dataset"
+        },
+        "prompt": {
+          "pt": "Qual estrutura permite comparar entrada e resposta esperada por tarefa?",
+          "mixed": "Qual estrutura permite comparar entrada e resposta esperada por tarefa?",
+          "en": "Which structure pairs each task input with its expected answer?"
+        },
+        "code": "tasks = [{\"id\": \"task-1\", \"input\": \"2+2\", \"expected\": \"4\"}]",
+        "choices": [
+          {
+            "id": "read-dataset-a",
+            "label": {
+              "pt": "Só uma lista de custos.",
+              "mixed": "Só uma lista de custos.",
+              "en": "Only a list of costs."
+            }
+          },
+          {
+            "id": "read-dataset-b",
+            "label": {
+              "pt": "Registros com id, input e expected.",
+              "mixed": "Registros com id, input e expected.",
+              "en": "Records with id, input and expected."
+            }
+          },
+          {
+            "id": "read-dataset-c",
+            "label": {
+              "pt": "Um score sem identificação da tarefa.",
+              "mixed": "Um score sem identificação da tarefa.",
+              "en": "An unidentified score."
+            }
+          }
+        ],
+        "correctId": "read-dataset-b",
+        "hints": [
+          {
+            "pt": "Cada linha precisa de um alvo e uma identidade.",
+            "mixed": "Cada linha precisa de um alvo e uma identidade.",
+            "en": "Each row needs a target and an identity."
+          },
+          {
+            "pt": "O ID evita depender da posição visual da pergunta.",
+            "mixed": "O ID evita depender da posição visual da pergunta.",
+            "en": "The ID avoids depending on the visual question position."
+          }
+        ],
+        "explanation": {
+          "pt": "O dataset mantém tarefa e alvo conectados.",
+          "mixed": "O dataset mantém tarefa e alvo conectados.",
+          "en": "The dataset keeps each task connected to its target."
+        },
+        "effect": {
+          "datasetLoaded": true
+        },
+        "concept": "contract",
+        "skills": [
+          "data",
+          "evaluation"
+        ],
+        "terms": [
+          "contract"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Define campos, tipos e resultados aceitos.",
+            "mixed": "Define campos, tipos e resultados aceitos.",
+            "en": "Defines accepted fields, types and results."
+          },
+          "example": {
+            "pt": "O dataset mantém tarefa e alvo conectados.",
+            "mixed": "O dataset mantém tarefa e alvo conectados.",
+            "en": "The dataset keeps each task connected to its target."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "separate-targets",
+        "title": {
+          "pt": "Separe entrada e alvo",
+          "mixed": "Separate input and target (separe entrada e alvo)",
+          "en": "Separate input and target"
+        },
+        "prompt": {
+          "pt": "Para task-1, qual é a resposta esperada?",
+          "mixed": "Para task-1, qual é a resposta esperada?",
+          "en": "For task-1, what is the expected answer?"
+        },
+        "code": "{\"input\": \"2+2\", \"expected\": \"4\"}",
+        "choices": [
+          {
+            "id": "separate-targets-a",
+            "label": {
+              "pt": "2+2",
+              "mixed": "2+2",
+              "en": "2+2"
+            }
+          },
+          {
+            "id": "separate-targets-b",
+            "label": {
+              "pt": "expected",
+              "mixed": "expected",
+              "en": "expected"
+            }
+          },
+          {
+            "id": "separate-targets-c",
+            "label": {
+              "pt": "4",
+              "mixed": "4",
+              "en": "4"
+            }
+          }
+        ],
+        "correctId": "separate-targets-c",
+        "hints": [
+          {
+            "pt": "input é o pedido; expected é o alvo.",
+            "mixed": "input é o pedido; expected é o alvo.",
+            "en": "input is the request; expected is the target."
+          },
+          {
+            "pt": "O alvo deve ser definido antes de conferir a previsão.",
+            "mixed": "O alvo deve ser definido antes de conferir a previsão.",
+            "en": "The target must be defined before checking the prediction."
+          }
+        ],
+        "explanation": {
+          "pt": "O valor esperado é 4, não o nome da chave.",
+          "mixed": "O valor esperado é 4, não o nome da chave.",
+          "en": "The expected value is 4, not the key name."
+        },
+        "effect": {
+          "targets": [
+            "4",
+            "billing",
+            "hello",
+            "6"
+          ]
+        },
+        "concept": "contract",
+        "skills": [
+          "data",
+          "evaluation"
+        ],
+        "terms": [
+          "expected-output"
+        ],
+        "requires": [
+          "read-dataset"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Resultado que o contrato exige para uma entrada.",
+            "mixed": "Resultado que o contrato exige para uma entrada.",
+            "en": "The result required by the contract for an input."
+          },
+          "example": {
+            "pt": "O valor esperado é 4, não o nome da chave.",
+            "mixed": "O valor esperado é 4, não o nome da chave.",
+            "en": "The expected value is 4, not the key name."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "read-predictions",
+        "title": {
+          "pt": "Leia as previsões",
+          "mixed": "Read predictions (leia as previsões)",
+          "en": "Read predictions"
+        },
+        "prompt": {
+          "pt": "O model_a produziu 5 para task-4, cujo alvo é 6. O que registrar?",
+          "mixed": "O model_a produziu 5 para task-4, cujo alvo é 6. O que registrar?",
+          "en": "model_a produced 5 for task-4, whose target is 6. What should be recorded?"
+        },
+        "code": "prediction = \"5\"\nexpected = \"6\"",
+        "choices": [
+          {
+            "id": "read-predictions-a",
+            "label": {
+              "pt": "Um erro neste caso.",
+              "mixed": "Um erro neste caso.",
+              "en": "An error on this case."
+            }
+          },
+          {
+            "id": "read-predictions-b",
+            "label": {
+              "pt": "Um acerto porque ambos são números.",
+              "mixed": "Um acerto porque ambos são números.",
+              "en": "A correct answer because both are numbers."
+            }
+          },
+          {
+            "id": "read-predictions-c",
+            "label": {
+              "pt": "Prova de que o modelo nunca funciona.",
+              "mixed": "Prova de que o modelo nunca funciona.",
+              "en": "Proof that the model never works."
+            }
+          }
+        ],
+        "correctId": "read-predictions-a",
+        "hints": [
+          {
+            "pt": "O critério desta avaliação é igualdade textual.",
+            "mixed": "O critério desta avaliação é igualdade textual.",
+            "en": "This evaluation uses exact text equality."
+          },
+          {
+            "pt": "5 difere do alvo 6.",
+            "mixed": "5 difere do alvo 6.",
+            "en": "5 differs from the target 6."
+          }
+        ],
+        "explanation": {
+          "pt": "Registre a falha concreta sem generalizar para todo uso.",
+          "mixed": "Registre a falha concreta sem generalizar para todo uso.",
+          "en": "Record the concrete failure without generalizing to every use."
+        },
+        "effect": {
+          "observedFailure": "task-4"
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation",
+          "logic"
+        ],
+        "terms": [
+          "accuracy"
+        ],
+        "requires": [
+          "separate-targets"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Fração de respostas corretas no conjunto avaliado.",
+            "mixed": "Fração de respostas corretas no conjunto avaliado.",
+            "en": "Fraction of correct answers in the evaluated dataset."
+          },
+          "example": {
+            "pt": "Registre a falha concreta sem generalizar para todo uso.",
+            "mixed": "Registre a falha concreta sem generalizar para todo uso.",
+            "en": "Record the concrete failure without generalizing to every use."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "choose-comparison",
+        "title": {
+          "pt": "Defina a comparação",
+          "mixed": "Define comparison (defina a comparação)",
+          "en": "Define comparison"
+        },
+        "prompt": {
+          "pt": "Qual comparação corresponde ao critério cadastrado?",
+          "mixed": "Qual comparação corresponde ao critério cadastrado?",
+          "en": "Which comparison matches the registered criterion?"
+        },
+        "code": "prediction = \"billing\"\nexpected = \"billing\"",
+        "choices": [
+          {
+            "id": "choose-comparison-a",
+            "label": {
+              "pt": "len(prediction) > 0",
+              "mixed": "len(prediction) > 0",
+              "en": "len(prediction) > 0"
+            }
+          },
+          {
+            "id": "choose-comparison-b",
+            "label": {
+              "pt": "prediction == expected",
+              "mixed": "prediction == expected",
+              "en": "prediction == expected"
+            }
+          },
+          {
+            "id": "choose-comparison-c",
+            "label": {
+              "pt": "\"i\" in prediction",
+              "mixed": "\"i\" in prediction",
+              "en": "\"i\" in prediction"
+            }
+          }
+        ],
+        "correctId": "choose-comparison-b",
+        "hints": [
+          {
+            "pt": "Conteúdo não vazio pode estar errado.",
+            "mixed": "Conteúdo não vazio pode estar errado.",
+            "en": "Nonempty content can still be wrong."
+          },
+          {
+            "pt": "O critério é correspondência exata.",
+            "mixed": "O critério é correspondência exata.",
+            "en": "The criterion is exact matching."
+          }
+        ],
+        "explanation": {
+          "pt": "== verifica a mesma resposta esperada, sem validar todo significado.",
+          "mixed": "== verifica a mesma resposta esperada, sem validar todo significado.",
+          "en": "== checks the expected answer without validating all meaning."
+        },
+        "effect": {
+          "comparison": "exact-match"
+        },
+        "concept": "accuracy",
+        "skills": [
+          "logic",
+          "evaluation"
+        ],
+        "terms": [
+          "accuracy"
+        ],
+        "requires": [
+          "read-predictions"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Fração de respostas corretas no conjunto avaliado.",
+            "mixed": "Fração de respostas corretas no conjunto avaliado.",
+            "en": "Fraction of correct answers in the evaluated dataset."
+          },
+          "example": {
+            "pt": "== verifica a mesma resposta esperada, sem validar todo significado.",
+            "mixed": "== verifica a mesma resposta esperada, sem validar todo significado.",
+            "en": "== checks the expected answer without validating all meaning."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "count-correct",
+        "title": {
+          "pt": "Conte os acertos",
+          "mixed": "Count correct answers (conte os acertos)",
+          "en": "Count correct answers"
+        },
+        "prompt": {
+          "pt": "A acertou tarefas 1, 2 e 3; B acertou 1 e 3. Quais contagens?",
+          "mixed": "A acertou tarefas 1, 2 e 3; B acertou 1 e 3. Quais contagens?",
+          "en": "A got tasks 1, 2 and 3 right; B got 1 and 3 right. What are the counts?"
+        },
+        "code": "A = [\"4\", \"billing\", \"hello\", \"5\"]\nB = [\"4\", \"other\", \"hello\", \"5\"]",
+        "choices": [
+          {
+            "id": "count-correct-a",
+            "label": {
+              "pt": "A=4, B=4",
+              "mixed": "A=4, B=4",
+              "en": "A=4, B=4"
+            }
+          },
+          {
+            "id": "count-correct-b",
+            "label": {
+              "pt": "A=2, B=3",
+              "mixed": "A=2, B=3",
+              "en": "A=2, B=3"
+            }
+          },
+          {
+            "id": "count-correct-c",
+            "label": {
+              "pt": "A=3, B=2",
+              "mixed": "A=3, B=2",
+              "en": "A=3, B=2"
+            }
+          }
+        ],
+        "correctId": "count-correct-c",
+        "hints": [
+          {
+            "pt": "Conte os IDs corretos de cada modelo.",
+            "mixed": "Conte os IDs corretos de cada modelo.",
+            "en": "Count the correct task IDs for each model."
+          },
+          {
+            "pt": "Há quatro tarefas no total.",
+            "mixed": "Há quatro tarefas no total.",
+            "en": "There are four tasks in total."
+          }
+        ],
+        "explanation": {
+          "pt": "O total de acertos não é a latência nem o custo.",
+          "mixed": "O total de acertos não é a latência nem o custo.",
+          "en": "The count of correct answers is neither latency nor cost."
+        },
+        "effect": {
+          "counts": {
+            "model_a": 3,
+            "model_b": 2
+          }
+        },
+        "concept": "accuracy",
+        "skills": [
+          "fundamentals",
+          "evaluation"
+        ],
+        "terms": [
+          "accuracy"
+        ],
+        "requires": [
+          "choose-comparison"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Fração de respostas corretas no conjunto avaliado.",
+            "mixed": "Fração de respostas corretas no conjunto avaliado.",
+            "en": "Fraction of correct answers in the evaluated dataset."
+          },
+          "example": {
+            "pt": "O total de acertos não é a latência nem o custo.",
+            "mixed": "O total de acertos não é a latência nem o custo.",
+            "en": "The count of correct answers is neither latency nor cost."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "calculate-metric",
+        "title": {
+          "pt": "Calcule a métrica",
+          "mixed": "Calculate the metric (calcule a métrica)",
+          "en": "Calculate the metric"
+        },
+        "prompt": {
+          "pt": "Qual fórmula calcula a acurácia aqui?",
+          "mixed": "Qual fórmula calcula a acurácia aqui?",
+          "en": "Which formula calculates accuracy here?"
+        },
+        "code": "correct = 3\ntotal = 4",
+        "choices": [
+          {
+            "id": "calculate-metric-a",
+            "label": {
+              "pt": "correct / total",
+              "mixed": "correct / total",
+              "en": "correct / total"
+            }
+          },
+          {
+            "id": "calculate-metric-b",
+            "label": {
+              "pt": "total / correct",
+              "mixed": "total / correct",
+              "en": "total / correct"
+            }
+          },
+          {
+            "id": "calculate-metric-c",
+            "label": {
+              "pt": "correct + total",
+              "mixed": "correct + total",
+              "en": "correct + total"
+            }
+          }
+        ],
+        "correctId": "calculate-metric-a",
+        "hints": [
+          {
+            "pt": "Precisamos de uma fração do total avaliado.",
+            "mixed": "Precisamos de uma fração do total avaliado.",
+            "en": "We need a fraction of the evaluated total."
+          },
+          {
+            "pt": "3 dividido por 4 vale 0.75.",
+            "mixed": "3 dividido por 4 vale 0.75.",
+            "en": "3 divided by 4 is 0.75."
+          }
+        ],
+        "explanation": {
+          "pt": "A acurácia de A neste conjunto é 0.75; a de B é 0.5.",
+          "mixed": "A acurácia de A neste conjunto é 0.75; a de B é 0.5.",
+          "en": "A accuracy on this dataset is 0.75; B accuracy is 0.5."
+        },
+        "effect": {
+          "metric": "accuracy"
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation",
+          "fundamentals"
+        ],
+        "terms": [
+          "accuracy"
+        ],
+        "requires": [
+          "count-correct"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Fração de respostas corretas no conjunto avaliado.",
+            "mixed": "Fração de respostas corretas no conjunto avaliado.",
+            "en": "Fraction of correct answers in the evaluated dataset."
+          },
+          "example": {
+            "pt": "A acurácia de A neste conjunto é 0.75; a de B é 0.5.",
+            "mixed": "A acurácia de A neste conjunto é 0.75; a de B é 0.5.",
+            "en": "A accuracy on this dataset is 0.75; B accuracy is 0.5."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "inspect-failures",
+        "title": {
+          "pt": "Identifique as falhas",
+          "mixed": "Identify failures (identifique as falhas)",
+          "en": "Identify failures"
+        },
+        "prompt": {
+          "pt": "Quais tarefas B errou segundo o dataset?",
+          "mixed": "Quais tarefas B errou segundo o dataset?",
+          "en": "Which tasks did B get wrong according to the dataset?"
+        },
+        "code": "expected = [\"4\", \"billing\", \"hello\", \"6\"]\nB = [\"4\", \"other\", \"hello\", \"5\"]",
+        "choices": [
+          {
+            "id": "inspect-failures-a",
+            "label": {
+              "pt": "task-1 e task-3",
+              "mixed": "task-1 e task-3",
+              "en": "task-1 e task-3"
+            }
+          },
+          {
+            "id": "inspect-failures-b",
+            "label": {
+              "pt": "task-2 e task-4",
+              "mixed": "task-2 e task-4",
+              "en": "task-2 e task-4"
+            }
+          },
+          {
+            "id": "inspect-failures-c",
+            "label": {
+              "pt": "Todas as tarefas",
+              "mixed": "Todas as tarefas",
+              "en": "Todas as tarefas"
+            }
+          }
+        ],
+        "correctId": "inspect-failures-b",
+        "hints": [
+          {
+            "pt": "Compare cada previsão com o alvo da mesma tarefa.",
+            "mixed": "Compare cada previsão com o alvo da mesma tarefa.",
+            "en": "Compare each prediction with its matching target."
+          },
+          {
+            "pt": "other difere de billing e 5 difere de 6.",
+            "mixed": "other difere de billing e 5 difere de 6.",
+            "en": "other differs from billing and 5 differs from 6."
+          }
+        ],
+        "explanation": {
+          "pt": "As falhas são registradas com IDs para investigação posterior.",
+          "mixed": "As falhas são registradas com IDs para investigação posterior.",
+          "en": "Failures are recorded with IDs for later investigation."
+        },
+        "effect": {
+          "failedB": [
+            "task-2",
+            "task-4"
+          ]
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation",
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "calculate-metric"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "As falhas são registradas com IDs para investigação posterior.",
+            "mixed": "As falhas são registradas com IDs para investigação posterior.",
+            "en": "Failures are recorded with IDs for later investigation."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "compare-models",
+        "title": {
+          "pt": "Compare os resultados",
+          "mixed": "Compare results (compare os resultados)",
+          "en": "Compare results"
+        },
+        "prompt": {
+          "pt": "Que conclusão respeita o tamanho da amostra?",
+          "mixed": "Que conclusão respeita o tamanho da amostra?",
+          "en": "Which conclusion respects the sample size?"
+        },
+        "code": "accuracy_a = 0.75\naccuracy_b = 0.5",
+        "choices": [
+          {
+            "id": "compare-models-a",
+            "label": {
+              "pt": "A será melhor em qualquer problema.",
+              "mixed": "A será melhor em qualquer problema.",
+              "en": "A will be better on every problem."
+            }
+          },
+          {
+            "id": "compare-models-b",
+            "label": {
+              "pt": "B não pode ser usado profissionalmente.",
+              "mixed": "B não pode ser usado profissionalmente.",
+              "en": "B cannot be used professionally."
+            }
+          },
+          {
+            "id": "compare-models-c",
+            "label": {
+              "pt": "A teve mais acertos nestas quatro tarefas; precisamos de mais avaliação.",
+              "mixed": "A teve mais acertos nestas quatro tarefas; precisamos de mais avaliação.",
+              "en": "A got more answers right on these four tasks; more evaluation is needed."
+            }
+          }
+        ],
+        "correctId": "compare-models-c",
+        "hints": [
+          {
+            "pt": "Resultados locais não são garantia universal.",
+            "mixed": "Resultados locais não são garantia universal.",
+            "en": "Local results are not universal guarantees."
+          },
+          {
+            "pt": "A conclusão deve citar o conjunto observado.",
+            "mixed": "A conclusão deve citar o conjunto observado.",
+            "en": "The conclusion should reference the observed dataset."
+          }
+        ],
+        "explanation": {
+          "pt": "A comparação é válida apenas para este critério e estes exemplos.",
+          "mixed": "A comparação é válida apenas para este critério e estes exemplos.",
+          "en": "The comparison applies only to this criterion and these examples."
+        },
+        "effect": {
+          "comparisonScope": "four fictional tasks"
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation"
+        ],
+        "terms": [
+          "accuracy"
+        ],
+        "requires": [
+          "inspect-failures"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Fração de respostas corretas no conjunto avaliado.",
+            "mixed": "Fração de respostas corretas no conjunto avaliado.",
+            "en": "Fraction of correct answers in the evaluated dataset."
+          },
+          "example": {
+            "pt": "A comparação é válida apenas para este critério e estes exemplos.",
+            "mixed": "A comparação é válida apenas para este critério e estes exemplos.",
+            "en": "The comparison applies only to this criterion and these examples."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "weigh-tradeoffs",
+        "title": {
+          "pt": "Interprete custo e latência",
+          "mixed": "Interpret cost and latency (interprete custo e latência)",
+          "en": "Interpret cost and latency"
+        },
+        "prompt": {
+          "pt": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta?",
+          "mixed": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta?",
+          "en": "A: 120 ms and $0.004; B: 40 ms and $0.001, all fictional. Which reading is correct?"
+        },
+        "code": "A = {\"latency_ms\": 120, \"cost_usd\": 0.004}\nB = {\"latency_ms\": 40, \"cost_usd\": 0.001}",
+        "choices": [
+          {
+            "id": "weigh-tradeoffs-a",
+            "label": {
+              "pt": "B foi mais rápido e barato; isso não é sua acurácia.",
+              "mixed": "B foi mais rápido e barato; isso não é sua acurácia.",
+              "en": "B was faster and cheaper; this is not its accuracy."
+            }
+          },
+          {
+            "id": "weigh-tradeoffs-b",
+            "label": {
+              "pt": "120 ms significa 120 acertos.",
+              "mixed": "120 ms significa 120 acertos.",
+              "en": "120 ms means 120 correct answers."
+            }
+          },
+          {
+            "id": "weigh-tradeoffs-c",
+            "label": {
+              "pt": "Custo menor prova melhor qualidade.",
+              "mixed": "Custo menor prova melhor qualidade.",
+              "en": "Lower cost proves better quality."
+            }
+          }
+        ],
+        "correctId": "weigh-tradeoffs-a",
+        "hints": [
+          {
+            "pt": "As unidades indicam medidas diferentes.",
+            "mixed": "As unidades indicam medidas diferentes.",
+            "en": "The units indicate different measures."
+          },
+          {
+            "pt": "Milissegundos medem tempo, dólares medem custo.",
+            "mixed": "Milissegundos medem tempo, dólares medem custo.",
+            "en": "Milliseconds measure time; dollars measure cost."
+          }
+        ],
+        "explanation": {
+          "pt": "A decisão depende dos requisitos; uma métrica não substitui as outras.",
+          "mixed": "A decisão depende dos requisitos; uma métrica não substitui as outras.",
+          "en": "The decision depends on requirements; one metric does not replace the others."
+        },
+        "effect": {
+          "tradeoff": "A accuracy; B latency and cost"
+        },
+        "concept": "latency",
+        "skills": [
+          "evaluation",
+          "ai"
+        ],
+        "terms": [
+          "latency"
+        ],
+        "requires": [
+          "compare-models"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Tempo até obter uma resposta, aqui fictício.",
+            "mixed": "Tempo até obter uma resposta, aqui fictício.",
+            "en": "Time until a response, fictional here."
+          },
+          "example": {
+            "pt": "A decisão depende dos requisitos; uma métrica não substitui as outras.",
+            "mixed": "A decisão depende dos requisitos; uma métrica não substitui as outras.",
+            "en": "The decision depends on requirements; one metric does not replace the others."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "report-evaluation",
+        "title": {
+          "pt": "Produza o relatório",
+          "mixed": "Produce the report (produza o relatório)",
+          "en": "Produce the report"
+        },
+        "prompt": {
+          "pt": "Execute os testes e escolha um relatório fiel às evidências.",
+          "mixed": "Execute os testes e escolha um relatório fiel às evidências.",
+          "en": "Run tests and choose a report faithful to the evidence."
+        },
+        "code": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
+        "choices": [
+          {
+            "id": "report-evaluation-a",
+            "label": {
+              "pt": "Modelo A é universalmente superior.",
+              "mixed": "Modelo A é universalmente superior.",
+              "en": "Model A is universally superior."
+            }
+          },
+          {
+            "id": "report-evaluation-b",
+            "label": {
+              "pt": "A=3/4, B=2/4; B mais rápido/barato nos dados fictícios; amostra limitada.",
+              "mixed": "A=3/4, B=2/4; B mais rápido/barato nos dados fictícios; amostra limitada.",
+              "en": "A=3/4, B=2/4; B faster/cheaper in fictional data; limited sample."
+            }
+          },
+          {
+            "id": "report-evaluation-c",
+            "label": {
+              "pt": "Nenhum erro foi observado.",
+              "mixed": "Nenhum erro foi observado.",
+              "en": "No errors were observed."
+            }
+          }
+        ],
+        "correctId": "report-evaluation-b",
+        "hints": [
+          {
+            "pt": "Inclua contagens, medidas e limitações.",
+            "mixed": "Inclua contagens, medidas e limitações.",
+            "en": "Include counts, measurements and limitations."
+          },
+          {
+            "pt": "O caso vazio deve ter resultado indefinido, não acurácia inventada.",
+            "mixed": "O caso vazio deve ter resultado indefinido, não acurácia inventada.",
+            "en": "An empty case must have an undefined result, not invented accuracy."
+          }
+        ],
+        "explanation": {
+          "pt": "O relatório separa observação de conclusão geral e cobre o caso de avaliação vazia.",
+          "mixed": "O relatório separa observação de conclusão geral e cobre o caso de avaliação vazia.",
+          "en": "The report separates observation from general conclusions and covers empty evaluation."
+        },
+        "effect": {
+          "reportReady": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "evaluation",
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "weigh-tradeoffs"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "O relatório separa observação de conclusão geral e cobre o caso de avaliação vazia.",
+            "mixed": "O relatório separa observação de conclusão geral e cobre o caso de avaliação vazia.",
+            "en": "The report separates observation from general conclusions and covers empty evaluation."
+          },
+          "professional": {
+            "pt": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "mixed": "A equipe quer separar acurácia, latência e custo, observando erros concretos.",
+            "en": "The team wants to separate accuracy, latency and cost while inspecting concrete errors."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "model_a",
+        "title": {
+          "pt": "Avaliar model_a",
+          "mixed": "Evaluate model_a (avaliar model_a)",
+          "en": "Evaluate model_a"
+        },
+        "nodes": [
+          {
+            "id": "dataset",
+            "title": {
+              "pt": "Dataset",
+              "mixed": "Dataset (dataset)",
+              "en": "Dataset"
+            },
+            "input": [
+              {
+                "id": "task-1",
+                "input": "2+2",
+                "expected": "4"
+              },
+              {
+                "id": "task-2",
+                "input": "Classify invoice",
+                "expected": "billing"
+              },
+              {
+                "id": "task-3",
+                "input": "Return greeting",
+                "expected": "hello"
+              },
+              {
+                "id": "task-4",
+                "input": "3+3",
+                "expected": "6"
+              }
+            ],
+            "output": [
+              "4",
+              "billing",
+              "hello",
+              "6"
+            ],
+            "explanation": {
+              "pt": "Os alvos são independentes das previsões avaliadas.",
+              "mixed": "Os alvos são independentes das previsões avaliadas.",
+              "en": "Targets are independent of evaluated predictions."
+            },
+            "failure": false
+          },
+          {
+            "id": "predictions",
+            "title": {
+              "pt": "Previsões",
+              "mixed": "Predictions (previsões)",
+              "en": "Predictions"
+            },
+            "input": {
+              "model": "model_a"
+            },
+            "output": [
+              "4",
+              "billing",
+              "hello",
+              "5"
+            ],
+            "explanation": {
+              "pt": "As previsões são fictícias e mantêm a ordem das tarefas.",
+              "mixed": "As previsões são fictícias e mantêm a ordem das tarefas.",
+              "en": "Predictions are fictional and preserve task order."
+            },
+            "failure": false
+          },
+          {
+            "id": "count",
+            "title": {
+              "pt": "Contagem",
+              "mixed": "Count (contagem)",
+              "en": "Count"
+            },
+            "input": {
+              "expected": [
+                "4",
+                "billing",
+                "hello",
+                "6"
+              ],
+              "predictions": [
+                "4",
+                "billing",
+                "hello",
+                "5"
+              ]
+            },
+            "output": {
+              "correct": 3,
+              "total": 4
+            },
+            "explanation": {
+              "pt": "Compare cada caso pelo critério exato.",
+              "mixed": "Compare cada caso pelo critério exato.",
+              "en": "Compare each case using the exact-match criterion."
+            },
+            "failure": false
+          },
+          {
+            "id": "metric",
+            "title": {
+              "pt": "Métrica",
+              "mixed": "Metric (métrica)",
+              "en": "Metric"
+            },
+            "input": {
+              "correct": 3,
+              "total": 4
+            },
+            "output": {
+              "accuracy": 0.75
+            },
+            "explanation": {
+              "pt": "Divida acertos pelo total esperado.",
+              "mixed": "Divida acertos pelo total esperado.",
+              "en": "Divide correct answers by expected total."
+            },
+            "failure": false
+          },
+          {
+            "id": "report",
+            "title": {
+              "pt": "Relatório",
+              "mixed": "Report (relatório)",
+              "en": "Report"
+            },
+            "input": {
+              "accuracy": 0.75
+            },
+            "output": {
+              "model": "model_a",
+              "accuracy": 0.75,
+              "latency_ms": 120,
+              "cost_usd": 0.004
+            },
+            "explanation": {
+              "pt": "As três medidas são distintas e só descrevem estes dados.",
+              "mixed": "As três medidas são distintas e só descrevem estes dados.",
+              "en": "The three measures are distinct and describe only these data."
+            },
+            "failure": false
+          }
+        ]
+      },
+      {
+        "id": "model_b",
+        "title": {
+          "pt": "Avaliar model_b",
+          "mixed": "Evaluate model_b (avaliar model_b)",
+          "en": "Evaluate model_b"
+        },
+        "nodes": [
+          {
+            "id": "dataset",
+            "title": {
+              "pt": "Dataset",
+              "mixed": "Dataset (dataset)",
+              "en": "Dataset"
+            },
+            "input": [
+              {
+                "id": "task-1",
+                "input": "2+2",
+                "expected": "4"
+              },
+              {
+                "id": "task-2",
+                "input": "Classify invoice",
+                "expected": "billing"
+              },
+              {
+                "id": "task-3",
+                "input": "Return greeting",
+                "expected": "hello"
+              },
+              {
+                "id": "task-4",
+                "input": "3+3",
+                "expected": "6"
+              }
+            ],
+            "output": [
+              "4",
+              "billing",
+              "hello",
+              "6"
+            ],
+            "explanation": {
+              "pt": "Os alvos são independentes das previsões avaliadas.",
+              "mixed": "Os alvos são independentes das previsões avaliadas.",
+              "en": "Targets are independent of evaluated predictions."
+            },
+            "failure": false
+          },
+          {
+            "id": "predictions",
+            "title": {
+              "pt": "Previsões",
+              "mixed": "Predictions (previsões)",
+              "en": "Predictions"
+            },
+            "input": {
+              "model": "model_b"
+            },
+            "output": [
+              "4",
+              "other",
+              "hello",
+              "5"
+            ],
+            "explanation": {
+              "pt": "As previsões são fictícias e mantêm a ordem das tarefas.",
+              "mixed": "As previsões são fictícias e mantêm a ordem das tarefas.",
+              "en": "Predictions are fictional and preserve task order."
+            },
+            "failure": false
+          },
+          {
+            "id": "count",
+            "title": {
+              "pt": "Contagem",
+              "mixed": "Count (contagem)",
+              "en": "Count"
+            },
+            "input": {
+              "expected": [
+                "4",
+                "billing",
+                "hello",
+                "6"
+              ],
+              "predictions": [
+                "4",
+                "other",
+                "hello",
+                "5"
+              ]
+            },
+            "output": {
+              "correct": 2,
+              "total": 4
+            },
+            "explanation": {
+              "pt": "Compare cada caso pelo critério exato.",
+              "mixed": "Compare cada caso pelo critério exato.",
+              "en": "Compare each case using the exact-match criterion."
+            },
+            "failure": false
+          },
+          {
+            "id": "metric",
+            "title": {
+              "pt": "Métrica",
+              "mixed": "Metric (métrica)",
+              "en": "Metric"
+            },
+            "input": {
+              "correct": 2,
+              "total": 4
+            },
+            "output": {
+              "accuracy": 0.5
+            },
+            "explanation": {
+              "pt": "Divida acertos pelo total esperado.",
+              "mixed": "Divida acertos pelo total esperado.",
+              "en": "Divide correct answers by expected total."
+            },
+            "failure": false
+          },
+          {
+            "id": "report",
+            "title": {
+              "pt": "Relatório",
+              "mixed": "Report (relatório)",
+              "en": "Report"
+            },
+            "input": {
+              "accuracy": 0.5
+            },
+            "output": {
+              "model": "model_b",
+              "accuracy": 0.5,
+              "latency_ms": 40,
+              "cost_usd": 0.001
+            },
+            "explanation": {
+              "pt": "As três medidas são distintas e só descrevem estes dados.",
+              "mixed": "As três medidas são distintas e só descrevem estes dados.",
+              "en": "The three measures are distinct and describe only these data."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "training-pipeline",
+    "kind": "project",
+    "title": {
+      "pt": "Mini pipeline de treinamento",
+      "mixed": "Mini training pipeline (mini pipeline de treinamento)",
+      "en": "Mini training pipeline"
+    },
+    "goal": {
+      "pt": "Interpretar dados e logs fictícios para escolher um checkpoint e explicar limites.",
+      "mixed": "Interpretar dados e logs fictícios para escolher um checkpoint e explicar limites.",
+      "en": "Interpret fictional data and logs to choose a checkpoint and explain limitations."
+    },
+    "context": {
+      "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+      "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+      "en": "The team wants to track training without confusing training improvement with generalization."
+    },
+    "limitations": {
+      "pt": "Nenhum treinamento real ocorre. Este projeto não capacita sozinho a treinar modelos reais.",
+      "mixed": "Nenhum treinamento real ocorre. Este projeto não capacita sozinho a treinar modelos reais.",
+      "en": "No real training occurs. This project alone does not qualify someone to train real models."
+    },
+    "result": {
+      "pt": "Separação de dados, lotes, três épocas e checkpoint 2 documentados.",
+      "mixed": "Separação de dados, lotes, três épocas e checkpoint 2 documentados.",
+      "en": "Data split, batches, three epochs and checkpoint 2 documented."
+    },
+    "initialArtifact": {
+      "split": null,
+      "batchSize": null,
+      "checkpoint": null
+    },
+    "solutionCode": "def select_checkpoint(logs):\n    if not logs:\n        return None\n    return min(logs, key=lambda row: row[\"validation_loss\"])\n",
+    "steps": [
+      {
+        "id": "recognize-examples",
+        "title": {
+          "pt": "Reconheça os exemplos",
+          "mixed": "Recognize examples (reconheça os exemplos)",
+          "en": "Recognize examples"
+        },
+        "prompt": {
+          "pt": "Qual par representa um exemplo supervisionado?",
+          "mixed": "Qual par representa um exemplo supervisionado?",
+          "en": "Which pair represents a supervised example?"
+        },
+        "code": "{\"input\": \"invoice\", \"target\": \"billing\"}",
+        "choices": [
+          {
+            "id": "recognize-examples-a",
+            "label": {
+              "pt": "Somente o número de épocas.",
+              "mixed": "Somente o número de épocas.",
+              "en": "Only the epoch count."
+            }
+          },
+          {
+            "id": "recognize-examples-b",
+            "label": {
+              "pt": "Uma senha e um token de API.",
+              "mixed": "Uma senha e um token de API.",
+              "en": "A password and API token."
+            }
+          },
+          {
+            "id": "recognize-examples-c",
+            "label": {
+              "pt": "Uma entrada e seu alvo esperado.",
+              "mixed": "Uma entrada e seu alvo esperado.",
+              "en": "An input and its expected target."
+            }
+          }
+        ],
+        "correctId": "recognize-examples-c",
+        "hints": [
+          {
+            "pt": "O alvo orienta o ajuste no treinamento supervisionado.",
+            "mixed": "O alvo orienta o ajuste no treinamento supervisionado.",
+            "en": "The target guides supervised training updates."
+          },
+          {
+            "pt": "input é o texto; target é o rótulo esperado.",
+            "mixed": "input é o texto; target é o rótulo esperado.",
+            "en": "input is the text; target is the expected label."
+          }
+        ],
+        "explanation": {
+          "pt": "Os exemplos ligam tarefa e alvo; não são respostas garantidas em inferência.",
+          "mixed": "Os exemplos ligam tarefa e alvo; não são respostas garantidas em inferência.",
+          "en": "Examples link tasks and targets; they are not guaranteed inference outputs."
+        },
+        "effect": {
+          "examplesRecognized": true
+        },
+        "concept": "contract",
+        "skills": [
+          "training",
+          "data"
+        ],
+        "terms": [
+          "expected-output"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Resultado que o contrato exige para uma entrada.",
+            "mixed": "Resultado que o contrato exige para uma entrada.",
+            "en": "The result required by the contract for an input."
+          },
+          "example": {
+            "pt": "Os exemplos ligam tarefa e alvo; não são respostas garantidas em inferência.",
+            "mixed": "Os exemplos ligam tarefa e alvo; não são respostas garantidas em inferência.",
+            "en": "Examples link tasks and targets; they are not guaranteed inference outputs."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "response-dictionary"
+      },
+      {
+        "id": "split-data",
+        "title": {
+          "pt": "Separe treino e validação",
+          "mixed": "Split training and validation (separe treino e validação)",
+          "en": "Split training and validation"
+        },
+        "prompt": {
+          "pt": "Que divisão evita sobrepor IDs entre treino e validação?",
+          "mixed": "Que divisão evita sobrepor IDs entre treino e validação?",
+          "en": "Which split avoids overlapping training and validation IDs?"
+        },
+        "code": "train_ids = [\"t1\", \"t2\", \"t3\", \"t4\"]\nvalidation_ids = [\"v1\", \"v2\"]",
+        "choices": [
+          {
+            "id": "split-data-a",
+            "label": {
+              "pt": "Treino t1..t4 e validação v1,v2.",
+              "mixed": "Treino t1..t4 e validação v1,v2.",
+              "en": "Training t1..t4 and validation v1,v2."
+            }
+          },
+          {
+            "id": "split-data-b",
+            "label": {
+              "pt": "Usar t1 em ambos para aumentar o conjunto.",
+              "mixed": "Usar t1 em ambos para aumentar o conjunto.",
+              "en": "Use t1 in both sets to increase size."
+            }
+          },
+          {
+            "id": "split-data-c",
+            "label": {
+              "pt": "Validar somente nos exemplos usados para ajustar pesos.",
+              "mixed": "Validar somente nos exemplos usados para ajustar pesos.",
+              "en": "Validate only on examples used to update weights."
+            }
+          }
+        ],
+        "correctId": "split-data-a",
+        "hints": [
+          {
+            "pt": "Os IDs de validação devem estar separados.",
+            "mixed": "Os IDs de validação devem estar separados.",
+            "en": "Validation IDs must be separate."
+          },
+          {
+            "pt": "O prefixo não garante qualidade; aqui os IDs distintos permitem verificar a divisão.",
+            "mixed": "O prefixo não garante qualidade; aqui os IDs distintos permitem verificar a divisão.",
+            "en": "The prefix does not guarantee quality; distinct IDs let us verify this split."
+          }
+        ],
+        "explanation": {
+          "pt": "A divisão separa exemplos; também seria necessário analisar conteúdo e vazamento em dados reais.",
+          "mixed": "A divisão separa exemplos; também seria necessário analisar conteúdo e vazamento em dados reais.",
+          "en": "The split separates examples; real data also requires content and leakage checks."
+        },
+        "effect": {
+          "split": {
+            "train": [
+              "t1",
+              "t2",
+              "t3",
+              "t4"
+            ],
+            "validation": [
+              "v1",
+              "v2"
+            ]
+          }
+        },
+        "concept": "split",
+        "skills": [
+          "training",
+          "data"
+        ],
+        "terms": [
+          "split"
+        ],
+        "requires": [
+          "recognize-examples"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Mantém treino e validação em conjuntos distintos.",
+            "mixed": "Mantém treino e validação em conjuntos distintos.",
+            "en": "Keeps training and validation in separate sets."
+          },
+          "example": {
+            "pt": "A divisão separa exemplos; também seria necessário analisar conteúdo e vazamento em dados reais.",
+            "mixed": "A divisão separa exemplos; também seria necessário analisar conteúdo e vazamento em dados reais.",
+            "en": "The split separates examples; real data also requires content and leakage checks."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-example"
+      },
+      {
+        "id": "build-batches",
+        "title": {
+          "pt": "Forme os lotes",
+          "mixed": "Build batches (forme os lotes)",
+          "en": "Build batches"
+        },
+        "prompt": {
+          "pt": "Quatro exemplos e batch_size=2 formam quantos lotes por época?",
+          "mixed": "Quatro exemplos e batch_size=2 formam quantos lotes por época?",
+          "en": "How many batches per epoch come from four examples and batch_size=2?"
+        },
+        "code": "train_count = 4\nbatch_size = 2",
+        "choices": [
+          {
+            "id": "build-batches-a",
+            "label": {
+              "pt": "1",
+              "mixed": "1",
+              "en": "1"
+            }
+          },
+          {
+            "id": "build-batches-b",
+            "label": {
+              "pt": "2",
+              "mixed": "2",
+              "en": "2"
+            }
+          },
+          {
+            "id": "build-batches-c",
+            "label": {
+              "pt": "4",
+              "mixed": "4",
+              "en": "4"
+            }
+          }
+        ],
+        "correctId": "build-batches-b",
+        "hints": [
+          {
+            "pt": "Agrupe dois exemplos por lote.",
+            "mixed": "Agrupe dois exemplos por lote.",
+            "en": "Group two examples per batch."
+          },
+          {
+            "pt": "4 dividido por 2 resulta em dois lotes.",
+            "mixed": "4 dividido por 2 resulta em dois lotes.",
+            "en": "4 divided by 2 gives two batches."
+          }
+        ],
+        "explanation": {
+          "pt": "Cada época contém dois lotes neste exemplo, sem sobras.",
+          "mixed": "Cada época contém dois lotes neste exemplo, sem sobras.",
+          "en": "Each epoch contains two batches in this example, with none left over."
+        },
+        "effect": {
+          "batchSize": 2
+        },
+        "concept": "batch",
+        "skills": [
+          "training",
+          "fundamentals"
+        ],
+        "terms": [
+          "batch"
+        ],
+        "requires": [
+          "split-data"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Grupo de exemplos processados juntos no treinamento.",
+            "mixed": "Grupo de exemplos processados juntos no treinamento.",
+            "en": "A group of examples processed together during training."
+          },
+          "example": {
+            "pt": "Cada época contém dois lotes neste exemplo, sem sobras.",
+            "mixed": "Cada época contém dois lotes neste exemplo, sem sobras.",
+            "en": "Each epoch contains two batches in this example, with none left over."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "visit-tools"
+      },
+      {
+        "id": "read-epochs",
+        "title": {
+          "pt": "Acompanhe as épocas",
+          "mixed": "Follow epochs (acompanhe as épocas)",
+          "en": "Follow epochs"
+        },
+        "prompt": {
+          "pt": "epoch=3 representa o quê nestes logs?",
+          "mixed": "epoch=3 representa o quê nestes logs?",
+          "en": "What does epoch=3 represent in these logs?"
+        },
+        "code": "logs = [{\"epoch\": 1}, {\"epoch\": 2}, {\"epoch\": 3}]",
+        "choices": [
+          {
+            "id": "read-epochs-a",
+            "label": {
+              "pt": "Três modelos diferentes avaliados.",
+              "mixed": "Três modelos diferentes avaliados.",
+              "en": "Three different models evaluated."
+            }
+          },
+          {
+            "id": "read-epochs-b",
+            "label": {
+              "pt": "Uma chamada de inferência com três tokens.",
+              "mixed": "Uma chamada de inferência com três tokens.",
+              "en": "An inference call with three tokens."
+            }
+          },
+          {
+            "id": "read-epochs-c",
+            "label": {
+              "pt": "A terceira passagem pelos dados de treino foi registrada.",
+              "mixed": "A terceira passagem pelos dados de treino foi registrada.",
+              "en": "The third pass through training data was recorded."
+            }
+          }
+        ],
+        "correctId": "read-epochs-c",
+        "hints": [
+          {
+            "pt": "Épocas contam passagens, não respostas de API.",
+            "mixed": "Épocas contam passagens, não respostas de API.",
+            "en": "Epochs count passes, not API responses."
+          },
+          {
+            "pt": "Os logs têm três passagens sucessivas.",
+            "mixed": "Os logs têm três passagens sucessivas.",
+            "en": "The logs contain three successive passes."
+          }
+        ],
+        "explanation": {
+          "pt": "O número da época organiza as observações do treinamento fictício.",
+          "mixed": "O número da época organiza as observações do treinamento fictício.",
+          "en": "Epoch number organizes observations from fictional training."
+        },
+        "effect": {
+          "epochs": 3
+        },
+        "concept": "epoch",
+        "skills": [
+          "training"
+        ],
+        "terms": [
+          "epoch"
+        ],
+        "requires": [
+          "build-batches"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Uma época é uma passagem pelos exemplos de treinamento.",
+            "mixed": "Uma época é uma passagem pelos exemplos de treinamento.",
+            "en": "An epoch is one pass through the training examples."
+          },
+          "example": {
+            "pt": "O número da época organiza as observações do treinamento fictício.",
+            "mixed": "O número da época organiza as observações do treinamento fictício.",
+            "en": "Epoch number organizes observations from fictional training."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "epoch-log"
+      },
+      {
+        "id": "read-training-loss",
+        "title": {
+          "pt": "Interprete training loss",
+          "mixed": "Interpret training loss (interprete training loss)",
+          "en": "Interpret training loss"
+        },
+        "prompt": {
+          "pt": "A perda de treino caiu de 0.8 para 0.3. O que isso permite dizer?",
+          "mixed": "A perda de treino caiu de 0.8 para 0.3. O que isso permite dizer?",
+          "en": "Training loss fell from 0.8 to 0.3. What can we say?"
+        },
+        "code": "training_loss = [0.8, 0.5, 0.3]",
+        "choices": [
+          {
+            "id": "read-training-loss-a",
+            "label": {
+              "pt": "O erro segundo a função de treino diminuiu nesses dados.",
+              "mixed": "O erro segundo a função de treino diminuiu nesses dados.",
+              "en": "Error under the training objective decreased on those data."
+            }
+          },
+          {
+            "id": "read-training-loss-b",
+            "label": {
+              "pt": "Toda resposta futura será correta.",
+              "mixed": "Toda resposta futura será correta.",
+              "en": "Every future answer will be correct."
+            }
+          },
+          {
+            "id": "read-training-loss-c",
+            "label": {
+              "pt": "A perda de validação obrigatoriamente caiu.",
+              "mixed": "A perda de validação obrigatoriamente caiu.",
+              "en": "Validation loss necessarily decreased."
+            }
+          }
+        ],
+        "correctId": "read-training-loss-a",
+        "hints": [
+          {
+            "pt": "A métrica é medida nos exemplos de treino.",
+            "mixed": "A métrica é medida nos exemplos de treino.",
+            "en": "The metric is measured on training examples."
+          },
+          {
+            "pt": "Generalização exige evidência em outros dados.",
+            "mixed": "Generalização exige evidência em outros dados.",
+            "en": "Generalization needs evidence on other data."
+          }
+        ],
+        "explanation": {
+          "pt": "A queda no treino não comprova melhoria fora dele.",
+          "mixed": "A queda no treino não comprova melhoria fora dele.",
+          "en": "Lower training loss does not prove improvement outside training."
+        },
+        "effect": {
+          "trainingTrend": "decreasing"
+        },
+        "concept": "loss",
+        "skills": [
+          "training",
+          "evaluation"
+        ],
+        "terms": [
+          "loss"
+        ],
+        "requires": [
+          "read-epochs"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Loss mede erro segundo uma função definida no treinamento.",
+            "mixed": "Loss mede erro segundo uma função definida no treinamento.",
+            "en": "Loss measures error using a defined training objective."
+          },
+          "example": {
+            "pt": "A queda no treino não comprova melhoria fora dele.",
+            "mixed": "A queda no treino não comprova melhoria fora dele.",
+            "en": "Lower training loss does not prove improvement outside training."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-loss"
+      },
+      {
+        "id": "read-validation-loss",
+        "title": {
+          "pt": "Interprete validation loss",
+          "mixed": "Interpret validation loss (interprete validation loss)",
+          "en": "Interpret validation loss"
+        },
+        "prompt": {
+          "pt": "Qual época tem a menor perda de validação?",
+          "mixed": "Qual época tem a menor perda de validação?",
+          "en": "Which epoch has the lowest validation loss?"
+        },
+        "code": "validation_loss = [0.9, 0.6, 0.8]",
+        "choices": [
+          {
+            "id": "read-validation-loss-a",
+            "label": {
+              "pt": "1",
+              "mixed": "1",
+              "en": "1"
+            }
+          },
+          {
+            "id": "read-validation-loss-b",
+            "label": {
+              "pt": "2",
+              "mixed": "2",
+              "en": "2"
+            }
+          },
+          {
+            "id": "read-validation-loss-c",
+            "label": {
+              "pt": "3",
+              "mixed": "3",
+              "en": "3"
+            }
+          }
+        ],
+        "correctId": "read-validation-loss-b",
+        "hints": [
+          {
+            "pt": "Compare a mesma métrica entre as épocas.",
+            "mixed": "Compare a mesma métrica entre as épocas.",
+            "en": "Compare the same metric across epochs."
+          },
+          {
+            "pt": "0.6 é menor que 0.9 e 0.8.",
+            "mixed": "0.6 é menor que 0.9 e 0.8.",
+            "en": "0.6 is lower than 0.9 and 0.8."
+          }
+        ],
+        "explanation": {
+          "pt": "A época 2 é a melhor por este critério limitado.",
+          "mixed": "A época 2 é a melhor por este critério limitado.",
+          "en": "Epoch 2 is best under this limited criterion."
+        },
+        "effect": {
+          "bestValidationEpoch": 2
+        },
+        "concept": "validation-loss",
+        "skills": [
+          "training",
+          "evaluation"
+        ],
+        "terms": [
+          "validation-loss"
+        ],
+        "requires": [
+          "read-training-loss"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Erro medido em dados separados dos ajustes de pesos.",
+            "mixed": "Erro medido em dados separados dos ajustes de pesos.",
+            "en": "Error measured on data separate from weight updates."
+          },
+          "example": {
+            "pt": "A época 2 é a melhor por este critério limitado.",
+            "mixed": "A época 2 é a melhor por este critério limitado.",
+            "en": "Epoch 2 is best under this limited criterion."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-loss"
+      },
+      {
+        "id": "compare-trends",
+        "title": {
+          "pt": "Compare as tendências",
+          "mixed": "Compare trends (compare as tendências)",
+          "en": "Compare trends"
+        },
+        "prompt": {
+          "pt": "Da época 2 para 3, que combinação foi observada?",
+          "mixed": "Da época 2 para 3, que combinação foi observada?",
+          "en": "What combination was observed from epoch 2 to 3?"
+        },
+        "code": "epoch_2 = {\"train\": 0.5, \"validation\": 0.6}\nepoch_3 = {\"train\": 0.3, \"validation\": 0.8}",
+        "choices": [
+          {
+            "id": "compare-trends-a",
+            "label": {
+              "pt": "Treino e validação melhoraram.",
+              "mixed": "Treino e validação melhoraram.",
+              "en": "Training and validation both improved."
+            }
+          },
+          {
+            "id": "compare-trends-b",
+            "label": {
+              "pt": "Treino piorou e validação melhorou.",
+              "mixed": "Treino piorou e validação melhorou.",
+              "en": "Training worsened and validation improved."
+            }
+          },
+          {
+            "id": "compare-trends-c",
+            "label": {
+              "pt": "Treino melhorou e validação piorou.",
+              "mixed": "Treino melhorou e validação piorou.",
+              "en": "Training improved and validation worsened."
+            }
+          }
+        ],
+        "correctId": "compare-trends-c",
+        "hints": [
+          {
+            "pt": "Menor loss é melhor para estas mesmas métricas.",
+            "mixed": "Menor loss é melhor para estas mesmas métricas.",
+            "en": "Lower loss is better for these same metrics."
+          },
+          {
+            "pt": "0.3 caiu, mas 0.8 subiu.",
+            "mixed": "0.3 caiu, mas 0.8 subiu.",
+            "en": "0.3 decreased, but 0.8 increased."
+          }
+        ],
+        "explanation": {
+          "pt": "As tendências divergem e pedem investigação.",
+          "mixed": "As tendências divergem e pedem investigação.",
+          "en": "The trends diverge and call for investigation."
+        },
+        "effect": {
+          "divergentTrends": true
+        },
+        "concept": "validation-loss",
+        "skills": [
+          "training",
+          "evaluation"
+        ],
+        "terms": [
+          "validation-loss"
+        ],
+        "requires": [
+          "read-validation-loss"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Erro medido em dados separados dos ajustes de pesos.",
+            "mixed": "Erro medido em dados separados dos ajustes de pesos.",
+            "en": "Error measured on data separate from weight updates."
+          },
+          "example": {
+            "pt": "As tendências divergem e pedem investigação.",
+            "mixed": "As tendências divergem e pedem investigação.",
+            "en": "The trends diverge and call for investigation."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-loss"
+      },
+      {
+        "id": "inspect-overfitting",
+        "title": {
+          "pt": "Investigue sobreajuste",
+          "mixed": "Investigate overfitting (investigue sobreajuste)",
+          "en": "Investigate overfitting"
+        },
+        "prompt": {
+          "pt": "Que interpretação é responsável?",
+          "mixed": "Que interpretação é responsável?",
+          "en": "Which interpretation is responsible?"
+        },
+        "code": "training_loss = 0.3\nvalidation_loss = 0.8",
+        "choices": [
+          {
+            "id": "inspect-overfitting-a",
+            "label": {
+              "pt": "Há indício de sobreajuste; investigar mais dados e métricas.",
+              "mixed": "Há indício de sobreajuste; investigar mais dados e métricas.",
+              "en": "There is a sign of overfitting; investigate more data and metrics."
+            }
+          },
+          {
+            "id": "inspect-overfitting-b",
+            "label": {
+              "pt": "Está provado que o modelo nunca funcionará.",
+              "mixed": "Está provado que o modelo nunca funcionará.",
+              "en": "It proves the model will never work."
+            }
+          },
+          {
+            "id": "inspect-overfitting-c",
+            "label": {
+              "pt": "A menor perda de treino garante o melhor modelo.",
+              "mixed": "A menor perda de treino garante o melhor modelo.",
+              "en": "The lowest training loss guarantees the best model."
+            }
+          }
+        ],
+        "correctId": "inspect-overfitting-a",
+        "hints": [
+          {
+            "pt": "Um indício não equivale a uma conclusão universal.",
+            "mixed": "Um indício não equivale a uma conclusão universal.",
+            "en": "A sign is not a universal conclusion."
+          },
+          {
+            "pt": "A evidência é a piora na validação enquanto o treino melhora.",
+            "mixed": "A evidência é a piora na validação enquanto o treino melhora.",
+            "en": "The evidence is worse validation while training improves."
+          }
+        ],
+        "explanation": {
+          "pt": "A divergência é compatível com sobreajuste, sem ser prova isolada de sua causa.",
+          "mixed": "A divergência é compatível com sobreajuste, sem ser prova isolada de sua causa.",
+          "en": "The divergence is consistent with overfitting without proving its cause on its own."
+        },
+        "effect": {
+          "warning": "possible_overfitting"
+        },
+        "concept": "overfitting",
+        "skills": [
+          "training",
+          "debugging"
+        ],
+        "terms": [
+          "overfitting"
+        ],
+        "requires": [
+          "compare-trends"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Treino melhora enquanto a generalização pode piorar.",
+            "mixed": "Treino melhora enquanto a generalização pode piorar.",
+            "en": "Training improves while generalization can worsen."
+          },
+          "example": {
+            "pt": "A divergência é compatível com sobreajuste, sem ser prova isolada de sua causa.",
+            "mixed": "A divergência é compatível com sobreajuste, sem ser prova isolada de sua causa.",
+            "en": "The divergence is consistent with overfitting without proving its cause on its own."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-loss"
+      },
+      {
+        "id": "choose-checkpoint",
+        "title": {
+          "pt": "Compare checkpoints",
+          "mixed": "Compare checkpoints (compare checkpoints)",
+          "en": "Compare checkpoints"
+        },
+        "prompt": {
+          "pt": "Execute os testes. Qual checkpoint escolher pelo critério de menor validation loss?",
+          "mixed": "Execute os testes. Qual checkpoint escolher pelo critério de menor validation loss?",
+          "en": "Run tests. Which checkpoint fits the lowest validation loss criterion?"
+        },
+        "code": "def select_checkpoint(logs):\n    if not logs:\n        return None\n    return min(logs, key=lambda row: row[\"validation_loss\"])\n",
+        "choices": [
+          {
+            "id": "choose-checkpoint-a",
+            "label": {
+              "pt": "epoch 1",
+              "mixed": "epoch 1",
+              "en": "epoch 1"
+            }
+          },
+          {
+            "id": "choose-checkpoint-b",
+            "label": {
+              "pt": "epoch 2",
+              "mixed": "epoch 2",
+              "en": "epoch 2"
+            }
+          },
+          {
+            "id": "choose-checkpoint-c",
+            "label": {
+              "pt": "epoch 3",
+              "mixed": "epoch 3",
+              "en": "epoch 3"
+            }
+          }
+        ],
+        "correctId": "choose-checkpoint-b",
+        "hints": [
+          {
+            "pt": "O critério é validação, não apenas treino.",
+            "mixed": "O critério é validação, não apenas treino.",
+            "en": "The criterion is validation, not training alone."
+          },
+          {
+            "pt": "A menor validation loss é 0.6 na época 2.",
+            "mixed": "A menor validation loss é 0.6 na época 2.",
+            "en": "The lowest validation loss is 0.6 at epoch 2."
+          }
+        ],
+        "explanation": {
+          "pt": "Checkpoint 2 atende ao critério; os testes também conferem separação e lotes.",
+          "mixed": "Checkpoint 2 atende ao critério; os testes também conferem separação e lotes.",
+          "en": "Checkpoint 2 meets the criterion; tests also check split and batches."
+        },
+        "effect": {
+          "checkpoint": 2
+        },
+        "concept": "checkpoint",
+        "skills": [
+          "training",
+          "evaluation"
+        ],
+        "terms": [
+          "checkpoint"
+        ],
+        "requires": [
+          "inspect-overfitting"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Registro de parâmetros de uma etapa do treinamento.",
+            "mixed": "Registro de parâmetros de uma etapa do treinamento.",
+            "en": "Saved model parameters at a training stage."
+          },
+          "example": {
+            "pt": "Checkpoint 2 atende ao critério; os testes também conferem separação e lotes.",
+            "mixed": "Checkpoint 2 atende ao critério; os testes também conferem separação e lotes.",
+            "en": "Checkpoint 2 meets the criterion; tests also check split and batches."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "training-loss",
+        "requiresTests": true
+      },
+      {
+        "id": "explain-training",
+        "title": {
+          "pt": "Explique o relatório final",
+          "mixed": "Explain the final report (explique o relatório final)",
+          "en": "Explain the final report"
+        },
+        "prompt": {
+          "pt": "Qual resumo distingue inferência, treinamento e fine-tuning?",
+          "mixed": "Qual resumo distingue inferência, treinamento e fine-tuning?",
+          "en": "Which summary distinguishes inference, training and fine-tuning?"
+        },
+        "code": "def select_checkpoint(logs):\n    if not logs:\n        return None\n    return min(logs, key=lambda row: row[\"validation_loss\"])\n",
+        "choices": [
+          {
+            "id": "explain-training-a",
+            "label": {
+              "pt": "Inferência e treinamento sempre alteram os pesos.",
+              "mixed": "Inferência e treinamento sempre alteram os pesos.",
+              "en": "Inference and training always change weights."
+            }
+          },
+          {
+            "id": "explain-training-b",
+            "label": {
+              "pt": "O exercício já treinou um modelo real e comprova competência profissional.",
+              "mixed": "O exercício já treinou um modelo real e comprova competência profissional.",
+              "en": "The exercise trained a real model and proves professional competence."
+            }
+          },
+          {
+            "id": "explain-training-c",
+            "label": {
+              "pt": "Inferência usa pesos; treinamento os ajusta; fine-tuning continua um modelo já treinado. Aqui só interpretamos dados fictícios.",
+              "mixed": "Inferência usa pesos; treinamento os ajusta; fine-tuning continua um modelo já treinado. Aqui só interpretamos dados fictícios.",
+              "en": "Inference uses weights; training updates them; fine-tuning continues a pretrained model. Here we only interpret fictional data."
+            }
+          }
+        ],
+        "correctId": "explain-training-c",
+        "hints": [
+          {
+            "pt": "Não houve treinamento nem biblioteca de ML.",
+            "mixed": "Não houve treinamento nem biblioteca de ML.",
+            "en": "There was no training or ML library."
+          },
+          {
+            "pt": "O relatório deve citar checkpoint 2 e as limitações dos logs.",
+            "mixed": "O relatório deve citar checkpoint 2 e as limitações dos logs.",
+            "en": "The report should cite checkpoint 2 and the log limitations."
+          }
+        ],
+        "explanation": {
+          "pt": "O projeto ensina interpretação e critérios; não promete capacitação completa para treinamento real.",
+          "mixed": "O projeto ensina interpretação e critérios; não promete capacitação completa para treinamento real.",
+          "en": "The project teaches interpretation and criteria, not full qualification for real training."
+        },
+        "effect": {
+          "reportReady": true
+        },
+        "concept": "fine-tuning",
+        "skills": [
+          "training"
+        ],
+        "terms": [
+          "fine-tuning"
+        ],
+        "requires": [
+          "choose-checkpoint"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Continua o treinamento de um modelo já treinado.",
+            "mixed": "Continua o treinamento de um modelo já treinado.",
+            "en": "Continues training an already trained model."
+          },
+          "example": {
+            "pt": "O projeto ensina interpretação e critérios; não promete capacitação completa para treinamento real.",
+            "mixed": "O projeto ensina interpretação e critérios; não promete capacitação completa para treinamento real.",
+            "en": "The project teaches interpretation and criteria, not full qualification for real training."
+          },
+          "professional": {
+            "pt": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "mixed": "A equipe quer acompanhar treinamento sem confundir melhora no treino com generalização.",
+            "en": "The team wants to track training without confusing training improvement with generalization."
+          }
+        },
+        "reviewMissionId": "epoch-log"
+      }
+    ],
+    "traces": [
+      {
+        "id": "training-reference",
+        "title": {
+          "pt": "Acompanhar os logs",
+          "mixed": "Follow the logs (acompanhar os logs)",
+          "en": "Follow the logs"
+        },
+        "nodes": [
+          {
+            "id": "split",
+            "title": {
+              "pt": "Separação",
+              "mixed": "Split (separação)",
+              "en": "Split"
+            },
+            "input": [
+              {
+                "id": "t1",
+                "input": "invoice",
+                "target": "billing"
+              },
+              {
+                "id": "t2",
+                "input": "payment",
+                "target": "billing"
+              },
+              {
+                "id": "t3",
+                "input": "hello",
+                "target": "greeting"
+              },
+              {
+                "id": "t4",
+                "input": "hi",
+                "target": "greeting"
+              },
+              {
+                "id": "v1",
+                "input": "bill",
+                "target": "billing"
+              },
+              {
+                "id": "v2",
+                "input": "hey",
+                "target": "greeting"
+              }
+            ],
+            "output": {
+              "train_ids": [
+                "t1",
+                "t2",
+                "t3",
+                "t4"
+              ],
+              "validation_ids": [
+                "v1",
+                "v2"
+              ]
+            },
+            "explanation": {
+              "pt": "IDs distintos; em dados reais também investigue conteúdo e vazamento.",
+              "mixed": "IDs distintos; em dados reais também investigue conteúdo e vazamento.",
+              "en": "Distinct IDs; also inspect content and leakage in real data."
+            },
+            "failure": false
+          },
+          {
+            "id": "batches",
+            "title": {
+              "pt": "Lotes",
+              "mixed": "Batches (lotes)",
+              "en": "Batches"
+            },
+            "input": {
+              "train_count": 4,
+              "batch_size": 2
+            },
+            "output": {
+              "batches_per_epoch": 2
+            },
+            "explanation": {
+              "pt": "Quatro exemplos divididos em dois grupos.",
+              "mixed": "Quatro exemplos divididos em dois grupos.",
+              "en": "Four examples divided into two groups."
+            },
+            "failure": false
+          },
+          {
+            "id": "logs",
+            "title": {
+              "pt": "Logs",
+              "mixed": "Logs (logs)",
+              "en": "Logs"
+            },
+            "input": {
+              "epochs": 3
+            },
+            "output": [
+              {
+                "epoch": 1,
+                "training_loss": 0.8,
+                "validation_loss": 0.9
+              },
+              {
+                "epoch": 2,
+                "training_loss": 0.5,
+                "validation_loss": 0.6
+              },
+              {
+                "epoch": 3,
+                "training_loss": 0.3,
+                "validation_loss": 0.8
+              }
+            ],
+            "explanation": {
+              "pt": "São observações fictícias, não treinamento executado.",
+              "mixed": "São observações fictícias, não treinamento executado.",
+              "en": "These are fictional observations, not executed training."
+            },
+            "failure": false
+          },
+          {
+            "id": "warning",
+            "title": {
+              "pt": "Alerta",
+              "mixed": "Warning (alerta)",
+              "en": "Warning"
+            },
+            "input": [
+              {
+                "epoch": 2,
+                "training_loss": 0.5,
+                "validation_loss": 0.6
+              },
+              {
+                "epoch": 3,
+                "training_loss": 0.3,
+                "validation_loss": 0.8
+              }
+            ],
+            "output": {
+              "training_loss_decreased": true,
+              "validation_loss_increased": true
+            },
+            "explanation": {
+              "pt": "A divergência sugere investigar sobreajuste.",
+              "mixed": "A divergência sugere investigar sobreajuste.",
+              "en": "The divergence suggests investigating overfitting."
+            },
+            "failure": true
+          },
+          {
+            "id": "checkpoint",
+            "title": {
+              "pt": "Checkpoint",
+              "mixed": "Checkpoint (checkpoint)",
+              "en": "Checkpoint"
+            },
+            "input": [
+              {
+                "epoch": 1,
+                "training_loss": 0.8,
+                "validation_loss": 0.9
+              },
+              {
+                "epoch": 2,
+                "training_loss": 0.5,
+                "validation_loss": 0.6
+              },
+              {
+                "epoch": 3,
+                "training_loss": 0.3,
+                "validation_loss": 0.8
+              }
+            ],
+            "output": {
+              "epoch": 2,
+              "validation_loss": 0.6
+            },
+            "explanation": {
+              "pt": "Escolha pela regra de validação definida.",
+              "mixed": "Escolha pela regra de validação definida.",
+              "en": "Choose using the defined validation rule."
+            },
+            "failure": false
+          },
+          {
+            "id": "report",
+            "title": {
+              "pt": "Relatório",
+              "mixed": "Report (relatório)",
+              "en": "Report"
+            },
+            "input": {
+              "epoch": 2
+            },
+            "output": {
+              "selected_epoch": 2,
+              "real_training": false
+            },
+            "explanation": {
+              "pt": "A conclusão é didática e não uma garantia de desempenho real.",
+              "mixed": "A conclusão é didática e não uma garantia de desempenho real.",
+              "en": "The conclusion is educational, not a real-performance guarantee."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ]
+  }
+]

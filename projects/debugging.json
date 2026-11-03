@@ -1,0 +1,3572 @@
+[
+  {
+    "id": "nested-missing-key",
+    "kind": "debug",
+    "title": {
+      "pt": "Campo interno ausente",
+      "mixed": "Missing nested field (campo interno ausente)",
+      "en": "Missing nested field"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def read_text(response):\n    return response.get(\"body\", {}).get(\"text\", \"fallback\")\n",
+    "sourceCode": "def read_text(response):\n    return response[\"body\"][\"content\"]\n",
+    "trigger": "read_text({\"body\":{\"text\":\"ready\"}})",
+    "steps": [
+      {
+        "id": "investigate-key",
+        "title": {
+          "pt": "Investigue o contrato interno",
+          "mixed": "Investigate the nested contract (investigue o contrato interno)",
+          "en": "Investigate the nested contract"
+        },
+        "prompt": {
+          "pt": "A evidência mostra KeyError: content. Qual causa é compatível com os dados?",
+          "mixed": "A evidência mostra KeyError: content. Qual causa é compatível com os dados?",
+          "en": "Evidence shows KeyError: content. Which cause fits the data?"
+        },
+        "code": "def read_text(response):\n    return response[\"body\"][\"content\"]\n",
+        "choices": [
+          {
+            "id": "investigate-key-a",
+            "label": {
+              "pt": "O corpo tem text, não content.",
+              "mixed": "O corpo tem text, não content.",
+              "en": "The body has text, not content."
+            }
+          },
+          {
+            "id": "investigate-key-b",
+            "label": {
+              "pt": "A função precisa somar os valores.",
+              "mixed": "A função precisa somar os valores.",
+              "en": "The function needs to add values."
+            }
+          },
+          {
+            "id": "investigate-key-c",
+            "label": {
+              "pt": "Qualquer dicionário exige rede.",
+              "mixed": "Qualquer dicionário exige rede.",
+              "en": "Every dictionary requires a network."
+            }
+          }
+        ],
+        "correctId": "investigate-key-a",
+        "hints": [
+          {
+            "pt": "Leia as chaves presentes no corpo.",
+            "mixed": "Leia as chaves presentes no corpo.",
+            "en": "Read the keys actually present in the body."
+          },
+          {
+            "pt": "O contrato desta tarefa usa body.text.",
+            "mixed": "O contrato desta tarefa usa body.text.",
+            "en": "This task contract uses body.text."
+          }
+        ],
+        "explanation": {
+          "pt": "O erro é de contrato de chave interna; acesso por chave não procura nomes equivalentes.",
+          "mixed": "O erro é de contrato de chave interna; acesso por chave não procura nomes equivalentes.",
+          "en": "The error is an inner-key contract mismatch; key access does not search equivalent names."
+        },
+        "effect": {
+          "cause": "nested key mismatch"
+        },
+        "concept": "key-access",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "nested-key"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "O acesso direto falha se a chave não existir.",
+            "mixed": "O acesso direto falha se a chave não existir.",
+            "en": "Direct lookup fails if the key is missing."
+          },
+          "example": {
+            "pt": "O erro é de contrato de chave interna; acesso por chave não procura nomes equivalentes.",
+            "mixed": "O erro é de contrato de chave interna; acesso por chave não procura nomes equivalentes.",
+            "en": "The error is an inner-key contract mismatch; key access does not search equivalent names."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "read-response-field",
+        "evidence": {
+          "type": "KeyError",
+          "message": "'content'"
+        }
+      },
+      {
+        "id": "repair-key",
+        "title": {
+          "pt": "Corrija a extração interna",
+          "mixed": "Repair nested extraction (corrija a extração interna)",
+          "en": "Repair nested extraction"
+        },
+        "prompt": {
+          "pt": "Escolha a expressão que mantém ready e usa fallback para corpo/chave ausentes.",
+          "mixed": "Escolha a expressão que mantém ready e usa fallback para corpo/chave ausentes.",
+          "en": "Choose the expression that preserves ready and uses fallback for missing body/key."
+        },
+        "code": "def read_text(response):\n    return response[\"body\"][\"content\"]\n",
+        "choices": [
+          {
+            "id": "repair-key-a",
+            "label": {
+              "pt": "response.get(\"text\", \"fallback\")",
+              "mixed": "response.get(\"text\", \"fallback\")",
+              "en": "response.get(\"text\", \"fallback\")"
+            }
+          },
+          {
+            "id": "repair-key-b",
+            "label": {
+              "pt": "response.get(\"body\", {}).get(\"text\", \"fallback\")",
+              "mixed": "response.get(\"body\", {}).get(\"text\", \"fallback\")",
+              "en": "response.get(\"body\", {}).get(\"text\", \"fallback\")"
+            }
+          },
+          {
+            "id": "repair-key-c",
+            "label": {
+              "pt": "response.get(\"body\", {}).get(\"text\", \"\")",
+              "mixed": "response.get(\"body\", {}).get(\"text\", \"\")",
+              "en": "response.get(\"body\", {}).get(\"text\", \"\")"
+            }
+          }
+        ],
+        "correctId": "repair-key-b",
+        "hints": [
+          {
+            "pt": "A estrutura tem dois níveis.",
+            "mixed": "A estrutura tem dois níveis.",
+            "en": "The structure has two levels."
+          },
+          {
+            "pt": "Confira também o resultado quando body está ausente.",
+            "mixed": "Confira também o resultado quando body está ausente.",
+            "en": "Also check the result when body is missing."
+          }
+        ],
+        "explanation": {
+          "pt": "A correção respeita o campo interno e os dois casos de ausência do contrato.",
+          "mixed": "A correção respeita o campo interno e os dois casos de ausência do contrato.",
+          "en": "The repair respects the inner field and both contracted missing-data cases."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "key-access",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "nested-key"
+        ],
+        "requires": [
+          "investigate-key"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "O acesso direto falha se a chave não existir.",
+            "mixed": "O acesso direto falha se a chave não existir.",
+            "en": "Direct lookup fails if the key is missing."
+          },
+          "example": {
+            "pt": "A correção respeita o campo interno e os dois casos de ausência do contrato.",
+            "mixed": "A correção respeita o campo interno e os dois casos de ausência do contrato.",
+            "en": "The repair respects the inner field and both contracted missing-data cases."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "read-response-field"
+      },
+      {
+        "id": "test-key",
+        "title": {
+          "pt": "Teste a ausência",
+          "mixed": "Test missing data (teste a ausência)",
+          "en": "Test missing data"
+        },
+        "prompt": {
+          "pt": "Execute os testes. Qual asserção verifica o corpo ausente?",
+          "mixed": "Execute os testes. Qual asserção verifica o corpo ausente?",
+          "en": "Run tests. Which assertion checks a missing body?"
+        },
+        "code": "def read_text(response):\n    return response.get(\"body\", {}).get(\"text\", \"fallback\")\n",
+        "choices": [
+          {
+            "id": "test-key-a",
+            "label": {
+              "pt": "assert read_text({}) == \"ready\"",
+              "mixed": "assert read_text({}) == \"ready\"",
+              "en": "assert read_text({}) == \"ready\""
+            }
+          },
+          {
+            "id": "test-key-b",
+            "label": {
+              "pt": "assert read_text({}) == \"\"",
+              "mixed": "assert read_text({}) == \"\"",
+              "en": "assert read_text({}) == \"\""
+            }
+          },
+          {
+            "id": "test-key-c",
+            "label": {
+              "pt": "assert read_text({}) == \"fallback\"",
+              "mixed": "assert read_text({}) == \"fallback\"",
+              "en": "assert read_text({}) == \"fallback\""
+            }
+          }
+        ],
+        "correctId": "test-key-c",
+        "hints": [
+          {
+            "pt": "Um caso positivo não verifica a ausência.",
+            "mixed": "Um caso positivo não verifica a ausência.",
+            "en": "A positive case does not check missing data."
+          },
+          {
+            "pt": "O fallback contratado é o texto fallback.",
+            "mixed": "O fallback contratado é o texto fallback.",
+            "en": "The contracted fallback is the text fallback."
+          }
+        ],
+        "explanation": {
+          "pt": "O teste de corpo ausente complementa os casos de texto presente e chave ausente.",
+          "mixed": "O teste de corpo ausente complementa os casos de texto presente e chave ausente.",
+          "en": "The missing-body test complements present-text and missing-key cases."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "repair-key"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "O teste de corpo ausente complementa os casos de texto presente e chave ausente.",
+            "mixed": "O teste de corpo ausente complementa os casos de texto presente e chave ausente.",
+            "en": "The missing-body test complements present-text and missing-key cases."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "read_text({\"body\":{\"text\":\"ready\"}})"
+            },
+            "output": {
+              "type": "KeyError",
+              "message": "'content'"
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def read_text(response):\n    return response[\"body\"][\"content\"]\n"
+            },
+            "output": {
+              "solution": "def read_text(response):\n    return response.get(\"body\", {}).get(\"text\", \"fallback\")\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "nested",
+                "input": {
+                  "body": {
+                    "text": "ready"
+                  }
+                }
+              },
+              {
+                "id": "no-body",
+                "input": {}
+              },
+              {
+                "id": "no-text",
+                "input": {
+                  "body": {}
+                }
+              }
+            ],
+            "output": [
+              {
+                "id": "nested",
+                "expected": "ready"
+              },
+              {
+                "id": "no-body",
+                "expected": "fallback"
+              },
+              {
+                "id": "no-text",
+                "expected": "fallback"
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "nested",
+        "call": "read_text({\"body\":{\"text\":\"ready\"}})",
+        "input": {
+          "body": {
+            "text": "ready"
+          }
+        },
+        "expected": "ready"
+      },
+      {
+        "id": "no-body",
+        "call": "read_text({})",
+        "input": {},
+        "expected": "fallback"
+      },
+      {
+        "id": "no-text",
+        "call": "read_text({\"body\":{}})",
+        "input": {
+          "body": {}
+        },
+        "expected": "fallback"
+      }
+    ],
+    "concept": "key-access",
+    "sourceEvidence": {
+      "type": "KeyError",
+      "message": "'content'"
+    },
+    "incorrectSolutions": [
+      "def read_text(response):\n    return response.get(\"text\", \"fallback\")\n",
+      "def read_text(response):\n    return response.get(\"body\", {}).get(\"text\", \"\")\n"
+    ]
+  },
+  {
+    "id": "token-type",
+    "kind": "debug",
+    "title": {
+      "pt": "Contagem recebida como texto",
+      "mixed": "Count received as text (contagem recebida como texto)",
+      "en": "Count received as text"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def next_count(tokens):\n    return int(tokens) + 1\n",
+    "sourceCode": "def next_count(tokens):\n    return tokens + 1\n",
+    "trigger": "next_count(\"12\")",
+    "steps": [
+      {
+        "id": "inspect-type",
+        "title": {
+          "pt": "Inspecione o tipo recebido",
+          "mixed": "Inspect the received type (inspecione o tipo recebido)",
+          "en": "Inspect the received type"
+        },
+        "prompt": {
+          "pt": "O contrato aceita números inteiros ou texto de inteiro; texto inválido deve gerar ValueError. Por que \"12\" + 1 falha?",
+          "mixed": "O contrato aceita números inteiros ou texto de inteiro; texto inválido deve gerar ValueError. Por que \"12\" + 1 falha?",
+          "en": "The contract accepts integers or integer text; invalid text must raise ValueError. Why does \"12\" + 1 fail?"
+        },
+        "code": "def next_count(tokens):\n    return tokens + 1\n",
+        "choices": [
+          {
+            "id": "inspect-type-a",
+            "label": {
+              "pt": "Porque 12 é muito pequeno.",
+              "mixed": "Porque 12 é muito pequeno.",
+              "en": "Because 12 is too small."
+            }
+          },
+          {
+            "id": "inspect-type-b",
+            "label": {
+              "pt": "Porque tokens é texto e 1 é inteiro.",
+              "mixed": "Porque tokens é texto e 1 é inteiro.",
+              "en": "Because tokens is text and 1 is an integer."
+            }
+          },
+          {
+            "id": "inspect-type-c",
+            "label": {
+              "pt": "Porque a função tem um parâmetro.",
+              "mixed": "Porque a função tem um parâmetro.",
+              "en": "Because the function has a parameter."
+            }
+          }
+        ],
+        "correctId": "inspect-type-b",
+        "hints": [
+          {
+            "pt": "Aspas mudam o tipo.",
+            "mixed": "Aspas mudam o tipo.",
+            "en": "Quotes change the type."
+          },
+          {
+            "pt": "A soma não converte automaticamente a string.",
+            "mixed": "A soma não converte automaticamente a string.",
+            "en": "Addition does not automatically convert the string."
+          }
+        ],
+        "explanation": {
+          "pt": "É preciso converter o formato numérico permitido; outros textos continuam inválidos.",
+          "mixed": "É preciso converter o formato numérico permitido; outros textos continuam inválidos.",
+          "en": "The allowed numeric format must be converted; other text remains invalid."
+        },
+        "effect": {
+          "cause": "string plus integer"
+        },
+        "concept": "type-check",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "conversion"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Converte um valor quando o contrato permite esse formato.",
+            "mixed": "Converte um valor quando o contrato permite esse formato.",
+            "en": "Converts a value when the contract allows that format."
+          },
+          "example": {
+            "pt": "É preciso converter o formato numérico permitido; outros textos continuam inválidos.",
+            "mixed": "É preciso converter o formato numérico permitido; outros textos continuam inválidos.",
+            "en": "The allowed numeric format must be converted; other text remains invalid."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "validate-field-type",
+        "evidence": {
+          "type": "TypeError",
+          "message": "can only concatenate str (not \"int\") to str"
+        }
+      },
+      {
+        "id": "repair-type",
+        "title": {
+          "pt": "Converta conforme o contrato",
+          "mixed": "Convert according to the contract (converta conforme o contrato)",
+          "en": "Convert according to the contract"
+        },
+        "prompt": {
+          "pt": "Qual expressão devolve 13 para \"12\" e 6 para 5?",
+          "mixed": "Qual expressão devolve 13 para \"12\" e 6 para 5?",
+          "en": "Which expression returns 13 for \"12\" and 6 for 5?"
+        },
+        "code": "def next_count(tokens):\n    return tokens + 1\n",
+        "choices": [
+          {
+            "id": "repair-type-a",
+            "label": {
+              "pt": "len(tokens) + 1",
+              "mixed": "len(tokens) + 1",
+              "en": "len(tokens) + 1"
+            }
+          },
+          {
+            "id": "repair-type-b",
+            "label": {
+              "pt": "str(tokens) + \"1\"",
+              "mixed": "str(tokens) + \"1\"",
+              "en": "str(tokens) + \"1\""
+            }
+          },
+          {
+            "id": "repair-type-c",
+            "label": {
+              "pt": "int(tokens) + 1",
+              "mixed": "int(tokens) + 1",
+              "en": "int(tokens) + 1"
+            }
+          }
+        ],
+        "correctId": "repair-type-c",
+        "hints": [
+          {
+            "pt": "Concatenar texto não faz a soma pedida.",
+            "mixed": "Concatenar texto não faz a soma pedida.",
+            "en": "Concatenating text does not perform the required addition."
+          },
+          {
+            "pt": "int interpreta texto de inteiro e preserva um inteiro.",
+            "mixed": "int interpreta texto de inteiro e preserva um inteiro.",
+            "en": "int parses integer text and preserves an integer."
+          }
+        ],
+        "explanation": {
+          "pt": "int atende aos formatos numéricos deste contrato e rejeita bad com ValueError.",
+          "mixed": "int atende aos formatos numéricos deste contrato e rejeita bad com ValueError.",
+          "en": "int handles this contract numeric formats and rejects bad with ValueError."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "type-check",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "conversion"
+        ],
+        "requires": [
+          "inspect-type"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Converte um valor quando o contrato permite esse formato.",
+            "mixed": "Converte um valor quando o contrato permite esse formato.",
+            "en": "Converts a value when the contract allows that format."
+          },
+          "example": {
+            "pt": "int atende aos formatos numéricos deste contrato e rejeita bad com ValueError.",
+            "mixed": "int atende aos formatos numéricos deste contrato e rejeita bad com ValueError.",
+            "en": "int handles this contract numeric formats and rejects bad with ValueError."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "validate-field-type"
+      },
+      {
+        "id": "test-type",
+        "title": {
+          "pt": "Teste número e rejeição",
+          "mixed": "Test numbers and rejection (teste número e rejeição)",
+          "en": "Test numbers and rejection"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual observação deve ser esperada para bad?",
+          "mixed": "Execute os casos. Qual observação deve ser esperada para bad?",
+          "en": "Run the cases. What observation is expected for bad?"
+        },
+        "code": "def next_count(tokens):\n    return int(tokens) + 1\n",
+        "choices": [
+          {
+            "id": "test-type-a",
+            "label": {
+              "pt": "ValueError, conforme o contrato.",
+              "mixed": "ValueError, conforme o contrato.",
+              "en": "ValueError, as contracted."
+            }
+          },
+          {
+            "id": "test-type-b",
+            "label": {
+              "pt": "O número 1 sem aviso.",
+              "mixed": "O número 1 sem aviso.",
+              "en": "The number 1 without warning."
+            }
+          },
+          {
+            "id": "test-type-c",
+            "label": {
+              "pt": "O texto bad1 como resultado válido.",
+              "mixed": "O texto bad1 como resultado válido.",
+              "en": "The text bad1 as a valid result."
+            }
+          }
+        ],
+        "correctId": "test-type-a",
+        "hints": [
+          {
+            "pt": "Teste negativo verifica a rejeição definida.",
+            "mixed": "Teste negativo verifica a rejeição definida.",
+            "en": "A negative test checks defined rejection."
+          },
+          {
+            "pt": "Um ValueError esperado pode significar teste aprovado.",
+            "mixed": "Um ValueError esperado pode significar teste aprovado.",
+            "en": "An expected ValueError can mean a passing test."
+          }
+        ],
+        "explanation": {
+          "pt": "A ferramenta não promete converter texto arbitrário.",
+          "mixed": "A ferramenta não promete converter texto arbitrário.",
+          "en": "The tool does not promise to convert arbitrary text."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "negative-test"
+        ],
+        "requires": [
+          "repair-type"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Verifica o comportamento contratado diante de entrada inválida.",
+            "mixed": "Verifica o comportamento contratado diante de entrada inválida.",
+            "en": "Checks contracted behavior for invalid input."
+          },
+          "example": {
+            "pt": "A ferramenta não promete converter texto arbitrário.",
+            "mixed": "A ferramenta não promete converter texto arbitrário.",
+            "en": "The tool does not promise to convert arbitrary text."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "next_count(\"12\")"
+            },
+            "output": {
+              "type": "TypeError",
+              "message": "can only concatenate str (not \"int\") to str"
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def next_count(tokens):\n    return tokens + 1\n"
+            },
+            "output": {
+              "solution": "def next_count(tokens):\n    return int(tokens) + 1\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "text-number",
+                "input": "12"
+              },
+              {
+                "id": "integer",
+                "input": 5
+              },
+              {
+                "id": "invalid-text",
+                "input": "bad"
+              }
+            ],
+            "output": [
+              {
+                "id": "text-number",
+                "expected": 13
+              },
+              {
+                "id": "integer",
+                "expected": 6
+              },
+              {
+                "id": "invalid-text",
+                "expected": {
+                  "error": "ValueError"
+                }
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "text-number",
+        "call": "next_count(\"12\")",
+        "input": "12",
+        "expected": 13
+      },
+      {
+        "id": "integer",
+        "call": "next_count(5)",
+        "input": 5,
+        "expected": 6
+      },
+      {
+        "id": "invalid-text",
+        "call": "next_count(\"bad\")",
+        "input": "bad",
+        "expected": {
+          "error": "ValueError"
+        }
+      }
+    ],
+    "concept": "type-check",
+    "sourceEvidence": {
+      "type": "TypeError",
+      "message": "can only concatenate str (not \"int\") to str"
+    },
+    "incorrectSolutions": [
+      "def next_count(tokens):\n    return len(tokens) + 1\n",
+      "def next_count(tokens):\n    return str(tokens) + \"1\"\n"
+    ]
+  },
+  {
+    "id": "missing-return",
+    "kind": "debug",
+    "title": {
+      "pt": "Cálculo sem retorno",
+      "mixed": "Calculation without return (cálculo sem retorno)",
+      "en": "Calculation without return"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def usage_cost(count):\n    return count * 2\n",
+    "sourceCode": "def usage_cost(count):\n    count * 2\n",
+    "trigger": "usage_cost(3)",
+    "steps": [
+      {
+        "id": "inspect-return",
+        "title": {
+          "pt": "Investigue o None",
+          "mixed": "Investigate None (investigue o none)",
+          "en": "Investigate None"
+        },
+        "prompt": {
+          "pt": "usage_cost(3) devolveu None sem exceção. Qual causa explica isso?",
+          "mixed": "usage_cost(3) devolveu None sem exceção. Qual causa explica isso?",
+          "en": "usage_cost(3) returned None without an exception. Which cause explains this?"
+        },
+        "code": "def usage_cost(count):\n    count * 2\n",
+        "choices": [
+          {
+            "id": "inspect-return-a",
+            "label": {
+              "pt": "Multiplicação nunca funciona em funções.",
+              "mixed": "Multiplicação nunca funciona em funções.",
+              "en": "Multiplication never works inside functions."
+            }
+          },
+          {
+            "id": "inspect-return-b",
+            "label": {
+              "pt": "O argumento 3 não foi recebido.",
+              "mixed": "O argumento 3 não foi recebido.",
+              "en": "The argument 3 was not received."
+            }
+          },
+          {
+            "id": "inspect-return-c",
+            "label": {
+              "pt": "O cálculo não é devolvido por return.",
+              "mixed": "O cálculo não é devolvido por return.",
+              "en": "The calculation is not returned with return."
+            }
+          }
+        ],
+        "correctId": "inspect-return-c",
+        "hints": [
+          {
+            "pt": "Uma expressão isolada não é retorno.",
+            "mixed": "Uma expressão isolada não é retorno.",
+            "en": "A standalone expression is not a return."
+          },
+          {
+            "pt": "Funções sem return de valor devolvem None.",
+            "mixed": "Funções sem return de valor devolvem None.",
+            "en": "Functions without a value return produce None."
+          }
+        ],
+        "explanation": {
+          "pt": "O corpo calcula, mas o chamador não recebe o resultado.",
+          "mixed": "O corpo calcula, mas o chamador não recebe o resultado.",
+          "en": "The body calculates, but the caller does not receive the result."
+        },
+        "effect": {
+          "cause": "implicit None"
+        },
+        "concept": "return",
+        "skills": [
+          "functions",
+          "debugging"
+        ],
+        "terms": [
+          "implicit-none"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Uma função sem return de valor devolve None.",
+            "mixed": "Uma função sem return de valor devolve None.",
+            "en": "A function without a value return produces None."
+          },
+          "example": {
+            "pt": "O corpo calcula, mas o chamador não recebe o resultado.",
+            "mixed": "O corpo calcula, mas o chamador não recebe o resultado.",
+            "en": "The body calculates, but the caller does not receive the result."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "return-score",
+        "evidence": {
+          "observed": null,
+          "exception": null
+        }
+      },
+      {
+        "id": "repair-return",
+        "title": {
+          "pt": "Devolva o cálculo",
+          "mixed": "Return the calculation (devolva o cálculo)",
+          "en": "Return the calculation"
+        },
+        "prompt": {
+          "pt": "Qual corpo corrige o contrato para todos os casos cadastrados?",
+          "mixed": "Qual corpo corrige o contrato para todos os casos cadastrados?",
+          "en": "Which body repairs the contract for all registered cases?"
+        },
+        "code": "def usage_cost(count):\n    count * 2\n",
+        "choices": [
+          {
+            "id": "repair-return-a",
+            "label": {
+              "pt": "return count * 2",
+              "mixed": "return count * 2",
+              "en": "return count * 2"
+            }
+          },
+          {
+            "id": "repair-return-b",
+            "label": {
+              "pt": "return 6",
+              "mixed": "return 6",
+              "en": "return 6"
+            }
+          },
+          {
+            "id": "repair-return-c",
+            "label": {
+              "pt": "return count + 2",
+              "mixed": "return count + 2",
+              "en": "return count + 2"
+            }
+          }
+        ],
+        "correctId": "repair-return-a",
+        "hints": [
+          {
+            "pt": "Um valor fixo só atende a uma entrada.",
+            "mixed": "Um valor fixo só atende a uma entrada.",
+            "en": "A constant only handles one input."
+          },
+          {
+            "pt": "A função deve reutilizar count.",
+            "mixed": "A função deve reutilizar count.",
+            "en": "The function must reuse count."
+          }
+        ],
+        "explanation": {
+          "pt": "O retorno depende do argumento, inclusive quando count é zero.",
+          "mixed": "O retorno depende do argumento, inclusive quando count é zero.",
+          "en": "The return depends on the argument, including when count is zero."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "return",
+        "skills": [
+          "functions",
+          "debugging"
+        ],
+        "terms": [
+          "implicit-none"
+        ],
+        "requires": [
+          "inspect-return"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Uma função sem return de valor devolve None.",
+            "mixed": "Uma função sem return de valor devolve None.",
+            "en": "A function without a value return produces None."
+          },
+          "example": {
+            "pt": "O retorno depende do argumento, inclusive quando count é zero.",
+            "mixed": "O retorno depende do argumento, inclusive quando count é zero.",
+            "en": "The return depends on the argument, including when count is zero."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "return-score"
+      },
+      {
+        "id": "test-return",
+        "title": {
+          "pt": "Evite um teste fraco",
+          "mixed": "Avoid a weak test (evite um teste fraco)",
+          "en": "Avoid a weak test"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual teste ajuda a rejeitar uma implementação que sempre retorna 6?",
+          "mixed": "Execute os casos. Qual teste ajuda a rejeitar uma implementação que sempre retorna 6?",
+          "en": "Run the cases. Which test helps reject an implementation that always returns 6?"
+        },
+        "code": "def usage_cost(count):\n    return count * 2\n",
+        "choices": [
+          {
+            "id": "test-return-a",
+            "label": {
+              "pt": "assert usage_cost(3) == 6",
+              "mixed": "assert usage_cost(3) == 6",
+              "en": "assert usage_cost(3) == 6"
+            }
+          },
+          {
+            "id": "test-return-b",
+            "label": {
+              "pt": "assert usage_cost(0) == 0",
+              "mixed": "assert usage_cost(0) == 0",
+              "en": "assert usage_cost(0) == 0"
+            }
+          },
+          {
+            "id": "test-return-c",
+            "label": {
+              "pt": "assert usage_cost(4) == 6",
+              "mixed": "assert usage_cost(4) == 6",
+              "en": "assert usage_cost(4) == 6"
+            }
+          }
+        ],
+        "correctId": "test-return-b",
+        "hints": [
+          {
+            "pt": "Teste uma entrada cujo resultado difere de 6.",
+            "mixed": "Teste uma entrada cujo resultado difere de 6.",
+            "en": "Test an input whose result differs from 6."
+          },
+          {
+            "pt": "O caso zero precisa retornar zero.",
+            "mixed": "O caso zero precisa retornar zero.",
+            "en": "The zero case must return zero."
+          }
+        ],
+        "explanation": {
+          "pt": "Um único teste positivo pode deixar passar uma implementação incorreta.",
+          "mixed": "Um único teste positivo pode deixar passar uma implementação incorreta.",
+          "en": "One positive test can let an incorrect implementation pass."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "functions",
+          "debugging"
+        ],
+        "terms": [
+          "boundary"
+        ],
+        "requires": [
+          "repair-return"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Entrada no limite do domínio, como uma lista vazia.",
+            "mixed": "Entrada no limite do domínio, como uma lista vazia.",
+            "en": "An input at the domain boundary, such as an empty list."
+          },
+          "example": {
+            "pt": "Um único teste positivo pode deixar passar uma implementação incorreta.",
+            "mixed": "Um único teste positivo pode deixar passar uma implementação incorreta.",
+            "en": "One positive test can let an incorrect implementation pass."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "usage_cost(3)"
+            },
+            "output": {
+              "observed": null,
+              "exception": null
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def usage_cost(count):\n    count * 2\n"
+            },
+            "output": {
+              "solution": "def usage_cost(count):\n    return count * 2\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "normal",
+                "input": 3
+              },
+              {
+                "id": "zero",
+                "input": 0
+              },
+              {
+                "id": "another",
+                "input": 4
+              }
+            ],
+            "output": [
+              {
+                "id": "normal",
+                "expected": 6
+              },
+              {
+                "id": "zero",
+                "expected": 0
+              },
+              {
+                "id": "another",
+                "expected": 8
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "normal",
+        "call": "usage_cost(3)",
+        "input": 3,
+        "expected": 6
+      },
+      {
+        "id": "zero",
+        "call": "usage_cost(0)",
+        "input": 0,
+        "expected": 0
+      },
+      {
+        "id": "another",
+        "call": "usage_cost(4)",
+        "input": 4,
+        "expected": 8
+      }
+    ],
+    "concept": "return",
+    "sourceEvidence": {
+      "observed": null,
+      "exception": null
+    },
+    "incorrectSolutions": [
+      "def usage_cost(count):\n    return 6\n",
+      "def usage_cost(count):\n    return count + 2\n"
+    ]
+  },
+  {
+    "id": "inverted-budget",
+    "kind": "debug",
+    "title": {
+      "pt": "Limite de orçamento invertido",
+      "mixed": "Inverted budget boundary (limite de orçamento invertido)",
+      "en": "Inverted budget boundary"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def can_run(budget, cost):\n    return \"run\" if cost <= budget else \"skip\"\n",
+    "sourceCode": "def can_run(budget, cost):\n    return \"run\" if budget <= cost else \"skip\"\n",
+    "trigger": "can_run(10, 3)",
+    "steps": [
+      {
+        "id": "inspect-budget",
+        "title": {
+          "pt": "Compare regra e evidência",
+          "mixed": "Compare rule and evidence (compare regra e evidência)",
+          "en": "Compare rule and evidence"
+        },
+        "prompt": {
+          "pt": "Com orçamento 10 e custo 3, o programa devolve skip. Qual é o defeito?",
+          "mixed": "Com orçamento 10 e custo 3, o programa devolve skip. Qual é o defeito?",
+          "en": "With budget 10 and cost 3, the program returns skip. What is the defect?"
+        },
+        "code": "def can_run(budget, cost):\n    return \"run\" if budget <= cost else \"skip\"\n",
+        "choices": [
+          {
+            "id": "inspect-budget-a",
+            "label": {
+              "pt": "A comparação aprova custo maior ou igual ao orçamento, invertendo a regra.",
+              "mixed": "A comparação aprova custo maior ou igual ao orçamento, invertendo a regra.",
+              "en": "The comparison approves cost greater than or equal to budget, reversing the rule."
+            }
+          },
+          {
+            "id": "inspect-budget-b",
+            "label": {
+              "pt": "Toda string provoca TypeError.",
+              "mixed": "Toda string provoca TypeError.",
+              "en": "Every string causes TypeError."
+            }
+          },
+          {
+            "id": "inspect-budget-c",
+            "label": {
+              "pt": "O custo precisa ser sempre zero.",
+              "mixed": "O custo precisa ser sempre zero.",
+              "en": "Cost must always be zero."
+            }
+          }
+        ],
+        "correctId": "inspect-budget-a",
+        "hints": [
+          {
+            "pt": "O contrato permite custo menor ou igual ao orçamento.",
+            "mixed": "O contrato permite custo menor ou igual ao orçamento.",
+            "en": "The contract permits cost at or below budget."
+          },
+          {
+            "pt": "Observe a ordem dos lados de <=.",
+            "mixed": "Observe a ordem dos lados de <=.",
+            "en": "Observe the sides of <=."
+          }
+        ],
+        "explanation": {
+          "pt": "O defeito é lógico e não gera exceção.",
+          "mixed": "O defeito é lógico e não gera exceção.",
+          "en": "The defect is logical and raises no exception."
+        },
+        "effect": {
+          "cause": "reversed inequality"
+        },
+        "concept": "comparison",
+        "skills": [
+          "logic",
+          "debugging"
+        ],
+        "terms": [
+          "inclusive-bound"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "<= permite igualdade no limite definido.",
+            "mixed": "<= permite igualdade no limite definido.",
+            "en": "<= permits equality at the defined boundary."
+          },
+          "example": {
+            "pt": "O defeito é lógico e não gera exceção.",
+            "mixed": "O defeito é lógico e não gera exceção.",
+            "en": "The defect is logical and raises no exception."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "compare-scores",
+        "evidence": {
+          "observed": "skip",
+          "exception": null
+        }
+      },
+      {
+        "id": "repair-budget",
+        "title": {
+          "pt": "Corrija incluindo a igualdade",
+          "mixed": "Repair including equality (corrija incluindo a igualdade)",
+          "en": "Repair including equality"
+        },
+        "prompt": {
+          "pt": "Qual condição aprova custo 3 e custo 10 para orçamento 10, mas rejeita 11?",
+          "mixed": "Qual condição aprova custo 3 e custo 10 para orçamento 10, mas rejeita 11?",
+          "en": "Which condition approves cost 3 and 10 for budget 10, but rejects 11?"
+        },
+        "code": "def can_run(budget, cost):\n    return \"run\" if budget <= cost else \"skip\"\n",
+        "choices": [
+          {
+            "id": "repair-budget-a",
+            "label": {
+              "pt": "cost < budget",
+              "mixed": "cost < budget",
+              "en": "cost < budget"
+            }
+          },
+          {
+            "id": "repair-budget-b",
+            "label": {
+              "pt": "budget <= cost",
+              "mixed": "budget <= cost",
+              "en": "budget <= cost"
+            }
+          },
+          {
+            "id": "repair-budget-c",
+            "label": {
+              "pt": "cost <= budget",
+              "mixed": "cost <= budget",
+              "en": "cost <= budget"
+            }
+          }
+        ],
+        "correctId": "repair-budget-c",
+        "hints": [
+          {
+            "pt": "O caso de igualdade faz parte do contrato.",
+            "mixed": "O caso de igualdade faz parte do contrato.",
+            "en": "Equality is part of the contract."
+          },
+          {
+            "pt": "< sozinho rejeitaria custo exatamente igual.",
+            "mixed": "< sozinho rejeitaria custo exatamente igual.",
+            "en": "< alone would reject an exactly equal cost."
+          }
+        ],
+        "explanation": {
+          "pt": "<= inclui o limite e mantém o sentido correto.",
+          "mixed": "<= inclui o limite e mantém o sentido correto.",
+          "en": "<= includes the boundary and keeps the correct direction."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "comparison",
+        "skills": [
+          "logic",
+          "debugging"
+        ],
+        "terms": [
+          "inclusive-bound"
+        ],
+        "requires": [
+          "inspect-budget"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "<= permite igualdade no limite definido.",
+            "mixed": "<= permite igualdade no limite definido.",
+            "en": "<= permits equality at the defined boundary."
+          },
+          "example": {
+            "pt": "<= inclui o limite e mantém o sentido correto.",
+            "mixed": "<= inclui o limite e mantém o sentido correto.",
+            "en": "<= includes the boundary and keeps the correct direction."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "compare-scores"
+      },
+      {
+        "id": "test-budget",
+        "title": {
+          "pt": "Teste a borda do limite",
+          "mixed": "Test the boundary (teste a borda do limite)",
+          "en": "Test the boundary"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual asserção verifica o limite inclusivo?",
+          "mixed": "Execute os casos. Qual asserção verifica o limite inclusivo?",
+          "en": "Run cases. Which assertion checks the inclusive boundary?"
+        },
+        "code": "def can_run(budget, cost):\n    return \"run\" if cost <= budget else \"skip\"\n",
+        "choices": [
+          {
+            "id": "test-budget-a",
+            "label": {
+              "pt": "assert can_run(10,10) == \"skip\"",
+              "mixed": "assert can_run(10,10) == \"skip\"",
+              "en": "assert can_run(10,10) == \"skip\""
+            }
+          },
+          {
+            "id": "test-budget-b",
+            "label": {
+              "pt": "assert can_run(10,10) == \"run\"",
+              "mixed": "assert can_run(10,10) == \"run\"",
+              "en": "assert can_run(10,10) == \"run\""
+            }
+          },
+          {
+            "id": "test-budget-c",
+            "label": {
+              "pt": "assert can_run(10,11) == \"run\"",
+              "mixed": "assert can_run(10,11) == \"run\"",
+              "en": "assert can_run(10,11) == \"run\""
+            }
+          }
+        ],
+        "correctId": "test-budget-b",
+        "hints": [
+          {
+            "pt": "O contrato permite igualdade.",
+            "mixed": "O contrato permite igualdade.",
+            "en": "The contract permits equality."
+          },
+          {
+            "pt": "A igualdade precisa resultar em run.",
+            "mixed": "A igualdade precisa resultar em run.",
+            "en": "Equality must result in run."
+          }
+        ],
+        "explanation": {
+          "pt": "Um teste de borda distingue < de <=.",
+          "mixed": "Um teste de borda distingue < de <=.",
+          "en": "A boundary test distinguishes < from <=."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging",
+          "logic"
+        ],
+        "terms": [
+          "boundary"
+        ],
+        "requires": [
+          "repair-budget"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Entrada no limite do domínio, como uma lista vazia.",
+            "mixed": "Entrada no limite do domínio, como uma lista vazia.",
+            "en": "An input at the domain boundary, such as an empty list."
+          },
+          "example": {
+            "pt": "Um teste de borda distingue < de <=.",
+            "mixed": "Um teste de borda distingue < de <=.",
+            "en": "A boundary test distinguishes < from <=."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "can_run(10, 3)"
+            },
+            "output": {
+              "observed": "skip",
+              "exception": null
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def can_run(budget, cost):\n    return \"run\" if budget <= cost else \"skip\"\n"
+            },
+            "output": {
+              "solution": "def can_run(budget, cost):\n    return \"run\" if cost <= budget else \"skip\"\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "within",
+                "input": [
+                  10,
+                  3
+                ]
+              },
+              {
+                "id": "equal",
+                "input": [
+                  10,
+                  10
+                ]
+              },
+              {
+                "id": "over",
+                "input": [
+                  10,
+                  11
+                ]
+              }
+            ],
+            "output": [
+              {
+                "id": "within",
+                "expected": "run"
+              },
+              {
+                "id": "equal",
+                "expected": "run"
+              },
+              {
+                "id": "over",
+                "expected": "skip"
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "within",
+        "call": "can_run(10,3)",
+        "input": [
+          10,
+          3
+        ],
+        "expected": "run"
+      },
+      {
+        "id": "equal",
+        "call": "can_run(10,10)",
+        "input": [
+          10,
+          10
+        ],
+        "expected": "run"
+      },
+      {
+        "id": "over",
+        "call": "can_run(10,11)",
+        "input": [
+          10,
+          11
+        ],
+        "expected": "skip"
+      }
+    ],
+    "concept": "comparison",
+    "sourceEvidence": {
+      "observed": "skip",
+      "exception": null
+    },
+    "incorrectSolutions": [
+      "def can_run(budget,cost):\n    return \"run\" if cost < budget else \"skip\"\n",
+      "def can_run(budget,cost):\n    return \"run\" if budget <= cost else \"skip\"\n"
+    ]
+  },
+  {
+    "id": "unreachable-fallback",
+    "kind": "debug",
+    "title": {
+      "pt": "Fallback inalcançável",
+      "mixed": "Unreachable fallback (fallback inalcançável)",
+      "en": "Unreachable fallback"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def response_text(response):\n    return response.get(\"text\") or \"local\"\n",
+    "sourceCode": "def response_text(response):\n    return response.get(\"text\")\n    if not response.get(\"text\"):\n        return \"local\"\n",
+    "trigger": "response_text({})",
+    "steps": [
+      {
+        "id": "inspect-fallback",
+        "title": {
+          "pt": "Encontre o caminho morto",
+          "mixed": "Find the dead path (encontre o caminho morto)",
+          "en": "Find the dead path"
+        },
+        "prompt": {
+          "pt": "Por que a entrada vazia devolve None e nunca local?",
+          "mixed": "Por que a entrada vazia devolve None e nunca local?",
+          "en": "Why does empty input return None and never local?"
+        },
+        "code": "def response_text(response):\n    return response.get(\"text\")\n    if not response.get(\"text\"):\n        return \"local\"\n",
+        "choices": [
+          {
+            "id": "inspect-fallback-a",
+            "label": {
+              "pt": "get sempre devolve local.",
+              "mixed": "get sempre devolve local.",
+              "en": "get always returns local."
+            }
+          },
+          {
+            "id": "inspect-fallback-b",
+            "label": {
+              "pt": "O primeiro return encerra a função antes da condição.",
+              "mixed": "O primeiro return encerra a função antes da condição.",
+              "en": "The first return ends the function before the condition."
+            }
+          },
+          {
+            "id": "inspect-fallback-c",
+            "label": {
+              "pt": "Dicionários vazios não podem existir.",
+              "mixed": "Dicionários vazios não podem existir.",
+              "en": "Empty dictionaries cannot exist."
+            }
+          }
+        ],
+        "correctId": "inspect-fallback-b",
+        "hints": [
+          {
+            "pt": "Trace o fluxo até o primeiro return.",
+            "mixed": "Trace o fluxo até o primeiro return.",
+            "en": "Trace the flow to the first return."
+          },
+          {
+            "pt": "Depois de return nada mais roda nessa chamada.",
+            "mixed": "Depois de return nada mais roda nessa chamada.",
+            "en": "Nothing else runs in that call after return."
+          }
+        ],
+        "explanation": {
+          "pt": "O ramo de fallback está depois de um retorno incondicional.",
+          "mixed": "O ramo de fallback está depois de um retorno incondicional.",
+          "en": "The fallback branch is after an unconditional return."
+        },
+        "effect": {
+          "cause": "early unconditional return"
+        },
+        "concept": "return",
+        "skills": [
+          "debugging",
+          "functions"
+        ],
+        "terms": [
+          "early-return"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "return encerra a função e impede executar o trecho seguinte.",
+            "mixed": "return encerra a função e impede executar o trecho seguinte.",
+            "en": "return ends the function and prevents following code from running."
+          },
+          "example": {
+            "pt": "O ramo de fallback está depois de um retorno incondicional.",
+            "mixed": "O ramo de fallback está depois de um retorno incondicional.",
+            "en": "The fallback branch is after an unconditional return."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "return-score",
+        "evidence": {
+          "observed": null,
+          "exception": null
+        }
+      },
+      {
+        "id": "repair-fallback",
+        "title": {
+          "pt": "Restaure a alternativa",
+          "mixed": "Restore the fallback (restaure a alternativa)",
+          "en": "Restore the fallback"
+        },
+        "prompt": {
+          "pt": "Qual expressão devolve local tanto para chave ausente quanto para texto vazio?",
+          "mixed": "Qual expressão devolve local tanto para chave ausente quanto para texto vazio?",
+          "en": "Which expression returns local for both missing key and empty text?"
+        },
+        "code": "def response_text(response):\n    return response.get(\"text\")\n    if not response.get(\"text\"):\n        return \"local\"\n",
+        "choices": [
+          {
+            "id": "repair-fallback-a",
+            "label": {
+              "pt": "response.get(\"text\", \"local\")",
+              "mixed": "response.get(\"text\", \"local\")",
+              "en": "response.get(\"text\", \"local\")"
+            }
+          },
+          {
+            "id": "repair-fallback-b",
+            "label": {
+              "pt": "\"local\"",
+              "mixed": "\"local\"",
+              "en": "\"local\""
+            }
+          },
+          {
+            "id": "repair-fallback-c",
+            "label": {
+              "pt": "response.get(\"text\") or \"local\"",
+              "mixed": "response.get(\"text\") or \"local\"",
+              "en": "response.get(\"text\") or \"local\""
+            }
+          }
+        ],
+        "correctId": "repair-fallback-c",
+        "hints": [
+          {
+            "pt": "Um padrão de get só cobre chave ausente.",
+            "mixed": "Um padrão de get só cobre chave ausente.",
+            "en": "A get default only handles a missing key."
+          },
+          {
+            "pt": "or usa local quando o texto é vazio ou None.",
+            "mixed": "or usa local quando o texto é vazio ou None.",
+            "en": "or uses local when text is empty or None."
+          }
+        ],
+        "explanation": {
+          "pt": "A correção mantém texto válido e trata ambos os casos sem texto.",
+          "mixed": "A correção mantém texto válido e trata ambos os casos sem texto.",
+          "en": "The repair preserves valid text and handles both no-text cases."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "return",
+        "skills": [
+          "functions",
+          "debugging"
+        ],
+        "terms": [
+          "early-return"
+        ],
+        "requires": [
+          "inspect-fallback"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "return encerra a função e impede executar o trecho seguinte.",
+            "mixed": "return encerra a função e impede executar o trecho seguinte.",
+            "en": "return ends the function and prevents following code from running."
+          },
+          "example": {
+            "pt": "A correção mantém texto válido e trata ambos os casos sem texto.",
+            "mixed": "A correção mantém texto válido e trata ambos os casos sem texto.",
+            "en": "The repair preserves valid text and handles both no-text cases."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "return-score"
+      },
+      {
+        "id": "test-fallback",
+        "title": {
+          "pt": "Teste texto vazio",
+          "mixed": "Test empty text (teste texto vazio)",
+          "en": "Test empty text"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual teste distingue or de apenas um padrão em get?",
+          "mixed": "Execute os casos. Qual teste distingue or de apenas um padrão em get?",
+          "en": "Run cases. Which test distinguishes or from only a get default?"
+        },
+        "code": "def response_text(response):\n    return response.get(\"text\") or \"local\"\n",
+        "choices": [
+          {
+            "id": "test-fallback-a",
+            "label": {
+              "pt": "assert response_text({\"text\":\"\"}) == \"local\"",
+              "mixed": "assert response_text({\"text\":\"\"}) == \"local\"",
+              "en": "assert response_text({\"text\":\"\"}) == \"local\""
+            }
+          },
+          {
+            "id": "test-fallback-b",
+            "label": {
+              "pt": "assert response_text({\"text\":\"ready\"}) == \"local\"",
+              "mixed": "assert response_text({\"text\":\"ready\"}) == \"local\"",
+              "en": "assert response_text({\"text\":\"ready\"}) == \"local\""
+            }
+          },
+          {
+            "id": "test-fallback-c",
+            "label": {
+              "pt": "assert response_text({}) is None",
+              "mixed": "assert response_text({}) is None",
+              "en": "assert response_text({}) is None"
+            }
+          }
+        ],
+        "correctId": "test-fallback-a",
+        "hints": [
+          {
+            "pt": "A chave existe, mas seu texto pode estar vazio.",
+            "mixed": "A chave existe, mas seu texto pode estar vazio.",
+            "en": "The key exists, but its text can be empty."
+          },
+          {
+            "pt": "A alternativa deve cobrir a string vazia.",
+            "mixed": "A alternativa deve cobrir a string vazia.",
+            "en": "The alternative must handle the empty string."
+          }
+        ],
+        "explanation": {
+          "pt": "O caso de texto vazio expõe uma correção incompleta que cobriria só a chave ausente.",
+          "mixed": "O caso de texto vazio expõe uma correção incompleta que cobriria só a chave ausente.",
+          "en": "The empty-text case exposes an incomplete repair that only covers a missing key."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "boundary"
+        ],
+        "requires": [
+          "repair-fallback"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Entrada no limite do domínio, como uma lista vazia.",
+            "mixed": "Entrada no limite do domínio, como uma lista vazia.",
+            "en": "An input at the domain boundary, such as an empty list."
+          },
+          "example": {
+            "pt": "O caso de texto vazio expõe uma correção incompleta que cobriria só a chave ausente.",
+            "mixed": "O caso de texto vazio expõe uma correção incompleta que cobriria só a chave ausente.",
+            "en": "The empty-text case exposes an incomplete repair that only covers a missing key."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "response_text({})"
+            },
+            "output": {
+              "observed": null,
+              "exception": null
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def response_text(response):\n    return response.get(\"text\")\n    if not response.get(\"text\"):\n        return \"local\"\n"
+            },
+            "output": {
+              "solution": "def response_text(response):\n    return response.get(\"text\") or \"local\"\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "present",
+                "input": {
+                  "text": "ready"
+                }
+              },
+              {
+                "id": "missing",
+                "input": {}
+              },
+              {
+                "id": "empty",
+                "input": {
+                  "text": ""
+                }
+              }
+            ],
+            "output": [
+              {
+                "id": "present",
+                "expected": "ready"
+              },
+              {
+                "id": "missing",
+                "expected": "local"
+              },
+              {
+                "id": "empty",
+                "expected": "local"
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "present",
+        "call": "response_text({\"text\":\"ready\"})",
+        "input": {
+          "text": "ready"
+        },
+        "expected": "ready"
+      },
+      {
+        "id": "missing",
+        "call": "response_text({})",
+        "input": {},
+        "expected": "local"
+      },
+      {
+        "id": "empty",
+        "call": "response_text({\"text\":\"\"})",
+        "input": {
+          "text": ""
+        },
+        "expected": "local"
+      }
+    ],
+    "concept": "return",
+    "sourceEvidence": {
+      "observed": null,
+      "exception": null
+    },
+    "incorrectSolutions": [
+      "def response_text(response):\n    return response.get(\"text\", \"local\")\n",
+      "def response_text(response):\n    return \"local\"\n"
+    ]
+  },
+  {
+    "id": "malformed-json",
+    "kind": "debug",
+    "title": {
+      "pt": "Corpo de API malformado",
+      "mixed": "Malformed API body (corpo de api malformado)",
+      "en": "Malformed API body"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "import json\ndef parse_body(payload):\n    try:\n        return json.loads(payload)\n    except json.JSONDecodeError:\n        return {\"error\": \"invalid_json\"}\n",
+    "sourceCode": "import json\ndef parse_body(payload):\n    return json.loads(payload)\n",
+    "trigger": "parse_body('{\"label\":}')",
+    "steps": [
+      {
+        "id": "inspect-json",
+        "title": {
+          "pt": "Separe erro de parsing e chave",
+          "mixed": "Separate parsing and key errors (separe erro de parsing e chave)",
+          "en": "Separate parsing and key errors"
+        },
+        "prompt": {
+          "pt": "Qual causa é sustentada pelo corpo {\"label\":}?",
+          "mixed": "Qual causa é sustentada pelo corpo {\"label\":}?",
+          "en": "Which cause is supported by the body {\"label\":}?"
+        },
+        "code": "import json\ndef parse_body(payload):\n    return json.loads(payload)\n",
+        "choices": [
+          {
+            "id": "inspect-json-a",
+            "label": {
+              "pt": "O rótulo deveria ser uma lista de modelos.",
+              "mixed": "O rótulo deveria ser uma lista de modelos.",
+              "en": "The label should be a list of models."
+            }
+          },
+          {
+            "id": "inspect-json-b",
+            "label": {
+              "pt": "Toda resposta HTTP 200 é automaticamente um dicionário.",
+              "mixed": "Toda resposta HTTP 200 é automaticamente um dicionário.",
+              "en": "Every HTTP 200 response is automatically a dictionary."
+            }
+          },
+          {
+            "id": "inspect-json-c",
+            "label": {
+              "pt": "O texto não possui um valor JSON válido após os dois-pontos.",
+              "mixed": "O texto não possui um valor JSON válido após os dois-pontos.",
+              "en": "The text has no valid JSON value after the colon."
+            }
+          }
+        ],
+        "correctId": "inspect-json-c",
+        "hints": [
+          {
+            "pt": "O erro ocorre antes de acessar qualquer campo.",
+            "mixed": "O erro ocorre antes de acessar qualquer campo.",
+            "en": "The error happens before any field lookup."
+          },
+          {
+            "pt": "JSONDecodeError é diferente de KeyError.",
+            "mixed": "JSONDecodeError é diferente de KeyError.",
+            "en": "JSONDecodeError differs from KeyError."
+          }
+        ],
+        "explanation": {
+          "pt": "O parsing falha porque o texto é malformado; ainda não existe um dicionário válido.",
+          "mixed": "O parsing falha porque o texto é malformado; ainda não existe um dicionário válido.",
+          "en": "Parsing fails because the text is malformed; no valid dictionary exists yet."
+        },
+        "effect": {
+          "cause": "invalid JSON text"
+        },
+        "concept": "serialization",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "parse-error"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Texto malformado pode falhar ao ser interpretado como JSON.",
+            "mixed": "Texto malformado pode falhar ao ser interpretado como JSON.",
+            "en": "Malformed text can fail JSON parsing."
+          },
+          "example": {
+            "pt": "O parsing falha porque o texto é malformado; ainda não existe um dicionário válido.",
+            "mixed": "O parsing falha porque o texto é malformado; ainda não existe um dicionário válido.",
+            "en": "Parsing fails because the text is malformed; no valid dictionary exists yet."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "parse-json",
+        "evidence": {
+          "type": "JSONDecodeError",
+          "message": "Expecting value: line 1 column 10 (char 9)"
+        }
+      },
+      {
+        "id": "repair-json",
+        "title": {
+          "pt": "Trate o erro apropriado",
+          "mixed": "Handle the right error (trate o erro apropriado)",
+          "en": "Handle the right error"
+        },
+        "prompt": {
+          "pt": "Qual exceção deve ser tratada para devolver {\"error\":\"invalid_json\"} diante de sintaxe JSON inválida?",
+          "mixed": "Qual exceção deve ser tratada para devolver {\"error\":\"invalid_json\"} diante de sintaxe JSON inválida?",
+          "en": "Which exception should be handled to return {\"error\":\"invalid_json\"} for invalid JSON syntax?"
+        },
+        "code": "import json\ndef parse_body(payload):\n    return json.loads(payload)\n",
+        "choices": [
+          {
+            "id": "repair-json-a",
+            "label": {
+              "pt": "json.JSONDecodeError",
+              "mixed": "json.JSONDecodeError",
+              "en": "json.JSONDecodeError"
+            }
+          },
+          {
+            "id": "repair-json-b",
+            "label": {
+              "pt": "KeyError",
+              "mixed": "KeyError",
+              "en": "KeyError"
+            }
+          },
+          {
+            "id": "repair-json-c",
+            "label": {
+              "pt": "IndexError",
+              "mixed": "IndexError",
+              "en": "IndexError"
+            }
+          }
+        ],
+        "correctId": "repair-json-a",
+        "hints": [
+          {
+            "pt": "O parser informa a classe do problema.",
+            "mixed": "O parser informa a classe do problema.",
+            "en": "The parser reports the problem class."
+          },
+          {
+            "pt": "Trate JSONDecodeError; não confunda com acesso a coleções.",
+            "mixed": "Trate JSONDecodeError; não confunda com acesso a coleções.",
+            "en": "Handle JSONDecodeError; do not confuse it with collection access."
+          }
+        ],
+        "explanation": {
+          "pt": "A correção trata parsing inválido e mantém JSON válido, inclusive null.",
+          "mixed": "A correção trata parsing inválido e mantém JSON válido, inclusive null.",
+          "en": "The repair handles invalid parsing and preserves valid JSON, including null."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "serialization",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "parse-error"
+        ],
+        "requires": [
+          "inspect-json"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Texto malformado pode falhar ao ser interpretado como JSON.",
+            "mixed": "Texto malformado pode falhar ao ser interpretado como JSON.",
+            "en": "Malformed text can fail JSON parsing."
+          },
+          "example": {
+            "pt": "A correção trata parsing inválido e mantém JSON válido, inclusive null.",
+            "mixed": "A correção trata parsing inválido e mantém JSON válido, inclusive null.",
+            "en": "The repair handles invalid parsing and preserves valid JSON, including null."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "parse-json"
+      },
+      {
+        "id": "test-json",
+        "title": {
+          "pt": "Teste rejeição e null",
+          "mixed": "Test rejection and null (teste rejeição e null)",
+          "en": "Test rejection and null"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual interpretação distingue null válido de texto malformado?",
+          "mixed": "Execute os casos. Qual interpretação distingue null válido de texto malformado?",
+          "en": "Run cases. Which interpretation distinguishes valid null from malformed text?"
+        },
+        "code": "import json\ndef parse_body(payload):\n    try:\n        return json.loads(payload)\n    except json.JSONDecodeError:\n        return {\"error\": \"invalid_json\"}\n",
+        "choices": [
+          {
+            "id": "test-json-a",
+            "label": {
+              "pt": "null deve gerar KeyError.",
+              "mixed": "null deve gerar KeyError.",
+              "en": "null should raise KeyError."
+            }
+          },
+          {
+            "id": "test-json-b",
+            "label": {
+              "pt": "null vira None; { gera o resultado invalid_json.",
+              "mixed": "null vira None; { gera o resultado invalid_json.",
+              "en": "null becomes None; { produces the invalid_json result."
+            }
+          },
+          {
+            "id": "test-json-c",
+            "label": {
+              "pt": "Todo texto é devolvido sem parsing.",
+              "mixed": "Todo texto é devolvido sem parsing.",
+              "en": "Every text is returned without parsing."
+            }
+          }
+        ],
+        "correctId": "test-json-b",
+        "hints": [
+          {
+            "pt": "JSON possui o valor null.",
+            "mixed": "JSON possui o valor null.",
+            "en": "JSON has the null value."
+          },
+          {
+            "pt": "Sintaxe válida pode representar um valor que não é dicionário; valide o contrato depois.",
+            "mixed": "Sintaxe válida pode representar um valor que não é dicionário; valide o contrato depois.",
+            "en": "Valid syntax can represent a non-dictionary value; validate the contract afterward."
+          }
+        ],
+        "explanation": {
+          "pt": "Este parser trata sintaxe; a validação de campos é outra etapa do cliente.",
+          "mixed": "Este parser trata sintaxe; a validação de campos é outra etapa do cliente.",
+          "en": "This parser handles syntax; field validation is a separate client stage."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "negative-test"
+        ],
+        "requires": [
+          "repair-json"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Verifica o comportamento contratado diante de entrada inválida.",
+            "mixed": "Verifica o comportamento contratado diante de entrada inválida.",
+            "en": "Checks contracted behavior for invalid input."
+          },
+          "example": {
+            "pt": "Este parser trata sintaxe; a validação de campos é outra etapa do cliente.",
+            "mixed": "Este parser trata sintaxe; a validação de campos é outra etapa do cliente.",
+            "en": "This parser handles syntax; field validation is a separate client stage."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "parse_body('{\"label\":}')"
+            },
+            "output": {
+              "type": "JSONDecodeError",
+              "message": "Expecting value: line 1 column 10 (char 9)"
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "import json\ndef parse_body(payload):\n    return json.loads(payload)\n"
+            },
+            "output": {
+              "solution": "import json\ndef parse_body(payload):\n    try:\n        return json.loads(payload)\n    except json.JSONDecodeError:\n        return {\"error\": \"invalid_json\"}\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "valid",
+                "input": "{\"label\":\"billing\"}"
+              },
+              {
+                "id": "malformed",
+                "input": "{"
+              },
+              {
+                "id": "valid-null",
+                "input": "null"
+              }
+            ],
+            "output": [
+              {
+                "id": "valid",
+                "expected": {
+                  "label": "billing"
+                }
+              },
+              {
+                "id": "malformed",
+                "expected": {
+                  "error": "invalid_json"
+                }
+              },
+              {
+                "id": "valid-null",
+                "expected": null
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "valid",
+        "call": "parse_body('{\"label\":\"billing\"}')",
+        "input": "{\"label\":\"billing\"}",
+        "expected": {
+          "label": "billing"
+        }
+      },
+      {
+        "id": "malformed",
+        "call": "parse_body(\"{\")",
+        "input": "{",
+        "expected": {
+          "error": "invalid_json"
+        }
+      },
+      {
+        "id": "valid-null",
+        "call": "parse_body(\"null\")",
+        "input": "null",
+        "expected": null
+      }
+    ],
+    "concept": "serialization",
+    "sourceEvidence": {
+      "type": "JSONDecodeError",
+      "message": "Expecting value: line 1 column 10 (char 9)"
+    },
+    "incorrectSolutions": [
+      "import json\ndef parse_body(payload):\n    try:\n        return json.loads(payload)\n    except KeyError:\n        return {\"error\":\"invalid_json\"}\n",
+      "import json\ndef parse_body(payload):\n    try:\n        return json.loads(payload)\n    except IndexError:\n        return {\"error\":\"invalid_json\"}\n"
+    ]
+  },
+  {
+    "id": "empty-scores",
+    "kind": "debug",
+    "title": {
+      "pt": "Lista vazia de scores",
+      "mixed": "Empty score list (lista vazia de scores)",
+      "en": "Empty score list"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def safe_max(scores):\n    return max(scores) if scores else None\n",
+    "sourceCode": "def safe_max(scores):\n    return max(scores)\n",
+    "trigger": "safe_max([])",
+    "steps": [
+      {
+        "id": "inspect-empty",
+        "title": {
+          "pt": "Investigue a coleção vazia",
+          "mixed": "Investigate an empty collection (investigue a coleção vazia)",
+          "en": "Investigate an empty collection"
+        },
+        "prompt": {
+          "pt": "Por que max([]) falha?",
+          "mixed": "Por que max([]) falha?",
+          "en": "Why does max([]) fail?"
+        },
+        "code": "def safe_max(scores):\n    return max(scores)\n",
+        "choices": [
+          {
+            "id": "inspect-empty-a",
+            "label": {
+              "pt": "Não existe item para selecionar como maior.",
+              "mixed": "Não existe item para selecionar como maior.",
+              "en": "There is no item to select as the largest."
+            }
+          },
+          {
+            "id": "inspect-empty-b",
+            "label": {
+              "pt": "Todos os scores precisam ser positivos.",
+              "mixed": "Todos os scores precisam ser positivos.",
+              "en": "Every score must be positive."
+            }
+          },
+          {
+            "id": "inspect-empty-c",
+            "label": {
+              "pt": "Toda lista deve conter texto.",
+              "mixed": "Toda lista deve conter texto.",
+              "en": "Every list must contain text."
+            }
+          }
+        ],
+        "correctId": "inspect-empty-a",
+        "hints": [
+          {
+            "pt": "Uma lista vazia não tem máximo sem um padrão definido.",
+            "mixed": "Uma lista vazia não tem máximo sem um padrão definido.",
+            "en": "An empty list has no maximum without a defined default."
+          },
+          {
+            "pt": "O contrato desta ferramenta exige None quando não há dados.",
+            "mixed": "O contrato desta ferramenta exige None quando não há dados.",
+            "en": "This tool contract requires None when there is no data."
+          }
+        ],
+        "explanation": {
+          "pt": "A ausência de dados é diferente de um score igual a zero.",
+          "mixed": "A ausência de dados é diferente de um score igual a zero.",
+          "en": "Missing data differs from a zero score."
+        },
+        "effect": {
+          "cause": "empty collection"
+        },
+        "concept": "maximum",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "empty-list"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Uma coleção sem itens pode exigir resultado especial.",
+            "mixed": "Uma coleção sem itens pode exigir resultado especial.",
+            "en": "A collection without items may require a special result."
+          },
+          "example": {
+            "pt": "A ausência de dados é diferente de um score igual a zero.",
+            "mixed": "A ausência de dados é diferente de um score igual a zero.",
+            "en": "Missing data differs from a zero score."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "max-scores",
+        "evidence": {
+          "type": "ValueError",
+          "message": "max() iterable argument is empty"
+        }
+      },
+      {
+        "id": "repair-empty",
+        "title": {
+          "pt": "Defina o caso sem dados",
+          "mixed": "Define the no-data case (defina o caso sem dados)",
+          "en": "Define the no-data case"
+        },
+        "prompt": {
+          "pt": "Qual expressão devolve None para lista vazia e preserva scores negativos?",
+          "mixed": "Qual expressão devolve None para lista vazia e preserva scores negativos?",
+          "en": "Which expression returns None for an empty list and preserves negative scores?"
+        },
+        "code": "def safe_max(scores):\n    return max(scores)\n",
+        "choices": [
+          {
+            "id": "repair-empty-a",
+            "label": {
+              "pt": "max(scores, default=0)",
+              "mixed": "max(scores, default=0)",
+              "en": "max(scores, default=0)"
+            }
+          },
+          {
+            "id": "repair-empty-b",
+            "label": {
+              "pt": "max(scores) if scores else None",
+              "mixed": "max(scores) if scores else None",
+              "en": "max(scores) if scores else None"
+            }
+          },
+          {
+            "id": "repair-empty-c",
+            "label": {
+              "pt": "max([0] + scores)",
+              "mixed": "max([0] + scores)",
+              "en": "max([0] + scores)"
+            }
+          }
+        ],
+        "correctId": "repair-empty-b",
+        "hints": [
+          {
+            "pt": "Inserir zero pode alterar o resultado real.",
+            "mixed": "Inserir zero pode alterar o resultado real.",
+            "en": "Inserting zero can change the actual result."
+          },
+          {
+            "pt": "O contrato pede None para ausência, não zero.",
+            "mixed": "O contrato pede None para ausência, não zero.",
+            "en": "The contract requires None for absence, not zero."
+          }
+        ],
+        "explanation": {
+          "pt": "O guarda evita max vazio sem fabricar um score.",
+          "mixed": "O guarda evita max vazio sem fabricar um score.",
+          "en": "The guard avoids empty max without inventing a score."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "maximum",
+        "skills": [
+          "debugging",
+          "data"
+        ],
+        "terms": [
+          "empty-list"
+        ],
+        "requires": [
+          "inspect-empty"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Uma coleção sem itens pode exigir resultado especial.",
+            "mixed": "Uma coleção sem itens pode exigir resultado especial.",
+            "en": "A collection without items may require a special result."
+          },
+          "example": {
+            "pt": "O guarda evita max vazio sem fabricar um score.",
+            "mixed": "O guarda evita max vazio sem fabricar um score.",
+            "en": "The guard avoids empty max without inventing a score."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "max-scores"
+      },
+      {
+        "id": "test-empty",
+        "title": {
+          "pt": "Teste a borda e negativos",
+          "mixed": "Test the boundary and negatives (teste a borda e negativos)",
+          "en": "Test the boundary and negatives"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual par cobre as falhas de um padrão artificial zero?",
+          "mixed": "Execute os casos. Qual par cobre as falhas de um padrão artificial zero?",
+          "en": "Run cases. Which pair catches failures caused by an artificial zero default?"
+        },
+        "code": "def safe_max(scores):\n    return max(scores) if scores else None\n",
+        "choices": [
+          {
+            "id": "test-empty-a",
+            "label": {
+              "pt": "Só listas com scores 0.2 e 0.9.",
+              "mixed": "Só listas com scores 0.2 e 0.9.",
+              "en": "Only lists containing 0.2 and 0.9."
+            }
+          },
+          {
+            "id": "test-empty-b",
+            "label": {
+              "pt": "Só uma lista com um item positivo.",
+              "mixed": "Só uma lista com um item positivo.",
+              "en": "Only a list with one positive item."
+            }
+          },
+          {
+            "id": "test-empty-c",
+            "label": {
+              "pt": "Lista vazia retorna None e [-0.2,-0.9] retorna -0.2.",
+              "mixed": "Lista vazia retorna None e [-0.2,-0.9] retorna -0.2.",
+              "en": "An empty list returns None and [-0.2,-0.9] returns -0.2."
+            }
+          }
+        ],
+        "correctId": "test-empty-c",
+        "hints": [
+          {
+            "pt": "Um score negativo ainda pode ser o maior de uma lista.",
+            "mixed": "Um score negativo ainda pode ser o maior de uma lista.",
+            "en": "A negative score can still be the largest in a list."
+          },
+          {
+            "pt": "Nenhum score calibrado está sendo presumido.",
+            "mixed": "Nenhum score calibrado está sendo presumido.",
+            "en": "No calibrated score is assumed."
+          }
+        ],
+        "explanation": {
+          "pt": "Os casos distinguem ausência, valor válido e alteração indevida por zero.",
+          "mixed": "Os casos distinguem ausência, valor válido e alteração indevida por zero.",
+          "en": "The cases distinguish absence, valid value and improper zero substitution."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "boundary"
+        ],
+        "requires": [
+          "repair-empty"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Entrada no limite do domínio, como uma lista vazia.",
+            "mixed": "Entrada no limite do domínio, como uma lista vazia.",
+            "en": "An input at the domain boundary, such as an empty list."
+          },
+          "example": {
+            "pt": "Os casos distinguem ausência, valor válido e alteração indevida por zero.",
+            "mixed": "Os casos distinguem ausência, valor válido e alteração indevida por zero.",
+            "en": "The cases distinguish absence, valid value and improper zero substitution."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "safe_max([])"
+            },
+            "output": {
+              "type": "ValueError",
+              "message": "max() iterable argument is empty"
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def safe_max(scores):\n    return max(scores)\n"
+            },
+            "output": {
+              "solution": "def safe_max(scores):\n    return max(scores) if scores else None\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "normal",
+                "input": [
+                  0.2,
+                  0.9
+                ]
+              },
+              {
+                "id": "empty",
+                "input": []
+              },
+              {
+                "id": "negative",
+                "input": [
+                  -0.2,
+                  -0.9
+                ]
+              }
+            ],
+            "output": [
+              {
+                "id": "normal",
+                "expected": 0.9
+              },
+              {
+                "id": "empty",
+                "expected": null
+              },
+              {
+                "id": "negative",
+                "expected": -0.2
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "normal",
+        "call": "safe_max([0.2,0.9])",
+        "input": [
+          0.2,
+          0.9
+        ],
+        "expected": 0.9
+      },
+      {
+        "id": "empty",
+        "call": "safe_max([])",
+        "input": [],
+        "expected": null
+      },
+      {
+        "id": "negative",
+        "call": "safe_max([-0.2,-0.9])",
+        "input": [
+          -0.2,
+          -0.9
+        ],
+        "expected": -0.2
+      }
+    ],
+    "concept": "maximum",
+    "sourceEvidence": {
+      "type": "ValueError",
+      "message": "max() iterable argument is empty"
+    },
+    "incorrectSolutions": [
+      "def safe_max(scores):\n    return max(scores,default=0)\n",
+      "def safe_max(scores):\n    return max([0]+scores)\n"
+    ]
+  },
+  {
+    "id": "wrong-metric",
+    "kind": "debug",
+    "title": {
+      "pt": "Métrica com denominador incorreto",
+      "mixed": "Metric with wrong denominator (métrica com denominador incorreto)",
+      "en": "Metric with wrong denominator"
+    },
+    "goal": {
+      "pt": "Investigar a causa, corrigir o contrato e executar testes.",
+      "mixed": "Investigar a causa, corrigir o contrato e executar testes.",
+      "en": "Investigate the cause, repair the contract and run tests."
+    },
+    "context": {
+      "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+      "en": "A defect in a small tool interrupts or distorts an AI workflow."
+    },
+    "limitations": {
+      "pt": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "mixed": "Cenário fictício; apenas as correções e casos cadastrados são simulados.",
+      "en": "Fictional scenario; only registered repairs and cases are simulated."
+    },
+    "result": {
+      "pt": "Causa identificada e correção validada nos casos declarados.",
+      "mixed": "Causa identificada e correção validada nos casos declarados.",
+      "en": "Cause identified and repair validated on the declared cases."
+    },
+    "initialArtifact": {
+      "repaired": false
+    },
+    "solutionCode": "def score_accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(expected)\n",
+    "sourceCode": "def score_accuracy(predicted, expected):\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(predicted)\n",
+    "trigger": "score_accuracy([\"a\"],[\"a\",\"b\"])",
+    "steps": [
+      {
+        "id": "inspect-metric",
+        "title": {
+          "pt": "Investigue o total usado",
+          "mixed": "Inspect the total used (investigue o total usado)",
+          "en": "Inspect the total used"
+        },
+        "prompt": {
+          "pt": "O contrato conta previsões ausentes como erro. Por que uma previsão correta em duas tarefas virou 1.0?",
+          "mixed": "O contrato conta previsões ausentes como erro. Por que uma previsão correta em duas tarefas virou 1.0?",
+          "en": "The contract counts missing predictions as wrong. Why did one correct prediction on two tasks become 1.0?"
+        },
+        "code": "def score_accuracy(predicted, expected):\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(predicted)\n",
+        "choices": [
+          {
+            "id": "inspect-metric-a",
+            "label": {
+              "pt": "O modelo foi comprovado perfeito.",
+              "mixed": "O modelo foi comprovado perfeito.",
+              "en": "The model was proven perfect."
+            }
+          },
+          {
+            "id": "inspect-metric-b",
+            "label": {
+              "pt": "O total inclui apenas respostas produzidas e omite uma tarefa esperada.",
+              "mixed": "O total inclui apenas respostas produzidas e omite uma tarefa esperada.",
+              "en": "The total only includes produced responses and omits an expected task."
+            }
+          },
+          {
+            "id": "inspect-metric-c",
+            "label": {
+              "pt": "zip altera os pesos de um modelo.",
+              "mixed": "zip altera os pesos de um modelo.",
+              "en": "zip changes model weights."
+            }
+          }
+        ],
+        "correctId": "inspect-metric-b",
+        "hints": [
+          {
+            "pt": "Confira o denominador e o contrato.",
+            "mixed": "Confira o denominador e o contrato.",
+            "en": "Check the denominator and the contract."
+          },
+          {
+            "pt": "São duas tarefas esperadas, mesmo com só uma saída.",
+            "mixed": "São duas tarefas esperadas, mesmo com só uma saída.",
+            "en": "There are two expected tasks even with only one output."
+          }
+        ],
+        "explanation": {
+          "pt": "O denominador errado esconde uma resposta ausente.",
+          "mixed": "O denominador errado esconde uma resposta ausente.",
+          "en": "The wrong denominator hides a missing answer."
+        },
+        "effect": {
+          "cause": "wrong denominator"
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation",
+          "debugging"
+        ],
+        "terms": [
+          "denominator"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "O total usado na divisão precisa corresponder ao contrato.",
+            "mixed": "O total usado na divisão precisa corresponder ao contrato.",
+            "en": "The division total must match the contract."
+          },
+          "example": {
+            "pt": "O denominador errado esconde uma resposta ausente.",
+            "mixed": "O denominador errado esconde uma resposta ausente.",
+            "en": "The wrong denominator hides a missing answer."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation",
+        "evidence": {
+          "observed": 1,
+          "exception": null
+        }
+      },
+      {
+        "id": "repair-metric",
+        "title": {
+          "pt": "Corrija total e conjunto vazio",
+          "mixed": "Repair total and empty data (corrija total e conjunto vazio)",
+          "en": "Repair total and empty data"
+        },
+        "prompt": {
+          "pt": "Qual estratégia atende ao contrato?",
+          "mixed": "Qual estratégia atende ao contrato?",
+          "en": "Which strategy meets the contract?"
+        },
+        "code": "def score_accuracy(predicted, expected):\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(predicted)\n",
+        "choices": [
+          {
+            "id": "repair-metric-a",
+            "label": {
+              "pt": "Dividir por len(predicted) sempre.",
+              "mixed": "Dividir por len(predicted) sempre.",
+              "en": "Always divide by len(predicted)."
+            }
+          },
+          {
+            "id": "repair-metric-b",
+            "label": {
+              "pt": "Dividir por len(expected)+1 sempre.",
+              "mixed": "Dividir por len(expected)+1 sempre.",
+              "en": "Always divide by len(expected)+1."
+            }
+          },
+          {
+            "id": "repair-metric-c",
+            "label": {
+              "pt": "Se expected estiver vazio retornar None; senão dividir acertos por len(expected).",
+              "mixed": "Se expected estiver vazio retornar None; senão dividir acertos por len(expected).",
+              "en": "If expected is empty return None; otherwise divide correct answers by len(expected)."
+            }
+          }
+        ],
+        "correctId": "repair-metric-c",
+        "hints": [
+          {
+            "pt": "A ausência de tarefas não justifica inventar acurácia.",
+            "mixed": "A ausência de tarefas não justifica inventar acurácia.",
+            "en": "No tasks do not justify invented accuracy."
+          },
+          {
+            "pt": "O total vem das tarefas esperadas.",
+            "mixed": "O total vem das tarefas esperadas.",
+            "en": "The total comes from expected tasks."
+          }
+        ],
+        "explanation": {
+          "pt": "A correção registra 0.5 no caso com saída ausente e None sem tarefas.",
+          "mixed": "A correção registra 0.5 no caso com saída ausente e None sem tarefas.",
+          "en": "The repair records 0.5 for a missing-output case and None for no tasks."
+        },
+        "effect": {
+          "repaired": true
+        },
+        "concept": "accuracy",
+        "skills": [
+          "evaluation",
+          "debugging"
+        ],
+        "terms": [
+          "denominator"
+        ],
+        "requires": [
+          "inspect-metric"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "O total usado na divisão precisa corresponder ao contrato.",
+            "mixed": "O total usado na divisão precisa corresponder ao contrato.",
+            "en": "The division total must match the contract."
+          },
+          "example": {
+            "pt": "A correção registra 0.5 no caso com saída ausente e None sem tarefas.",
+            "mixed": "A correção registra 0.5 no caso com saída ausente e None sem tarefas.",
+            "en": "The repair records 0.5 for a missing-output case and None for no tasks."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "heldout-evaluation"
+      },
+      {
+        "id": "test-metric",
+        "title": {
+          "pt": "Teste a métrica reparada",
+          "mixed": "Test the repaired metric (teste a métrica reparada)",
+          "en": "Test the repaired metric"
+        },
+        "prompt": {
+          "pt": "Execute os casos. Qual teste detecta o denominador original errado?",
+          "mixed": "Execute os casos. Qual teste detecta o denominador original errado?",
+          "en": "Run cases. Which test detects the original wrong denominator?"
+        },
+        "code": "def score_accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(expected)\n",
+        "choices": [
+          {
+            "id": "test-metric-a",
+            "label": {
+              "pt": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 0.5",
+              "mixed": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 0.5",
+              "en": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 0.5"
+            }
+          },
+          {
+            "id": "test-metric-b",
+            "label": {
+              "pt": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 1.0",
+              "mixed": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 1.0",
+              "en": "assert score_accuracy([\"a\"],[\"a\",\"b\"]) == 1.0"
+            }
+          },
+          {
+            "id": "test-metric-c",
+            "label": {
+              "pt": "assert score_accuracy([],[]) == 1.0",
+              "mixed": "assert score_accuracy([],[]) == 1.0",
+              "en": "assert score_accuracy([],[]) == 1.0"
+            }
+          }
+        ],
+        "correctId": "test-metric-a",
+        "hints": [
+          {
+            "pt": "A expectativa deve incluir a tarefa sem previsão.",
+            "mixed": "A expectativa deve incluir a tarefa sem previsão.",
+            "en": "The expectation must include the task without a prediction."
+          },
+          {
+            "pt": "Uma resposta correta entre duas esperadas vale metade.",
+            "mixed": "Uma resposta correta entre duas esperadas vale metade.",
+            "en": "One correct answer among two expected answers is half."
+          }
+        ],
+        "explanation": {
+          "pt": "O teste negativo de saída incompleta evita uma métrica artificialmente alta.",
+          "mixed": "O teste negativo de saída incompleta evita uma métrica artificialmente alta.",
+          "en": "The incomplete-output negative test prevents an artificially high metric."
+        },
+        "effect": {
+          "tested": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "evaluation",
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "repair-metric"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "O teste negativo de saída incompleta evita uma métrica artificialmente alta.",
+            "mixed": "O teste negativo de saída incompleta evita uma métrica artificialmente alta.",
+            "en": "The incomplete-output negative test prevents an artificially high metric."
+          },
+          "professional": {
+            "pt": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "mixed": "Um defeito em uma pequena ferramenta interrompe ou distorce um fluxo de IA.",
+            "en": "A defect in a small tool interrupts or distorts an AI workflow."
+          }
+        },
+        "reviewMissionId": "debug-logic",
+        "requiresTests": true
+      }
+    ],
+    "traces": [
+      {
+        "id": "repair-flow",
+        "title": {
+          "pt": "Investigar e reparar",
+          "mixed": "Investigate and repair (investigar e reparar)",
+          "en": "Investigate and repair"
+        },
+        "nodes": [
+          {
+            "id": "symptom",
+            "title": {
+              "pt": "Sintoma",
+              "mixed": "Symptom (sintoma)",
+              "en": "Symptom"
+            },
+            "input": {
+              "trigger": "score_accuracy([\"a\"],[\"a\",\"b\"])"
+            },
+            "output": {
+              "observed": 1,
+              "exception": null
+            },
+            "explanation": {
+              "pt": "A evidência foi produzida por CPython em desenvolvimento.",
+              "mixed": "A evidência foi produzida por CPython em desenvolvimento.",
+              "en": "Evidence was produced by CPython during development."
+            },
+            "failure": true
+          },
+          {
+            "id": "repair",
+            "title": {
+              "pt": "Correção",
+              "mixed": "Repair (correção)",
+              "en": "Repair"
+            },
+            "input": {
+              "source": "def score_accuracy(predicted, expected):\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(predicted)\n"
+            },
+            "output": {
+              "solution": "def score_accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(expected)\n"
+            },
+            "explanation": {
+              "pt": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "mixed": "Uma correção cadastrada é aplicada; código do usuário não é executado.",
+              "en": "A registered repair is applied; user code is not executed."
+            },
+            "failure": false
+          },
+          {
+            "id": "tests",
+            "title": {
+              "pt": "Testes",
+              "mixed": "Tests (testes)",
+              "en": "Tests"
+            },
+            "input": [
+              {
+                "id": "all-correct",
+                "input": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ]
+                ]
+              },
+              {
+                "id": "missing-output",
+                "input": [
+                  [
+                    "a"
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ]
+                ]
+              },
+              {
+                "id": "empty-target",
+                "input": [
+                  [],
+                  []
+                ]
+              }
+            ],
+            "output": [
+              {
+                "id": "all-correct",
+                "expected": 1
+              },
+              {
+                "id": "missing-output",
+                "expected": 0.5
+              },
+              {
+                "id": "empty-target",
+                "expected": null
+              }
+            ],
+            "explanation": {
+              "pt": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "mixed": "Casos normais, inválidos ou de borda distinguem a correção.",
+              "en": "Normal, invalid or boundary cases distinguish the repair."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "tests": [
+      {
+        "id": "all-correct",
+        "call": "score_accuracy([\"a\",\"b\"],[\"a\",\"b\"])",
+        "input": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "id": "missing-output",
+        "call": "score_accuracy([\"a\"],[\"a\",\"b\"])",
+        "input": [
+          [
+            "a"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "expected": 0.5
+      },
+      {
+        "id": "empty-target",
+        "call": "score_accuracy([],[])",
+        "input": [
+          [],
+          []
+        ],
+        "expected": null
+      }
+    ],
+    "concept": "accuracy",
+    "sourceEvidence": {
+      "observed": 1,
+      "exception": null
+    },
+    "incorrectSolutions": [
+      "def score_accuracy(predicted,expected):\n    correct=sum(p==e for p,e in zip(predicted,expected))\n    return correct / len(predicted)\n",
+      "def score_accuracy(predicted,expected):\n    correct=sum(p==e for p,e in zip(predicted,expected))\n    return correct / (len(expected)+1)\n"
+    ]
+  }
+]
