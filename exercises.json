@@ -70,7 +70,10 @@
     "requires": [],
     "introduces": [
       "assignment"
-    ]
+    ],
+    "track": "A",
+    "concept": "assignment",
+    "difficulty": 1
   },
   {
     "id": "print-score",
@@ -145,7 +148,10 @@
     ],
     "introduces": [
       "print"
-    ]
+    ],
+    "track": "A",
+    "concept": "print",
+    "difficulty": 1
   },
   {
     "id": "max-scores",
@@ -289,7 +295,10 @@
     },
     "introduces": [
       "max"
-    ]
+    ],
+    "track": "A",
+    "concept": "max",
+    "difficulty": 1
   },
   {
     "id": "read-index",
@@ -381,7 +390,10 @@
     ],
     "introduces": [
       "index"
-    ]
+    ],
+    "track": "A",
+    "concept": "index",
+    "difficulty": 1
   },
   {
     "id": "find-index-error",
@@ -470,7 +482,10 @@
     ],
     "introduces": [
       "index-error"
-    ]
+    ],
+    "track": "F",
+    "concept": "index-error",
+    "difficulty": 1
   },
   {
     "id": "compare-scores",
@@ -558,7 +573,10 @@
     ],
     "introduces": [
       "comparison"
-    ]
+    ],
+    "track": "B",
+    "concept": "comparison",
+    "difficulty": 2
   },
   {
     "id": "minimum-confidence",
@@ -646,7 +664,10 @@
     ],
     "introduces": [
       "if"
-    ]
+    ],
+    "track": "B",
+    "concept": "if",
+    "difficulty": 2
   },
   {
     "id": "choose-fallback",
@@ -787,7 +808,10 @@
     },
     "introduces": [
       "else"
-    ]
+    ],
+    "track": "B",
+    "concept": "else",
+    "difficulty": 2
   },
   {
     "id": "response-dictionary",
@@ -873,7 +897,10 @@
     ],
     "introduces": [
       "dictionary"
-    ]
+    ],
+    "track": "C",
+    "concept": "dictionary",
+    "difficulty": 2
   },
   {
     "id": "read-response-field",
@@ -959,7 +986,10 @@
     ],
     "introduces": [
       "key-access"
-    ]
+    ],
+    "track": "C",
+    "concept": "key-access",
+    "difficulty": 2
   },
   {
     "id": "english-variable-names",
@@ -1047,7 +1077,10 @@
     ],
     "introduces": [
       "naming"
-    ]
+    ],
+    "track": "C",
+    "concept": "naming",
+    "difficulty": 3
   },
   {
     "id": "define-tool",
@@ -1135,7 +1168,10 @@
     ],
     "introduces": [
       "function"
-    ]
+    ],
+    "track": "D",
+    "concept": "function",
+    "difficulty": 3
   },
   {
     "id": "return-score",
@@ -1221,7 +1257,60 @@
     ],
     "introduces": [
       "return"
-    ]
+    ],
+    "track": "D",
+    "concept": "return",
+    "difficulty": 3,
+    "simulation": {
+      "code": "def keep_score(score):\n    return score\nprint(keep_score(0.84))",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {},
+          "output": [],
+          "explanation": {
+            "pt": "Define keep_score; o corpo ainda não executa.",
+            "mixed": "Define keep_score; o corpo ainda não executa.",
+            "en": "Defines keep_score; the body does not run yet."
+          }
+        },
+        {
+          "line": 2,
+          "variables": {},
+          "output": [],
+          "explanation": {
+            "pt": "Chama keep_score com 0.84.",
+            "mixed": "Chama keep_score com 0.84.",
+            "en": "Calls keep_score with 0.84."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "score": 0.84
+          },
+          "output": [],
+          "explanation": {
+            "pt": "No escopo local, return devolve score.",
+            "mixed": "No escopo local, return devolve score.",
+            "en": "In local scope, return sends score back."
+          },
+          "scope": "keep_score"
+        },
+        {
+          "line": 2,
+          "variables": {},
+          "output": [
+            "0.84"
+          ],
+          "explanation": {
+            "pt": "Retorna ao chamador e mostra 0.84.",
+            "mixed": "Retorna ao chamador e mostra 0.84.",
+            "en": "Returns to the caller and displays 0.84."
+          }
+        }
+      ]
+    }
   },
   {
     "id": "trace-selection",
@@ -1389,7 +1478,10 @@
         }
       ]
     },
-    "introduces": []
+    "introduces": [],
+    "track": "G",
+    "concept": "flow",
+    "difficulty": 3
   },
   {
     "id": "fallback-challenge",
@@ -1461,6 +1553,2659 @@
     "requires": [
       "trace-selection"
     ],
-    "introduces": []
+    "introduces": [],
+    "track": "G",
+    "concept": "flow",
+    "difficulty": 3
+  },
+  {
+    "id": "token-budget",
+    "module": "Fundamentos",
+    "track": "A",
+    "concept": "addition",
+    "concepts": [
+      "addition"
+    ],
+    "difficulty": 4,
+    "type": "predict",
+    "title": "Calcule o orçamento de tokens",
+    "prompt": "Qual total será mostrado?",
+    "code": "prompt_tokens = 120\nreply_tokens = 30\nprint(prompt_tokens + reply_tokens)",
+    "options": [
+      "150",
+      "120",
+      "30"
+    ],
+    "correct": 0,
+    "hints": [
+      "Some as duas quantidades.",
+      "120 + 30 resulta em 150."
+    ],
+    "explanation": "O total é 150 tokens.",
+    "aiApplication": "Somar contagens ajuda a estimar o tamanho de uma requisição.",
+    "legend": {
+      "addition": "+ soma dois números."
+    },
+    "terms": [
+      "addition"
+    ],
+    "introduces": [
+      "addition"
+    ],
+    "requires": [
+      "fallback-challenge"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Calcule o orçamento de tokens",
+        "prompt": "Qual total será mostrado?",
+        "options": [
+          "150",
+          "120",
+          "30"
+        ],
+        "hints": [
+          "Some as duas quantidades.",
+          "120 + 30 resulta em 150."
+        ],
+        "explanation": "O total é 150 tokens.",
+        "aiApplication": "Somar contagens ajuda a estimar o tamanho de uma requisição.",
+        "legend": {
+          "addition": "+ soma dois números."
+        }
+      },
+      "mixed": {
+        "title": "Calcule o orçamento de tokens",
+        "prompt": "Qual total será mostrado?",
+        "options": [
+          "150",
+          "120",
+          "30"
+        ],
+        "hints": [
+          "Some as duas quantidades.",
+          "120 + 30 resulta em 150."
+        ],
+        "explanation": "O total é 150 tokens.",
+        "aiApplication": "Somar contagens ajuda a estimar o tamanho de uma requisição.",
+        "legend": {
+          "addition": "+ soma dois números."
+        }
+      },
+      "en": {
+        "title": "Calculate a token budget",
+        "prompt": "What total is displayed?",
+        "options": [
+          "150",
+          "120",
+          "30"
+        ],
+        "hints": [
+          "Add both counts.",
+          "120 + 30 equals 150."
+        ],
+        "explanation": "The total is 150 tokens.",
+        "aiApplication": "Adding counts helps estimate request size.",
+        "legend": {
+          "addition": "+ adds two numbers."
+        }
+      }
+    }
+  },
+  {
+    "id": "count-models",
+    "module": "Fundamentos",
+    "track": "A",
+    "concept": "length",
+    "concepts": [
+      "length"
+    ],
+    "difficulty": 4,
+    "type": "complete",
+    "title": "Conte os modelos disponíveis",
+    "prompt": "Escolha a função que completa o código.",
+    "code": "models = [\"local\", \"small\", \"remote\"]\nprint(___(models))",
+    "options": [
+      "len",
+      "max",
+      "print"
+    ],
+    "correct": 0,
+    "hints": [
+      "Precisamos da quantidade, não do maior item.",
+      "len retorna o número de itens."
+    ],
+    "explanation": "len(models) retorna 3.",
+    "aiApplication": "A quantidade pode validar se há modelos disponíveis.",
+    "legend": {
+      "length": "len() retorna a quantidade de itens."
+    },
+    "terms": [
+      "length"
+    ],
+    "introduces": [
+      "length"
+    ],
+    "requires": [
+      "token-budget"
+    ],
+    "replacement": {
+      "target": "___"
+    },
+    "solutionCode": "models = [\"local\", \"small\", \"remote\"]\nprint(len(models))",
+    "translations": {
+      "pt": {
+        "title": "Conte os modelos disponíveis",
+        "prompt": "Escolha a função que completa o código.",
+        "options": [
+          "len",
+          "max",
+          "print"
+        ],
+        "hints": [
+          "Precisamos da quantidade, não do maior item.",
+          "len retorna o número de itens."
+        ],
+        "explanation": "len(models) retorna 3.",
+        "aiApplication": "A quantidade pode validar se há modelos disponíveis.",
+        "legend": {
+          "length": "len() retorna a quantidade de itens."
+        }
+      },
+      "mixed": {
+        "title": "Conte os modelos disponíveis",
+        "prompt": "Escolha a função que completa o código.",
+        "options": [
+          "len",
+          "max",
+          "print"
+        ],
+        "hints": [
+          "Precisamos da quantidade, não do maior item.",
+          "len retorna o número de itens."
+        ],
+        "explanation": "len(models) retorna 3.",
+        "aiApplication": "A quantidade pode validar se há modelos disponíveis.",
+        "legend": {
+          "length": "len() retorna a quantidade de itens."
+        }
+      },
+      "en": {
+        "title": "Count available models",
+        "prompt": "Choose the function that completes the code.",
+        "options": [
+          "len",
+          "max",
+          "print"
+        ],
+        "hints": [
+          "We need the count, not the largest item.",
+          "len returns the number of items."
+        ],
+        "explanation": "len(models) returns 3.",
+        "aiApplication": "The count can check model availability.",
+        "legend": {
+          "length": "len() returns the number of items."
+        }
+      }
+    }
+  },
+  {
+    "id": "visit-tools",
+    "module": "Fundamentos",
+    "track": "A",
+    "concept": "loop",
+    "concepts": [
+      "loop"
+    ],
+    "difficulty": 4,
+    "type": "predict",
+    "title": "Percorra as ferramentas",
+    "prompt": "Qual saída aparece, na ordem?",
+    "code": "tools = [\"search\", \"calculate\"]\nfor tool in tools:\n    print(tool)",
+    "options": [
+      "search\ncalculate",
+      "calculate\nsearch",
+      "tools"
+    ],
+    "correct": 0,
+    "hints": [
+      "for percorre cada item em ordem.",
+      "Primeiro search; depois calculate."
+    ],
+    "explanation": "O bloco roda uma vez por ferramenta.",
+    "aiApplication": "Laços percorrem coleções de ferramentas.",
+    "legend": {
+      "loop": "for repete um bloco para cada item."
+    },
+    "terms": [
+      "loop"
+    ],
+    "introduces": [
+      "loop"
+    ],
+    "requires": [
+      "count-models"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Percorra as ferramentas",
+        "prompt": "Qual saída aparece, na ordem?",
+        "options": [
+          "search\ncalculate",
+          "calculate\nsearch",
+          "tools"
+        ],
+        "hints": [
+          "for percorre cada item em ordem.",
+          "Primeiro search; depois calculate."
+        ],
+        "explanation": "O bloco roda uma vez por ferramenta.",
+        "aiApplication": "Laços percorrem coleções de ferramentas.",
+        "legend": {
+          "loop": "for repete um bloco para cada item."
+        }
+      },
+      "mixed": {
+        "title": "Percorra as ferramentas",
+        "prompt": "Qual saída aparece, na ordem?",
+        "options": [
+          "search\ncalculate",
+          "calculate\nsearch",
+          "tools"
+        ],
+        "hints": [
+          "for percorre cada item em ordem.",
+          "Primeiro search; depois calculate."
+        ],
+        "explanation": "O bloco roda uma vez por ferramenta.",
+        "aiApplication": "Laços percorrem coleções de ferramentas.",
+        "legend": {
+          "loop": "for repete um bloco para cada item."
+        }
+      },
+      "en": {
+        "title": "Visit each tool",
+        "prompt": "What is displayed, in order?",
+        "options": [
+          "search\ncalculate",
+          "calculate\nsearch",
+          "tools"
+        ],
+        "hints": [
+          "for visits each item in order.",
+          "First search, then calculate."
+        ],
+        "explanation": "The block runs once per tool.",
+        "aiApplication": "Loops visit collections of tools.",
+        "legend": {
+          "loop": "for repeats a block for each item."
+        }
+      }
+    }
+  },
+  {
+    "id": "model-records",
+    "module": "Respostas",
+    "track": "C",
+    "concept": "records",
+    "concepts": [
+      "records"
+    ],
+    "difficulty": 4,
+    "type": "predict",
+    "title": "Leia uma lista de respostas",
+    "prompt": "Qual nome será mostrado?",
+    "code": "responses = [{\"model\": \"local\"}, {\"model\": \"remote\"}]\nprint(responses[1][\"model\"])",
+    "options": [
+      "local",
+      "remote",
+      "model"
+    ],
+    "correct": 1,
+    "hints": [
+      "Selecione o segundo dicionário antes da chave.",
+      "O índice 1 aponta para o registro remote."
+    ],
+    "explanation": "Acesso em duas etapas retorna remote.",
+    "aiApplication": "Lotes de inferência retornam coleções de registros.",
+    "legend": {
+      "records": "Lista de dicionários reúne registros ordenados."
+    },
+    "terms": [
+      "records"
+    ],
+    "introduces": [
+      "records"
+    ],
+    "requires": [
+      "visit-tools"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Leia uma lista de respostas",
+        "prompt": "Qual nome será mostrado?",
+        "options": [
+          "local",
+          "remote",
+          "model"
+        ],
+        "hints": [
+          "Selecione o segundo dicionário antes da chave.",
+          "O índice 1 aponta para o registro remote."
+        ],
+        "explanation": "Acesso em duas etapas retorna remote.",
+        "aiApplication": "Lotes de inferência retornam coleções de registros.",
+        "legend": {
+          "records": "Lista de dicionários reúne registros ordenados."
+        }
+      },
+      "mixed": {
+        "title": "Leia uma lista de respostas",
+        "prompt": "Qual nome será mostrado?",
+        "options": [
+          "local",
+          "remote",
+          "model"
+        ],
+        "hints": [
+          "Selecione o segundo dicionário antes da chave.",
+          "O índice 1 aponta para o registro remote."
+        ],
+        "explanation": "Acesso em duas etapas retorna remote.",
+        "aiApplication": "Lotes de inferência retornam coleções de registros.",
+        "legend": {
+          "records": "Lista de dicionários reúne registros ordenados."
+        }
+      },
+      "en": {
+        "title": "Read a list of responses",
+        "prompt": "Which name is displayed?",
+        "options": [
+          "local",
+          "remote",
+          "model"
+        ],
+        "hints": [
+          "Select the second dictionary before its key.",
+          "Index 1 selects the remote record."
+        ],
+        "explanation": "Two access steps return remote.",
+        "aiApplication": "Batch inference returns collections of records.",
+        "legend": {
+          "records": "A list of dictionaries stores ordered records."
+        }
+      }
+    }
+  },
+  {
+    "id": "parse-json",
+    "module": "Respostas",
+    "track": "C",
+    "concept": "JSON",
+    "concepts": [
+      "JSON"
+    ],
+    "difficulty": 4,
+    "type": "predict",
+    "title": "Converta uma resposta JSON",
+    "prompt": "Qual valor será mostrado? O import já prepara a biblioteca padrão.",
+    "code": "import json\npayload = '{\"label\": \"support\"}'\nresponse = json.loads(payload)\nprint(response[\"label\"])",
+    "options": [
+      "label",
+      "support",
+      "payload"
+    ],
+    "correct": 1,
+    "hints": [
+      "loads converte texto JSON em dados Python.",
+      "Depois da conversão, acesse a chave label."
+    ],
+    "explanation": "O texto vira um dicionário e o campo label vale support.",
+    "aiApplication": "APIs normalmente transportam dados como texto JSON.",
+    "legend": {
+      "JSON": "json.loads() converte texto JSON; import prepara a biblioteca."
+    },
+    "terms": [
+      "JSON"
+    ],
+    "introduces": [
+      "JSON"
+    ],
+    "requires": [
+      "model-records"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Converta uma resposta JSON",
+        "prompt": "Qual valor será mostrado? O import já prepara a biblioteca padrão.",
+        "options": [
+          "label",
+          "support",
+          "payload"
+        ],
+        "hints": [
+          "loads converte texto JSON em dados Python.",
+          "Depois da conversão, acesse a chave label."
+        ],
+        "explanation": "O texto vira um dicionário e o campo label vale support.",
+        "aiApplication": "APIs normalmente transportam dados como texto JSON.",
+        "legend": {
+          "JSON": "json.loads() converte texto JSON; import prepara a biblioteca."
+        }
+      },
+      "mixed": {
+        "title": "Converta uma resposta JSON",
+        "prompt": "Qual valor será mostrado? O import já prepara a biblioteca padrão.",
+        "options": [
+          "label",
+          "support",
+          "payload"
+        ],
+        "hints": [
+          "loads converte texto JSON em dados Python.",
+          "Depois da conversão, acesse a chave label."
+        ],
+        "explanation": "O texto vira um dicionário e o campo label vale support.",
+        "aiApplication": "APIs normalmente transportam dados como texto JSON.",
+        "legend": {
+          "JSON": "json.loads() converte texto JSON; import prepara a biblioteca."
+        }
+      },
+      "en": {
+        "title": "Parse a JSON response",
+        "prompt": "What value is displayed? The import prepares the standard library.",
+        "options": [
+          "label",
+          "support",
+          "payload"
+        ],
+        "hints": [
+          "loads converts JSON text into Python data.",
+          "After parsing, access the label key."
+        ],
+        "explanation": "The text becomes a dictionary and label is support.",
+        "aiApplication": "APIs commonly transport data as JSON text.",
+        "legend": {
+          "JSON": "json.loads() parses JSON text; import loads the library."
+        }
+      }
+    }
+  },
+  {
+    "id": "optional-field",
+    "module": "Respostas",
+    "track": "C",
+    "concept": "default",
+    "concepts": [
+      "default"
+    ],
+    "difficulty": 5,
+    "type": "complete",
+    "title": "Leia um campo opcional",
+    "prompt": "Complete para usar unknown quando label estiver ausente.",
+    "code": "response = {\"model\": \"local\"}\nprint(response.___(\"label\", \"unknown\"))",
+    "options": [
+      "get",
+      "keys",
+      "items"
+    ],
+    "correct": 0,
+    "hints": [
+      "Precisamos ler sem remover nem listar chaves.",
+      "get aceita uma chave e um valor padrão."
+    ],
+    "explanation": "get retorna unknown pois label está ausente.",
+    "aiApplication": "Campos opcionais precisam de um comportamento explícito.",
+    "legend": {
+      "default": "dict.get() lê uma chave com valor padrão."
+    },
+    "terms": [
+      "default"
+    ],
+    "introduces": [
+      "default"
+    ],
+    "requires": [
+      "parse-json"
+    ],
+    "replacement": {
+      "target": "___"
+    },
+    "solutionCode": "response = {\"model\": \"local\"}\nprint(response.get(\"label\", \"unknown\"))",
+    "translations": {
+      "pt": {
+        "title": "Leia um campo opcional",
+        "prompt": "Complete para usar unknown quando label estiver ausente.",
+        "options": [
+          "get",
+          "keys",
+          "items"
+        ],
+        "hints": [
+          "Precisamos ler sem remover nem listar chaves.",
+          "get aceita uma chave e um valor padrão."
+        ],
+        "explanation": "get retorna unknown pois label está ausente.",
+        "aiApplication": "Campos opcionais precisam de um comportamento explícito.",
+        "legend": {
+          "default": "dict.get() lê uma chave com valor padrão."
+        }
+      },
+      "mixed": {
+        "title": "Leia um campo opcional",
+        "prompt": "Complete para usar unknown quando label estiver ausente.",
+        "options": [
+          "get",
+          "keys",
+          "items"
+        ],
+        "hints": [
+          "Precisamos ler sem remover nem listar chaves.",
+          "get aceita uma chave e um valor padrão."
+        ],
+        "explanation": "get retorna unknown pois label está ausente.",
+        "aiApplication": "Campos opcionais precisam de um comportamento explícito.",
+        "legend": {
+          "default": "dict.get() lê uma chave com valor padrão."
+        }
+      },
+      "en": {
+        "title": "Read an optional field",
+        "prompt": "Complete to use unknown when label is absent.",
+        "options": [
+          "get",
+          "keys",
+          "items"
+        ],
+        "hints": [
+          "Read without removing data or listing keys.",
+          "get accepts a key and a default value."
+        ],
+        "explanation": "get returns unknown because label is missing.",
+        "aiApplication": "Optional fields need explicit fallback behavior.",
+        "legend": {
+          "default": "dict.get() reads a key with a default."
+        }
+      }
+    }
+  },
+  {
+    "id": "keyword-tool",
+    "module": "Funções",
+    "track": "D",
+    "concept": "argument",
+    "concepts": [
+      "argument"
+    ],
+    "difficulty": 5,
+    "type": "predict",
+    "title": "Chame uma ferramenta pelo nome",
+    "prompt": "Qual valor será mostrado?",
+    "code": "def choose_model(model_name):\n    return model_name\nprint(choose_model(model_name=\"small\"))",
+    "options": [
+      "model_name",
+      "small",
+      "None"
+    ],
+    "correct": 1,
+    "hints": [
+      "O argumento é ligado ao parâmetro com o mesmo nome.",
+      "model_name recebe small."
+    ],
+    "explanation": "A função devolve small.",
+    "aiApplication": "Argumentos nomeados deixam chamadas de ferramentas mais legíveis.",
+    "legend": {
+      "argument": "nome=valor fornece um argumento pelo nome."
+    },
+    "terms": [
+      "argument"
+    ],
+    "introduces": [
+      "argument"
+    ],
+    "requires": [
+      "optional-field"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Chame uma ferramenta pelo nome",
+        "prompt": "Qual valor será mostrado?",
+        "options": [
+          "model_name",
+          "small",
+          "None"
+        ],
+        "hints": [
+          "O argumento é ligado ao parâmetro com o mesmo nome.",
+          "model_name recebe small."
+        ],
+        "explanation": "A função devolve small.",
+        "aiApplication": "Argumentos nomeados deixam chamadas de ferramentas mais legíveis.",
+        "legend": {
+          "argument": "nome=valor fornece um argumento pelo nome."
+        }
+      },
+      "mixed": {
+        "title": "Chame uma ferramenta pelo nome",
+        "prompt": "Qual valor será mostrado?",
+        "options": [
+          "model_name",
+          "small",
+          "None"
+        ],
+        "hints": [
+          "O argumento é ligado ao parâmetro com o mesmo nome.",
+          "model_name recebe small."
+        ],
+        "explanation": "A função devolve small.",
+        "aiApplication": "Argumentos nomeados deixam chamadas de ferramentas mais legíveis.",
+        "legend": {
+          "argument": "nome=valor fornece um argumento pelo nome."
+        }
+      },
+      "en": {
+        "title": "Call a tool by name",
+        "prompt": "What value is displayed?",
+        "options": [
+          "model_name",
+          "small",
+          "None"
+        ],
+        "hints": [
+          "The argument binds to the parameter with the same name.",
+          "model_name receives small."
+        ],
+        "explanation": "The function returns small.",
+        "aiApplication": "Keyword arguments make tool calls easier to read.",
+        "legend": {
+          "argument": "name=value passes an argument by name."
+        }
+      }
+    }
+  },
+  {
+    "id": "deterministic-tool",
+    "module": "Funções",
+    "track": "D",
+    "concept": "deterministic",
+    "concepts": [
+      "deterministic"
+    ],
+    "difficulty": 5,
+    "type": "complete",
+    "title": "Devolva um resultado de ferramenta",
+    "prompt": "Complete para devolver o resultado ao chamador.",
+    "code": "def add_tokens(first, second):\n    ___ first + second\nprint(add_tokens(10, 5))",
+    "options": [
+      "print",
+      "return",
+      "max"
+    ],
+    "correct": 1,
+    "hints": [
+      "Mostrar um valor não o devolve ao chamador.",
+      "Use return dentro da função."
+    ],
+    "explanation": "A ferramenta devolve 15.",
+    "aiApplication": "Uma ferramenta determinística retorna o mesmo resultado para as mesmas entradas.",
+    "legend": {
+      "deterministic": "Determinístico significa previsível para as mesmas entradas."
+    },
+    "terms": [
+      "deterministic"
+    ],
+    "introduces": [
+      "deterministic"
+    ],
+    "requires": [
+      "keyword-tool"
+    ],
+    "replacement": {
+      "target": "___"
+    },
+    "solutionCode": "def add_tokens(first, second):\n    return first + second\nprint(add_tokens(10, 5))",
+    "translations": {
+      "pt": {
+        "title": "Devolva um resultado de ferramenta",
+        "prompt": "Complete para devolver o resultado ao chamador.",
+        "options": [
+          "print",
+          "return",
+          "max"
+        ],
+        "hints": [
+          "Mostrar um valor não o devolve ao chamador.",
+          "Use return dentro da função."
+        ],
+        "explanation": "A ferramenta devolve 15.",
+        "aiApplication": "Uma ferramenta determinística retorna o mesmo resultado para as mesmas entradas.",
+        "legend": {
+          "deterministic": "Determinístico significa previsível para as mesmas entradas."
+        }
+      },
+      "mixed": {
+        "title": "Devolva um resultado de ferramenta",
+        "prompt": "Complete para devolver o resultado ao chamador.",
+        "options": [
+          "print",
+          "return",
+          "max"
+        ],
+        "hints": [
+          "Mostrar um valor não o devolve ao chamador.",
+          "Use return dentro da função."
+        ],
+        "explanation": "A ferramenta devolve 15.",
+        "aiApplication": "Uma ferramenta determinística retorna o mesmo resultado para as mesmas entradas.",
+        "legend": {
+          "deterministic": "Determinístico significa previsível para as mesmas entradas."
+        }
+      },
+      "en": {
+        "title": "Return a tool result",
+        "prompt": "Complete to send the result to the caller.",
+        "options": [
+          "print",
+          "return",
+          "max"
+        ],
+        "hints": [
+          "Displaying a value does not send it back to the caller.",
+          "Use return inside the function."
+        ],
+        "explanation": "The tool returns 15.",
+        "aiApplication": "A deterministic tool returns the same result for the same inputs.",
+        "legend": {
+          "deterministic": "Deterministic means predictable for the same inputs."
+        }
+      }
+    }
+  },
+  {
+    "id": "http-status",
+    "module": "APIs simuladas",
+    "track": "E",
+    "concept": "status",
+    "concepts": [
+      "status"
+    ],
+    "difficulty": 5,
+    "type": "read",
+    "title": "Interprete um status HTTP simulado",
+    "prompt": "O que o número 200 representa nesta resposta fictícia?",
+    "code": "response = {\"status\": 200, \"body\": \"ready\"}\nprint(response[\"status\"])",
+    "options": [
+      "Sucesso da requisição simulada.",
+      "O modelo tem 200 parâmetros.",
+      "Foram gerados 200 tokens."
+    ],
+    "correct": 0,
+    "hints": [
+      "status descreve o resultado HTTP, não o modelo.",
+      "200 é um código HTTP de sucesso."
+    ],
+    "explanation": "200 indica sucesso HTTP; o corpo ainda pode precisar de validação.",
+    "aiApplication": "Esta resposta é um dicionário fictício, sem requisição de rede.",
+    "legend": {
+      "status": "Status HTTP indica o resultado de uma requisição."
+    },
+    "terms": [
+      "status"
+    ],
+    "introduces": [
+      "status"
+    ],
+    "requires": [
+      "deterministic-tool"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Interprete um status HTTP simulado",
+        "prompt": "O que o número 200 representa nesta resposta fictícia?",
+        "options": [
+          "Sucesso da requisição simulada.",
+          "O modelo tem 200 parâmetros.",
+          "Foram gerados 200 tokens."
+        ],
+        "hints": [
+          "status descreve o resultado HTTP, não o modelo.",
+          "200 é um código HTTP de sucesso."
+        ],
+        "explanation": "200 indica sucesso HTTP; o corpo ainda pode precisar de validação.",
+        "aiApplication": "Esta resposta é um dicionário fictício, sem requisição de rede.",
+        "legend": {
+          "status": "Status HTTP indica o resultado de uma requisição."
+        }
+      },
+      "mixed": {
+        "title": "Interprete um status HTTP simulado",
+        "prompt": "O que o número 200 representa nesta resposta fictícia?",
+        "options": [
+          "Sucesso da requisição simulada.",
+          "O modelo tem 200 parâmetros.",
+          "Foram gerados 200 tokens."
+        ],
+        "hints": [
+          "status descreve o resultado HTTP, não o modelo.",
+          "200 é um código HTTP de sucesso."
+        ],
+        "explanation": "200 indica sucesso HTTP; o corpo ainda pode precisar de validação.",
+        "aiApplication": "Esta resposta é um dicionário fictício, sem requisição de rede.",
+        "legend": {
+          "status": "Status HTTP indica o resultado de uma requisição."
+        }
+      },
+      "en": {
+        "title": "Read a simulated HTTP status",
+        "prompt": "What does 200 represent in this fictional response?",
+        "options": [
+          "Success of the simulated request.",
+          "The model has 200 parameters.",
+          "200 tokens were generated."
+        ],
+        "hints": [
+          "status describes the HTTP result, not the model.",
+          "200 is an HTTP success code."
+        ],
+        "explanation": "200 indicates HTTP success; the body can still need validation.",
+        "aiApplication": "This response is fictional data, with no network request.",
+        "legend": {
+          "status": "HTTP status indicates the result of a request."
+        }
+      }
+    }
+  },
+  {
+    "id": "response-envelope",
+    "module": "APIs simuladas",
+    "track": "E",
+    "concept": "envelope",
+    "concepts": [
+      "envelope"
+    ],
+    "difficulty": 5,
+    "type": "predict",
+    "title": "Abra o corpo da resposta",
+    "prompt": "Qual valor será mostrado?",
+    "code": "response = {\"status\": 200, \"body\": {\"model\": \"small\"}}\nprint(response[\"body\"][\"model\"])",
+    "options": [
+      "200",
+      "body",
+      "small"
+    ],
+    "correct": 2,
+    "hints": [
+      "O campo body contém outro dicionário.",
+      "Acesse body e então model."
+    ],
+    "explanation": "O campo interno model vale small.",
+    "aiApplication": "Respostas simuladas separam metadados e corpo.",
+    "legend": {
+      "envelope": "Um dicionário pode conter outro dicionário."
+    },
+    "terms": [
+      "envelope"
+    ],
+    "introduces": [
+      "envelope"
+    ],
+    "requires": [
+      "http-status"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Abra o corpo da resposta",
+        "prompt": "Qual valor será mostrado?",
+        "options": [
+          "200",
+          "body",
+          "small"
+        ],
+        "hints": [
+          "O campo body contém outro dicionário.",
+          "Acesse body e então model."
+        ],
+        "explanation": "O campo interno model vale small.",
+        "aiApplication": "Respostas simuladas separam metadados e corpo.",
+        "legend": {
+          "envelope": "Um dicionário pode conter outro dicionário."
+        }
+      },
+      "mixed": {
+        "title": "Abra o corpo da resposta",
+        "prompt": "Qual valor será mostrado?",
+        "options": [
+          "200",
+          "body",
+          "small"
+        ],
+        "hints": [
+          "O campo body contém outro dicionário.",
+          "Acesse body e então model."
+        ],
+        "explanation": "O campo interno model vale small.",
+        "aiApplication": "Respostas simuladas separam metadados e corpo.",
+        "legend": {
+          "envelope": "Um dicionário pode conter outro dicionário."
+        }
+      },
+      "en": {
+        "title": "Open the response body",
+        "prompt": "What value is displayed?",
+        "options": [
+          "200",
+          "body",
+          "small"
+        ],
+        "hints": [
+          "body contains another dictionary.",
+          "Access body and then model."
+        ],
+        "explanation": "The inner model field is small.",
+        "aiApplication": "Simulated responses separate metadata and body.",
+        "legend": {
+          "envelope": "A dictionary can contain another dictionary."
+        }
+      }
+    }
+  },
+  {
+    "id": "handle-api-error",
+    "module": "APIs simuladas",
+    "track": "E",
+    "concept": "equality",
+    "concepts": [
+      "equality"
+    ],
+    "difficulty": 5,
+    "type": "predict",
+    "title": "Trate um erro de API",
+    "prompt": "Qual mensagem será mostrada?",
+    "code": "response = {\"status\": 503}\nif response[\"status\"] == 200:\n    print(\"ready\")\nelse:\n    print(\"retry later\")",
+    "options": [
+      "ready",
+      "503",
+      "retry later"
+    ],
+    "correct": 2,
+    "hints": [
+      "== compara igualdade; não faz atribuição.",
+      "503 não é igual a 200."
+    ],
+    "explanation": "O ramo else mostra retry later.",
+    "aiApplication": "Um serviço indisponível pede uma decisão de tratamento explícita.",
+    "legend": {
+      "equality": "== verifica se dois valores são iguais."
+    },
+    "terms": [
+      "equality"
+    ],
+    "introduces": [
+      "equality"
+    ],
+    "requires": [
+      "response-envelope"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Trate um erro de API",
+        "prompt": "Qual mensagem será mostrada?",
+        "options": [
+          "ready",
+          "503",
+          "retry later"
+        ],
+        "hints": [
+          "== compara igualdade; não faz atribuição.",
+          "503 não é igual a 200."
+        ],
+        "explanation": "O ramo else mostra retry later.",
+        "aiApplication": "Um serviço indisponível pede uma decisão de tratamento explícita.",
+        "legend": {
+          "equality": "== verifica se dois valores são iguais."
+        }
+      },
+      "mixed": {
+        "title": "Trate um erro de API",
+        "prompt": "Qual mensagem será mostrada?",
+        "options": [
+          "ready",
+          "503",
+          "retry later"
+        ],
+        "hints": [
+          "== compara igualdade; não faz atribuição.",
+          "503 não é igual a 200."
+        ],
+        "explanation": "O ramo else mostra retry later.",
+        "aiApplication": "Um serviço indisponível pede uma decisão de tratamento explícita.",
+        "legend": {
+          "equality": "== verifica se dois valores são iguais."
+        }
+      },
+      "en": {
+        "title": "Handle API errors",
+        "prompt": "Which message is displayed?",
+        "options": [
+          "ready",
+          "503",
+          "retry later"
+        ],
+        "hints": [
+          "== compares equality; it does not assign.",
+          "503 is not equal to 200."
+        ],
+        "explanation": "The else branch displays retry later.",
+        "aiApplication": "An unavailable service needs an explicit handling decision.",
+        "legend": {
+          "equality": "== checks whether two values are equal."
+        }
+      }
+    },
+    "simulation": {
+      "code": "response = {\"status\": 503}\nif response[\"status\"] == 200:\n    print(\"ready\")\nelse:\n    print(\"retry later\")",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {
+            "response": {
+              "status": 503
+            }
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Recebe dados fictícios.",
+            "mixed": "Recebe dados fictícios.",
+            "en": "Receives fictional data."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "response": {
+              "status": 503
+            }
+          },
+          "output": [],
+          "explanation": {
+            "pt": "503 não é igual a 200.",
+            "mixed": "503 não é igual a 200.",
+            "en": "503 is not equal to 200."
+          }
+        },
+        {
+          "line": 3,
+          "variables": {
+            "response": {
+              "status": 503
+            }
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Segue o ramo alternativo.",
+            "mixed": "Segue o ramo alternativo.",
+            "en": "Follows the alternative branch."
+          }
+        },
+        {
+          "line": 4,
+          "variables": {
+            "response": {
+              "status": 503
+            }
+          },
+          "output": [
+            "retry later"
+          ],
+          "explanation": {
+            "pt": "Mostra o tratamento definido.",
+            "mixed": "Mostra o tratamento definido.",
+            "en": "Displays the defined handling."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug-syntax",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "syntax",
+    "concepts": [
+      "syntax"
+    ],
+    "difficulty": 5,
+    "type": "fix",
+    "title": "Corrija a condição incompleta",
+    "prompt": "Selecione a linha corrigida para o if.",
+    "code": "score = 0.8\nif score > 0.7\n    print(\"ready\")",
+    "options": [
+      "if score > 0.7:",
+      "if score = 0.7:",
+      "else score > 0.7:"
+    ],
+    "correct": 0,
+    "hints": [
+      "A linha do if deve terminar com um delimitador.",
+      "Use dois-pontos após a condição."
+    ],
+    "explanation": "Os dois-pontos abrem o bloco, e a saída corrigida é ready.",
+    "aiApplication": "Um erro de sintaxe impede o código de começar a executar.",
+    "legend": {
+      "syntax": "SyntaxError indica código que não pode ser analisado."
+    },
+    "terms": [
+      "syntax"
+    ],
+    "introduces": [
+      "syntax"
+    ],
+    "requires": [
+      "handle-api-error"
+    ],
+    "replacement": {
+      "target": "if score > 0.7"
+    },
+    "solutionCode": "score = 0.8\nif score > 0.7:\n    print(\"ready\")",
+    "translations": {
+      "pt": {
+        "title": "Corrija a condição incompleta",
+        "prompt": "Selecione a linha corrigida para o if.",
+        "options": [
+          "if score > 0.7:",
+          "if score = 0.7:",
+          "else score > 0.7:"
+        ],
+        "hints": [
+          "A linha do if deve terminar com um delimitador.",
+          "Use dois-pontos após a condição."
+        ],
+        "explanation": "Os dois-pontos abrem o bloco, e a saída corrigida é ready.",
+        "aiApplication": "Um erro de sintaxe impede o código de começar a executar.",
+        "legend": {
+          "syntax": "SyntaxError indica código que não pode ser analisado."
+        }
+      },
+      "mixed": {
+        "title": "Corrija a condição incompleta",
+        "prompt": "Selecione a linha corrigida para o if.",
+        "options": [
+          "if score > 0.7:",
+          "if score = 0.7:",
+          "else score > 0.7:"
+        ],
+        "hints": [
+          "A linha do if deve terminar com um delimitador.",
+          "Use dois-pontos após a condição."
+        ],
+        "explanation": "Os dois-pontos abrem o bloco, e a saída corrigida é ready.",
+        "aiApplication": "Um erro de sintaxe impede o código de começar a executar.",
+        "legend": {
+          "syntax": "SyntaxError indica código que não pode ser analisado."
+        }
+      },
+      "en": {
+        "title": "Repair a missing colon",
+        "prompt": "Select the corrected if line.",
+        "options": [
+          "if score > 0.7:",
+          "if score = 0.7:",
+          "else score > 0.7:"
+        ],
+        "hints": [
+          "The if line must end with a delimiter.",
+          "Use a colon after the condition."
+        ],
+        "explanation": "The colon starts the block, and the repaired output is ready.",
+        "aiApplication": "A syntax error prevents code from starting.",
+        "legend": {
+          "syntax": "SyntaxError means the code cannot be parsed."
+        }
+      }
+    },
+    "debug": {
+      "kind": "SyntaxError",
+      "symptom": {
+        "pt": "SyntaxError",
+        "mixed": "SyntaxError",
+        "en": "SyntaxError"
+      },
+      "investigate": {
+        "pt": [
+          "Conferir os dois-pontos no cabeçalho do if.",
+          "Trocar o modelo para corrigir a sintaxe."
+        ],
+        "mixed": [
+          "Conferir os dois-pontos no cabeçalho do if.",
+          "Trocar o modelo para corrigir a sintaxe."
+        ],
+        "en": [
+          "Check the colon in the if header.",
+          "Switch models to repair syntax."
+        ]
+      },
+      "correctInvestigation": 0,
+      "exception": {
+        "type": "SyntaxError",
+        "message": "expected ':' (debug-syntax, line 2)"
+      }
+    }
+  },
+  {
+    "id": "debug-types",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "type-error",
+    "concepts": [
+      "type-error"
+    ],
+    "difficulty": 5,
+    "type": "fix",
+    "title": "Corrija um score textual",
+    "prompt": "Troque a atribuição para permitir a soma numérica.",
+    "code": "score = \"0.8\"\nprint(score + 0.1)",
+    "options": [
+      "score = \"0.8\"",
+      "score = 0.8",
+      "score = \"score\""
+    ],
+    "correct": 1,
+    "hints": [
+      "Aspas criam texto, não um número.",
+      "Remova as aspas do literal 0.8."
+    ],
+    "explanation": "O score numérico pode ser somado a 0.1.",
+    "aiApplication": "Não presuma que campos vindos de uma API já têm o tipo esperado.",
+    "legend": {
+      "type-error": "TypeError indica uma operação incompatível com os tipos."
+    },
+    "terms": [
+      "type-error"
+    ],
+    "introduces": [
+      "type-error"
+    ],
+    "requires": [
+      "debug-syntax"
+    ],
+    "replacement": {
+      "target": "score = \"0.8\""
+    },
+    "solutionCode": "score = 0.8\nprint(score + 0.1)",
+    "translations": {
+      "pt": {
+        "title": "Corrija um score textual",
+        "prompt": "Troque a atribuição para permitir a soma numérica.",
+        "options": [
+          "score = \"0.8\"",
+          "score = 0.8",
+          "score = \"score\""
+        ],
+        "hints": [
+          "Aspas criam texto, não um número.",
+          "Remova as aspas do literal 0.8."
+        ],
+        "explanation": "O score numérico pode ser somado a 0.1.",
+        "aiApplication": "Não presuma que campos vindos de uma API já têm o tipo esperado.",
+        "legend": {
+          "type-error": "TypeError indica uma operação incompatível com os tipos."
+        }
+      },
+      "mixed": {
+        "title": "Corrija um score textual",
+        "prompt": "Troque a atribuição para permitir a soma numérica.",
+        "options": [
+          "score = \"0.8\"",
+          "score = 0.8",
+          "score = \"score\""
+        ],
+        "hints": [
+          "Aspas criam texto, não um número.",
+          "Remova as aspas do literal 0.8."
+        ],
+        "explanation": "O score numérico pode ser somado a 0.1.",
+        "aiApplication": "Não presuma que campos vindos de uma API já têm o tipo esperado.",
+        "legend": {
+          "type-error": "TypeError indica uma operação incompatível com os tipos."
+        }
+      },
+      "en": {
+        "title": "Repair a text score",
+        "prompt": "Replace the assignment to allow numeric addition.",
+        "options": [
+          "score = \"0.8\"",
+          "score = 0.8",
+          "score = \"score\""
+        ],
+        "hints": [
+          "Quotes create text, not a number.",
+          "Remove quotes from the literal 0.8."
+        ],
+        "explanation": "A numeric score can be added to 0.1.",
+        "aiApplication": "Do not assume API fields have the expected type.",
+        "legend": {
+          "type-error": "TypeError indicates an operation with incompatible types."
+        }
+      }
+    },
+    "debug": {
+      "kind": "TypeError",
+      "symptom": {
+        "pt": "TypeError",
+        "mixed": "TypeError",
+        "en": "TypeError"
+      },
+      "investigate": {
+        "pt": [
+          "Adicionar mais ferramentas à lista.",
+          "Verificar o tipo do literal score."
+        ],
+        "mixed": [
+          "Adicionar mais ferramentas à lista.",
+          "Verificar o tipo do literal score."
+        ],
+        "en": [
+          "Add more tools to the list.",
+          "Inspect the type of the score literal."
+        ]
+      },
+      "correctInvestigation": 1,
+      "exception": {
+        "type": "TypeError",
+        "message": "can only concatenate str (not \"float\") to str"
+      }
+    }
+  },
+  {
+    "id": "debug-key",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "missing-key",
+    "concepts": [
+      "missing-key"
+    ],
+    "difficulty": 5,
+    "type": "fix",
+    "title": "Corrija a chave da resposta",
+    "prompt": "Escolha a linha que lê a chave existente.",
+    "code": "response = {\"score\": 0.9}\nprint(response[\"confidence\"])",
+    "options": [
+      "print(response[\"model\"])",
+      "print(response[\"confidence\"])",
+      "print(response[\"score\"])"
+    ],
+    "correct": 2,
+    "hints": [
+      "Confira as chaves reais do dicionário.",
+      "A única chave existente é score."
+    ],
+    "explanation": "A chave score existe e retorna 0.9.",
+    "aiApplication": "Contratos de resposta devem corresponder aos campos acessados.",
+    "legend": {
+      "missing-key": "KeyError indica uma chave que não existe."
+    },
+    "terms": [
+      "missing-key"
+    ],
+    "introduces": [
+      "missing-key"
+    ],
+    "requires": [
+      "debug-types"
+    ],
+    "replacement": {
+      "target": "print(response[\"confidence\"])"
+    },
+    "solutionCode": "response = {\"score\": 0.9}\nprint(response[\"score\"])",
+    "translations": {
+      "pt": {
+        "title": "Corrija a chave da resposta",
+        "prompt": "Escolha a linha que lê a chave existente.",
+        "options": [
+          "print(response[\"model\"])",
+          "print(response[\"confidence\"])",
+          "print(response[\"score\"])"
+        ],
+        "hints": [
+          "Confira as chaves reais do dicionário.",
+          "A única chave existente é score."
+        ],
+        "explanation": "A chave score existe e retorna 0.9.",
+        "aiApplication": "Contratos de resposta devem corresponder aos campos acessados.",
+        "legend": {
+          "missing-key": "KeyError indica uma chave que não existe."
+        }
+      },
+      "mixed": {
+        "title": "Corrija a chave da resposta",
+        "prompt": "Escolha a linha que lê a chave existente.",
+        "options": [
+          "print(response[\"model\"])",
+          "print(response[\"confidence\"])",
+          "print(response[\"score\"])"
+        ],
+        "hints": [
+          "Confira as chaves reais do dicionário.",
+          "A única chave existente é score."
+        ],
+        "explanation": "A chave score existe e retorna 0.9.",
+        "aiApplication": "Contratos de resposta devem corresponder aos campos acessados.",
+        "legend": {
+          "missing-key": "KeyError indica uma chave que não existe."
+        }
+      },
+      "en": {
+        "title": "Repair the response key",
+        "prompt": "Choose the line that reads the existing key.",
+        "options": [
+          "print(response[\"model\"])",
+          "print(response[\"confidence\"])",
+          "print(response[\"score\"])"
+        ],
+        "hints": [
+          "Check the actual dictionary keys.",
+          "The only existing key is score."
+        ],
+        "explanation": "The score key exists and returns 0.9.",
+        "aiApplication": "Response contracts must match the fields being accessed.",
+        "legend": {
+          "missing-key": "KeyError indicates a missing dictionary key."
+        }
+      }
+    },
+    "debug": {
+      "kind": "KeyError",
+      "symptom": {
+        "pt": "KeyError",
+        "mixed": "KeyError",
+        "en": "KeyError"
+      },
+      "investigate": {
+        "pt": [
+          "Comparar a chave acessada com as chaves existentes.",
+          "Mudar o tamanho de uma lista inexistente."
+        ],
+        "mixed": [
+          "Comparar a chave acessada com as chaves existentes.",
+          "Mudar o tamanho de uma lista inexistente."
+        ],
+        "en": [
+          "Compare the accessed key with existing keys.",
+          "Change the length of a list that is not used."
+        ]
+      },
+      "correctInvestigation": 0,
+      "exception": {
+        "type": "KeyError",
+        "message": "'confidence'"
+      }
+    }
+  },
+  {
+    "id": "debug-index",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "bounds",
+    "concepts": [
+      "bounds"
+    ],
+    "difficulty": 5,
+    "type": "fix",
+    "title": "Corrija o último modelo",
+    "prompt": "Selecione o acesso ao último item desta lista.",
+    "code": "models = [\"local\", \"remote\"]\nprint(models[2])",
+    "options": [
+      "print(models[0])",
+      "print(models[1])",
+      "print(models[2])"
+    ],
+    "correct": 1,
+    "hints": [
+      "Dois itens têm índices 0 e 1.",
+      "O último índice válido é 1."
+    ],
+    "explanation": "O índice 1 retorna remote.",
+    "aiApplication": "A seleção de modelos deve respeitar o tamanho da lista.",
+    "legend": {
+      "bounds": "IndexError indica uma posição fora da coleção."
+    },
+    "terms": [
+      "bounds"
+    ],
+    "introduces": [
+      "bounds"
+    ],
+    "requires": [
+      "debug-key"
+    ],
+    "replacement": {
+      "target": "print(models[2])"
+    },
+    "solutionCode": "models = [\"local\", \"remote\"]\nprint(models[1])",
+    "translations": {
+      "pt": {
+        "title": "Corrija o último modelo",
+        "prompt": "Selecione o acesso ao último item desta lista.",
+        "options": [
+          "print(models[0])",
+          "print(models[1])",
+          "print(models[2])"
+        ],
+        "hints": [
+          "Dois itens têm índices 0 e 1.",
+          "O último índice válido é 1."
+        ],
+        "explanation": "O índice 1 retorna remote.",
+        "aiApplication": "A seleção de modelos deve respeitar o tamanho da lista.",
+        "legend": {
+          "bounds": "IndexError indica uma posição fora da coleção."
+        }
+      },
+      "mixed": {
+        "title": "Corrija o último modelo",
+        "prompt": "Selecione o acesso ao último item desta lista.",
+        "options": [
+          "print(models[0])",
+          "print(models[1])",
+          "print(models[2])"
+        ],
+        "hints": [
+          "Dois itens têm índices 0 e 1.",
+          "O último índice válido é 1."
+        ],
+        "explanation": "O índice 1 retorna remote.",
+        "aiApplication": "A seleção de modelos deve respeitar o tamanho da lista.",
+        "legend": {
+          "bounds": "IndexError indica uma posição fora da coleção."
+        }
+      },
+      "en": {
+        "title": "Repair the last-model access",
+        "prompt": "Select access to the last item in this list.",
+        "options": [
+          "print(models[0])",
+          "print(models[1])",
+          "print(models[2])"
+        ],
+        "hints": [
+          "Two items have indices 0 and 1.",
+          "The last valid index is 1."
+        ],
+        "explanation": "Index 1 returns remote.",
+        "aiApplication": "Model selection must respect list bounds.",
+        "legend": {
+          "bounds": "IndexError indicates a position outside the collection."
+        }
+      }
+    },
+    "debug": {
+      "kind": "IndexError",
+      "symptom": {
+        "pt": "IndexError",
+        "mixed": "IndexError",
+        "en": "IndexError"
+      },
+      "investigate": {
+        "pt": [
+          "Procurar uma chave de dicionário.",
+          "Comparar o índice com o tamanho da lista."
+        ],
+        "mixed": [
+          "Procurar uma chave de dicionário.",
+          "Comparar o índice com o tamanho da lista."
+        ],
+        "en": [
+          "Look for a dictionary key.",
+          "Compare the index with list length."
+        ]
+      },
+      "correctInvestigation": 1,
+      "exception": {
+        "type": "IndexError",
+        "message": "list index out of range"
+      }
+    },
+    "simulation": {
+      "code": "models = [\"local\", \"remote\"]\nprint(models[2])",
+      "steps": [
+        {
+          "line": 0,
+          "variables": {
+            "models": [
+              "local",
+              "remote"
+            ]
+          },
+          "output": [],
+          "explanation": {
+            "pt": "Cria a lista com índices 0 e 1.",
+            "mixed": "Cria a lista com índices 0 e 1.",
+            "en": "Creates a list with indices 0 and 1."
+          }
+        },
+        {
+          "line": 1,
+          "variables": {
+            "models": [
+              "local",
+              "remote"
+            ]
+          },
+          "output": [],
+          "explanation": {
+            "pt": "O índice 2 não existe; a execução para.",
+            "mixed": "O índice 2 não existe; a execução para.",
+            "en": "Index 2 does not exist; execution stops."
+          },
+          "error": {
+            "type": "IndexError",
+            "message": "list index out of range"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug-name",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "name-error",
+    "concepts": [
+      "name-error"
+    ],
+    "difficulty": 6,
+    "type": "fix",
+    "title": "Corrija o nome do score",
+    "prompt": "Qual linha usa o nome que foi definido?",
+    "code": "confidence_score = 0.8\nprint(confidence_scor)",
+    "options": [
+      "print(confidence_scor)",
+      "print(confidence_score)",
+      "print(score)"
+    ],
+    "correct": 1,
+    "hints": [
+      "Python diferencia nomes exatos.",
+      "Falta a letra e no final do nome usado no print."
+    ],
+    "explanation": "Usar confidence_score retorna 0.8.",
+    "aiApplication": "Erros de digitação também afetam fluxos de IA.",
+    "legend": {
+      "name-error": "NameError indica um nome não definido."
+    },
+    "terms": [
+      "name-error"
+    ],
+    "introduces": [
+      "name-error"
+    ],
+    "requires": [
+      "debug-index"
+    ],
+    "replacement": {
+      "target": "print(confidence_scor)"
+    },
+    "solutionCode": "confidence_score = 0.8\nprint(confidence_score)",
+    "translations": {
+      "pt": {
+        "title": "Corrija o nome do score",
+        "prompt": "Qual linha usa o nome que foi definido?",
+        "options": [
+          "print(confidence_scor)",
+          "print(confidence_score)",
+          "print(score)"
+        ],
+        "hints": [
+          "Python diferencia nomes exatos.",
+          "Falta a letra e no final do nome usado no print."
+        ],
+        "explanation": "Usar confidence_score retorna 0.8.",
+        "aiApplication": "Erros de digitação também afetam fluxos de IA.",
+        "legend": {
+          "name-error": "NameError indica um nome não definido."
+        }
+      },
+      "mixed": {
+        "title": "Corrija o nome do score",
+        "prompt": "Qual linha usa o nome que foi definido?",
+        "options": [
+          "print(confidence_scor)",
+          "print(confidence_score)",
+          "print(score)"
+        ],
+        "hints": [
+          "Python diferencia nomes exatos.",
+          "Falta a letra e no final do nome usado no print."
+        ],
+        "explanation": "Usar confidence_score retorna 0.8.",
+        "aiApplication": "Erros de digitação também afetam fluxos de IA.",
+        "legend": {
+          "name-error": "NameError indica um nome não definido."
+        }
+      },
+      "en": {
+        "title": "Repair the score name",
+        "prompt": "Which line uses the defined name?",
+        "options": [
+          "print(confidence_scor)",
+          "print(confidence_score)",
+          "print(score)"
+        ],
+        "hints": [
+          "Python requires exact names.",
+          "The name in print is missing its final e."
+        ],
+        "explanation": "Using confidence_score returns 0.8.",
+        "aiApplication": "Typos also affect AI workflows.",
+        "legend": {
+          "name-error": "NameError indicates an undefined name."
+        }
+      }
+    },
+    "debug": {
+      "kind": "NameError",
+      "symptom": {
+        "pt": "NameError",
+        "mixed": "NameError",
+        "en": "NameError"
+      },
+      "investigate": {
+        "pt": [
+          "Comparar o nome usado com o nome definido.",
+          "Mudar só o valor e manter o nome digitado errado."
+        ],
+        "mixed": [
+          "Comparar o nome usado com o nome definido.",
+          "Mudar só o valor e manter o nome digitado errado."
+        ],
+        "en": [
+          "Compare the used name with the defined name.",
+          "Change only the value and keep the misspelled name."
+        ]
+      },
+      "correctInvestigation": 0,
+      "exception": {
+        "type": "NameError",
+        "message": "name 'confidence_scor' is not defined"
+      }
+    }
+  },
+  {
+    "id": "debug-logic",
+    "module": "Debugging",
+    "track": "F",
+    "concept": "logic-error",
+    "concepts": [
+      "logic-error"
+    ],
+    "difficulty": 6,
+    "type": "fix",
+    "title": "Corrija o fallback invertido",
+    "prompt": "O esperado para score 0.6 é backup. Qual condição corrige a regra?",
+    "code": "score = 0.6\nif 0.7 > score:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+    "options": [
+      "if 0.7 > score:",
+      "if score > 0.7:",
+      "if score == 0.6:"
+    ],
+    "correct": 1,
+    "hints": [
+      "O programa roda sem exceção, mas a regra está invertida.",
+      "primary só deve ser usado se score superar 0.7."
+    ],
+    "explanation": "A condição corrigida é falsa e produz backup.",
+    "aiApplication": "Código sem exceções ainda pode violar regras de negócio.",
+    "legend": {
+      "logic-error": "Erro lógico produz um resultado contrário ao esperado."
+    },
+    "terms": [
+      "logic-error"
+    ],
+    "introduces": [
+      "logic-error"
+    ],
+    "requires": [
+      "debug-name"
+    ],
+    "replacement": {
+      "target": "if 0.7 > score:"
+    },
+    "solutionCode": "score = 0.6\nif score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+    "translations": {
+      "pt": {
+        "title": "Corrija o fallback invertido",
+        "prompt": "O esperado para score 0.6 é backup. Qual condição corrige a regra?",
+        "options": [
+          "if 0.7 > score:",
+          "if score > 0.7:",
+          "if score == 0.6:"
+        ],
+        "hints": [
+          "O programa roda sem exceção, mas a regra está invertida.",
+          "primary só deve ser usado se score superar 0.7."
+        ],
+        "explanation": "A condição corrigida é falsa e produz backup.",
+        "aiApplication": "Código sem exceções ainda pode violar regras de negócio.",
+        "legend": {
+          "logic-error": "Erro lógico produz um resultado contrário ao esperado."
+        }
+      },
+      "mixed": {
+        "title": "Corrija o fallback invertido",
+        "prompt": "O esperado para score 0.6 é backup. Qual condição corrige a regra?",
+        "options": [
+          "if 0.7 > score:",
+          "if score > 0.7:",
+          "if score == 0.6:"
+        ],
+        "hints": [
+          "O programa roda sem exceção, mas a regra está invertida.",
+          "primary só deve ser usado se score superar 0.7."
+        ],
+        "explanation": "A condição corrigida é falsa e produz backup.",
+        "aiApplication": "Código sem exceções ainda pode violar regras de negócio.",
+        "legend": {
+          "logic-error": "Erro lógico produz um resultado contrário ao esperado."
+        }
+      },
+      "en": {
+        "title": "Repair an inverted fallback",
+        "prompt": "The expected result for score 0.6 is backup. Which condition repairs the rule?",
+        "options": [
+          "if 0.7 > score:",
+          "if score > 0.7:",
+          "if score == 0.6:"
+        ],
+        "hints": [
+          "The code runs without an exception, but the rule is inverted.",
+          "Use primary only when score is greater than 0.7."
+        ],
+        "explanation": "The repaired condition is false and produces backup.",
+        "aiApplication": "Code without exceptions can still violate business rules.",
+        "legend": {
+          "logic-error": "A logic error produces a result that violates expectations."
+        }
+      }
+    },
+    "debug": {
+      "kind": "LogicError",
+      "symptom": {
+        "pt": "Resultado observado incorreto.",
+        "mixed": "Resultado observado incorreto.",
+        "en": "Incorrect observed result."
+      },
+      "investigate": {
+        "pt": [
+          "Assumir que sem exceção o resultado está correto.",
+          "Comparar o resultado com a regra de confiança."
+        ],
+        "mixed": [
+          "Assumir que sem exceção o resultado está correto.",
+          "Comparar o resultado com a regra de confiança."
+        ],
+        "en": [
+          "Assume a result is correct because there is no exception.",
+          "Compare the result with the confidence rule."
+        ]
+      },
+      "correctInvestigation": 1
+    }
+  },
+  {
+    "id": "tool-call-contract",
+    "module": "Fluxos de IA",
+    "track": "G",
+    "concept": "tool-call",
+    "concepts": [
+      "tool-call"
+    ],
+    "difficulty": 6,
+    "type": "read",
+    "title": "Leia uma chamada de ferramenta",
+    "prompt": "O que este registro descreve?",
+    "code": "tool_call = {\"name\": \"search\", \"arguments\": {\"query\": \"Python\"}}\nprint(tool_call[\"name\"])",
+    "options": [
+      "Uma chamada search com argumento query igual a Python.",
+      "Uma execução de busca real já concluída.",
+      "Uma lista de três modelos."
+    ],
+    "correct": 0,
+    "hints": [
+      "O registro só descreve nome e argumentos.",
+      "Declarar dados não executa uma ferramenta."
+    ],
+    "explanation": "O registro descreve uma chamada; print mostra search.",
+    "aiApplication": "Um orquestrador precisa validar a chamada antes de executar.",
+    "legend": {
+      "tool-call": "Tool call é uma descrição estruturada de uma ação."
+    },
+    "terms": [
+      "tool-call"
+    ],
+    "introduces": [
+      "tool-call"
+    ],
+    "requires": [
+      "debug-logic"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Leia uma chamada de ferramenta",
+        "prompt": "O que este registro descreve?",
+        "options": [
+          "Uma chamada search com argumento query igual a Python.",
+          "Uma execução de busca real já concluída.",
+          "Uma lista de três modelos."
+        ],
+        "hints": [
+          "O registro só descreve nome e argumentos.",
+          "Declarar dados não executa uma ferramenta."
+        ],
+        "explanation": "O registro descreve uma chamada; print mostra search.",
+        "aiApplication": "Um orquestrador precisa validar a chamada antes de executar.",
+        "legend": {
+          "tool-call": "Tool call é uma descrição estruturada de uma ação."
+        }
+      },
+      "mixed": {
+        "title": "Leia uma chamada de ferramenta",
+        "prompt": "O que este registro descreve?",
+        "options": [
+          "Uma chamada search com argumento query igual a Python.",
+          "Uma execução de busca real já concluída.",
+          "Uma lista de três modelos."
+        ],
+        "hints": [
+          "O registro só descreve nome e argumentos.",
+          "Declarar dados não executa uma ferramenta."
+        ],
+        "explanation": "O registro descreve uma chamada; print mostra search.",
+        "aiApplication": "Um orquestrador precisa validar a chamada antes de executar.",
+        "legend": {
+          "tool-call": "Tool call é uma descrição estruturada de uma ação."
+        }
+      },
+      "en": {
+        "title": "Read a tool call",
+        "prompt": "What does this record describe?",
+        "options": [
+          "A search call with query equal to Python.",
+          "A real search already executed.",
+          "A list of three models."
+        ],
+        "hints": [
+          "The record only describes a name and arguments.",
+          "Declaring data does not execute a tool."
+        ],
+        "explanation": "The record describes a call; print displays search.",
+        "aiApplication": "An orchestrator must validate a call before execution.",
+        "legend": {
+          "tool-call": "A tool call is a structured description of an action."
+        }
+      }
+    }
+  },
+  {
+    "id": "validate-field-type",
+    "module": "Fluxos de IA",
+    "track": "G",
+    "concept": "type-check",
+    "concepts": [
+      "type-check"
+    ],
+    "difficulty": 6,
+    "type": "predict",
+    "title": "Valide um campo numérico",
+    "prompt": "Qual valor será mostrado? float representa o tipo numérico decimal.",
+    "code": "response = {\"score\": \"0.9\"}\nprint(isinstance(response[\"score\"], float))",
+    "options": [
+      "True",
+      "False",
+      "0.9"
+    ],
+    "correct": 1,
+    "hints": [
+      "O valor está entre aspas.",
+      "Uma string não é uma instância de float."
+    ],
+    "explanation": "A verificação retorna False, pois o campo é textual.",
+    "aiApplication": "Validar tipos evita cálculos com entradas malformadas.",
+    "legend": {
+      "type-check": "isinstance(valor, tipo) verifica o tipo do valor."
+    },
+    "terms": [
+      "type-check"
+    ],
+    "introduces": [
+      "type-check"
+    ],
+    "requires": [
+      "tool-call-contract"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Valide um campo numérico",
+        "prompt": "Qual valor será mostrado? float representa o tipo numérico decimal.",
+        "options": [
+          "True",
+          "False",
+          "0.9"
+        ],
+        "hints": [
+          "O valor está entre aspas.",
+          "Uma string não é uma instância de float."
+        ],
+        "explanation": "A verificação retorna False, pois o campo é textual.",
+        "aiApplication": "Validar tipos evita cálculos com entradas malformadas.",
+        "legend": {
+          "type-check": "isinstance(valor, tipo) verifica o tipo do valor."
+        }
+      },
+      "mixed": {
+        "title": "Valide um campo numérico",
+        "prompt": "Qual valor será mostrado? float representa o tipo numérico decimal.",
+        "options": [
+          "True",
+          "False",
+          "0.9"
+        ],
+        "hints": [
+          "O valor está entre aspas.",
+          "Uma string não é uma instância de float."
+        ],
+        "explanation": "A verificação retorna False, pois o campo é textual.",
+        "aiApplication": "Validar tipos evita cálculos com entradas malformadas.",
+        "legend": {
+          "type-check": "isinstance(valor, tipo) verifica o tipo do valor."
+        }
+      },
+      "en": {
+        "title": "Validate a numeric field",
+        "prompt": "What value is displayed? float is the decimal-number type.",
+        "options": [
+          "True",
+          "False",
+          "0.9"
+        ],
+        "hints": [
+          "The value is quoted.",
+          "A string is not an instance of float."
+        ],
+        "explanation": "The check returns False because the field is text.",
+        "aiApplication": "Type checks prevent calculations on malformed input.",
+        "legend": {
+          "type-check": "isinstance(value, type) checks a value type."
+        }
+      }
+    }
+  },
+  {
+    "id": "classify-route",
+    "module": "Fluxos de IA",
+    "track": "G",
+    "concept": "classification",
+    "concepts": [
+      "classification"
+    ],
+    "difficulty": 6,
+    "type": "predict",
+    "title": "Roteie uma classificação",
+    "prompt": "Qual ferramenta será escolhida?",
+    "code": "response = {\"label\": \"math\"}\nif response[\"label\"] == \"math\":\n    print(\"calculate\")\nelse:\n    print(\"search\")",
+    "options": [
+      "search",
+      "math",
+      "calculate"
+    ],
+    "correct": 2,
+    "hints": [
+      "O campo label guia a regra de roteamento.",
+      "A classe math escolhe calculate."
+    ],
+    "explanation": "O rótulo math seleciona calculate.",
+    "aiApplication": "Uma classificação pode alimentar um roteador determinístico.",
+    "legend": {
+      "classification": "Classificação atribui uma categoria a uma entrada."
+    },
+    "terms": [
+      "classification"
+    ],
+    "introduces": [
+      "classification"
+    ],
+    "requires": [
+      "validate-field-type"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Roteie uma classificação",
+        "prompt": "Qual ferramenta será escolhida?",
+        "options": [
+          "search",
+          "math",
+          "calculate"
+        ],
+        "hints": [
+          "O campo label guia a regra de roteamento.",
+          "A classe math escolhe calculate."
+        ],
+        "explanation": "O rótulo math seleciona calculate.",
+        "aiApplication": "Uma classificação pode alimentar um roteador determinístico.",
+        "legend": {
+          "classification": "Classificação atribui uma categoria a uma entrada."
+        }
+      },
+      "mixed": {
+        "title": "Roteie uma classificação",
+        "prompt": "Qual ferramenta será escolhida?",
+        "options": [
+          "search",
+          "math",
+          "calculate"
+        ],
+        "hints": [
+          "O campo label guia a regra de roteamento.",
+          "A classe math escolhe calculate."
+        ],
+        "explanation": "O rótulo math seleciona calculate.",
+        "aiApplication": "Uma classificação pode alimentar um roteador determinístico.",
+        "legend": {
+          "classification": "Classificação atribui uma categoria a uma entrada."
+        }
+      },
+      "en": {
+        "title": "Route a classification",
+        "prompt": "Which tool is selected?",
+        "options": [
+          "search",
+          "math",
+          "calculate"
+        ],
+        "hints": [
+          "The label field drives the routing rule.",
+          "The math class selects calculate."
+        ],
+        "explanation": "The math label selects calculate.",
+        "aiApplication": "A classification can feed a deterministic router.",
+        "legend": {
+          "classification": "Classification assigns a category to an input."
+        }
+      }
+    }
+  },
+  {
+    "id": "unknown-tool-fallback",
+    "module": "Fluxos de IA",
+    "track": "G",
+    "concept": "allowlist",
+    "concepts": [
+      "allowlist"
+    ],
+    "difficulty": 6,
+    "type": "complete",
+    "title": "Limite as ferramentas disponíveis",
+    "prompt": "Complete para escolher review quando o nome não estiver permitido.",
+    "code": "allowed = {\"math\": \"calculate\", \"web\": \"search\"}\nprint(allowed.get(\"shell\", ___))",
+    "options": [
+      "\"calculate\"",
+      "\"review\"",
+      "\"shell\""
+    ],
+    "correct": 1,
+    "hints": [
+      "O segundo argumento de get é o padrão.",
+      "O padrão desejado é review."
+    ],
+    "explanation": "shell não é uma chave permitida; o resultado é review.",
+    "aiApplication": "Um nome sugerido por modelo não deve liberar ações arbitrárias.",
+    "legend": {
+      "allowlist": "Uma allowlist limita as ações reconhecidas."
+    },
+    "terms": [
+      "allowlist"
+    ],
+    "introduces": [
+      "allowlist"
+    ],
+    "requires": [
+      "classify-route"
+    ],
+    "replacement": {
+      "target": "___"
+    },
+    "solutionCode": "allowed = {\"math\": \"calculate\", \"web\": \"search\"}\nprint(allowed.get(\"shell\", \"review\"))",
+    "translations": {
+      "pt": {
+        "title": "Limite as ferramentas disponíveis",
+        "prompt": "Complete para escolher review quando o nome não estiver permitido.",
+        "options": [
+          "\"calculate\"",
+          "\"review\"",
+          "\"shell\""
+        ],
+        "hints": [
+          "O segundo argumento de get é o padrão.",
+          "O padrão desejado é review."
+        ],
+        "explanation": "shell não é uma chave permitida; o resultado é review.",
+        "aiApplication": "Um nome sugerido por modelo não deve liberar ações arbitrárias.",
+        "legend": {
+          "allowlist": "Uma allowlist limita as ações reconhecidas."
+        }
+      },
+      "mixed": {
+        "title": "Limite as ferramentas disponíveis",
+        "prompt": "Complete para escolher review quando o nome não estiver permitido.",
+        "options": [
+          "\"calculate\"",
+          "\"review\"",
+          "\"shell\""
+        ],
+        "hints": [
+          "O segundo argumento de get é o padrão.",
+          "O padrão desejado é review."
+        ],
+        "explanation": "shell não é uma chave permitida; o resultado é review.",
+        "aiApplication": "Um nome sugerido por modelo não deve liberar ações arbitrárias.",
+        "legend": {
+          "allowlist": "Uma allowlist limita as ações reconhecidas."
+        }
+      },
+      "en": {
+        "title": "Limit available tools",
+        "prompt": "Complete to choose review when the name is not allowed.",
+        "options": [
+          "\"calculate\"",
+          "\"review\"",
+          "\"shell\""
+        ],
+        "hints": [
+          "The second get argument is the default.",
+          "The desired default is review."
+        ],
+        "explanation": "shell is not an allowed key; the result is review.",
+        "aiApplication": "A model-suggested name must not enable arbitrary actions.",
+        "legend": {
+          "allowlist": "An allowlist restricts recognized actions."
+        }
+      }
+    }
+  },
+  {
+    "id": "training-example",
+    "module": "Treinamento",
+    "track": "H",
+    "concept": "dataset",
+    "concepts": [
+      "dataset"
+    ],
+    "difficulty": 6,
+    "type": "read",
+    "title": "Leia um exemplo de treinamento",
+    "prompt": "O que target representa neste registro fictício?",
+    "code": "dataset = [{\"input\": \"2+2\", \"target\": \"4\"}]\nprint(dataset[0][\"target\"])",
+    "options": [
+      "A resposta esperada para o exemplo.",
+      "O número de épocas.",
+      "A saída garantida de qualquer modelo."
+    ],
+    "correct": 0,
+    "hints": [
+      "O par liga uma entrada a uma resposta esperada.",
+      "target é o alvo do exemplo, não uma garantia de inferência."
+    ],
+    "explanation": "O alvo do exemplo é 4.",
+    "aiApplication": "Datasets supervisionados associam entradas e alvos.",
+    "legend": {
+      "dataset": "Dataset reúne exemplos usados em treinamento ou avaliação."
+    },
+    "terms": [
+      "dataset"
+    ],
+    "introduces": [
+      "dataset"
+    ],
+    "requires": [
+      "unknown-tool-fallback"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Leia um exemplo de treinamento",
+        "prompt": "O que target representa neste registro fictício?",
+        "options": [
+          "A resposta esperada para o exemplo.",
+          "O número de épocas.",
+          "A saída garantida de qualquer modelo."
+        ],
+        "hints": [
+          "O par liga uma entrada a uma resposta esperada.",
+          "target é o alvo do exemplo, não uma garantia de inferência."
+        ],
+        "explanation": "O alvo do exemplo é 4.",
+        "aiApplication": "Datasets supervisionados associam entradas e alvos.",
+        "legend": {
+          "dataset": "Dataset reúne exemplos usados em treinamento ou avaliação."
+        }
+      },
+      "mixed": {
+        "title": "Leia um exemplo de treinamento",
+        "prompt": "O que target representa neste registro fictício?",
+        "options": [
+          "A resposta esperada para o exemplo.",
+          "O número de épocas.",
+          "A saída garantida de qualquer modelo."
+        ],
+        "hints": [
+          "O par liga uma entrada a uma resposta esperada.",
+          "target é o alvo do exemplo, não uma garantia de inferência."
+        ],
+        "explanation": "O alvo do exemplo é 4.",
+        "aiApplication": "Datasets supervisionados associam entradas e alvos.",
+        "legend": {
+          "dataset": "Dataset reúne exemplos usados em treinamento ou avaliação."
+        }
+      },
+      "en": {
+        "title": "Read a training example",
+        "prompt": "What does target represent in this fictional record?",
+        "options": [
+          "The expected answer for the example.",
+          "The number of epochs.",
+          "A guaranteed output of any model."
+        ],
+        "hints": [
+          "The pair links an input to an expected answer.",
+          "target is the example target, not an inference guarantee."
+        ],
+        "explanation": "The example target is 4.",
+        "aiApplication": "Supervised datasets pair inputs and targets.",
+        "legend": {
+          "dataset": "A dataset groups examples for training or evaluation."
+        }
+      }
+    }
+  },
+  {
+    "id": "epoch-log",
+    "module": "Treinamento",
+    "track": "H",
+    "concept": "epoch",
+    "concepts": [
+      "epoch"
+    ],
+    "difficulty": 6,
+    "type": "read",
+    "title": "Interprete uma época",
+    "prompt": "O log fictício mostra epoch=2. O que isso significa aqui?",
+    "code": "log = {\"epoch\": 2, \"examples_per_epoch\": 100}\nprint(log[\"epoch\"])",
+    "options": [
+      "Duas ferramentas foram chamadas.",
+      "Foi concluída a segunda passagem pelos dados de treinamento.",
+      "O modelo sempre acertará duas respostas."
+    ],
+    "correct": 1,
+    "hints": [
+      "Época conta passagens pelo conjunto de treinamento.",
+      "O número 2 indica a segunda passagem."
+    ],
+    "explanation": "Neste log, epoch=2 registra duas passagens concluídas.",
+    "aiApplication": "Épocas descrevem treinamento, não chamadas de inferência.",
+    "legend": {
+      "epoch": "Uma época é uma passagem pelos exemplos de treinamento."
+    },
+    "terms": [
+      "epoch"
+    ],
+    "introduces": [
+      "epoch"
+    ],
+    "requires": [
+      "training-example"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Interprete uma época",
+        "prompt": "O log fictício mostra epoch=2. O que isso significa aqui?",
+        "options": [
+          "Duas ferramentas foram chamadas.",
+          "Foi concluída a segunda passagem pelos dados de treinamento.",
+          "O modelo sempre acertará duas respostas."
+        ],
+        "hints": [
+          "Época conta passagens pelo conjunto de treinamento.",
+          "O número 2 indica a segunda passagem."
+        ],
+        "explanation": "Neste log, epoch=2 registra duas passagens concluídas.",
+        "aiApplication": "Épocas descrevem treinamento, não chamadas de inferência.",
+        "legend": {
+          "epoch": "Uma época é uma passagem pelos exemplos de treinamento."
+        }
+      },
+      "mixed": {
+        "title": "Interprete uma época",
+        "prompt": "O log fictício mostra epoch=2. O que isso significa aqui?",
+        "options": [
+          "Duas ferramentas foram chamadas.",
+          "Foi concluída a segunda passagem pelos dados de treinamento.",
+          "O modelo sempre acertará duas respostas."
+        ],
+        "hints": [
+          "Época conta passagens pelo conjunto de treinamento.",
+          "O número 2 indica a segunda passagem."
+        ],
+        "explanation": "Neste log, epoch=2 registra duas passagens concluídas.",
+        "aiApplication": "Épocas descrevem treinamento, não chamadas de inferência.",
+        "legend": {
+          "epoch": "Uma época é uma passagem pelos exemplos de treinamento."
+        }
+      },
+      "en": {
+        "title": "Interpret an epoch",
+        "prompt": "The fictional log shows epoch=2. What does it mean here?",
+        "options": [
+          "Two tools were called.",
+          "The second pass through the training data completed.",
+          "The model will always answer two questions correctly."
+        ],
+        "hints": [
+          "An epoch counts passes through the training dataset.",
+          "The number 2 indicates the second pass."
+        ],
+        "explanation": "In this log, epoch=2 records two completed passes.",
+        "aiApplication": "Epochs describe training, not inference calls.",
+        "legend": {
+          "epoch": "An epoch is one pass through the training examples."
+        }
+      }
+    }
+  },
+  {
+    "id": "training-loss",
+    "module": "Treinamento",
+    "track": "H",
+    "concept": "loss",
+    "concepts": [
+      "loss"
+    ],
+    "difficulty": 6,
+    "type": "predict",
+    "title": "Compare a perda de treinamento",
+    "prompt": "O que a comparação mostra? A perda menor é melhor para esta mesma métrica.",
+    "code": "loss_before = 0.8\nloss_after = 0.5\nprint(loss_before > loss_after)",
+    "options": [
+      "False",
+      "0.5",
+      "True"
+    ],
+    "correct": 2,
+    "hints": [
+      "Compare a perda antes e depois.",
+      "0.8 é maior que 0.5."
+    ],
+    "explanation": "True indica queda na perda de treinamento; isso não prova qualidade em dados novos.",
+    "aiApplication": "Treinamento e avaliação em dados separados medem aspectos diferentes.",
+    "legend": {
+      "loss": "Loss mede erro segundo uma função definida no treinamento."
+    },
+    "terms": [
+      "loss"
+    ],
+    "introduces": [
+      "loss"
+    ],
+    "requires": [
+      "epoch-log"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Compare a perda de treinamento",
+        "prompt": "O que a comparação mostra? A perda menor é melhor para esta mesma métrica.",
+        "options": [
+          "False",
+          "0.5",
+          "True"
+        ],
+        "hints": [
+          "Compare a perda antes e depois.",
+          "0.8 é maior que 0.5."
+        ],
+        "explanation": "True indica queda na perda de treinamento; isso não prova qualidade em dados novos.",
+        "aiApplication": "Treinamento e avaliação em dados separados medem aspectos diferentes.",
+        "legend": {
+          "loss": "Loss mede erro segundo uma função definida no treinamento."
+        }
+      },
+      "mixed": {
+        "title": "Compare a perda de treinamento",
+        "prompt": "O que a comparação mostra? A perda menor é melhor para esta mesma métrica.",
+        "options": [
+          "False",
+          "0.5",
+          "True"
+        ],
+        "hints": [
+          "Compare a perda antes e depois.",
+          "0.8 é maior que 0.5."
+        ],
+        "explanation": "True indica queda na perda de treinamento; isso não prova qualidade em dados novos.",
+        "aiApplication": "Treinamento e avaliação em dados separados medem aspectos diferentes.",
+        "legend": {
+          "loss": "Loss mede erro segundo uma função definida no treinamento."
+        }
+      },
+      "en": {
+        "title": "Compare training loss",
+        "prompt": "What does the comparison display? Lower loss is better for this same metric.",
+        "options": [
+          "False",
+          "0.5",
+          "True"
+        ],
+        "hints": [
+          "Compare the loss before and after.",
+          "0.8 is greater than 0.5."
+        ],
+        "explanation": "True indicates lower training loss; it does not prove quality on new data.",
+        "aiApplication": "Training and held-out evaluation measure different things.",
+        "legend": {
+          "loss": "Loss measures error using a defined training objective."
+        }
+      }
+    }
+  },
+  {
+    "id": "heldout-evaluation",
+    "module": "Treinamento",
+    "track": "H",
+    "concept": "evaluation",
+    "concepts": [
+      "evaluation"
+    ],
+    "difficulty": 6,
+    "type": "read",
+    "title": "Diferencie avaliação e inferência",
+    "prompt": "O que este relatório fictício permite concluir? Os exemplos são separados do treinamento.",
+    "code": "report = {\"correct\": 8, \"total\": 10}\nprint(report[\"correct\"])",
+    "options": [
+      "Acertou oito dos dez exemplos de avaliação; não garante todo caso futuro.",
+      "O modelo está treinando durante cada print.",
+      "A perda de treinamento foi exatamente 8."
+    ],
+    "correct": 0,
+    "hints": [
+      "correct e total contam resultados de um conjunto conhecido.",
+      "Avaliação mede resultados; inferência produz uma resposta para uma entrada."
+    ],
+    "explanation": "O relatório registra 8 acertos em 10 casos separados do treino.",
+    "aiApplication": "Avaliar em dados separados ajuda a estimar generalização sem garanti-la.",
+    "legend": {
+      "evaluation": "Avaliação mede desempenho; inferência gera uma resposta."
+    },
+    "terms": [
+      "evaluation"
+    ],
+    "introduces": [
+      "evaluation"
+    ],
+    "requires": [
+      "training-loss"
+    ],
+    "translations": {
+      "pt": {
+        "title": "Diferencie avaliação e inferência",
+        "prompt": "O que este relatório fictício permite concluir? Os exemplos são separados do treinamento.",
+        "options": [
+          "Acertou oito dos dez exemplos de avaliação; não garante todo caso futuro.",
+          "O modelo está treinando durante cada print.",
+          "A perda de treinamento foi exatamente 8."
+        ],
+        "hints": [
+          "correct e total contam resultados de um conjunto conhecido.",
+          "Avaliação mede resultados; inferência produz uma resposta para uma entrada."
+        ],
+        "explanation": "O relatório registra 8 acertos em 10 casos separados do treino.",
+        "aiApplication": "Avaliar em dados separados ajuda a estimar generalização sem garanti-la.",
+        "legend": {
+          "evaluation": "Avaliação mede desempenho; inferência gera uma resposta."
+        }
+      },
+      "mixed": {
+        "title": "Diferencie avaliação e inferência",
+        "prompt": "O que este relatório fictício permite concluir? Os exemplos são separados do treinamento.",
+        "options": [
+          "Acertou oito dos dez exemplos de avaliação; não garante todo caso futuro.",
+          "O modelo está treinando durante cada print.",
+          "A perda de treinamento foi exatamente 8."
+        ],
+        "hints": [
+          "correct e total contam resultados de um conjunto conhecido.",
+          "Avaliação mede resultados; inferência produz uma resposta para uma entrada."
+        ],
+        "explanation": "O relatório registra 8 acertos em 10 casos separados do treino.",
+        "aiApplication": "Avaliar em dados separados ajuda a estimar generalização sem garanti-la.",
+        "legend": {
+          "evaluation": "Avaliação mede desempenho; inferência gera uma resposta."
+        }
+      },
+      "en": {
+        "title": "Distinguish evaluation from inference",
+        "prompt": "What does this fictional report show? These examples are separate from training.",
+        "options": [
+          "It got eight of ten evaluation examples right; future cases are not guaranteed.",
+          "The model trains during each print.",
+          "Training loss was exactly 8."
+        ],
+        "hints": [
+          "correct and total count results on a known set.",
+          "Evaluation measures results; inference produces an answer to an input."
+        ],
+        "explanation": "The report records 8 correct answers on 10 held-out cases.",
+        "aiApplication": "Held-out evaluation helps estimate generalization without guaranteeing it.",
+        "legend": {
+          "evaluation": "Evaluation measures performance; inference produces an answer."
+        }
+      }
+    }
   }
 ]

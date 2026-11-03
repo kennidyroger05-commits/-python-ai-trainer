@@ -1,0 +1,575 @@
+[
+  {
+    "id": "classification",
+    "title": {
+      "pt": "Classificação",
+      "mixed": "Classification (classificação)",
+      "en": "Classification"
+    },
+    "tool": "review_invoice",
+    "choices": [
+      "review_invoice",
+      "execute_anything",
+      "ignore_validation"
+    ],
+    "correct": 0,
+    "stages": [
+      {
+        "data": {
+          "request": "Esta fatura é urgente."
+        },
+        "pt": "Entrada fictícia recebida da pessoa.",
+        "en": "Fictional user input received.",
+        "dataEn": {
+          "request": "This invoice is urgent."
+        }
+      },
+      {
+        "data": {
+          "instruction": "Esta fatura é urgente.",
+          "response_format": "JSON"
+        },
+        "pt": "O prompt define o pedido e o formato estruturado esperado.",
+        "en": "The prompt defines the request and expected structured format.",
+        "dataEn": {
+          "instruction": "This invoice is urgent.",
+          "response_format": "JSON"
+        }
+      },
+      {
+        "data": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Esta fatura é urgente.",
+            "response_format": "JSON"
+          }
+        },
+        "pt": "Requisição apenas simulada; nenhum serviço externo é chamado.",
+        "en": "Simulated request only; no external service is called.",
+        "dataEn": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "This invoice is urgent.",
+            "response_format": "JSON"
+          }
+        }
+      },
+      {
+        "data": {
+          "label": "billing",
+          "score": 0.88
+        },
+        "pt": "Resposta fictícia cadastrada para este cenário.",
+        "en": "A predefined fictional response for this scenario.",
+        "dataEn": {
+          "label": "billing",
+          "score": 0.88
+        }
+      },
+      {
+        "data": {
+          "validation": "billing",
+          "accepted": true
+        },
+        "pt": "O rótulo billing é reconhecido; o score atende ao limite 0.7.",
+        "en": "The billing label is recognized; its score meets the 0.7 threshold.",
+        "dataEn": {
+          "validation": "billing",
+          "accepted": true
+        }
+      },
+      {
+        "data": {
+          "decision": "billing"
+        },
+        "pt": "Escolha a ação compatível com a validação; tentar novamente sem limite não é uma estratégia segura.",
+        "en": "Choose an action consistent with validation; unlimited retries are not a safe strategy.",
+        "dataEn": {
+          "decision": "billing"
+        }
+      },
+      {
+        "data": {
+          "tool": "review_invoice",
+          "execution": "simulated"
+        },
+        "pt": "A ação escolhida é simulada e não altera sistemas reais.",
+        "en": "The selected action is simulated and changes no real system.",
+        "dataEn": {
+          "tool": "review_invoice",
+          "execution": "simulated"
+        }
+      },
+      {
+        "data": {
+          "invoice_queue": "priority"
+        },
+        "pt": "Resultado final fictício; confira como ele depende dos passos anteriores.",
+        "en": "Fictional final result; inspect how it depends on earlier steps.",
+        "dataEn": {
+          "invoice_queue": "priority"
+        }
+      }
+    ]
+  },
+  {
+    "id": "json-extraction",
+    "title": {
+      "pt": "Extração de JSON",
+      "mixed": "JSON extraction (extração de json)",
+      "en": "JSON extraction"
+    },
+    "tool": "lookup_order",
+    "choices": [
+      "execute_anything",
+      "lookup_order",
+      "ignore_validation"
+    ],
+    "correct": 1,
+    "stages": [
+      {
+        "data": {
+          "request": "Extraia o número do pedido 42."
+        },
+        "pt": "Entrada fictícia recebida da pessoa.",
+        "en": "Fictional user input received.",
+        "dataEn": {
+          "request": "Extract order number 42."
+        }
+      },
+      {
+        "data": {
+          "instruction": "Extraia o número do pedido 42.",
+          "response_format": "JSON"
+        },
+        "pt": "O prompt define o pedido e o formato estruturado esperado.",
+        "en": "The prompt defines the request and expected structured format.",
+        "dataEn": {
+          "instruction": "Extract order number 42.",
+          "response_format": "JSON"
+        }
+      },
+      {
+        "data": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Extraia o número do pedido 42.",
+            "response_format": "JSON"
+          }
+        },
+        "pt": "Requisição apenas simulada; nenhum serviço externo é chamado.",
+        "en": "Simulated request only; no external service is called.",
+        "dataEn": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Extract order number 42.",
+            "response_format": "JSON"
+          }
+        }
+      },
+      {
+        "data": {
+          "order_id": 42
+        },
+        "pt": "Resposta fictícia cadastrada para este cenário.",
+        "en": "A predefined fictional response for this scenario.",
+        "dataEn": {
+          "order_id": 42
+        }
+      },
+      {
+        "data": {
+          "validation": "valid order_id",
+          "accepted": true
+        },
+        "pt": "order_id é um número inteiro e vale 42.",
+        "en": "order_id is an integer with value 42.",
+        "dataEn": {
+          "validation": "valid order_id",
+          "accepted": true
+        }
+      },
+      {
+        "data": {
+          "decision": "valid order_id"
+        },
+        "pt": "Escolha a ação compatível com a validação; tentar novamente sem limite não é uma estratégia segura.",
+        "en": "Choose an action consistent with validation; unlimited retries are not a safe strategy.",
+        "dataEn": {
+          "decision": "valid order_id"
+        }
+      },
+      {
+        "data": {
+          "tool": "lookup_order",
+          "execution": "simulated"
+        },
+        "pt": "A ação escolhida é simulada e não altera sistemas reais.",
+        "en": "The selected action is simulated and changes no real system.",
+        "dataEn": {
+          "tool": "lookup_order",
+          "execution": "simulated"
+        }
+      },
+      {
+        "data": {
+          "order_id": 42,
+          "state": "open"
+        },
+        "pt": "Resultado final fictício; confira como ele depende dos passos anteriores.",
+        "en": "Fictional final result; inspect how it depends on earlier steps.",
+        "dataEn": {
+          "order_id": 42,
+          "state": "open"
+        }
+      }
+    ]
+  },
+  {
+    "id": "routing",
+    "title": {
+      "pt": "Roteamento de ferramenta",
+      "mixed": "Tool routing (roteamento de ferramenta)",
+      "en": "Tool routing"
+    },
+    "tool": "calculate",
+    "choices": [
+      "execute_anything",
+      "ignore_validation",
+      "calculate"
+    ],
+    "correct": 2,
+    "stages": [
+      {
+        "data": {
+          "request": "Quanto é 2 + 3?"
+        },
+        "pt": "Entrada fictícia recebida da pessoa.",
+        "en": "Fictional user input received.",
+        "dataEn": {
+          "request": "What is 2 + 3?"
+        }
+      },
+      {
+        "data": {
+          "instruction": "Quanto é 2 + 3?",
+          "response_format": "JSON"
+        },
+        "pt": "O prompt define o pedido e o formato estruturado esperado.",
+        "en": "The prompt defines the request and expected structured format.",
+        "dataEn": {
+          "instruction": "What is 2 + 3?",
+          "response_format": "JSON"
+        }
+      },
+      {
+        "data": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Quanto é 2 + 3?",
+            "response_format": "JSON"
+          }
+        },
+        "pt": "Requisição apenas simulada; nenhum serviço externo é chamado.",
+        "en": "Simulated request only; no external service is called.",
+        "dataEn": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "What is 2 + 3?",
+            "response_format": "JSON"
+          }
+        }
+      },
+      {
+        "data": {
+          "tool": "calculate",
+          "arguments": {
+            "first": 2,
+            "second": 3
+          }
+        },
+        "pt": "Resposta fictícia cadastrada para este cenário.",
+        "en": "A predefined fictional response for this scenario.",
+        "dataEn": {
+          "tool": "calculate",
+          "arguments": {
+            "first": 2,
+            "second": 3
+          }
+        }
+      },
+      {
+        "data": {
+          "validation": "allowed tool",
+          "accepted": true
+        },
+        "pt": "calculate está na lista permitida e recebe dois números.",
+        "en": "calculate is allowed and receives two numbers.",
+        "dataEn": {
+          "validation": "allowed tool",
+          "accepted": true
+        }
+      },
+      {
+        "data": {
+          "decision": "allowed tool"
+        },
+        "pt": "Escolha a ação compatível com a validação; tentar novamente sem limite não é uma estratégia segura.",
+        "en": "Choose an action consistent with validation; unlimited retries are not a safe strategy.",
+        "dataEn": {
+          "decision": "allowed tool"
+        }
+      },
+      {
+        "data": {
+          "tool": "calculate",
+          "execution": "simulated"
+        },
+        "pt": "A ação escolhida é simulada e não altera sistemas reais.",
+        "en": "The selected action is simulated and changes no real system.",
+        "dataEn": {
+          "tool": "calculate",
+          "execution": "simulated"
+        }
+      },
+      {
+        "data": {
+          "value": 5
+        },
+        "pt": "Resultado final fictício; confira como ele depende dos passos anteriores.",
+        "en": "Fictional final result; inspect how it depends on earlier steps.",
+        "dataEn": {
+          "value": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "fallback",
+    "title": {
+      "pt": "Fallback por score",
+      "mixed": "Score-based fallback (fallback por score)",
+      "en": "Score-based fallback"
+    },
+    "tool": "human_review",
+    "choices": [
+      "human_review",
+      "execute_anything",
+      "ignore_validation"
+    ],
+    "correct": 0,
+    "stages": [
+      {
+        "data": {
+          "request": "Classifique um pedido ambíguo."
+        },
+        "pt": "Entrada fictícia recebida da pessoa.",
+        "en": "Fictional user input received.",
+        "dataEn": {
+          "request": "Classify an ambiguous request."
+        }
+      },
+      {
+        "data": {
+          "instruction": "Classifique um pedido ambíguo.",
+          "response_format": "JSON"
+        },
+        "pt": "O prompt define o pedido e o formato estruturado esperado.",
+        "en": "The prompt defines the request and expected structured format.",
+        "dataEn": {
+          "instruction": "Classify an ambiguous request.",
+          "response_format": "JSON"
+        }
+      },
+      {
+        "data": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Classifique um pedido ambíguo.",
+            "response_format": "JSON"
+          }
+        },
+        "pt": "Requisição apenas simulada; nenhum serviço externo é chamado.",
+        "en": "Simulated request only; no external service is called.",
+        "dataEn": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Classify an ambiguous request.",
+            "response_format": "JSON"
+          }
+        }
+      },
+      {
+        "data": {
+          "label": "unknown",
+          "score": 0.4
+        },
+        "pt": "Resposta fictícia cadastrada para este cenário.",
+        "en": "A predefined fictional response for this scenario.",
+        "dataEn": {
+          "label": "unknown",
+          "score": 0.4
+        }
+      },
+      {
+        "data": {
+          "validation": "below threshold",
+          "accepted": false
+        },
+        "pt": "0.4 não atende ao limite 0.7; o caso vai para revisão humana.",
+        "en": "0.4 does not meet the 0.7 threshold; the case goes to human review.",
+        "dataEn": {
+          "validation": "below threshold",
+          "accepted": false
+        }
+      },
+      {
+        "data": {
+          "decision": "below threshold"
+        },
+        "pt": "Escolha a ação compatível com a validação; tentar novamente sem limite não é uma estratégia segura.",
+        "en": "Choose an action consistent with validation; unlimited retries are not a safe strategy.",
+        "dataEn": {
+          "decision": "below threshold"
+        }
+      },
+      {
+        "data": {
+          "tool": "human_review",
+          "execution": "simulated"
+        },
+        "pt": "A ação escolhida é simulada e não altera sistemas reais.",
+        "en": "The selected action is simulated and changes no real system.",
+        "dataEn": {
+          "tool": "human_review",
+          "execution": "simulated"
+        }
+      },
+      {
+        "data": {
+          "queue": "manual"
+        },
+        "pt": "Resultado final fictício; confira como ele depende dos passos anteriores.",
+        "en": "Fictional final result; inspect how it depends on earlier steps.",
+        "dataEn": {
+          "queue": "manual"
+        }
+      }
+    ]
+  },
+  {
+    "id": "api-failure",
+    "title": {
+      "pt": "Erro de API",
+      "mixed": "API failure (erro de api)",
+      "en": "API failure"
+    },
+    "tool": "retry_later",
+    "choices": [
+      "execute_anything",
+      "retry_later",
+      "ignore_validation"
+    ],
+    "correct": 1,
+    "stages": [
+      {
+        "data": {
+          "request": "Resuma o relatório."
+        },
+        "pt": "Entrada fictícia recebida da pessoa.",
+        "en": "Fictional user input received.",
+        "dataEn": {
+          "request": "Summarize the report."
+        }
+      },
+      {
+        "data": {
+          "instruction": "Resuma o relatório.",
+          "response_format": "JSON"
+        },
+        "pt": "O prompt define o pedido e o formato estruturado esperado.",
+        "en": "The prompt defines the request and expected structured format.",
+        "dataEn": {
+          "instruction": "Summarize the report.",
+          "response_format": "JSON"
+        }
+      },
+      {
+        "data": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Resuma o relatório.",
+            "response_format": "JSON"
+          }
+        },
+        "pt": "Requisição apenas simulada; nenhum serviço externo é chamado.",
+        "en": "Simulated request only; no external service is called.",
+        "dataEn": {
+          "endpoint": "simulated/model",
+          "payload": {
+            "instruction": "Summarize the report.",
+            "response_format": "JSON"
+          }
+        }
+      },
+      {
+        "data": {
+          "status": 503,
+          "body": null
+        },
+        "pt": "Resposta fictícia cadastrada para este cenário.",
+        "en": "A predefined fictional response for this scenario.",
+        "dataEn": {
+          "status": 503,
+          "body": null
+        }
+      },
+      {
+        "data": {
+          "validation": "unavailable service",
+          "accepted": false
+        },
+        "pt": "O status 503 impede o uso do corpo como resposta válida.",
+        "en": "Status 503 prevents using the body as a valid response.",
+        "dataEn": {
+          "validation": "unavailable service",
+          "accepted": false
+        }
+      },
+      {
+        "data": {
+          "decision": "unavailable service"
+        },
+        "pt": "Escolha a ação compatível com a validação; tentar novamente sem limite não é uma estratégia segura.",
+        "en": "Choose an action consistent with validation; unlimited retries are not a safe strategy.",
+        "dataEn": {
+          "decision": "unavailable service"
+        }
+      },
+      {
+        "data": {
+          "tool": "retry_later",
+          "execution": "simulated"
+        },
+        "pt": "A ação escolhida é simulada e não altera sistemas reais.",
+        "en": "The selected action is simulated and changes no real system.",
+        "dataEn": {
+          "tool": "retry_later",
+          "execution": "simulated"
+        }
+      },
+      {
+        "data": {
+          "action": "wait",
+          "attempts": 1
+        },
+        "pt": "Resultado final fictício; confira como ele depende dos passos anteriores.",
+        "en": "Fictional final result; inspect how it depends on earlier steps.",
+        "dataEn": {
+          "action": "wait",
+          "attempts": 1
+        }
+      }
+    ]
+  }
+]

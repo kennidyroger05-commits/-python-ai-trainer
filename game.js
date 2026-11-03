@@ -1,14 +1,17 @@
 (function (root, factory) {
-  const api = factory();
+  const progress = typeof module === 'object' && module.exports ? require('./core/progress.js') : root.TrainerProgress;
+  const api = factory(progress);
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.TrainerGame = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (progress) {
   const XP_FIRST = 10;
   const XP_RETRY = 5;
   const XP_HINT = 2;
   function checkAnswer(exercise, answer) {
-    if (exercise.type === 'build') return exercise.answers.includes(answer.trim());
-    return /^(0|[1-9][0-9]*)$/.test(String(answer)) && Number(answer) === exercise.correct;
+    if (exercise.type === 'build') return typeof answer==='string' && exercise.answers.includes(answer.trim());
+    if (!/^(0|[1-9][0-9]*)$/.test(String(answer)) || Number(answer) !== exercise.correct) return false;
+    if (['fix','complete'].includes(exercise.type)) return exercise.code.replace(exercise.replacement.target,exercise.options[Number(answer)]) === exercise.solutionCode;
+    return ['read','predict','error'].includes(exercise.type);
   }
   function awardXP(progress, exerciseId, attempts, usedHint) {
     if (progress.completed.includes(exerciseId)) return 0;
@@ -19,15 +22,7 @@
     progress.xp += earned;
     return earned;
   }
-  function createProgress() { return { current: 0, completed: [], xp: 0, unlocked: ['Fundamentos'], attempts: {}, awards: {} }; }
-  function loadProgress(storage) {
-    try {
-      const saved = JSON.parse(storage.getItem('pythonAiTrainerV1'));
-      if (!saved || !Array.isArray(saved.completed) || !Number.isFinite(saved.xp) || saved.xp < 0 || !Number.isInteger(saved.current) || saved.current < 0 || !Array.isArray(saved.unlocked) || !saved.attempts || typeof saved.attempts !== 'object') return createProgress();
-      return { ...createProgress(), ...saved };
-    } catch { return createProgress(); }
-  }
-  function saveProgress(storage, progress) { storage.setItem('pythonAiTrainerV1', JSON.stringify(progress)); }
+  const createProgress=progress.empty, loadProgress=progress.load, saveProgress=progress.save;
   function resetModule(progress, exercises, module) {
     const ids = exercises.filter(e => e.module === module).map(e => e.id);
     const removedXP = ids.reduce((sum, id) => sum + (progress.awards?.[id] || 0), 0);

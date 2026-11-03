@@ -3,6 +3,11 @@
   const game = window.TrainerGame;
   const state = { exercises: [], progress: game.createProgress(), index: 0, answer: '', attempts: 0, hintLevel: 0, language: 'mixed', known: [], term: null, simStep: -1, feedback: null };
   const storage = window.localStorage;
+  const progressAPI=window.TrainerProgress, sessions=window.TrainerSession.create();
+  let labs,reviewQueue=null,activeId=null;
+  function saveSession(){if(activeId&&!$('mission').hidden)sessions.save(activeId,{answer:state.answer,attempts:state.attempts,hintLevel:state.hintLevel,simStep:state.simStep,feedback:state.feedback,solved:state.solved||false,investigation:state.investigation??null,simOpen:!$('simulation').hidden});}
+  function syncProgress(){game.saveProgress(storage,state.progress);}
+  function reviewText(pt,en){return state.language==='en'?en:pt;}
   const languageData = window.TrainerLanguage;
   const ui = () => languageData.ui[state.language];
   const exercise = () => state.exercises[state.index];
@@ -10,25 +15,29 @@
   function preference() { storage.setItem('trainer-language', state.language); storage.setItem('trainer-known', JSON.stringify(state.known)); }
   function updateText() {
     const t = ui(); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
+    $('reviewButton').textContent=reviewText('Revisar conceitos','Review concepts');$('debugButton').textContent=reviewText('Laboratório de debugging','Debugging lab');$('aiLabButton').textContent=reviewText('Laboratório de IA simulada','Simulated AI lab');
+    if(labs)labs.render();
+    if(!$('debugList').hidden)renderDebugList();
     $('tagline').textContent=state.language==='en'?'Python for AI':'Python aplicado a IA';$('homeTitle').textContent=state.language==='en'?'Your training':'Seu treino';
     $('language').value = state.language; $('languageLabel').textContent = t.language;
     for (const [id,key] of Object.entries({continue:'continue',reset:'reset',homeButton:'home',submit:'submit',restartModule:'restart',simulate:'sim',prevLine:'prevLine',nextLine:'nextLine',resetSim:'resetSim',simLabel:'simLabel',variablesLabel:'variables',outputLabel:'output',closeGlossary:'close'})) $(id).textContent=t[key];
     $('homeProgress').textContent=`${state.progress.completed.length} ${t.of} ${state.exercises.length} ${t.progress}`;
     if (!$('mission').hidden) {
       const e = exercise(), c = content();
-      $('module').textContent=state.language==='en' ? ({Fundamentos:'Basics','Scores e modelos':'Scores and models',Listas:'Lists','Decisões':'Decisions',Respostas:'Responses','Funções':'Functions','Integração':'Integration'})[e.module] : e.module;
+      $('module').textContent=state.language==='en' ? ({Fundamentos:'Basics','Scores e modelos':'Scores and models',Listas:'Lists','Decisões':'Decisions',Respostas:'Responses','Funções':'Functions','Integração':'Integration'})[e.module]||e.module : e.module;
       $('counter').textContent=`${t.mission} ${state.index+1} ${t.of} ${state.exercises.length}`;
       const term=languageData.glossary[e.terms[0]];
       $('title').textContent=state.language==='mixed' ? `${e.title} · ${term[0]}${state.known.includes(e.terms[0])?'':` (${term[1]})`}` : c.title;
       $('prompt').textContent=c.prompt; $('context').textContent=c.context||'';
       if(e.type!=='build') [...$('answer').children].forEach((b,i)=>b.textContent=c.options[i]);
       else $('answer').lastChild.textContent=t.undo;
+      renderDebug();
       $('hint').textContent=state.hintLevel===2?t.used:`${t.hint} ${state.hintLevel+1}`;
       $('next').textContent=state.index===state.exercises.length-1?t.finish:t.next;
       $('legend').replaceChildren();
       Object.entries(c.legend).forEach(([name,description])=>{const row=document.createElement('p');row.textContent=`${state.language==='en'?({'variável':'variable','lista':'list','índice':'index','parâmetro':'parameter','atribuição':'assignment',': e indentação':': and indentation'})[name]||name:name}: ${description}`;$('legend').append(row);});
       for(const key of e.terms){const b=document.createElement('button'),g=languageData.glossary[key];b.textContent=state.language==='en'?g[0]:`${g[0]}${state.language==='pt'||!state.known.includes(key)?` (${g[1]})`:''}`;b.onclick=()=>{state.term=key;$('glossary').hidden=false;renderTerm();};$('legend').append(b);}
-      renderFeedback(); renderSimulation(); if(!$('glossary').hidden)renderTerm();
+      renderPreview();renderFeedback(); renderSimulation(); if(!$('glossary').hidden)renderTerm();
     }
   }
   function renderFeedback(){
@@ -41,23 +50,34 @@
     $('termDetails').replaceChildren();for(const value of [`${g[0]} — ${g[1]}`,g[en?3:2],g[4],`${ui().ai}: ${g[en?6:5]}`]){const p=document.createElement('p');p.textContent=value;$('termDetails').append(p);}
     $('knowTerm').textContent=state.known.includes(state.term)?ui().known:ui().know;
   }
+  function renderPreview(){
+    const e=exercise();if(e.replacement){$('assembled').hidden=state.answer==='';$('assembled').textContent=state.answer===''?'':e.code.replace(e.replacement.target,e.options[Number(state.answer)]);}
+  }
+  function renderDebug(){
+    const e=exercise();$('debugPanel').hidden=!e.debug;if(!e.debug)return;
+    $('debugNotice').textContent=reviewText('Ensaio de depuração: inspecione, corrija e valide.','Debugging scenario: inspect, repair and validate.');
+    if(state.investigation===undefined)state.investigation=null;
+    const err=e.debug.exception;$('debugError').textContent=err?`${err.type}: ${err.message}`:e.debug.symptom[state.language];
+    $('investigate').replaceChildren();e.debug.investigate[state.language].forEach((label,i)=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>{state.investigation=i;saveSession();renderDebug();};$('investigate').append(b);});
+    $('investigationFeedback').textContent=state.investigation===null?'':state.investigation===e.debug.correctInvestigation?reviewText('Boa investigação: examine a linha e os dados.','Good investigation: inspect the line and data.'):reviewText('Repetir não explica a causa. Inspecione os dados.','Retrying does not explain the cause. Inspect the data.');
+  }
+  function renderDebugList(){
+    $('debugList').replaceChildren();for(const e of state.exercises.filter(e=>e.debug)){const b=document.createElement('button');b.textContent=e.translations[state.language].title;b.disabled=!e.requires.every(id=>state.progress.completed.includes(id));b.title=b.disabled?reviewText('Conclua os pré-requisitos no treino.','Complete the training prerequisites.') : '';b.onclick=()=>{saveSession();reviewQueue=null;state.index=state.exercises.indexOf(e);renderMission();};$('debugList').append(b);}
+  }
   function renderSimulation(){
-    const sim=exercise()?.simulation;if(!sim)return;
-    $('simCode').replaceChildren();const step=sim.steps[state.simStep];
-    sim.code.split('\n').forEach((line,i)=>{const span=document.createElement('span');span.textContent=line+'\n';if(step?.line===i){span.className='current-line';span.setAttribute('aria-current','step');}$('simCode').append(span);});
-    $('simVariables').textContent=JSON.stringify(step?.variables||{},null,2);$('simOutput').textContent=(step?.output||[]).join('\n');
-    $('simExplanation').textContent=step?step.explanation[state.language]:ui().initial;
-    $('prevLine').disabled=state.simStep<0;$('nextLine').disabled=state.simStep>=sim.steps.length-1;
+    const trace=exercise()?.simulation;if(!trace)return;
+    window.TrainerSimulation.render(trace,state.simStep,state.language,ui().initial,{code:$('simCode'),variables:$('simVariables'),output:$('simOutput'),explanation:$('simExplanation'),prev:$('prevLine'),next:$('nextLine')});
   }
   function renderHome() {
+    saveSession();$('aiLab').hidden=true;
     $('home').hidden = false; $('mission').hidden = true;
     $('xp').textContent = `${state.progress.xp} XP`;
     updateText();
   }
   function renderMission() {
-    const e = state.exercises[state.index];
-    state.answer = ''; state.attempts = 0; state.hintLevel = 0; state.feedback=null; state.simStep=-1; $('simulation').hidden=true; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
-    $('home').hidden = true; $('mission').hidden = false;
+    const e = state.exercises[state.index];activeId=e.id;
+    Object.assign(state,sessions.get(e.id)); $('simulation').hidden=!state.simOpen; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
+    $('aiLab').hidden=true;$('home').hidden = true; $('mission').hidden = false;
     $('xp').textContent = `${state.progress.xp} XP`;
     $('module').textContent = e.module;
     $('counter').textContent = `Missão ${state.index + 1} de ${state.exercises.length}`;
@@ -65,20 +85,23 @@
     $('title').textContent = e.title; $('prompt').textContent = e.prompt;
     $('context').textContent = e.context || ''; $('code').textContent = e.code || '';
     $('assembled').hidden = e.type !== 'build'; $('assembled').textContent = '';
-    $('answer').replaceChildren(); $('feedback').textContent = ''; $('next').hidden = true;
+    $('answer').replaceChildren(); $('feedback').textContent = ''; $('next').hidden = !state.solved;
     $('hint').textContent = 'Dica 1'; $('legend').replaceChildren();
     Object.entries(e.legend).forEach(([name, description]) => {
       const row = document.createElement('p'); row.textContent = `${state.language==='en'?({'variável':'variable','lista':'list','índice':'index','parâmetro':'parameter','atribuição':'assignment',': e indentação':': and indentation'})[name]||name:name}: ${description}`; $('legend').append(row);
     });
     if (e.type === 'build') {
-      e.blocks.forEach(block => { const button = document.createElement('button'); button.textContent = block; button.onclick = () => { state.answer += block; $('assembled').textContent = state.answer; }; $('answer').append(button); });
-      const undo = document.createElement('button'); undo.textContent = 'Desfazer'; undo.onclick = () => { state.answer = ''; $('assembled').textContent = ''; }; $('answer').append(undo);
-    } else e.options.forEach((option, index) => { const button = document.createElement('button'); button.textContent = option; button.onclick = () => { state.answer = String(index); [...$('answer').children].forEach(b => b.classList.remove('selected')); button.classList.add('selected'); }; $('answer').append(button); });
+      e.blocks.forEach(block => { const button = document.createElement('button'); button.textContent = block; button.onclick = () => { state.answer += block; $('assembled').textContent = state.answer;saveSession(); }; $('answer').append(button); });
+      const undo = document.createElement('button'); undo.textContent = 'Desfazer'; undo.onclick = () => { state.answer = ''; $('assembled').textContent = '';saveSession(); }; $('answer').append(undo);
+    } else e.options.forEach((option, index) => { const button = document.createElement('button'); button.textContent = option; button.onclick = () => { state.answer = String(index); [...$('answer').children].forEach(b => b.classList.remove('selected')); button.classList.add('selected');renderPreview();saveSession(); }; $('answer').append(button); });
+    $('assembled').textContent=e.type==='build'?state.answer:'';
+    if(e.type!=='build'&&state.answer!=='')$('answer').children[Number(state.answer)].classList.add('selected');
     updateText();
   }
   function submit() {
     const e = state.exercises[state.index];
     if (state.answer === '') { state.feedback={kind:'empty'};renderFeedback(); return; }
+    if(state.solved)return;
     state.attempts++;
     state.progress.attempts[e.id] = (state.progress.attempts[e.id] || 0) + 1;
     if (game.checkAnswer(e, state.answer)) {
@@ -86,39 +109,46 @@
       state.progress.current = Math.max(state.progress.current, state.index + 1);
       const next = state.exercises[state.index + 1];
       if (next && !state.progress.unlocked.includes(next.module)) state.progress.unlocked.push(next.module);
+      state.solved=true;progressAPI.record(state.progress,e,true,0,!!reviewQueue);
       state.feedback={kind:'correct',gained};renderFeedback();
       $('next').hidden = false;
-    } else {state.feedback={kind:'wrong'};renderFeedback();}
-    game.saveProgress(storage, state.progress); $('xp').textContent = `${state.progress.xp} XP`;
+    } else {progressAPI.record(state.progress,e,false,0,!!reviewQueue);state.feedback={kind:'wrong'};renderFeedback();}
+    syncProgress();saveSession();$('bar').style.width=`${state.progress.completed.length/state.exercises.length*100}%`; $('xp').textContent = `${state.progress.xp} XP`;
   }
   function showHint() {
     const e = state.exercises[state.index];
-    if (state.hintLevel < 2) state.hintLevel++;
-    state.feedback={kind:'hint'};updateText();
+    if(state.solved)return;
+    if (state.hintLevel < 2) {state.hintLevel++;progressAPI.hint(state.progress,e);syncProgress();}
+    state.feedback={kind:'hint'};saveSession();updateText();
   }
   function restartModule() {
     if (!window.confirm(ui().restartConfirm)) return;
     game.resetModule(state.progress, state.exercises, state.exercises[state.index].module);
-    game.saveProgress(storage, state.progress); state.index=state.progress.current; renderHome();
+    sessions.clear();activeId=null;game.saveProgress(storage, state.progress); state.index=state.progress.current; renderHome();
   }
   async function init() {
-    const response = await fetch('exercises.json'); if (!response.ok) throw new Error('Falha ao carregar exercícios');
-    state.exercises = await response.json(); state.progress = game.loadProgress(storage);
+    const glossaryResponse=await fetch('glossary-v2.json');if(!glossaryResponse.ok)throw Error('Glossary unavailable');Object.assign(languageData.glossary,await glossaryResponse.json());
+    state.exercises=await window.TrainerContent.load(languageData.glossary);state.progress=game.loadProgress(storage);syncProgress();
+    const labResponse=await fetch('labs.json');if(!labResponse.ok)throw Error('Labs unavailable');labs=window.TrainerLabs.create(await labResponse.json(),()=>state.language,renderHome);
     state.language=['pt','mixed','en'].includes(storage.getItem('trainer-language'))?storage.getItem('trainer-language'):'mixed';
     try{state.known=JSON.parse(storage.getItem('trainer-known'))||[];if(!Array.isArray(state.known))state.known=[];}catch{state.known=[];}
-    $('language').onchange=()=>{state.language=$('language').value;preference();updateText();};
-    $('simulate').onclick=()=>{$('simulation').hidden=!$('simulation').hidden;renderSimulation();};
-    $('nextLine').onclick=()=>{state.simStep=Math.min(state.simStep+1,exercise().simulation.steps.length-1);renderSimulation();};
-    $('prevLine').onclick=()=>{state.simStep=Math.max(-1,state.simStep-1);renderSimulation();};
-    $('resetSim').onclick=()=>{state.simStep=-1;renderSimulation();};
+    $('language').onchange=()=>{state.language=$('language').value;preference();updateText();saveSession();};
+    $('simulate').onclick=()=>{$('simulation').hidden=!$('simulation').hidden;renderSimulation();saveSession();};
+    $('nextLine').onclick=()=>{state.simStep=Math.min(state.simStep+1,exercise().simulation.steps.length-1);renderSimulation();saveSession();};
+    $('prevLine').onclick=()=>{state.simStep=Math.max(-1,state.simStep-1);renderSimulation();saveSession();};
+    $('resetSim').onclick=()=>{state.simStep=-1;renderSimulation();saveSession();};
     $('closeGlossary').onclick=()=>{$('glossary').hidden=true;};
     $('knowTerm').onclick=()=>{state.known=state.known.includes(state.term)?state.known.filter(k=>k!==state.term):[...state.known,state.term];preference();updateText();};
     state.index = Math.min(state.progress.current, state.exercises.length - 1);
-    $('continue').onclick = () => renderMission(); $('homeButton').onclick = renderHome;
+    $('continue').onclick = () => {reviewQueue=null;renderMission();}; $('homeButton').onclick = renderHome;
     $('submit').onclick = submit; $('hint').onclick = showHint;
-    $('next').onclick = () => { if(state.index===state.exercises.length-1){renderHome();return;} state.index = game.getNextIndex(state.exercises, state.index); renderMission(); };
+    $('next').onclick = () => { saveSession();if(reviewQueue){reviewQueue.shift();if(!reviewQueue.length){reviewQueue=null;renderHome();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();return;} if(state.index===state.exercises.length-1){renderHome();return;} state.index = game.getNextIndex(state.exercises, state.index); renderMission(); };
     $('restartModule').onclick = restartModule;
-    $('reset').onclick = () => { if (window.confirm(ui().resetConfirm)) { storage.removeItem('pythonAiTrainerV1'); storage.removeItem('trainer-language');storage.removeItem('trainer-known');state.language='mixed';state.known=[]; state.progress = game.createProgress(); state.index = 0; renderHome(); } };
+    $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm)){progressAPI.clear(storage);sessions.clear();activeId=null;state.progress=game.createProgress();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;renderHome();}};
+    $('reviewButton').onclick=()=>{saveSession();reviewQueue=progressAPI.reviews(state.progress,state.exercises);if(!reviewQueue.length){reviewQueue=null;$('reviewNotice').textContent=reviewText('Nenhuma revisão elegível agora. Continue o treino; revisões recentes têm intervalo de um minuto.','No eligible review now. Continue training; recent reviews have a one-minute interval.');return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();};
+    $('debugButton').onclick=()=>{$('debugList').hidden=!$('debugList').hidden;renderDebugList();};
+    $('aiLabButton').onclick=()=>{saveSession();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;labs.render();};
+
     renderHome();
   }
   init().catch(error => { $('homeProgress').textContent = ui().loadError; console.error(error); });

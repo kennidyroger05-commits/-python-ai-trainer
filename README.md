@@ -1,63 +1,84 @@
-# Python AI Trainer
+# Python AI Trainer — V2 em desenvolvimento
 
-Um jogo curto, sem dependências externas, para praticar Python aplicado a scores e seleção de modelos. A versão atual tem cinco missões em HTML, CSS e JavaScript puro. Não executa Python no navegador: respostas são verificadas contra soluções explícitas e opções cadastradas em `exercises.json`.
+Jogo mobile de Python aplicado a IA e inglês técnico, com 40 missões originais, seis modalidades, depuração, revisão e laboratórios simulados. HTML, CSS e JavaScript; sem backend, banco, frameworks ou APIs externas.
 
-## Missões
+A V2 está em `feature/v2-debug-training`, baseada em `feature/v1-5-learning`. Não está publicada. `main` e o PR #1 não são integrados por este trabalho.
 
-1. Guardar um score em uma variável.
-2. Mostrar o score com `print()`.
-3. Prever a seleção do maior score com `max()`.
-4. Ler o segundo modelo de uma lista usando índice.
-5. Encontrar um índice fora dos limites da lista.
+## Aprendizado e funcionalidades
 
-Cada missão apresenta duas dicas, explicação, aplicação em IA e legenda contextual. O app oferece montagem por blocos, previsão, leitura e identificação de erro. O progresso e o XP ficam no `localStorage` do navegador.
+- Montar código, prever saída, ler, encontrar erros, corrigir linhas e completar trechos, sem digitação obrigatória.
+- Português, Misto (padrão) e English; resposta e código preservados ao trocar idioma.
+- Glossário bilíngue com 37 termos, duas dicas por missão e explicações práticas.
+- Seis traces didáticos com variáveis, saída, fluxo de condições/funções e erro.
+- Seis cenários de debugging: SyntaxError, TypeError, KeyError, IndexError, NameError e erro lógico.
+- Cinco fluxos de IA fictícios: classificação, extração JSON, roteamento, fallback e erro HTTP.
+- XP por ID, progresso local, migração da V1/V1.5, reinício de módulo e reset confirmado.
+- Revisões em lotes finitos de até três conceitos, respeitando pré-requisitos e desempenho.
+- Layout para toque e redução de movimento.
 
-## Rodar localmente
+## Módulos
 
-Na raiz do projeto, execute:
+| Trilha | Assunto | Quantidade |
+| --- | --- | ---: |
+| A | Fundamentos aplicados | 7 |
+| B | Decisões e roteamento | 3 |
+| C | Dados de IA | 6 |
+| D | Funções e ferramentas | 4 |
+| E | APIs simuladas | 3 |
+| F | Debugging | 7 |
+| G | Fluxos de IA | 6 |
+| H | Treinamento e avaliação | 4 |
+
+Distribuição por modalidade: 3 montagem, 16 previsão, 10 leitura, 1 identificação de erro, 6 correção e 4 completar. O percurso revisita módulos mantendo as 15 missões-base; consulte [caminho pedagógico](docs/LEARNING-PATH.md).
+
+## Rodar
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra `http://localhost:8000`. O projeto também é compatível com GitHub Pages, servindo os arquivos estáticos da raiz.
+Abra `http://localhost:8000`. É necessário HTTP para carregar os arquivos JSON. Depois do carregamento, glossário, missões e laboratórios funcionam sem rede; não há suporte a recarregamento offline completo por service worker.
 
-## Validar
+## Testes
+
+Na raiz, com Node e Python 3.12:
 
 ```bash
 node tests/validate.js
-node tests/browser.cjs
-```
-
-O teste de navegador usa Playwright e Chromium já disponíveis no ambiente de desenvolvimento. Não são dependências da aplicação publicada.
-
-## Estrutura
-
-- `index.html`: interface do jogo.
-- `style.css`: layout responsivo e controles de toque.
-- `app.js`: renderização e eventos da interface.
-- `game.js`: validação das respostas e funções puras de progresso e XP.
-- `exercises.json`: conteúdo das cinco missões.
-- `tests/`: validação de conteúdo, lógica e interação no navegador.
-
-## Próximo passo
-
-Depois de revisar as cinco missões com estudantes iniciantes, ampliar o conteúdo em pequenos lotes e validar cada lote antes de publicar.
-
-## V1.5 em desenvolvimento
-
-A branch V1.5 amplia o jogo para **15 missões**: 3 de montagem, 5 de leitura, 6 de previsão e 1 de identificação de erro. As cinco missões da V1 mantêm IDs, conteúdo e respostas; a chave de progresso permanece `pythonAiTrainerV1`.
-
-O seletor oferece Português, Misto (padrão) e English. As traduções são cadastradas em `exercises.json` e `language.js`. Trocar o idioma mantém a resposta selecionada ou montada. No modo Misto, traduções só deixam de aparecer junto ao termo depois de o aluno marcar explicitamente que o conhece. Elas continuam disponíveis ao toque no glossário. Idioma e familiaridade ficam em chaves próprias do localStorage.
-
-As missões 3, 8 e 14 oferecem simulação didática com estados predefinidos. É possível avançar, voltar e reiniciar; não existe interpretador Python no app. A marcação de `else` representa uma transição de controle, não uma instrução executável. As variáveis e saídas são snapshots, sem executar código enviado pelo aluno.
-
-```bash
-node tests/validate.js
+node tests/core.cjs
 python3 tests/python-fixtures.py
 node tests/browser.cjs
+node tests/labs-browser.cjs
 ```
 
-O teste Python usa CPython apenas no desenvolvimento para conferir os exemplos confiáveis do repositório e os estados intermediários. O teste de navegador requer servidor local na porta 8000 e Playwright com Chromium (`CHROMIUM_PATH` pode selecionar o executável). A aplicação publicada continua sem dependências externas.
+As duas últimas suítes exigem o servidor local, Playwright e Chromium. No ambiente Codex já estão disponíveis. Fora dele, uma opção de instalação isolada é:
 
-`language.js` contém textos da interface e o glossário bilíngue. `tests/v1-fixture.json` registra a base preservada. Consulte `REPORT-V1.5.md` para resultados e limitações.
+```bash
+npm install --prefix /tmp/python-ai-trainer-tests playwright
+NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/browser.cjs
+NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/labs-browser.cjs
+```
+
+`CHROMIUM_PATH` seleciona o navegador instalado. Playwright é ferramenta de desenvolvimento e não é enviado como dependência do site. CPython só executa fixtures confiáveis do repositório durante os testes, nunca respostas de usuários.
+
+## Estrutura e conteúdo
+
+- `app.js`: interface e eventos do jogo.
+- `game.js`: respostas e XP.
+- `core/`: conteúdo, sessões, persistência/revisão e traces.
+- `language.js`, `glossary-v2.json`: idiomas e termos.
+- `exercises.json`: 40 missões e metadados de debugging/simulação.
+- `labs.js`, `labs.json`: interface e cinco fluxos de IA.
+- `tests/`: lógica, mutações inválidas, migração, fixtures Python e interação mobile.
+
+Para adicionar missões, traduções e traces, siga [as regras de conteúdo](docs/CONTENT-GUIDELINES.md). A [arquitetura](docs/ARCHITECTURE.md) explica estado, persistência e limites. Os IDs anteriores não devem ser renomeados. Novas traduções usam a mesma resposta e o mesmo código.
+
+## GitHub Pages
+
+O site funciona servido pela raiz do repositório. A configuração atual de Pages permanece na branch `main`. A V2 só deve ser integrada e publicada após revisão explícita; este trabalho envia apenas uma branch e solicita um PR de rascunho contra V1.5.
+
+## Limitações e próximos passos
+
+Simulações usam snapshots predefinidos. Validação aceita soluções cadastradas e substituições específicas; não interpreta Python arbitrário nem prova equivalência geral de programas. Dados e respostas de APIs são fictícios. Os testes mobile usam Chromium; Safari/iPhone real ainda precisa ser validado. As preferências e o histórico são locais ao navegador.
+
+Antes de publicar: revisar no Safari, acompanhar iniciantes e aprovar conteúdo/PRs. Professor opcional, voz, executor isolado, APIs reais, Kaggle/Colab e experimentos de modelos são possibilidades futuras, sem integrações ou botões nesta versão. Consulte [relatório V2](docs/REPORT-V2.md).

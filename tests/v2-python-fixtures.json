@@ -1,0 +1,126 @@
+{
+  "token-budget": {
+    "code": "prompt_tokens = 120\nreply_tokens = 30\nprint(prompt_tokens + reply_tokens)",
+    "output": "150\n"
+  },
+  "count-models": {
+    "code": "models = [\"local\", \"small\", \"remote\"]\nprint(len(models))",
+    "output": "3\n"
+  },
+  "visit-tools": {
+    "code": "tools = [\"search\", \"calculate\"]\nfor tool in tools:\n    print(tool)",
+    "output": "search\ncalculate\n"
+  },
+  "model-records": {
+    "code": "responses = [{\"model\": \"local\"}, {\"model\": \"remote\"}]\nprint(responses[1][\"model\"])",
+    "output": "remote\n"
+  },
+  "parse-json": {
+    "code": "import json\npayload = '{\"label\": \"support\"}'\nresponse = json.loads(payload)\nprint(response[\"label\"])",
+    "output": "support\n"
+  },
+  "optional-field": {
+    "code": "response = {\"model\": \"local\"}\nprint(response.get(\"label\", \"unknown\"))",
+    "output": "unknown\n"
+  },
+  "keyword-tool": {
+    "code": "def choose_model(model_name):\n    return model_name\nprint(choose_model(model_name=\"small\"))",
+    "output": "small\n"
+  },
+  "deterministic-tool": {
+    "code": "def add_tokens(first, second):\n    return first + second\nprint(add_tokens(10, 5))",
+    "output": "15\n"
+  },
+  "http-status": {
+    "code": "response = {\"status\": 200, \"body\": \"ready\"}\nprint(response[\"status\"])",
+    "output": "200\n"
+  },
+  "response-envelope": {
+    "code": "response = {\"status\": 200, \"body\": {\"model\": \"small\"}}\nprint(response[\"body\"][\"model\"])",
+    "output": "small\n"
+  },
+  "handle-api-error": {
+    "code": "response = {\"status\": 503}\nif response[\"status\"] == 200:\n    print(\"ready\")\nelse:\n    print(\"retry later\")",
+    "output": "retry later\n"
+  },
+  "debug-syntax": {
+    "code": "score = 0.8\nif score > 0.7:\n    print(\"ready\")",
+    "output": "ready\n",
+    "broken": {
+      "code": "score = 0.8\nif score > 0.7\n    print(\"ready\")",
+      "type": "SyntaxError"
+    }
+  },
+  "debug-types": {
+    "code": "score = 0.8\nprint(score + 0.1)",
+    "output": "0.9\n",
+    "broken": {
+      "code": "score = \"0.8\"\nprint(score + 0.1)",
+      "type": "TypeError"
+    }
+  },
+  "debug-key": {
+    "code": "response = {\"score\": 0.9}\nprint(response[\"score\"])",
+    "output": "0.9\n",
+    "broken": {
+      "code": "response = {\"score\": 0.9}\nprint(response[\"confidence\"])",
+      "type": "KeyError"
+    }
+  },
+  "debug-index": {
+    "code": "models = [\"local\", \"remote\"]\nprint(models[1])",
+    "output": "remote\n",
+    "broken": {
+      "code": "models = [\"local\", \"remote\"]\nprint(models[2])",
+      "type": "IndexError"
+    }
+  },
+  "debug-name": {
+    "code": "confidence_score = 0.8\nprint(confidence_score)",
+    "output": "0.8\n",
+    "broken": {
+      "code": "confidence_score = 0.8\nprint(confidence_scor)",
+      "type": "NameError"
+    }
+  },
+  "debug-logic": {
+    "code": "score = 0.6\nif score > 0.7:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+    "output": "backup\n",
+    "broken": {
+      "code": "score = 0.6\nif 0.7 > score:\n    print(\"primary\")\nelse:\n    print(\"backup\")",
+      "output": "primary\n"
+    }
+  },
+  "tool-call-contract": {
+    "code": "tool_call = {\"name\": \"search\", \"arguments\": {\"query\": \"Python\"}}\nprint(tool_call[\"name\"])",
+    "output": "search\n"
+  },
+  "validate-field-type": {
+    "code": "response = {\"score\": \"0.9\"}\nprint(isinstance(response[\"score\"], float))",
+    "output": "False\n"
+  },
+  "classify-route": {
+    "code": "response = {\"label\": \"math\"}\nif response[\"label\"] == \"math\":\n    print(\"calculate\")\nelse:\n    print(\"search\")",
+    "output": "calculate\n"
+  },
+  "unknown-tool-fallback": {
+    "code": "allowed = {\"math\": \"calculate\", \"web\": \"search\"}\nprint(allowed.get(\"shell\", \"review\"))",
+    "output": "review\n"
+  },
+  "training-example": {
+    "code": "dataset = [{\"input\": \"2+2\", \"target\": \"4\"}]\nprint(dataset[0][\"target\"])",
+    "output": "4\n"
+  },
+  "epoch-log": {
+    "code": "log = {\"epoch\": 2, \"examples_per_epoch\": 100}\nprint(log[\"epoch\"])",
+    "output": "2\n"
+  },
+  "training-loss": {
+    "code": "loss_before = 0.8\nloss_after = 0.5\nprint(loss_before > loss_after)",
+    "output": "True\n"
+  },
+  "heldout-evaluation": {
+    "code": "report = {\"correct\": 8, \"total\": 10}\nprint(report[\"correct\"])",
+    "output": "8\n"
+  }
+}
