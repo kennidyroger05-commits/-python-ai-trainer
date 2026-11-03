@@ -7,7 +7,7 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
   await page.goto('http://127.0.0.1:8000');await page.waitForFunction(()=>document.querySelector('#homeProgress').textContent.includes('40'));assert.equal(await page.locator('#language').inputValue(),'mixed');
   const originalMission=await page.evaluate(()=>localStorage.getItem('pythonAiTrainerV2'));
   await page.locator('#projectsButton').tap();
-  const menu=async id=>{await page.locator('#pMenu').evaluate(el=>el.open=true);await page.locator('#'+id).tap();};
+  const menu=async id=>{if(!await page.locator('#pMenu').evaluate(el=>el.open))await page.locator('#pMenuLabel').tap();await page.locator('#'+id).tap();};
   const open=async a=>{if(a.kind==='testing'){await menu('pTesting');return;}await menu(a.kind==='debug'?'pDebug':'pHub');await page.locator(`[data-activity="${E.key(a)}"]`).tap();};
   const record=async a=>page.evaluate(({key,id})=>JSON.parse(localStorage.getItem(key)).activities[id],{key:E.KEY,id:E.key(a)});
   let expectedXP=0;
@@ -16,12 +16,14 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
    for(let i=0;i<a.steps.length;i++){
     const s=a.steps[i];assert.ok((await page.locator('#pStep').textContent()).includes(s.title.mixed),`${a.id}/${s.id}`);
     assert.equal(await page.locator('#pNext').isDisabled(),true);
+    const artifactBefore=JSON.parse(await page.locator('#pArtifact').textContent());
     // Exact wrong IDs fail even when their labels mention valid technical terms.
     const wrong=s.choices.find(c=>c.id!==s.correctId);await page.locator(`[data-choice="${wrong.id}"]`).tap();
     if(s.requiresTests)await page.locator('#pRunTests').tap();
     await page.locator('#pSubmit').tap();assert.match(await page.locator('#pFeedback').textContent(),/Ainda não/);
-    await page.locator('#pSubmit').tap();assert.equal((await record(a)).steps[s.id].attempts,2);
+    await page.locator('#pSubmit').tap();assert.equal((await record(a)).steps[s.id].attempts,2);assert.deepEqual(JSON.parse(await page.locator('#pArtifact').textContent()),artifactBefore);
     assert.equal(await page.locator('#pSupport').isVisible(),true);
+    if(a.id==='model-router'&&i===0){await page.locator('#pReview').tap();assert.equal(await page.locator('#returnToProject').isVisible(),true);await page.locator('#returnToProject').tap();assert.equal(await page.locator('#pAnswers [aria-pressed=true]').getAttribute('data-choice'),wrong.id);assert.equal((await record(a)).currentStepId,s.id);}
     await page.locator('#pProceed').tap();assert.equal(await page.locator('#pSupport').isVisible(),false);
     await page.locator('#pHint').tap();assert.equal(await page.locator('#pFeedback').textContent(),s.hints[0].mixed);
     await page.locator('#pHint').tap();assert.equal(await page.locator('#pFeedback').textContent(),s.hints[1].mixed);
@@ -35,7 +37,7 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
     }
     await page.locator('#language').selectOption('mixed');
     if(i===0){
-     await page.locator('#pFlow').evaluate(el=>el.open=true);
+     if(!await page.locator('#pFlow').evaluate(el=>el.open))await page.locator('#pFlowSummary').tap();
      for(const trace of a.traces){
       const position=a.traces.indexOf(trace);await page.locator('#pFlowChoices button').nth(position).tap();
       for(let n=0;n<trace.nodes.length;n++){
@@ -43,14 +45,11 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
       }
       assert.equal(await page.locator('#pFlowNext').isDisabled(),true);await page.locator('#pFlowPrev').tap();await page.locator('#pFlowReset').tap();assert.equal(await page.locator('#pFlowPrev').isDisabled(),true);
      }
-     await page.locator('#pFlow').evaluate(el=>el.open=false);
+     if(await page.locator('#pFlow').evaluate(el=>el.open))await page.locator('#pFlowSummary').tap();
     }
-    if(a.id==='model-router'&&i===0){
-      // Optional concept review must return to the exact draft without jumping normal mission progress.
-      await page.locator('#pSupport').evaluate(el=>el.hidden=false);await page.locator('#pReview').tap();assert.equal(await page.locator('#returnToProject').isVisible(),true);await page.locator('#returnToProject').tap();assert.equal(await page.locator('#pAnswers [aria-pressed=true]').getAttribute('data-choice'),s.correctId);assert.equal((await record(a)).currentStepId,s.id);
-    }
+
     if(s.requiresTests){await page.locator('#pRunTests').tap();const tests=(await record(a)).testRun;assert.equal(tests.passed,true);assert.ok(tests.results.length);}
-    await page.locator('#pSubmit').tap();assert.match(await page.locator('#pFeedback').textContent(),/Etapa validada/);expectedXP+=2;assert.match(await page.locator('#pXP').textContent(),new RegExp(`${expectedXP}$`));
+    await page.locator('#pSubmit').tap();assert.match(await page.locator('#pFeedback').textContent(),/Etapa validada/);expectedXP+=2;assert.deepEqual(JSON.parse(await page.locator('#pArtifact').textContent()),{...artifactBefore,...s.effect});assert.match(await page.locator('#pXP').textContent(),new RegExp(`${expectedXP}$`));
     await page.evaluate(()=>document.getElementById('pSubmit').click());assert.match(await page.locator('#pXP').textContent(),new RegExp(`${expectedXP}$`));
     if(a.id==='model-router'&&s.id==='find-inversion'){await page.locator('#pRunTests').tap();assert.equal((await record(a)).testRun.passed,false,'The investigated buggy copy must really fail tests');}
     if(i>0){await page.locator('#pPrev').tap();await page.locator('#pNext').tap();assert.ok((await page.locator('#pStep').textContent()).includes(s.title.mixed));assert.equal(await page.locator('#pSubmit').isDisabled(),true);}

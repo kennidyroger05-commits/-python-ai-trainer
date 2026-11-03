@@ -2218,7 +2218,9 @@
           "debugging"
         ],
         "terms": [
-          "test-case"
+          "test-case",
+          "exception-handler",
+          "strip-text"
         ],
         "requires": [
           "configure-client-fallback"
@@ -2519,7 +2521,7 @@
       "datasetLoaded": false,
       "metric": null
     },
-    "solutionCode": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
+    "solutionCode": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if i >= len(model[\"predictions\"]) or model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
     "steps": [
       {
         "id": "read-dataset",
@@ -3257,9 +3259,9 @@
           "en": "Interpret cost and latency"
         },
         "prompt": {
-          "pt": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta?",
-          "mixed": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta?",
-          "en": "A: 120 ms and $0.004; B: 40 ms and $0.001, all fictional. Which reading is correct?"
+          "pt": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta? A latência é média por tarefa e o custo é o total do lote.",
+          "mixed": "A: 120 ms e US$0.004; B: 40 ms e US$0.001, todos fictícios. Qual leitura é correta? A latência é média por tarefa e o custo é o total do lote.",
+          "en": "A: 120 ms and $0.004; B: 40 ms and $0.001, all fictional. Which reading is correct? Latency is the per-task average and cost is the batch total."
         },
         "code": "A = {\"latency_ms\": 120, \"cost_usd\": 0.004}\nB = {\"latency_ms\": 40, \"cost_usd\": 0.001}",
         "choices": [
@@ -3351,7 +3353,7 @@
           "mixed": "Execute os testes e escolha um relatório fiel às evidências.",
           "en": "Run tests and choose a report faithful to the evidence."
         },
-        "code": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
+        "code": "def accuracy(predictions, expected):\n    if not expected:\n        return None\n    correct = sum(pred == want for pred, want in zip(predictions, expected))\n    return correct / len(expected)\n\ndef evaluate(data):\n    expected = [task[\"expected\"] for task in data[\"tasks\"]]\n    result = {}\n    for name, model in data[\"models\"].items():\n        correct = sum(pred == want for pred, want in zip(model[\"predictions\"], expected))\n        result[name] = {\"correct\": correct, \"total\": len(expected), \"accuracy\": accuracy(model[\"predictions\"], expected),\n                        \"latency_ms\": model[\"latency_ms\"], \"cost_usd\": model[\"cost_usd\"],\n                        \"failed_ids\": [task[\"id\"] for i, task in enumerate(data[\"tasks\"]) if i >= len(model[\"predictions\"]) or model[\"predictions\"][i] != task[\"expected\"]]}\n    return result\n",
         "choices": [
           {
             "id": "report-evaluation-a",
@@ -3405,7 +3407,9 @@
           "debugging"
         ],
         "terms": [
-          "test-case"
+          "test-case",
+          "pairing",
+          "comprehension"
         ],
         "requires": [
           "weigh-tradeoffs"
@@ -4565,7 +4569,8 @@
           "evaluation"
         ],
         "terms": [
-          "checkpoint"
+          "checkpoint",
+          "minimum-key"
         ],
         "requires": [
           "inspect-overfitting"
@@ -4655,7 +4660,8 @@
           "training"
         ],
         "terms": [
-          "fine-tuning"
+          "fine-tuning",
+          "minimum-key"
         ],
         "requires": [
           "choose-checkpoint"

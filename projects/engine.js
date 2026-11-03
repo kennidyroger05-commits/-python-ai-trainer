@@ -47,7 +47,7 @@
   function valid(value) { return object(value) && value.version === 3 && object(value.activities) && object(value.awards) && object(value.evidence) && Object.values(value.awards).every(n=>[2,3,5].includes(n)) && Object.values(value.activities).every(a=>object(a)&&typeof a.currentStepId==='string'&&object(a.steps)&&Object.values(a.steps).every(s=>object(s)&&[null,'string'].includes(s.answerId===null?null:typeof s.answerId)&&Number.isSafeInteger(s.attempts)&&s.attempts>=0&&[0,1,2].includes(s.hints)&&typeof s.passed==='boolean')) && Object.values(value.evidence).every(e=>object(e)&&typeof e.concept==='string'&&Array.isArray(e.skills)&&Array.isArray(e.recent)); }
   function start(activity) {
     return { currentStepId: activity.steps[0].id, steps: {}, completedAt: null, conclusion: false, restarts: 0,
-      openedAt: null, testRun: null, testRuns: 0, flow: { traceId: activity.traces[0].id, nodeId: activity.traces[0].nodes[0].id }, layer: null, term: null };
+      dismissed: null, openedAt: null, testRun: null, testRuns: 0, flow: { traceId: activity.traces[0].id, nodeId: activity.traces[0].nodes[0].id }, layer: null, term: null };
   }
   function get(state, activity) { return state.activities[key(activity)] ||= start(activity); }
   function load(storage, catalog) {
@@ -69,6 +69,7 @@
       for(const s of a.steps){const saved=record.steps[s.id];if(saved&&((!saved.passed&&saved.feedback==='right')||(saved.hints===0&&saved.feedback==='hint')))saved.feedback=null;}
       if (a.steps.every(s => record.steps[s.id]?.passed)) { record.completedAt = Number.isSafeInteger(old.completedAt)&&old.completedAt>0&&old.completedAt<8640000000000000 ? old.completedAt : null; record.conclusion = old.conclusion === true; }
       if(!a.steps.find(s=>s.id===record.currentStepId).requires.every(id=>record.steps[id]?.passed))record.currentStepId=a.steps.find(s=>!record.steps[s.id]?.passed).id;
+      record.dismissed=a.steps.some(s=>s.id===old.dismissed)?old.dismissed:null;
       record.restarts = count(old.restarts);record.openedAt=Number.isFinite(old.openedAt)?old.openedAt:null;record.testRuns=count(old.testRuns);
       if(object(old.testRun)&&typeof old.testRun.signature==='string'&&Array.isArray(old.testRun.results)&&old.testRun.results.every(t=>object(t)&&typeof t.id==='string'&&'expected'in t&&'observed'in t)){record.testRun=clone(old.testRun);record.testRun.passed=record.testRun.results.length>0&&record.testRun.results.every(t=>t&&'expected'in t&&'observed'in t&&equal(t.expected,t.observed));}
       const trace = a.traces.find(t => t.id === old.flow?.traceId);

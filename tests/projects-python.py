@@ -22,6 +22,7 @@ for a in projects:
         assert n['accuracy']([],[]) is None
         assert n['accuracy'](['a'],['a','b'])==.5
         outputs[a['id']]=result
+        missing=json.loads(json.dumps(datasets['evaluation']));missing['models']['model_a']['predictions']=['4','billing'];missing_result=n['evaluate'](missing);assert missing_result['model_a']['accuracy']==.5 and missing_result['model_a']['failed_ids']==['task-3','task-4'];outputs[a['id']+'/missing']=missing_result
     else:
         data=datasets['training'];selected=n['select_checkpoint'](data['logs']);assert selected['epoch']==2 and selected['validation_loss']==.6
         assert n['select_checkpoint']([]) is None
@@ -58,6 +59,6 @@ n=env(tutorial[0]['solutionCode'],'testing-basics');assert n['dobro'](3)==6 and 
 # Explicit counterexample: passing one edge test does not prove the function is correct.
 broken=env('def dobro(valor):\n    return 0\n','counterexample');assert broken['dobro'](0)==0;assert broken['dobro'](3)!=6
 # Cross-check every small JS simulation against the trusted Python solution on the same cases.
-js='''const M=require('./projects/models'),data=require('./projects/datasets.json'),out={};for(const a of require('./projects/catalog.json')){if(a.id==='model-router')for(const c of a.cases)out[a.id+'/'+c.id]=M.route(c.input.request,c.input.available);if(a.id==='api-client')for(const c of a.cases)out[a.id+'/'+c.id]=M.client(c.input);if(a.id==='model-evaluation')out[a.id]=M.evaluate(data.evaluation);if(a.id==='training-pipeline')out[a.id]=M.checkpoint(data.training.logs);}for(const a of require('./projects/debugging.json'))for(const c of a.tests)out[a.id+'/'+c.id]=M.debugResult(a.id,c.input);console.log(JSON.stringify(out));'''
+js='''const M=require('./projects/models'),data=require('./projects/datasets.json'),out={};for(const a of require('./projects/catalog.json')){if(a.id==='model-router')for(const c of a.cases)out[a.id+'/'+c.id]=M.route(c.input.request,c.input.available);if(a.id==='api-client')for(const c of a.cases)out[a.id+'/'+c.id]=M.client(c.input);if(a.id==='model-evaluation'){out[a.id]=M.evaluate(data.evaluation);const missing=structuredClone(data.evaluation);missing.models.model_a.predictions=['4','billing'];out[a.id+'/missing']=M.evaluate(missing);}if(a.id==='training-pipeline')out[a.id]=M.checkpoint(data.training.logs);}for(const a of require('./projects/debugging.json'))for(const c of a.tests)out[a.id+'/'+c.id]=M.debugResult(a.id,c.input);console.log(JSON.stringify(out));'''
 js_output=json.loads(subprocess.check_output(['node','-e',js],text=True));assert js_output==outputs,(js_output,outputs)
 print('PASS CPython V3: four full project solutions, 8 broken/repair cases, 16 rejected repairs, 24 debug cases, JSON roundtrip, evaluation/training traces and JS/Python parity')

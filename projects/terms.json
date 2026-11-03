@@ -232,5 +232,50 @@
     "response.get(\"body\", {}).get(\"text\", \"fallback\")",
     "Valide contratos em camadas, inclusive campos internos.",
     "Validate layered contracts, including inner fields."
+  ],
+  "pairing": [
+    "zip",
+    "pareamento",
+    "zip percorre pares das duas coleções, até a menor terminar.",
+    "zip visits pairs from both collections until the shorter one ends.",
+    "for prediction, target in zip(predicted, expected):",
+    "O total da métrica ainda deve incluir todas as tarefas esperadas.",
+    "The metric denominator must still include all expected tasks."
+  ],
+  "comprehension": [
+    "comprehension",
+    "expressão de coleção",
+    "Resume um laço que produz valores; leia a expressão e o for juntos.",
+    "Summarizes a loop that produces values; read the expression and for together.",
+    "[task[\"expected\"] for task in tasks]",
+    "Uma forma compacta de extrair campos; pode ser expandida em um laço comum.",
+    "A compact way to extract fields; it can be expanded into an ordinary loop."
+  ],
+  "minimum-key": [
+    "minimum by key",
+    "mínimo por critério",
+    "min com key escolhe o item pelo valor que a função key calcula.",
+    "min with key selects the item by the value computed by the key function.",
+    "min(logs, key=lambda row: row[\"validation_loss\"])",
+    "lambda row: ... é uma função curta que lê o campo usado na comparação.",
+    "lambda row: ... is a short function that reads the field used for comparison."
+  ],
+  "exception-handler": [
+    "exception handler",
+    "tratamento de exceção",
+    "try tenta o bloco; except trata apenas a classe de erro indicada.",
+    "try attempts the block; except handles only the named error class.",
+    "except json.JSONDecodeError:",
+    "Preserve erros desconhecidos e trate falhas previstas pelo contrato.",
+    "Preserve unknown errors and handle failures anticipated by the contract."
+  ],
+  "strip-text": [
+    "strip",
+    "remover espaços externos",
+    "strip() remove espaços no começo e no fim de um texto.",
+    "strip() removes whitespace at the start and end of text.",
+    "body[\"model\"].strip()",
+    "Um nome formado só por espaços não identifica um modelo.",
+    "A name made only of spaces does not identify a model."
   ]
 }

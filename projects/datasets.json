@@ -78,6 +78,10 @@
         "latency_ms": 40,
         "cost_usd": 0.001
       }
+    },
+    "measurement_scope": {
+      "latency_ms": "fictional average per task",
+      "cost_usd": "fictional total for the four-task batch"
     }
   },
   "training": {
