@@ -1,0 +1,4 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),M=require('../runtime/memory');
+const raw=fs.readFileSync('runtime/vendor/pyodide/pyodide.asm.wasm'),limited=M.cap(raw);assert.equal(limited.maximumPages,1024);assert.ok(limited.initialPages<=1024);assert.equal(WebAssembly.validate(limited.buffer),true);assert.equal(M.cap(limited.buffer).maximumPages,1024);assert.ok(limited.buffer.byteLength<raw.byteLength);assert.equal(M.cap(raw,32*1024*1024).maximumPages,512);
+for(const invalid of [new Uint8Array(),new Uint8Array([0,97,115,109,1,0,0,0,5,255]),new Uint8Array([0,97,115,109,1,0,0,0,5,3,1,0,0])])assert.throws(()=>M.cap(invalid));assert.throws(()=>M.cap(raw,16*1024*1024));
+console.log('PASS WASM memory transform: genuine engine-enforced 64 MiB maximum on pinned module, valid binary, idempotence and malformed/truncated/unsupported formats fail closed');

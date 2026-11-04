@@ -1,8 +1,8 @@
 # Python real no navegador
 
-O motor usa Pyodide 0.29.3 com CPython 3.13.2 em WebAssembly. A versão foi executada e observada no Chromium. Os arquivos oficiais, sem alteração, ficam em `runtime/vendor/pyodide`; tamanhos, SHA-256 e SRI original estão em `runtime/manifest.json`.
+O motor usa Pyodide 314.0.7 com CPython 3.14.2 em WebAssembly. A versão foi executada e observada no Chromium. Os arquivos oficiais, sem alteração, ficam em `runtime/vendor/pyodide`; tamanhos, SHA-256 e SRI original estão em `runtime/manifest.json`.
 
-São aproximadamente 12.3 MB de recursos, carregados e verificados **sob demanda**, apenas após executar Python. Não há CDN nem código do aluno enviado a terceiros. O cache HTTP normal e uma cópia dos recursos verificados na memória podem evitar novos downloads; não há promessa de disponibilidade offline irrestrita.
+São aproximadamente 13.5 MB de recursos, carregados e verificados **sob demanda**, apenas após executar Python. Não há CDN nem código do aluno enviado a terceiros. O cache HTTP normal e uma cópia dos recursos verificados na memória podem evitar novos downloads; não há promessa de disponibilidade offline irrestrita.
 
 ## Isolamento e ciclo de vida
 
@@ -10,7 +10,7 @@ O app cria um iframe `sandbox="allow-scripts"`, sem `allow-same-origin`, e dentr
 
 Cada clique de execução cria um novo worker/interpretador. **Cada caso de validação também usa um worker novo**, incluindo estado de módulos e builtins. Resultados e progresso atravessam um canal com token aleatório, validação de origem/source e renderização como texto. O worker termina após concluir. Interromper ou exceder o tempo encerra o worker; reiniciar permite um novo programa sem estado anterior.
 
-Limites atuais: 24 mil caracteres de código; stdout/stderr limitados a 32 mil caracteres; cinco segundos de execução por caso, além da inicialização. O watchdog fica na interface principal. A memória linear WebAssembly tem máximo efetivo de 64 MiB, imposto antes do bootstrap por um construtor de memória limitado; uma tentativa de 128 MiB retornou MemoryError real nos testes. O teto não limita toda a memória JavaScript, buffers de bootstrap e overhead do navegador: uma execução ainda pode pressionar o dispositivo. Use programas pequenos. Não há instalação de pacotes, acesso a rede, arquivos do dispositivo ou input interativo.
+Limites atuais: 24 mil caracteres de código; stdout/stderr limitados a 32 mil caracteres; cinco segundos de execução por caso, além da inicialização. O watchdog fica na interface principal. A memória linear WebAssembly tem máximo efetivo de 64 MiB, imposto antes do bootstrap na declaração de memória do WASM verificado antes da instanciação (e no construtor de memórias JS adicionais); uma tentativa de 128 MiB retornou MemoryError real nos testes. O teto não limita toda a memória JavaScript, buffers de bootstrap e overhead do navegador: uma execução ainda pode pressionar o dispositivo. Use programas pequenos. Não há instalação de pacotes, acesso a rede, arquivos do dispositivo ou input interativo.
 
 Bibliotecas permitidas: json, math, re, statistics, collections, itertools, functools e decimal. Classes/introspecção interna, pontes JS e módulos não previstos não são objetivos deste ambiente inicial. A política pode rejeitar Python válido fora desse subconjunto; a interface deve distinguir política de erro real de Python.
 
@@ -44,8 +44,17 @@ O código aprovado alimenta evidências de conceito do Lab, sem atribuir domíni
 
 ## Testar e atualizar
 
-- `node scripts/test.cjs`: 14 suítes locais de integridade, lógica, migração e CPython.
-- Com servidor HTTP e Playwright/Chromium, `node scripts/test.cjs --browser`: acrescenta onze suítes de interface; inclui CPython WASM real, todos os desafios certos/errados, isolamento, mobile, migrações e projetos.
+- `node scripts/test.cjs`: suítes locais de integridade, lógica, migração e CPython.
+- Com servidor HTTP e Playwright/Chromium, `node scripts/test.cjs --browser`: acrescenta suítes de interface; inclui CPython WASM real, todos os desafios certos/errados, isolamento, mobile, migrações e projetos.
 - `runtime-mobile-browser.cjs` usa emulação de toque em 320/375/390 px; não é iPhone físico. WebKit não estava instalado no ambiente desta missão.
 
 Para atualizar Pyodide, obtenha distribuição oficial, confira SRI, licenças, versões e recursos, atualize manifesto e repita os testes reais dentro da origem opaca. Não habilite `allow-same-origin` para fazer uma distribuição incompatível funcionar. A política restrita pode recusar bibliotecas ou Python válido fora do escopo; alterações de política exigem revisão dos limites e testes de isolamento. Servir o site em HTTPS (ou localhost) é necessário para `crypto.subtle`, workers e integridade.
+
+
+## Atualização após auditoria Kaggle
+
+O worker clássico importa o factory ESM por Blob local e o injeta no loader por `createPyodideModule`, opção publicada experimental e fixada nesta distribuição. Mantém origem opaca e CSP sem rede; não cria module worker nem habilita `allow-same-origin`.
+
+A nova distribuição define memória dentro do WASM. Limitar apenas `new WebAssembly.Memory` não bastava: uma regressão detectou a alocação aceita indevidamente. `runtime/memory.js` ajusta em memória a seção de declaração para 64 MiB, valida o formato e impede inicialização se não puder impor o limite. O arquivo vendor distribuído conserva seu hash original. Testes verificam o binário resultante e MemoryError/recuperação reais. Heap JS e overhead total ainda não têm quota rígida.
+
+Cancelamento sincronamente em callback, duas execuções rápidas, snapshot imutável, request inválido e timeout do download também têm regressões. Dados de progresso com Python 3.13.2 são preservados; só novas execuções registram a versão nova.

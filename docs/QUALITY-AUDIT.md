@@ -24,3 +24,14 @@ Não contar suites como prova de cobertura integral. Cada requisito crítico ter
 ## Passagens finais
 
 Pendente nesta revisão inicial: implementar executor/notebooks/fluxo pedagógico e executar duas passagens completas (funcionalidade/integração; segurança/casos extremos/regressão). Os resultados e achados adicionais serão registrados antes da entrega.
+
+
+## Primeira passagem completa
+
+Em 2026-11-04, `node scripts/test.cjs --browser` concluiu com **31 suítes aprovadas, zero falhas**: 18 locais e 13 de navegador. Incluiu 8 casos unittest de notebooks e 27 do executor, execução real de todas as soluções/reparos em CPython WASM 3.14.2, 40 missões/70 etapas anteriores, novos percursos e toque/layout em 320/375/390 px.
+
+A atualização do runtime exigiu uma correção adicional: o WASM atual define memória internamente e não passava pelo construtor JavaScript. A regressão de alocação retornou success indevidamente. `runtime/memory.js` agora limita a declaração do módulo em memória e falha fechado em formato não suportado; o mesmo teste passou com MemoryError real e recuperação. Artefatos vendor distribuídos permanecem sem alteração e com SRI/SHA verificados.
+
+A revisão das notas oficiais do CPython identificou correções posteriores ao antigo 3.13.2. O runtime foi atualizado para a distribuição oficial atual, sem relaxar origem opaca ou CSP. O bootstrap usa factory ESM por import dinâmico local em worker clássico. Não se executou exploit de corrupção de memória.
+
+O log integral desta passagem ficou no workspace em `.quality-results/pass1.log` (não contém credenciais). O sumário verificável está em `docs/quality-pass1.json`. A segunda passagem de segurança/regressão ainda será executada; este primeiro resultado não é alegação de cobertura total.

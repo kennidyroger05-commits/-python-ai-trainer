@@ -14,7 +14,7 @@
   function render(){
    $('rHome').textContent=t('← Início','← Home');$('rBack').hidden=!back;$('rBack').textContent=t('← Voltar ao projeto','← Return to project');
    $('rTitle').textContent=selected?lesson().title[language()]:t('Python executável','Executable Python','Run Python (executar Python)');
-   $('rNotice').textContent=t('Python real local, separado das simulações. O interpretador (~12 MB) carrega apenas ao executar. Sem chamadas de API ou modelos reais. Rascunhos ficam nesta aba; são perdidos ao recarregar.','Real local Python, separate from simulations. The interpreter (~12 MB) loads only on execution. No API calls or real models. Drafts stay in this tab and are lost on reload.');
+   $('rNotice').textContent=t('Python real local, separado das simulações. O interpretador (~14 MB) carrega apenas ao executar. Sem chamadas de API ou modelos reais. Rascunhos ficam nesta aba; são perdidos ao recarregar.','Real local Python, separate from simulations. The interpreter (~14 MB) loads only on execution. No API calls or real models. Drafts stay in this tab and are lost on reload.');
    $('rAboutLabel').textContent=t('Como funciona e pré-requisitos','How it works and prerequisites');$('rGlossLabel').textContent=t('Glossário contextual','Contextual glossary');$('rPrerequisites').hidden=!selected;
    $('rXP').textContent=`${P.xp(state)} XP Python · ${Object.values(state.lessons).filter(r=>r.completedAt).length}/${catalog.length} ${t('desafios concluídos','completed challenges')}`;
    $('rList').hidden=!!selected;$('rLesson').hidden=!selected;

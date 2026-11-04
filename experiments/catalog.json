@@ -47,9 +47,9 @@
           "en": "Understand parameters"
         },
         "body": {
-          "pt": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
-          "mixed": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
-          "en": "Seed controls initialization and batch order. Epochs visit training examples. Changing parameters prepares another job; nothing is executed."
+          "pt": "Na inferência, os pesos já estão definidos. Mudar a entrada não treina o modelo. O tokenizador desta receita separa palavras ASCII.",
+          "mixed": "Na inferência, os pesos já estão definidos. Mudar a entrada não treina o modelo. O tokenizador desta receita separa palavras ASCII.",
+          "en": "During inference the weights are already defined. Changing the input does not train the model. This recipe tokenizer splits ASCII words."
         }
       },
       {
@@ -60,9 +60,9 @@
           "en": "Read input data"
         },
         "body": {
-          "pt": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
-          "mixed": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
-          "en": "There are 18 training, six validation and six test examples. IDs and texts do not overlap across splits. Vocabulary uses training data only."
+          "pt": "Os pedidos em inglês usam billing (cobrança), support (suporte) e schedule (agenda). Só os pedidos escolhidos são classificados; o modelo de referência foi treinado separadamente.",
+          "mixed": "Os pedidos em inglês usam billing (cobrança), support (suporte) e schedule (agenda). Só os pedidos escolhidos são classificados; o modelo de referência foi treinado separadamente.",
+          "en": "English requests use billing, support and schedule intents. Only the selected requests are classified; the reference model was trained separately."
         }
       },
       {
@@ -86,9 +86,9 @@
           "en": "Interpret logs"
         },
         "body": {
-          "pt": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
-          "mixed": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
-          "en": "In local reference logs, each epoch records measured training and validation loss. This site does not show live remote progress."
+          "pt": "O log local registra dados carregados e pedidos processados. O tempo de inferência mede tokenização e cálculo de scores, sem treino nem download.",
+          "mixed": "O log local registra dados carregados e pedidos processados. O tempo de inferência mede tokenização e cálculo de scores, sem treino nem download.",
+          "en": "The local log records loaded data and processed requests. Inference time measures tokenization and score computation, without training or download."
         }
       },
       {
@@ -99,9 +99,9 @@
           "en": "Compare metrics"
         },
         "body": {
-          "pt": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
-          "mixed": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
-          "en": "Accuracy is the fraction of correct answers. Latency and memory are distinct measurements. Six synthetic examples do not demonstrate overall quality. Softmax scores are not calibrated confidence."
+          "pt": "Observe tokens de palavra, latência e pico de memória do processo. Isso não equivale a tokens de LLM ou memória só dos pesos. Scores não são confiança calibrada.",
+          "mixed": "Observe tokens de palavra, latência e pico de memória do processo. Isso não equivale a tokens de LLM ou memória só dos pesos. Scores não são confiança calibrada.",
+          "en": "Inspect word tokens, latency and peak process memory. These are not LLM tokens or memory used only by weights. Scores are not calibrated confidence."
         }
       },
       {

@@ -1,7 +1,7 @@
 (function(root){
   const BASE=new URL('runtime/',document.baseURI);
   const LIMITS={codeChars:24000,outputChars:32768,runMs:5000,initMs:90000,maxTests:8};
-  const NAMES=['pyodide.js','pyodide.asm.js','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json'];
+  const NAMES=['pyodide.js','pyodide.asm.mjs','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json'];
   function create({resourceTimeoutMs=LIMITS.initMs}={}){
     resourceTimeoutMs=Number.isFinite(resourceTimeoutMs)?Math.max(100,Math.min(resourceTimeoutMs,LIMITS.initMs)):LIMITS.initMs;
     let cached=null,active=null,serial=0,loading=null;
@@ -11,15 +11,15 @@
       const load=async path=>{const r=await fetch(new URL(path,BASE),{signal:controller.signal});if(!r.ok)throw Error('Runtime resource unavailable: '+path);return r;};
       try{
         const manifest=await (await load('manifest.json')).json();
-        if(manifest.version!=='0.29.3'||manifest.files.length!==NAMES.length||manifest.files.some((f,i)=>f.name!==NAMES[i]||!/^[a-f0-9]{64}$/.test(f.sha256)))throw Error('Unsupported runtime manifest');
+        if(manifest.version!=='314.0.7'||manifest.files.length!==NAMES.length||manifest.files.some((f,i)=>f.name!==NAMES[i]||!/^[a-f0-9]{64}$/.test(f.sha256)))throw Error('Unsupported runtime manifest');
         let loaded=0;const assets=[];
         for(const file of manifest.files){
           const buffer=await (await load('vendor/pyodide/'+file.name)).arrayBuffer();const digest=await crypto.subtle.digest('SHA-256',buffer);const hex=[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');
           if(buffer.byteLength!==file.bytes||hex!==file.sha256)throw Error('Runtime integrity check failed: '+file.name);
           assets.push({name:file.name,buffer});loaded+=buffer.byteLength;progress?.({phase:'downloading',loaded,total:manifest.totalBytes});
         }
-        const [source,frame,harness]=await Promise.all(['worker.js','frame.js','runner.py'].map(async f=>(await load(f)).text()));
-        cached={assets,source,frame,harness,version:manifest.version};return cached;
+        const [worker,frame,harness,memory]=await Promise.all(['worker.js','frame.js','runner.py','memory.js'].map(async f=>(await load(f)).text()));
+        cached={assets,source:memory+'\n'+worker,frame,harness,version:manifest.version};return cached;
       }catch(e){if(expired)throw Error('Runtime resource download timed out');throw e;}finally{clearTimeout(deadline);if(loading===controller)loading=null;}
     }
     function stop(reason='cancelled'){

@@ -2,9 +2,9 @@
 
 Aprendizado de Python aplicado a IA e inglês técnico por missões e projetos guiados. A V3 conserva as **40 missões da V2** e acrescenta quatro projetos, oito desafios de debugging e uma introdução a testes. Funciona como site estático, com HTML, CSS e JavaScript, sem backend, framework ou APIs de modelos.
 
-Desenvolvimento contínuo em `feature/python-runtime-kaggle-lab`, baseado em `feature/v3-python-ai-lab`. Nenhuma versão desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+Desenvolvimento contínuo em `feature/kaggle-execution-quality`, baseado em `feature/python-runtime-kaggle-lab`. Nenhuma versão desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
 
-A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** prepara contratos/notebooks e demonstra um adaptador Kaggle simulado; não envia jobs, não autentica contas e não executa modelos ou treinamento real. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
+A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** mantém seu simulador. A área **AI experiments** acrescenta notebooks autocontidos de inferência/treinamento de um modelo linear de 87 parâmetros, executados e medidos em CPU local, e um **executor Kaggle separado, desativado por padrão**. O site não autentica contas, submete jobs ou inicia treino remoto. Relatórios importados têm origem declarada. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
 
 ## Projetos guiados
 
@@ -36,7 +36,7 @@ O Lab mantém rascunho, dicas, respostas, etapa e fluxo ao recarregar. É possí
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter os arquivos JSON. Não há service worker: recarregar totalmente offline não é garantido. As missões e projetos guiados mantêm suas simulações. Na área “Run Python”, o código do aluno executa localmente em um worker isolado, com limites documentados. O primeiro uso precisa obter ~12 MB de recursos do próprio site; HTTPS ou localhost são necessários para verificação de integridade.
+Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter os arquivos JSON. Não há service worker: recarregar totalmente offline não é garantido. As missões e projetos guiados mantêm suas simulações. Na área “Run Python”, o código do aluno executa localmente em um worker isolado, com limites documentados. O primeiro uso precisa obter ~14 MB de recursos do próprio site; HTTPS ou localhost são necessários para verificação de integridade.
 
 ## Persistência e compatibilidade
 
@@ -84,7 +84,7 @@ npm install --prefix /tmp/python-ai-trainer-tests playwright
 NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/projects-browser.cjs
 ```
 
-Atalho: `node scripts/test.cjs` executa 14 suítes locais. `node scripts/test.cjs --browser`, com o servidor ativo, executa também onze suítes de navegador. `--list` lista os comandos sem executá-los.
+Atalho: `node scripts/test.cjs` executa suítes locais. `node scripts/test.cjs --browser`, com o servidor ativo, executa também as suítes de navegador. `--list` lista os comandos sem executá-los.
 
 Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode selecionar um Chromium instalado.
 
@@ -98,16 +98,31 @@ Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode s
 - `projects/view.js`, `flow-view.js`, `portfolio.js`, `projects.css`: interface, fluxos e exportação.
 - `runtime/`: CPython/Pyodide verificado, isolamento, editor, conteúdo executável e progresso independente.
 - `model-lab/`: contratos, exportação de notebooks preparatórios, adaptador simulado e interface de experimentos.
+- `experiments/`: contratos compartilhados, percursos bilíngues, notebooks fixos, dados/pesos e medições locais de referência.
+- `executor/`: referência Python de operador, CLI, gates, SDK em processo limitado, ledger e validação de artefatos; sem servidor implantado.
 - `tests/`: regressões V1–V2, preservação de conteúdo, estado V3, fixtures e navegador.
 
-O [relatório desta expansão](docs/REPORT-RUNTIME-LAB.md) separa execução real, simulações, testes e limites de integração.
+O [relatório do runtime anterior](docs/REPORT-RUNTIME-LAB.md) separa execução real, simulações, testes e limites de integração.
 
 Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/LEARNING-PATH.md), as [diretrizes para cadastrar conteúdo](docs/CONTENT-GUIDELINES.md), a [matriz de compatibilidade](docs/COMPATIBILITY-V3.md) e o [relatório V3](docs/REPORT-V3.md).
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta expansão deve abrir PR de rascunho contra V3, preservando PRs anteriores.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta expansão deve abrir PR de rascunho contra `feature/python-runtime-kaggle-lab`, preservando PRs anteriores.
 
-As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos didáticos, modelos, APIs, custos e treinamento permanecem simulados. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
+As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
 Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação manual. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Antes de publicar: validar no Safari/iPhone real e revisar o consumo de memória do WASM. Integrações de voz, professor opcional, modelos reais e backend autenticado permanecem fora desta missão.
+
+
+## Experimentos e executor de referência
+
+Os dois notebooks executam de verdade um modelo linear pequeno, com stdlib e dados sintéticos incluídos. Não são LLMs. `python3 tests/notebooks.py` verifica os dois completos em CPU; `python3 tests/executor.py` testa o lifecycle com SDK falso e artefatos locais reais, sem conta Kaggle.
+
+```bash
+python3 -m executor.cli validate --job experiments/intent-inference-job.json
+python3 -m executor.cli prepare --job experiments/intent-inference-job.json
+python3 -m executor.cli local --job experiments/intent-inference-job.json
+```
+
+Operações remotas continuam desativadas e dependem de autorização futura separada, SDK fixado e autenticação no ambiente do operador. Não há credencial no frontend. Veja [executor](executor/README.md), [capacidades Kaggle verificadas](docs/KAGGLE-INTEGRATION.md), [matriz de qualidade](docs/QUALITY-AUDIT.md) e [relatório de entrega](docs/REPORT-KAGGLE-EXECUTION.md).
