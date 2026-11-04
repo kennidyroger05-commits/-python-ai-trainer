@@ -146,7 +146,7 @@
     const tracks={A:['fundamentals'],B:['logic'],C:['data'],D:['functions'],E:['api'],F:['debugging'],G:['ai'],H:['training','evaluation']};
     for(const m of missions){const id=`mission/${m.id}`,attempts=count(progress.attempts[m.id]),passed=progress.completed.includes(m.id);
       if(state.evidence[id]||(!attempts&&!passed))continue;
-      state.evidence[id]={concept:m.concept,skills:tracks[m.track],presented:true,practiced:true,passed,attempts,correct:0,errors:0,hints:0,recent:[],historical:true};
+      state.evidence[id]={concept:m.concept,skills:Array.isArray(m.skills)?m.skills.filter(k=>skills.includes(k)):(tracks[m.track]||[]),presented:true,practiced:true,passed,attempts,correct:0,errors:0,hints:0,recent:[],historical:true};
     }
   }
   function competencies(state) {

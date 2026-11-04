@@ -229,6 +229,7 @@
         "optional-field",
         "v4-isinstance",
         "v4-dict-type",
+        "v4-or-value",
         "v4-dict-items",
         "v4-module-import"
       ],
@@ -703,8 +704,11 @@
     "v4-dict-type": [
       "v4-isinstance"
     ],
-    "v4-dict-items": [
+    "v4-or-value": [
       "v4-dict-type"
+    ],
+    "v4-dict-items": [
+      "v4-or-value"
     ],
     "v4-module-import": [
       "v4-dict-items"
@@ -897,6 +901,70 @@
     ],
     "v4-mini-training": [
       "v4-mini-evaluation"
+    ]
+  },
+  "runtimeRequires": {
+    "exec-score": [
+      "score-variable",
+      "print-score",
+      "v4-addition"
+    ],
+    "exec-list": [
+      "v4-zero",
+      "v4-list"
+    ],
+    "exec-threshold": [
+      "compare-scores",
+      "minimum-confidence"
+    ],
+    "exec-return": [
+      "v4-return"
+    ],
+    "exec-select-model": [
+      "v4-parameter",
+      "v4-equality",
+      "choose-fallback"
+    ],
+    "exec-response-field": [
+      "v4-return",
+      "read-response-field"
+    ],
+    "exec-validate-dict": [
+      "v4-isinstance",
+      "v4-dict-type"
+    ],
+    "exec-missing-data": [
+      "v4-dict-get",
+      "v4-none"
+    ],
+    "exec-json": [
+      "parse-json",
+      "v4-return"
+    ],
+    "exec-fallback": [
+      "v4-or-value",
+      "v4-dict-get"
+    ],
+    "exec-token-tool": [
+      "v4-return",
+      "v4-addition"
+    ],
+    "exec-router": [
+      "v4-inline-if",
+      "v4-dict-membership",
+      "v4-return"
+    ],
+    "exec-evaluation": [
+      "v4-generator",
+      "v4-zip",
+      "v4-accuracy",
+      "v4-truthiness"
+    ],
+    "exec-checkpoint": [
+      "v4-accumulator",
+      "training-loss",
+      "v4-dict-nested",
+      "v4-return"
     ]
   },
   "projectUnits": {

@@ -1,7 +1,7 @@
 (function(root){
   const E=root.PythonLabEngine,M=root.PythonLabModels,Portfolio=root.PythonLabPortfolio;
   const skillNames={fundamentals:['Fundamentos Python','Python fundamentals'],data:['Estruturas de dados','Data structures'],functions:['Funções','Functions'],debugging:['Debugging','Debugging'],api:['APIs','APIs'],logic:['Raciocínio lógico','Logical reasoning'],ai:['Fluxos de IA','AI workflows'],evaluation:['Avaliação de modelos','Model evaluation'],training:['Fundamentos de treinamento','Training foundations'],english:['Inglês técnico','Technical English']};
-  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true,onContext=()=>{}}){
+  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true,onContext=()=>{},curriculumPlan=null,onPrepare=()=>{}}){
     const $=id=>document.getElementById(id);let state=E.load(storage,catalog),view='hub',selected=null,group='project';
     E.importMissions(state,missionProgress(),missions);
     const t=(pt,en)=>language()==='en'?en:pt;
@@ -21,12 +21,14 @@
       $('pListIntro').textContent=t('Construa uma solução por etapas. São dados fictícios; nada é enviado para serviços externos. O progresso é independente das missões.','Build a solution stage by stage. All data is fictional; nothing is sent to external services. Progress is independent from missions.');
       for(const a of catalog.filter(a=>a.kind===group)){
         const r=E.get(state,a),done=a.steps.filter(s=>r.steps[s.id]?.passed).length,card=document.createElement('article');card.className='project-card';const title=document.createElement('h3');title.textContent=a.title[lang];card.append(title);const goal=document.createElement('p');goal.textContent=a.goal[lang];card.append(goal);const progress=document.createElement('p');progress.textContent=`${done}/${a.steps.length} ${t('etapas validadas','validated steps')}`;card.append(progress);
+        if(a.kind==='project'&&curriculumPlan){const ids=curriculumPlan.projectUnits[a.id]||[],foundations=curriculumPlan.units.filter(u=>ids.includes(u.id)),base=document.createElement('p');base.className='description';base.textContent=t('Base recomendada: ','Recommended foundation: ')+foundations.map(u=>u.title[language()==='en'?'en':'pt']).join(' · ');card.append(base);const difficulty=document.createElement('p');difficulty.className='eyebrow';difficulty.textContent=t('Projeto integrador · 10 etapas','Integrated project · 10 stages');card.append(difficulty);button(card,t('Preparar este projeto','Prepare for this project'),()=>onPrepare(a.id),{'data-prepare-project':a.id});const details=document.createElement('details'),summary=document.createElement('summary'),result=document.createElement('p');summary.textContent=t('O que você terá ao concluir','What you will have when finished');result.textContent=a.result[lang];details.append(summary,result);card.append(details);}
         button(card,r.completedAt?t('Revisitar','Revisit'):r.openedAt?t('Retomar','Resume'):t('Abrir projeto','Open activity'),()=>openActivity(E.key(a)),{'data-activity':E.key(a)});$('pList').append(card);
       }
     }
     function renderStep(a){
       const r=E.get(state,a),s=a.steps.find(s=>s.id===r.currentStepId),draft=E.stepState(state,a,s),lang=language();
       E.present(state,E.unitKey(a,s),s.concept,s.skills);$('pTitle').textContent=a.title[lang];$('pGoal').textContent=a.goal[lang];$('pNavigationSummary').textContent=t('Etapas da atividade','Activity stages');$('pContext').textContent=a.context[lang];$('pLimit').textContent=a.limitations[lang];
+      $('pPrepare').hidden=a.kind!=='project'||!curriculumPlan;$('pPrepare').textContent=t('Revisar a base deste projeto','Review this project foundation');$('pPrepare').onclick=()=>onPrepare(a.id);
       $('pStep').textContent=`${a.steps.indexOf(s)+1}/${a.steps.length} · ${s.title[lang]}`;$('pPrompt').textContent=s.prompt[lang];$('pCode').textContent=s.code||'';$('pEvidence').hidden=!s.evidence;$('pEvidence').textContent=s.evidence?JSON.stringify(s.evidence,null,2):'';
       $('pProgress').textContent=`${a.steps.filter(st=>r.steps[st.id]?.passed).length}/${a.steps.length} ${t('etapas validadas','validated steps')}`;
       $('pStepList').replaceChildren();for(const st of a.steps){const b=button($('pStepList'),st.title[lang],()=>{r.currentStepId=st.id;r.conclusion=false;r.layer=null;r.term=null;render();save();focusHeading('pStep');},{'data-step':st.id});b.disabled=!st.requires.every(id=>r.steps[id]?.passed);if(st.id===s.id)b.setAttribute('aria-current','step');}
@@ -85,8 +87,8 @@
     }
     function open(target=null){ $('projectsArea').hidden=false;if(catalog.some(a=>E.key(a)===target)){openActivity(target);return;}view=['portfolio','skills'].includes(target)?target:'hub';group=target==='debug'?'debug':'project';render();save();focusHeading(view==='portfolio'?'pPortfolioTitle':view==='skills'?'pSkillsTitle':'pListTitle'); }
     function hide(){ $('projectsArea').hidden=true;save(); }
-    function missionPresented(e){E.present(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track));save();}
-    function EvidenceSkills(track){return ({A:['fundamentals'],B:['logic'],C:['data'],D:['functions'],E:['api'],F:['debugging'],G:['ai'],H:['training','evaluation']})[track]||['fundamentals'];}
+    function missionPresented(e){E.present(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track,e.skills));save();}
+    function EvidenceSkills(track,explicit){if(Array.isArray(explicit))return explicit.filter(k=>E.skills.includes(k));return ({A:['fundamentals'],B:['logic'],C:['data'],D:['functions'],E:['api'],F:['debugging'],G:['ai'],H:['training','evaluation']})[track]||['fundamentals'];}
     $('pHome').onclick=()=>{hide();onHome();};$('pHub').onclick=()=>{view='hub';group='project';$('pMenu').open=false;render();save();focusHeading('pListTitle');};$('pDebug').onclick=()=>{view='hub';group='debug';$('pMenu').open=false;render();save();focusHeading('pListTitle');};$('pTesting').onclick=()=>openActivity('testing/testing-basics');$('pSkills').onclick=()=>{view='skills';$('pMenu').open=false;render();save();focusHeading('pSkillsTitle');};$('pPortfolio').onclick=()=>{view='portfolio';$('pMenu').open=false;render();save();focusHeading('pPortfolioTitle');};
     $('pSubmit').onclick=()=>{const a=activity(),s=a.steps.find(s=>s.id===E.get(state,a).currentStepId),result=E.submit(state,a,s,Date.now(),M.signature(a,E.artifact(state,a)));if(result.reason==='wrong')E.get(state,a).dismissed=null;render();save();if(result.reason==='tests')$('pFeedback').textContent=t('Execute os testes desta configuração e confira todos os resultados antes de validar a etapa.','Run tests for this configuration and check all results before validating the stage.');};
     $('pHint').onclick=()=>{const a=activity();E.hint(state,a,a.steps.find(s=>s.id===E.get(state,a).currentStepId));render();save();};
@@ -95,9 +97,9 @@
     $('pRunTests').onclick=()=>{const a=activity(),artifact=E.artifact(state,a);E.testRun(state,a,M.tests(a,artifact,datasets),M.signature(a,artifact));render();save();};
     save();
     return {open,hide,snapshot:()=>structuredClone(state),runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
-      missionAttempt(e,correct){E.observe(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track),correct);save();},
+      missionAttempt(e,correct){E.observe(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track,e.skills),correct);save();},
       reset(){state=E.empty();if(!root.TrainerStorage.remove(storage,[E.KEY]))onWarning(t('Não foi possível apagar os registros do Lab.','Could not delete Lab records.')); view='hub';selected=null;},
-      missionHint(e){E.evidence(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track)).hints++;save();}};
+      missionHint(e){E.evidence(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track,e.skills)).hints++;save();}};
   }
   root.PythonLabProjects={create};
 })(globalThis);

@@ -29,3 +29,19 @@ for unit in plan['units']:
   for node in ast.walk(tree):
    for cls,earliest in limits.items():assert not isinstance(node,cls) or unit['number']>=earliest,(id,cls.__name__,'introduced too early')
 print(f'PASS CPython: {len(rows)} distinct new fixtures; all correct/wrong patch choices; block solutions, predictions, exceptions; syntax progression for {len(lookup)} missions')
+
+# Full project artifacts cannot require an unexplained language feature or builtin.
+command_lessons={'sum':'v4-list-sum','zip':'v4-zip','enumerate':'v4-enumerate','len':'v4-length','min':'v4-minimum','isinstance':'v4-isinstance','strip':'v4-strip','get':'v4-dict-get','items':'v4-dict-items','loads':'parse-json'}
+route=[id for u in plan['units'] for id in u['missions']];project_start=route.index(plan['units'][13]['missions'][0])
+for project in json.loads(Path('projects/catalog.json').read_text()):
+ tree=ast.parse(project['solutionCode']);local={n.name for n in ast.walk(tree) if isinstance(n,ast.FunctionDef)}
+ for n in ast.walk(tree):
+  if isinstance(n,ast.Call):
+   name=n.func.id if isinstance(n.func,ast.Name) else n.func.attr if isinstance(n.func,ast.Attribute) else None
+   if name in local:continue
+   assert name in command_lessons,(project['id'],'unregistered command',name)
+   assert route.index(command_lessons[name])<project_start
+for unit in plan['units']:
+ for id in unit['executables']:
+  for req in plan['runtimeRequires'][id]:assert route.index(req)<=route.index(unit['missions'][-1]),(id,req)
+print('PASS full project syntax/builtin preparation and all 14 executable prerequisite positions')

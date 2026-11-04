@@ -97,6 +97,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "0.82",
       "stdout": "",
@@ -203,6 +206,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "tokens = 12\nprint(tokens)",
       "stdout": "12\n",
@@ -309,6 +315,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "score = 0.75\nprint(score)",
       "stdout": "0.75\n",
@@ -415,6 +424,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "model = \"local\"\nprint(model)",
       "stdout": "local\n",
@@ -521,6 +533,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "available = True\nprint(available)",
       "stdout": "True\n",
@@ -627,6 +642,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "print(\"tokens\", 3)",
       "stdout": "tokens 3\n",
@@ -737,6 +755,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "prompt_tokens = 8\nanswer_tokens = 4\nprint(prompt_tokens + answer_tokens)",
       "stdout": "12\n",
@@ -843,6 +864,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "tokens = \"12\"\nprint(int(tokens) + 1)",
       "stdout": "13\n",
@@ -936,6 +960,9 @@
         }
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "limit = 6\nprint(limit * 2)",
       "stdout": "12\n",
@@ -1042,6 +1069,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "print(8 / 4)",
       "stdout": "2.0\n",
@@ -1148,6 +1178,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = [\"fast\", \"local\"]\nprint(models)",
       "stdout": "['fast', 'local']\n",
@@ -1258,6 +1291,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = [\"fast\", \"local\"]\nprint(models[0])",
       "stdout": "fast\n",
@@ -1364,6 +1400,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = [\"fast\", \"local\"]\nprint(len(models))",
       "stdout": "2\n",
@@ -1470,6 +1509,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = [\"fast\"]\nmodels.append(\"local\")\nprint(models)",
       "stdout": "['fast', 'local']\n",
@@ -1564,6 +1606,9 @@
         }
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = [\"fast\", \"old\"]\nmodels[1] = \"local\"\nprint(models[1])",
       "stdout": "local\n",
@@ -1670,6 +1715,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "models = []\nprint(len(models))",
       "stdout": "0\n",
@@ -1776,6 +1824,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "tokens = 4\nprint(tokens < 6)",
       "stdout": "True\n",
@@ -1886,6 +1937,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "status = 200\nprint(status == 200)",
       "stdout": "True\n",
@@ -1996,6 +2050,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "score = 7\nprint(score >= 7)",
       "stdout": "True\n",
@@ -2102,6 +2159,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "ready = True\nauthorized = False\nprint(ready and authorized)",
       "stdout": "False\n",
@@ -2208,6 +2268,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "remote = False\nlocal = True\nprint(remote or local)",
       "stdout": "True\n",
@@ -2314,6 +2377,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "blocked = False\nprint(not blocked)",
       "stdout": "True\n",
@@ -2420,6 +2486,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "budget = 5\nif budget < 3:\n    print(\"local\")\nelif budget < 8:\n    print(\"fast\")\nelse:\n    print(\"quality\")",
       "stdout": "fast\n",
@@ -2526,6 +2595,9 @@
         ]
       }
     },
+    "skills": [
+      "logic"
+    ],
     "fixture": {
       "code": "quality = False\nmodel = \"quality\" if quality else \"local\"\nprint(model)",
       "stdout": "local\n",
@@ -2632,6 +2704,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def ready():\n    print(\"ready\")\nready()",
       "stdout": "ready\n",
@@ -2738,6 +2813,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def show(model):\n    print(model)\nshow(\"local\")",
       "stdout": "local\n",
@@ -2844,6 +2922,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def show(model):\n    print(model)\nshow(\"fast\")",
       "stdout": "fast\n",
@@ -2954,6 +3035,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def cost(tokens):\n    return tokens * 2\nprint(cost(3))",
       "stdout": "6\n",
@@ -3060,6 +3144,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def model(name=\"local\"):\n    return name\nprint(model())",
       "stdout": "local\n",
@@ -3166,6 +3253,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def inspect():\n    value = 8\nprint(inspect())",
       "stdout": "None\n",
@@ -3272,6 +3362,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "name, score = [\"local\", 8]\nprint(name)",
       "stdout": "local\n",
@@ -3378,6 +3471,9 @@
         ]
       }
     },
+    "skills": [
+      "functions"
+    ],
     "fixture": {
       "code": "def cost(tokens):\n    return tokens * 2\ndef total(tokens):\n    return cost(tokens) + 1\nprint(total(3))",
       "stdout": "7\n",
@@ -3484,6 +3580,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "role = \"AI\"\nprint(role + \": classify\")",
       "stdout": "AI: classify\n",
@@ -3594,6 +3693,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "prompt = \"  classify  \"\nprint(prompt.strip())",
       "stdout": "classify\n",
@@ -3700,6 +3802,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "label = \"SUPPORT\"\nprint(label.lower())",
       "stdout": "support\n",
@@ -3793,6 +3898,9 @@
         }
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "tag = \"api\"\nprint(tag.upper())",
       "stdout": "API\n",
@@ -3899,6 +4007,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "prompt = \"classify this request\"\nprint(prompt.split())",
       "stdout": "['classify', 'this', 'request']\n",
@@ -4005,6 +4116,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "words = [\"classify\", \"request\"]\nprint(\" \".join(words))",
       "stdout": "classify request\n",
@@ -4111,6 +4225,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "prompt = \"please classify this\"\nprint(\"classify\" in prompt)",
       "stdout": "True\n",
@@ -4221,6 +4338,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "text = \"  SUPPORT  \"\nlabel = text.strip().lower()\nprint(label)",
       "stdout": "support\n",
@@ -4327,6 +4447,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "tools = [\"search\", \"count\"]\nfor tool in tools:\n    print(tool)",
       "stdout": "search\ncount\n",
@@ -4433,6 +4556,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "for attempt in range(3):\n    print(attempt)",
       "stdout": "0\n1\n2\n",
@@ -4539,6 +4665,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "print(list(range(3)))",
       "stdout": "[0, 1, 2]\n",
@@ -4649,6 +4778,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "total = 0\nfor tokens in [2, 5]:\n    total = total + tokens\nprint(total)",
       "stdout": "7\n",
@@ -4755,6 +4887,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "attempt = 0\nwhile attempt < 2:\n    attempt = attempt + 1\nprint(attempt)",
       "stdout": "2\n",
@@ -4861,6 +4996,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "for model in [\"local\", \"fast\"]:\n    print(model)\n    break",
       "stdout": "local\n",
@@ -4967,6 +5105,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "for model in [\"offline\", \"local\"]:\n    if model == \"offline\":\n        continue\n    print(model)",
       "stdout": "local\n",
@@ -5073,6 +5214,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "for predicted, expected in zip([\"a\", \"b\"], [\"a\", \"c\"]):\n    print(predicted == expected)",
       "stdout": "True\nFalse\n",
@@ -5179,6 +5323,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "for index, task in enumerate([\"chat\", \"search\"]):\n    print(index, task)",
       "stdout": "0 chat\n1 search\n",
@@ -5285,6 +5432,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "print(sum([2, 3, 4]))",
       "stdout": "9\n",
@@ -5391,6 +5541,9 @@
         ]
       }
     },
+    "skills": [
+      "fundamentals"
+    ],
     "fixture": {
       "code": "print(sum([True, False, True]))",
       "stdout": "2\n",
@@ -5497,6 +5650,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "response = {\"model\": \"local\"}\nprint(response[\"model\"])",
       "stdout": "local\n",
@@ -5601,6 +5757,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "response = {\"model\": \"local\"}\nprint(\"score\" in response)",
       "stdout": "False\n",
@@ -5711,6 +5870,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "response = {\"data\": {\"model\": \"local\"}}\nprint(response[\"data\"][\"model\"])",
       "stdout": "local\n",
@@ -5817,6 +5979,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "import json\npayload = {\"model\": \"local\"}\nprint(json.dumps(payload))",
       "stdout": "{\"model\": \"local\"}\n",
@@ -5927,6 +6092,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "response = {}\nprint(response.get(\"model\", \"local\"))",
       "stdout": "local\n",
@@ -6033,6 +6201,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "body = {\"model\": \"local\"}\nprint(isinstance(body, dict))",
       "stdout": "True\n",
@@ -6139,9 +6310,121 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "response = {\"model\": 12}\nprint(isinstance(response[\"model\"], str))",
       "stdout": "False\n",
+      "exception": null
+    }
+  },
+  {
+    "id": "v4-or-value",
+    "unit": "unit-07",
+    "module": "Dicionários e JSON",
+    "track": "U07",
+    "concept": "v4-or-value",
+    "concepts": [
+      "v4-or-value"
+    ],
+    "introduces": [
+      "v4-or-value"
+    ],
+    "requires": [
+      "v4-dict-type"
+    ],
+    "difficulty": 3,
+    "type": "predict",
+    "title": "Escolha um texto alternativo",
+    "prompt": "Qual é a saída deste código?",
+    "code": "response = {}\nprint(response.get(\"text\") or \"local\")",
+    "context": "",
+    "terms": [
+      "v4-or-value"
+    ],
+    "legend": {
+      "or-value": "or devolve o primeiro valor verdadeiro ou o último valor avaliado."
+    },
+    "hints": [
+      "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+      "get devolve None; por isso o resultado é o texto local."
+    ],
+    "explanation": "or devolve o primeiro valor verdadeiro ou o último valor avaliado. get devolve None; por isso o resultado é o texto local.",
+    "aiApplication": "Leia e valide dados estruturados.",
+    "teaching": {
+      "pt": "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+      "mixed": "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+      "en": "or returns the first truthy value or the last evaluated value."
+    },
+    "options": [
+      "True",
+      "local",
+      "None"
+    ],
+    "correct": 1,
+    "translations": {
+      "pt": {
+        "title": "Escolha um texto alternativo",
+        "prompt": "Qual é a saída deste código?",
+        "hints": [
+          "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+          "get devolve None; por isso o resultado é o texto local."
+        ],
+        "explanation": "or devolve o primeiro valor verdadeiro ou o último valor avaliado. get devolve None; por isso o resultado é o texto local.",
+        "aiApplication": "Leia e valide dados estruturados.",
+        "legend": {
+          "or-value": "or devolve o primeiro valor verdadeiro ou o último valor avaliado."
+        },
+        "options": [
+          "True",
+          "local",
+          "None"
+        ]
+      },
+      "mixed": {
+        "title": "Escolha um texto alternativo · or value",
+        "prompt": "Qual é a saída deste código?",
+        "hints": [
+          "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+          "get devolve None; por isso o resultado é o texto local."
+        ],
+        "explanation": "or devolve o primeiro valor verdadeiro ou o último valor avaliado. get devolve None; por isso o resultado é o texto local.",
+        "aiApplication": "Leia e valide dados estruturados.",
+        "legend": {
+          "or-value": "or devolve o primeiro valor verdadeiro ou o último valor avaliado."
+        },
+        "options": [
+          "True",
+          "local",
+          "None"
+        ]
+      },
+      "en": {
+        "title": "Choose an alternative text",
+        "prompt": "What is the output of this code?",
+        "hints": [
+          "or returns the first truthy value or the last evaluated value.",
+          "get returns None, so the result is the text local."
+        ],
+        "explanation": "or returns the first truthy value or the last evaluated value. get returns None, so the result is the text local.",
+        "aiApplication": "Read and validate structured data.",
+        "legend": {
+          "or-value": "or returns the first truthy value or the last evaluated value."
+        },
+        "options": [
+          "True",
+          "local",
+          "None"
+        ]
+      }
+    },
+    "skills": [
+      "data"
+    ],
+    "fixture": {
+      "code": "response = {}\nprint(response.get(\"text\") or \"local\")",
+      "stdout": "local\n",
       "exception": null
     }
   },
@@ -6158,7 +6441,7 @@
       "v4-items"
     ],
     "requires": [
-      "v4-dict-type"
+      "v4-or-value"
     ],
     "difficulty": 3,
     "type": "predict",
@@ -6245,6 +6528,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "scores = {\"fast\": 8, \"local\": 6}\nfor name, score in scores.items():\n    print(name, score)",
       "stdout": "fast 8\nlocal 6\n",
@@ -6351,6 +6637,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from json import loads\nresponse = loads('{\"model\":\"local\"}')\nprint(response[\"model\"])",
       "stdout": "local\n",
@@ -6457,6 +6746,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "response = {}\ntry:\n    print(response[\"model\"])\nexcept KeyError:\n    print(\"fallback\")",
       "stdout": "fallback\n",
@@ -6563,6 +6855,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "try:\n    value = int(\"bad\")\nexcept (ValueError, TypeError):\n    print(\"fallback\")",
       "stdout": "fallback\n",
@@ -6669,6 +6964,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "import json\ntry:\n    json.loads(\"not json\")\nexcept json.JSONDecodeError:\n    print(\"invalid\")",
       "stdout": "invalid\n",
@@ -6779,6 +7077,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "score = \"0.75\"\nprint(float(score))",
       "stdout": "0.75\n",
@@ -6889,6 +7190,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "def double(value):\n    return value * 2\nassert double(3) == 6\nprint(\"passed\")",
       "stdout": "passed\n",
@@ -6993,6 +7297,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "assert 2 + 2 == 5",
       "stdout": "",
@@ -7099,6 +7406,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "logs = []\nif not logs:\n    print(\"no evidence\")\nelse:\n    print(\"select\")",
       "stdout": "no evidence\n",
@@ -7209,6 +7519,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "def first(models):\n    if len(models) == 0:\n        return \"local\"\n    return models[0]\nprint(first([]))",
       "stdout": "local\n",
@@ -7315,6 +7628,9 @@
         ]
       }
     },
+    "skills": [
+      "debugging"
+    ],
     "fixture": {
       "code": "def valid(score):\n    return score >= 0 and score <= 1\nprint(valid(2))",
       "stdout": "False\n",
@@ -7421,6 +7737,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from io import StringIO\nfile = StringIO(\"model=local\")\nprint(file.read())",
       "stdout": "model=local\n",
@@ -7527,6 +7846,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from io import StringIO\nfile = StringIO(\"ready\\ndone\\n\")\nprint(file.readline().strip())",
       "stdout": "ready\n",
@@ -7633,6 +7955,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from io import StringIO\nfile = StringIO(\"local\")\nfile.read()\nprint(file.read() == \"\")",
       "stdout": "True\n",
@@ -7743,6 +8068,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from io import StringIO\nfile = StringIO(\"local\")\nfile.read()\nfile.seek(0)\nprint(file.read())",
       "stdout": "local\n",
@@ -7849,6 +8177,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "from io import StringIO\nwith StringIO(\"local\") as file:\n    data = file.read()\nprint(file.closed)",
       "stdout": "True\n",
@@ -7959,6 +8290,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "import json\nfrom io import StringIO\nfile = StringIO('{\"model\":\"local\"}')\nresponse = json.load(file)\nprint(response[\"model\"])",
       "stdout": "local\n",
@@ -8065,6 +8399,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "import csv\nfrom io import StringIO\nrows = csv.reader(StringIO(\"model,score\\nlocal,8\\n\"))\nprint(list(rows)[1][0])",
       "stdout": "local\n",
@@ -8171,6 +8508,9 @@
         ]
       }
     },
+    "skills": [
+      "data"
+    ],
     "fixture": {
       "code": "import csv\nfrom io import StringIO\nrows = list(csv.DictReader(StringIO(\"model,score\\nlocal,8\\n\")))\nprint(rows[0][\"score\"])",
       "stdout": "8\n",
@@ -8277,6 +8617,9 @@
         ]
       }
     },
+    "skills": [
+      "api"
+    ],
     "fixture": {
       "code": "request = {\"method\": \"POST\", \"body\": {\"prompt\": \"classify\"}}\nprint(request[\"method\"])",
       "stdout": "POST\n",
@@ -8383,6 +8726,9 @@
         ]
       }
     },
+    "skills": [
+      "api"
+    ],
     "fixture": {
       "code": "headers = {\"Content-Type\": \"application/json\"}\nprint(headers[\"Content-Type\"])",
       "stdout": "application/json\n",
@@ -8489,6 +8835,9 @@
         ]
       }
     },
+    "skills": [
+      "api"
+    ],
     "fixture": {
       "code": "request = {\"auth_required\": True, \"body\": {\"prompt\": \"hello\"}}\nprint(request[\"auth_required\"])",
       "stdout": "True\n",
@@ -8599,6 +8948,9 @@
         ]
       }
     },
+    "skills": [
+      "api"
+    ],
     "fixture": {
       "code": "response = {\"status\": 503}\nif response[\"status\"] != 200:\n    print(\"fallback\")\nelse:\n    print(\"accepted\")",
       "stdout": "fallback\n",
@@ -8705,6 +9057,9 @@
         ]
       }
     },
+    "skills": [
+      "api"
+    ],
     "fixture": {
       "code": "attempts = 3\nlimit = 3\nprint(attempts < limit)",
       "stdout": "False\n",
@@ -8811,6 +9166,9 @@
         ]
       }
     },
+    "skills": [
+      "ai"
+    ],
     "fixture": {
       "code": "tools = {\"count\": \"count_words\", \"find\": \"search_docs\"}\nprint(tools[\"count\"])",
       "stdout": "count_words\n",
@@ -8917,6 +9275,9 @@
         ]
       }
     },
+    "skills": [
+      "ai"
+    ],
     "fixture": {
       "code": "call = {\"tool\": \"count\", \"arguments\": {\"text\": \"two words\"}}\nprint(call[\"arguments\"][\"text\"])",
       "stdout": "two words\n",
@@ -9027,6 +9388,9 @@
         ]
       }
     },
+    "skills": [
+      "ai"
+    ],
     "fixture": {
       "code": "def count_words(text):\n    return len(text.split())\nprint(count_words(\"one two\"))",
       "stdout": "2\n",
@@ -9133,6 +9497,9 @@
         ]
       }
     },
+    "skills": [
+      "ai"
+    ],
     "fixture": {
       "code": "allowed = [\"count\", \"search\"]\nrequested = \"delete\"\nprint(requested in allowed)",
       "stdout": "False\n",
@@ -9239,6 +9606,9 @@
         ]
       }
     },
+    "skills": [
+      "ai"
+    ],
     "fixture": {
       "code": "state = {\"tool_result\": \"found\", \"done\": True}\nif state[\"done\"]:\n    print(state[\"tool_result\"])",
       "stdout": "found\n",
@@ -9349,6 +9719,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "correct = 3\ntotal = 4\nprint(correct / total)",
       "stdout": "0.75\n",
@@ -9455,6 +9828,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "latency_ms = {\"fast\": 20, \"quality\": 80}\nprint(latency_ms[\"fast\"] < latency_ms[\"quality\"])",
       "stdout": "True\n",
@@ -9561,6 +9937,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "cost = {\"a\": 2, \"b\": 5}\nprint(cost[\"a\"] + cost[\"b\"])",
       "stdout": "7\n",
@@ -9667,6 +10046,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "tasks = [{\"expected\": \"a\"}, {\"expected\": \"b\"}]\nexpected = [task[\"expected\"] for task in tasks]\nprint(expected)",
       "stdout": "['a', 'b']\n",
@@ -9773,6 +10155,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "print(sum(value > 0 for value in [2, 0, 3]))",
       "stdout": "2\n",
@@ -9879,6 +10264,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "scores = [0, 2, 0]\nfailed = [i for i, score in enumerate(scores) if score == 0]\nprint(failed)",
       "stdout": "[0, 2]\n",
@@ -9985,6 +10373,9 @@
         ]
       }
     },
+    "skills": [
+      "evaluation"
+    ],
     "fixture": {
       "code": "correct = 2\ntotal = 2\nprint(correct / total)",
       "stdout": "1.0\n",
@@ -10091,6 +10482,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "train_ids = [1, 2]\nvalidation_ids = [3]\nprint(3 in train_ids)",
       "stdout": "False\n",
@@ -10197,6 +10591,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "training_loss = [0.8, 0.2]\nvalidation_loss = [0.7, 0.9]\nprint(validation_loss[1] > validation_loss[0])",
       "stdout": "True\n",
@@ -10303,6 +10700,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "print(min([0.6, 0.4, 0.5]))",
       "stdout": "0.4\n",
@@ -10409,6 +10809,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "validation = lambda row: row[\"loss\"]\nprint(validation({\"loss\": 0.4}))",
       "stdout": "0.4\n",
@@ -10515,6 +10918,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "logs = [{\"epoch\": 1, \"loss\": 0.6}, {\"epoch\": 2, \"loss\": 0.4}]\nbest = min(logs, key=lambda row: row[\"loss\"])\nprint(best[\"epoch\"])",
       "stdout": "2\n",
@@ -10621,6 +11027,9 @@
         ]
       }
     },
+    "skills": [
+      "training"
+    ],
     "fixture": {
       "code": "job = {\"status\": \"prepared\", \"remote_id\": None}\nprint(job[\"status\"])",
       "stdout": "prepared\n",
@@ -10731,6 +11140,10 @@
         ]
       }
     },
+    "skills": [
+      "ai",
+      "functions"
+    ],
     "fixture": {
       "code": "def route(priority):\n    if priority == \"quality\":\n        return \"quality_model\"\n    return \"local_model\"\nprint(route(\"simple\"))",
       "stdout": "local_model\n",
@@ -10837,6 +11250,10 @@
         ]
       }
     },
+    "skills": [
+      "ai",
+      "functions"
+    ],
     "fixture": {
       "code": "import json\nresponse = {\"status\": 200, \"body\": '{\"model\":\"local\"}'}\nbody = json.loads(response[\"body\"])\nprint(body.get(\"model\", \"fallback\"))",
       "stdout": "local\n",
@@ -10943,6 +11360,10 @@
         ]
       }
     },
+    "skills": [
+      "ai",
+      "functions"
+    ],
     "fixture": {
       "code": "predictions = [\"a\", \"b\"]\nexpected = [\"a\", \"c\"]\ncorrect = sum(p == e for p, e in zip(predictions, expected))\nprint(correct / len(expected))",
       "stdout": "0.5\n",
@@ -11049,6 +11470,10 @@
         ]
       }
     },
+    "skills": [
+      "ai",
+      "functions"
+    ],
     "fixture": {
       "code": "logs = [{\"epoch\": 1, \"validation_loss\": 0.3}, {\"epoch\": 2, \"validation_loss\": 0.5}]\nbest = min(logs, key=lambda row: row[\"validation_loss\"])\nprint(best[\"epoch\"])",
       "stdout": "1\n",

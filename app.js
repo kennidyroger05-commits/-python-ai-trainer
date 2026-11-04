@@ -48,13 +48,13 @@
       for(const key of e.terms){const b=document.createElement('button'),g=languageData.glossary[key];b.textContent=state.language==='en'?g[0]:`${g[0]}${state.language==='pt'||!state.known.includes(key)?` (${g[1]})`:''}`;b.onclick=()=>{state.term=key;$('glossary').hidden=false;renderTerm();};$('legend').append(b);}
       renderPreview();renderFeedback(); renderSimulation(); if(!$('glossary').hidden)renderTerm();
     }
-    journey?.languageChanged();curriculum?.render();if(!$(`mission`).hidden)curriculum?.lesson(exercise(),guided);
+    journey?.languageChanged();curriculum?.render();if(!$(`mission`).hidden)curriculum?.lesson(exercise(),guided,projectReviewMode);
   }
   function renderFeedback(){
     for(const button of $('answer').children)button.disabled=!!state.solved;$('submit').disabled=!!state.solved;$('hint').disabled=!!state.solved;
     $('vExplanation').hidden=!state.solved;$('feedback').dataset.kind=state.feedback?.kind||'';const f=state.feedback;if(!f){$('feedback').textContent='';return;}
-    const t=ui(),c=content();
-    $('feedback').textContent=f.kind==='hint'?c.hints[state.hintLevel-1]:f.kind==='correct'?`${t.right} ${f.gained?`+${f.gained} XP.`:t.again} ${c.explanation} ${c.aiApplication}`:t[f.kind];
+    const t=ui(),c=content();$('vExplanationLabel').textContent=reviewText('Entenda o porquê e a aplicação','Understand why and where it applies');$('vExplanationText').textContent=c.explanation+' '+c.aiApplication;
+    $('feedback').textContent=f.kind==='hint'?c.hints[state.hintLevel-1]:f.kind==='correct'?`${t.right} ${f.gained?`+${f.gained} XP.`:t.again} ${c.explanation} ${c.aiApplication}`:f.kind==='wrong'&&exercise().teaching?`${t.wrong} ${c.hints[0]}`:t[f.kind];
   }
   function renderTerm(){
     if(!state.term)return;const g=languageData.glossary[state.term],en=state.language==='en';
@@ -84,7 +84,7 @@
     saveSession();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;if(progressAPI.reviews(state.progress,state.exercises).length)reviewMessage=false;$('aiLab').hidden=true;if(projects)projects.hide();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();
     $('home').hidden = false; $('mission').hidden = true;
     renderXP();
-    updateText();contextChanged({kind:"home",area});journey?.home();curriculum?.render();if(document.activeElement!==document.body)$("homeTitle").focus({preventScroll:true});
+    updateText();contextChanged({kind:"home",area});journey?.home();curriculum?.render();if(document.activeElement!==document.body)$("homeTitle").focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
   }
   function renderMission() {
     if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();const e = state.exercises[state.index];activeId=e.id;$('mission').dataset.exerciseId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
@@ -108,7 +108,7 @@
     } else e.options.forEach((option, index) => { const button = document.createElement('button'); button.textContent = option;button.setAttribute('aria-pressed',String(state.answer===String(index))); button.onclick = () => {if(state.solved)return; state.answer = String(index); [...$('answer').children].forEach(b => b.classList.remove('selected')); button.classList.add('selected');for(const b of $('answer').children)b.setAttribute('aria-pressed',String(b===button));renderPreview();saveSession(); }; $('answer').append(button); });
     $('assembled').textContent=e.type==='build'?state.answer:'';
     if(e.type!=='build'&&state.answer!=='')$('answer').children[Number(state.answer)].classList.add('selected');
-    updateText();contextChanged({kind:"mission",id:e.id});
+    updateText();contextChanged({kind:"mission",id:e.id});$("title").tabIndex=-1;$("title").focus({preventScroll:true});$("mission").scrollIntoView({block:"start"});
   }
   function submit() {
     const e = state.exercises[state.index];
@@ -126,7 +126,7 @@
       state.feedback={kind:'correct',gained};renderFeedback();
       $('next').hidden = false;
     } else {if(projects)projects.missionAttempt(e,false);progressAPI.record(state.progress,e,false,0,!!reviewQueue||projectReviewMode);state.feedback={kind:'wrong'};renderFeedback();}
-    syncProgress();saveSession();$('bar').style.width=`${completedCount()/state.exercises.length*100}%`; renderXP();if(guided)curriculum?.lesson(exercise(),true);
+    syncProgress();saveSession();$('bar').style.width=`${completedCount()/state.exercises.length*100}%`; renderXP();if(guided)curriculum?.lesson(exercise(),true,projectReviewMode);
   }
   function showHint() {
     const e = state.exercises[state.index];
@@ -156,7 +156,8 @@
     $('closeGlossary').onclick=()=>{$('glossary').hidden=true;};
     $('knowTerm').onclick=()=>{state.known=state.known.includes(state.term)?state.known.filter(k=>k!==state.term):[...state.known,state.term];preference();updateText();};
     state.index = Math.min(state.progress.current, state.exercises.length - 1);
-    $('continue').onclick = () => {guided=!!plan;const next=plan?state.exercises.find(e=>e.id===window.TrainerCurriculum.next(plan,state.progress)):window.LearningPath.nextMission(state.exercises,state.progress);if(next)state.index=state.exercises.indexOf(next);returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;reviewQueue=null;renderMission();}; $('homeButton').onclick = renderHome;
+    $('continue').onclick = () => {guided=!!plan;const next=plan?state.exercises.find(e=>e.id===window.TrainerCurriculum.next(plan,state.progress)):window.LearningPath.nextMission(state.exercises,state.progress);if(next)state.index=state.exercises.indexOf(next);returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;reviewQueue=null;renderMission();}; $('homeButton').onclick = ()=>{const unit=guided&&plan?window.TrainerCurriculum.unitFor(plan,exercise().id).id:null;renderHome();if(unit)curriculum?.openUnit(unit);};
+    $('vLearnTab').onclick=()=>renderHome('learn');$('vPracticeTab').onclick=()=>renderHome('practice');$('themeToggle').disabled=false;$('themeToggle').onclick=()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;document.querySelector('meta[name=theme-color]').content=theme==='dark'?'#101d22':'#f6f7f2';try{storage.setItem('trainer-theme',theme);}catch{storageWarning(reviewText('Tema mantido nesta aba.','Theme kept in this tab.'));}};
     $('submit').onclick = submit; $('hint').onclick = showHint;
     $('next').onclick = () => { saveSession();if(projectReviewMode&&returnProject){$('mission').hidden=true;$('returnToProject').hidden=true;returnProject();return;}if(reviewQueue){reviewQueue.shift();if(!reviewQueue.length){reviewQueue=null;renderHome();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();return;} if(guided&&plan){const unit=window.TrainerCurriculum.unitFor(plan,exercise().id);if(unit.missions.at(-1)===exercise().id){renderHome();curriculum?.openUnit(unit.id);return;}const ids=unit.missions;state.index=state.exercises.findIndex(e=>e.id===ids[ids.indexOf(exercise().id)+1]);renderMission();return;}if(state.index===state.exercises.length-1||!guided&&state.index===39){renderHome();return;}state.index=game.getNextIndex(state.exercises,state.index);renderMission(); };
     $('restartModule').onclick = restartModule;
@@ -171,7 +172,7 @@
     try {
       const [catalog,debugging,testing,datasets,terms]=await Promise.all(['catalog','debugging','testing','datasets','terms'].map(name=>json(`projects/${name}.json`)));
       Object.assign(languageData.glossary,terms);const activities=window.PythonLabEngine.validate([...catalog,...debugging,...testing],languageData.glossary);
-      activityCatalog=activities;projects=window.PythonLabProjects.create({onContext:contextChanged,catalog:activities,datasets,glossary:languageData.glossary,language:()=>state.language,storage,missions:state.exercises,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onPython:(projectId,back)=>{if(runtime){projects.hide();runtime.open(projectId,back);}},pythonReport:id=>runtime?.projectReport(id)||'',pythonAvailable:()=>!!runtime,onReview:(id,back)=>{
+      activityCatalog=activities;projects=window.PythonLabProjects.create({curriculumPlan:plan,onPrepare:id=>{const units=plan?.projectUnits[id]||[],last=Math.max(...units.map(k=>plan.units.find(u=>u.id===k).number));const first=plan.units.find(u=>u.number<=last&&!window.TrainerCurriculum.status(u,state.progress).complete)||plan.units.find(u=>u.id===units[0]);if(curriculum&&first)curriculum.openUnit(first.id);else renderHome();},onContext:contextChanged,catalog:activities,datasets,glossary:languageData.glossary,language:()=>state.language,storage,missions:state.exercises,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onPython:(projectId,back)=>{if(runtime){projects.hide();runtime.open(projectId,back);}},pythonReport:id=>runtime?.projectReport(id)||'',pythonAvailable:()=>!!runtime,onReview:(id,back)=>{
         const index=state.exercises.findIndex(e=>e.id===id);if(index<0)return;saveSession();const previousIndex=state.index;projectReviewMode=true;returnProject=()=>{state.index=previousIndex;projectReviewMode=false;returnProject=null;back();};reviewQueue=null;state.index=index;sessions.save(id,{answer:'',attempts:0,hintLevel:0,simStep:-1,feedback:null,solved:false,investigation:null,simOpen:false});$('returnToProject').hidden=false;renderMission();
       }});
       if(!$('mission').hidden)projects.missionPresented(exercise());
@@ -181,7 +182,7 @@
 
     try {
       const terms=await json('runtime/terms.json');Object.assign(languageData.glossary,terms);
-      const lessons=await json('runtime/lessons.json'),projectReferences=activityCatalog.length?activityCatalog.filter(a=>a.kind==='project'):null;
+      const lessons=(await json('runtime/lessons.json')).map(l=>plan?.runtimeRequires?.[l.id]?{...l,requires:plan.runtimeRequires[l.id]}:l),projectReferences=activityCatalog.length?activityCatalog.filter(a=>a.kind==='project'):null;
       window.ExecutableContent.validate(lessons,state.exercises,projectReferences,languageData.glossary,{allowMissingProjects:projectReferences===null});
       executableCatalog=lessons;runtime=window.ExecutableView.create({onContext:contextChanged,catalog:lessons,missions:state.exercises,glossary:languageData.glossary,language:()=>state.language,storage,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onEvidence:(l,correct)=>projects?.runtimeAttempt(l,correct)});
       $('runtimeButton').disabled=false;$('runtimeButton').onclick=()=>{saveSession();projects?.hide();modelLab?.hide();experiments?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;runtime.open();};
@@ -211,7 +212,7 @@
       if(['activity','executable','experiment'].includes(from.kind)){projectReviewMode=true;returnProject=()=>{state.index=previousIndex;projectReviewMode=false;returnProject=null;openLearningActivity(from);};$('returnToProject').hidden=false;}
       renderMission();return;
     }
-    if(target.kind==='executable'&&runtime){runtime.open(target.id,['mission','activity','experiment'].includes(from.kind)?()=>openLearningActivity(from):null);return;}
+    if(target.kind==='executable'&&runtime){runtime.open(target.id,['mission','activity','experiment'].includes(from.kind)?()=>openLearningActivity(from):null,target.mode);return;}
     if((target.kind==='activity'||target.kind==='activity-list')&&projects){projects.open(target.id==='hub'?null:target.id);return;}
     if(target.kind==='experiment'&&experiments){experiments.open(target.id);return;}
     renderHome();if(target.kind==='review')$('reviewButton').click();

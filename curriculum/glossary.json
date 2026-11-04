@@ -512,6 +512,15 @@
     "Leia e valide dados estruturados.",
     "Read and validate structured data."
   ],
+  "v4-or-value": [
+    "or value",
+    "valor alternativo",
+    "or devolve o primeiro valor verdadeiro ou o último valor avaliado.",
+    "or returns the first truthy value or the last evaluated value.",
+    "response = {}",
+    "Leia e valide dados estruturados.",
+    "Read and validate structured data."
+  ],
   "v4-items": [
     "items",
     "pares de chave e valor",

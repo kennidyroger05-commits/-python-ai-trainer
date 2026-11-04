@@ -10,6 +10,7 @@
   }
   if(route.length!==ids.size||new Set(route).size!==route.length)throw Error('Incomplete curriculum');
   for(const list of Object.values(plan.projectUnits||{}))if(!list.length||list.some(id=>!units.has(id)))throw Error('Invalid project preparation');
+  for(const unit of plan.units)for(const id of unit.executables||[])if(!plan.runtimeRequires?.[id]?.length||plan.runtimeRequires[id].some(p=>!ids.has(p)||route.indexOf(p)>route.indexOf(unit.missions.at(-1))))throw Error('Executable introduced too early '+id);
   return plan;
  }
  function unitFor(plan,id){return plan.units.find(u=>u.missions.includes(id));}
