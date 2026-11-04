@@ -1,0 +1,933 @@
+{
+  "version": 4,
+  "units": [
+    {
+      "id": "unit-01",
+      "number": 1,
+      "title": {
+        "pt": "Primeiros passos",
+        "mixed": "First steps (primeiros passos)",
+        "en": "First steps"
+      },
+      "goal": {
+        "pt": "Valores, nomes e saída.",
+        "mixed": "Valores, nomes e saída.",
+        "en": "Values, names and output."
+      },
+      "requires": [],
+      "missions": [
+        "v4-recognize-value",
+        "score-variable",
+        "print-score",
+        "v4-number",
+        "v4-float",
+        "v4-string",
+        "v4-boolean",
+        "v4-print-pair",
+        "v4-addition",
+        "token-budget",
+        "v4-conversion",
+        "v4-multiply",
+        "v4-division"
+      ],
+      "executables": [
+        "exec-score"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-02",
+      "number": 2,
+      "title": {
+        "pt": "Listas e índices",
+        "mixed": "Lists and indices (listas e índices)",
+        "en": "Lists and indices"
+      },
+      "goal": {
+        "pt": "Encontre e atualize itens.",
+        "mixed": "Encontre e atualize itens.",
+        "en": "Find and update items."
+      },
+      "requires": [
+        "unit-01"
+      ],
+      "missions": [
+        "v4-list",
+        "v4-zero",
+        "read-index",
+        "v4-length",
+        "count-models",
+        "max-scores",
+        "v4-append",
+        "v4-replace-index",
+        "v4-empty",
+        "find-index-error"
+      ],
+      "executables": [
+        "exec-list"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-03",
+      "number": 3,
+      "title": {
+        "pt": "Condições",
+        "mixed": "Conditions (condições)",
+        "en": "Conditions"
+      },
+      "goal": {
+        "pt": "Decida por regras explícitas.",
+        "mixed": "Decida por regras explícitas.",
+        "en": "Decide using explicit rules."
+      },
+      "requires": [
+        "unit-02"
+      ],
+      "missions": [
+        "compare-scores",
+        "v4-less",
+        "v4-equality",
+        "v4-inclusive",
+        "minimum-confidence",
+        "choose-fallback",
+        "v4-and",
+        "v4-or",
+        "v4-not",
+        "v4-elif",
+        "v4-inline-if"
+      ],
+      "executables": [
+        "exec-threshold"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-04",
+      "number": 4,
+      "title": {
+        "pt": "Funções",
+        "mixed": "Functions (funções)",
+        "en": "Functions"
+      },
+      "goal": {
+        "pt": "Receba entradas e devolva resultados.",
+        "mixed": "Receba entradas e devolva resultados.",
+        "en": "Receive inputs and return results."
+      },
+      "requires": [
+        "unit-03"
+      ],
+      "missions": [
+        "v4-def",
+        "v4-parameter",
+        "v4-argument",
+        "define-tool",
+        "v4-return",
+        "return-score",
+        "v4-default",
+        "v4-none",
+        "v4-unpack",
+        "v4-compose",
+        "trace-selection",
+        "fallback-challenge"
+      ],
+      "executables": [
+        "exec-return"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-05",
+      "number": 5,
+      "title": {
+        "pt": "Texto e transformação",
+        "mixed": "Text transformations (texto e transformação)",
+        "en": "Text transformations"
+      },
+      "goal": {
+        "pt": "Prepare textos de prompts e respostas.",
+        "mixed": "Prepare textos de prompts e respostas.",
+        "en": "Prepare prompt and response text."
+      },
+      "requires": [
+        "unit-04"
+      ],
+      "missions": [
+        "v4-concat",
+        "v4-strip",
+        "v4-lower",
+        "v4-upper",
+        "v4-split",
+        "v4-join",
+        "v4-text-in",
+        "v4-text-pipeline"
+      ],
+      "executables": [],
+      "projects": []
+    },
+    {
+      "id": "unit-06",
+      "number": 6,
+      "title": {
+        "pt": "Laços",
+        "mixed": "Loops (laços)",
+        "en": "Loops"
+      },
+      "goal": {
+        "pt": "Processe coleções passo a passo.",
+        "mixed": "Processe coleções passo a passo.",
+        "en": "Process collections step by step."
+      },
+      "requires": [
+        "unit-05"
+      ],
+      "missions": [
+        "v4-for",
+        "visit-tools",
+        "v4-range",
+        "v4-materialize",
+        "v4-accumulator",
+        "v4-while",
+        "v4-break",
+        "v4-continue",
+        "v4-zip",
+        "v4-enumerate",
+        "v4-list-sum",
+        "v4-boolean-sum"
+      ],
+      "executables": [],
+      "projects": []
+    },
+    {
+      "id": "unit-07",
+      "number": 7,
+      "title": {
+        "pt": "Dicionários e JSON",
+        "mixed": "Dictionaries and JSON (dicionários e json)",
+        "en": "Dictionaries and JSON"
+      },
+      "goal": {
+        "pt": "Leia e valide dados estruturados.",
+        "mixed": "Leia e valide dados estruturados.",
+        "en": "Read and validate structured data."
+      },
+      "requires": [
+        "unit-06"
+      ],
+      "missions": [
+        "v4-dict-create",
+        "response-dictionary",
+        "read-response-field",
+        "english-variable-names",
+        "v4-dict-membership",
+        "v4-dict-nested",
+        "model-records",
+        "parse-json",
+        "v4-json-dumps",
+        "v4-dict-get",
+        "optional-field",
+        "v4-isinstance",
+        "v4-dict-type",
+        "v4-dict-items",
+        "v4-module-import"
+      ],
+      "executables": [
+        "exec-response-field",
+        "exec-missing-data",
+        "exec-json"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-08",
+      "number": 8,
+      "title": {
+        "pt": "Erros e testes",
+        "mixed": "Errors and tests (erros e testes)",
+        "en": "Errors and tests"
+      },
+      "goal": {
+        "pt": "Investigue, corrija e verifique.",
+        "mixed": "Investigue, corrija e verifique.",
+        "en": "Investigate, repair and verify."
+      },
+      "requires": [
+        "unit-07"
+      ],
+      "missions": [
+        "v4-try",
+        "v4-catch-two",
+        "v4-json-error",
+        "debug-syntax",
+        "v4-float-convert",
+        "debug-types",
+        "debug-key",
+        "debug-index",
+        "debug-name",
+        "debug-logic",
+        "v4-assert",
+        "v4-assert-fail",
+        "v4-truthiness",
+        "v4-empty-test",
+        "v4-negative-test"
+      ],
+      "executables": [
+        "exec-validate-dict"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-09",
+      "number": 9,
+      "title": {
+        "pt": "Arquivos e dados",
+        "mixed": "Files and data (arquivos e dados)",
+        "en": "Files and data"
+      },
+      "goal": {
+        "pt": "Leia texto, CSV e JSON com segurança.",
+        "mixed": "Leia texto, CSV e JSON com segurança.",
+        "en": "Read text, CSV and JSON safely."
+      },
+      "requires": [
+        "unit-08"
+      ],
+      "missions": [
+        "v4-file-text",
+        "v4-file-lines",
+        "v4-file-cursor",
+        "v4-file-seek",
+        "v4-with",
+        "v4-json-file",
+        "v4-csv-reader",
+        "v4-csv-dict"
+      ],
+      "executables": [],
+      "projects": []
+    },
+    {
+      "id": "unit-10",
+      "number": 10,
+      "title": {
+        "pt": "APIs",
+        "mixed": "APIs (apis)",
+        "en": "APIs"
+      },
+      "goal": {
+        "pt": "Entenda contratos e falhas de serviço.",
+        "mixed": "Entenda contratos e falhas de serviço.",
+        "en": "Understand service contracts and failures."
+      },
+      "requires": [
+        "unit-09"
+      ],
+      "missions": [
+        "v4-request",
+        "v4-headers",
+        "v4-auth-concept",
+        "http-status",
+        "response-envelope",
+        "handle-api-error",
+        "v4-api-failure",
+        "v4-retry"
+      ],
+      "executables": [
+        "exec-select-model",
+        "exec-fallback"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-11",
+      "number": 11,
+      "title": {
+        "pt": "Ferramentas e agentes",
+        "mixed": "Tools and agents (ferramentas e agentes)",
+        "en": "Tools and agents"
+      },
+      "goal": {
+        "pt": "Conecte funções com regras verificáveis.",
+        "mixed": "Conecte funções com regras verificáveis.",
+        "en": "Connect functions using verifiable rules."
+      },
+      "requires": [
+        "unit-10"
+      ],
+      "missions": [
+        "keyword-tool",
+        "deterministic-tool",
+        "v4-tool-name",
+        "v4-tool-input",
+        "v4-tool-pure",
+        "tool-call-contract",
+        "validate-field-type",
+        "classify-route",
+        "v4-tool-allowlist",
+        "unknown-tool-fallback",
+        "v4-agent-state"
+      ],
+      "executables": [
+        "exec-token-tool",
+        "exec-router"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-12",
+      "number": 12,
+      "title": {
+        "pt": "Modelos e avaliação",
+        "mixed": "Models and evaluation (modelos e avaliação)",
+        "en": "Models and evaluation"
+      },
+      "goal": {
+        "pt": "Compare resultados sem extrapolar.",
+        "mixed": "Compare resultados sem extrapolar.",
+        "en": "Compare results without overclaiming."
+      },
+      "requires": [
+        "unit-11"
+      ],
+      "missions": [
+        "training-example",
+        "v4-accuracy",
+        "v4-latency",
+        "v4-cost",
+        "v4-list-comprehension",
+        "v4-generator",
+        "v4-filtered-list",
+        "heldout-evaluation",
+        "v4-small-dataset"
+      ],
+      "executables": [
+        "exec-evaluation"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-13",
+      "number": 13,
+      "title": {
+        "pt": "Treinamento e experimentação",
+        "mixed": "Training and experiments (treinamento e experimentação)",
+        "en": "Training and experiments"
+      },
+      "goal": {
+        "pt": "Interprete logs e prepare experimentos.",
+        "mixed": "Interprete logs e prepare experimentos.",
+        "en": "Interpret logs and prepare experiments."
+      },
+      "requires": [
+        "unit-12"
+      ],
+      "missions": [
+        "epoch-log",
+        "training-loss",
+        "v4-validation-split",
+        "v4-overfit",
+        "v4-minimum",
+        "v4-lambda",
+        "v4-min-key",
+        "v4-prepared-not-running"
+      ],
+      "executables": [
+        "exec-checkpoint"
+      ],
+      "projects": []
+    },
+    {
+      "id": "unit-14",
+      "number": 14,
+      "title": {
+        "pt": "Projetos integradores",
+        "mixed": "Integrated projects (projetos integradores)",
+        "en": "Integrated projects"
+      },
+      "goal": {
+        "pt": "Aplique e explique o que aprendeu.",
+        "mixed": "Aplique e explique o que aprendeu.",
+        "en": "Apply and explain what you learned."
+      },
+      "requires": [
+        "unit-13"
+      ],
+      "missions": [
+        "v4-mini-router",
+        "v4-mini-client",
+        "v4-mini-evaluation",
+        "v4-mini-training"
+      ],
+      "executables": [],
+      "projects": [
+        "model-router",
+        "api-client",
+        "model-evaluation",
+        "training-pipeline"
+      ]
+    }
+  ],
+  "requires": {
+    "v4-recognize-value": [],
+    "score-variable": [
+      "v4-recognize-value"
+    ],
+    "print-score": [
+      "score-variable"
+    ],
+    "v4-number": [
+      "print-score"
+    ],
+    "v4-float": [
+      "v4-number"
+    ],
+    "v4-string": [
+      "v4-float"
+    ],
+    "v4-boolean": [
+      "v4-string"
+    ],
+    "v4-print-pair": [
+      "v4-boolean"
+    ],
+    "v4-addition": [
+      "v4-print-pair"
+    ],
+    "token-budget": [
+      "v4-addition"
+    ],
+    "v4-conversion": [
+      "token-budget"
+    ],
+    "v4-multiply": [
+      "v4-conversion"
+    ],
+    "v4-division": [
+      "v4-multiply"
+    ],
+    "v4-list": [
+      "v4-division"
+    ],
+    "v4-zero": [
+      "v4-list"
+    ],
+    "read-index": [
+      "v4-zero"
+    ],
+    "v4-length": [
+      "read-index"
+    ],
+    "count-models": [
+      "v4-length"
+    ],
+    "max-scores": [
+      "count-models"
+    ],
+    "v4-append": [
+      "max-scores"
+    ],
+    "v4-replace-index": [
+      "v4-append"
+    ],
+    "v4-empty": [
+      "v4-replace-index"
+    ],
+    "find-index-error": [
+      "v4-empty"
+    ],
+    "compare-scores": [
+      "find-index-error"
+    ],
+    "v4-less": [
+      "compare-scores"
+    ],
+    "v4-equality": [
+      "v4-less"
+    ],
+    "v4-inclusive": [
+      "v4-equality"
+    ],
+    "minimum-confidence": [
+      "v4-inclusive"
+    ],
+    "choose-fallback": [
+      "minimum-confidence"
+    ],
+    "v4-and": [
+      "choose-fallback"
+    ],
+    "v4-or": [
+      "v4-and"
+    ],
+    "v4-not": [
+      "v4-or"
+    ],
+    "v4-elif": [
+      "v4-not"
+    ],
+    "v4-inline-if": [
+      "v4-elif"
+    ],
+    "v4-def": [
+      "v4-inline-if"
+    ],
+    "v4-parameter": [
+      "v4-def"
+    ],
+    "v4-argument": [
+      "v4-parameter"
+    ],
+    "define-tool": [
+      "v4-argument"
+    ],
+    "v4-return": [
+      "define-tool"
+    ],
+    "return-score": [
+      "v4-return"
+    ],
+    "v4-default": [
+      "return-score"
+    ],
+    "v4-none": [
+      "v4-default"
+    ],
+    "v4-unpack": [
+      "v4-none"
+    ],
+    "v4-compose": [
+      "v4-unpack"
+    ],
+    "trace-selection": [
+      "v4-compose"
+    ],
+    "fallback-challenge": [
+      "trace-selection"
+    ],
+    "v4-concat": [
+      "fallback-challenge"
+    ],
+    "v4-strip": [
+      "v4-concat"
+    ],
+    "v4-lower": [
+      "v4-strip"
+    ],
+    "v4-upper": [
+      "v4-lower"
+    ],
+    "v4-split": [
+      "v4-upper"
+    ],
+    "v4-join": [
+      "v4-split"
+    ],
+    "v4-text-in": [
+      "v4-join"
+    ],
+    "v4-text-pipeline": [
+      "v4-text-in"
+    ],
+    "v4-for": [
+      "v4-text-pipeline"
+    ],
+    "visit-tools": [
+      "v4-for"
+    ],
+    "v4-range": [
+      "visit-tools"
+    ],
+    "v4-materialize": [
+      "v4-range"
+    ],
+    "v4-accumulator": [
+      "v4-materialize"
+    ],
+    "v4-while": [
+      "v4-accumulator"
+    ],
+    "v4-break": [
+      "v4-while"
+    ],
+    "v4-continue": [
+      "v4-break"
+    ],
+    "v4-zip": [
+      "v4-continue"
+    ],
+    "v4-enumerate": [
+      "v4-zip"
+    ],
+    "v4-list-sum": [
+      "v4-enumerate"
+    ],
+    "v4-boolean-sum": [
+      "v4-list-sum"
+    ],
+    "v4-dict-create": [
+      "v4-boolean-sum"
+    ],
+    "response-dictionary": [
+      "v4-dict-create"
+    ],
+    "read-response-field": [
+      "response-dictionary"
+    ],
+    "english-variable-names": [
+      "read-response-field"
+    ],
+    "v4-dict-membership": [
+      "english-variable-names"
+    ],
+    "v4-dict-nested": [
+      "v4-dict-membership"
+    ],
+    "model-records": [
+      "v4-dict-nested"
+    ],
+    "parse-json": [
+      "model-records"
+    ],
+    "v4-json-dumps": [
+      "parse-json"
+    ],
+    "v4-dict-get": [
+      "v4-json-dumps"
+    ],
+    "optional-field": [
+      "v4-dict-get"
+    ],
+    "v4-isinstance": [
+      "optional-field"
+    ],
+    "v4-dict-type": [
+      "v4-isinstance"
+    ],
+    "v4-dict-items": [
+      "v4-dict-type"
+    ],
+    "v4-module-import": [
+      "v4-dict-items"
+    ],
+    "v4-try": [
+      "v4-module-import"
+    ],
+    "v4-catch-two": [
+      "v4-try"
+    ],
+    "v4-json-error": [
+      "v4-catch-two"
+    ],
+    "debug-syntax": [
+      "v4-json-error"
+    ],
+    "v4-float-convert": [
+      "debug-syntax"
+    ],
+    "debug-types": [
+      "v4-float-convert"
+    ],
+    "debug-key": [
+      "debug-types"
+    ],
+    "debug-index": [
+      "debug-key"
+    ],
+    "debug-name": [
+      "debug-index"
+    ],
+    "debug-logic": [
+      "debug-name"
+    ],
+    "v4-assert": [
+      "debug-logic"
+    ],
+    "v4-assert-fail": [
+      "v4-assert"
+    ],
+    "v4-truthiness": [
+      "v4-assert-fail"
+    ],
+    "v4-empty-test": [
+      "v4-truthiness"
+    ],
+    "v4-negative-test": [
+      "v4-empty-test"
+    ],
+    "v4-file-text": [
+      "v4-negative-test"
+    ],
+    "v4-file-lines": [
+      "v4-file-text"
+    ],
+    "v4-file-cursor": [
+      "v4-file-lines"
+    ],
+    "v4-file-seek": [
+      "v4-file-cursor"
+    ],
+    "v4-with": [
+      "v4-file-seek"
+    ],
+    "v4-json-file": [
+      "v4-with"
+    ],
+    "v4-csv-reader": [
+      "v4-json-file"
+    ],
+    "v4-csv-dict": [
+      "v4-csv-reader"
+    ],
+    "v4-request": [
+      "v4-csv-dict"
+    ],
+    "v4-headers": [
+      "v4-request"
+    ],
+    "v4-auth-concept": [
+      "v4-headers"
+    ],
+    "http-status": [
+      "v4-auth-concept"
+    ],
+    "response-envelope": [
+      "http-status"
+    ],
+    "handle-api-error": [
+      "response-envelope"
+    ],
+    "v4-api-failure": [
+      "handle-api-error"
+    ],
+    "v4-retry": [
+      "v4-api-failure"
+    ],
+    "keyword-tool": [
+      "v4-retry"
+    ],
+    "deterministic-tool": [
+      "keyword-tool"
+    ],
+    "v4-tool-name": [
+      "deterministic-tool"
+    ],
+    "v4-tool-input": [
+      "v4-tool-name"
+    ],
+    "v4-tool-pure": [
+      "v4-tool-input"
+    ],
+    "tool-call-contract": [
+      "v4-tool-pure"
+    ],
+    "validate-field-type": [
+      "tool-call-contract"
+    ],
+    "classify-route": [
+      "validate-field-type"
+    ],
+    "v4-tool-allowlist": [
+      "classify-route"
+    ],
+    "unknown-tool-fallback": [
+      "v4-tool-allowlist"
+    ],
+    "v4-agent-state": [
+      "unknown-tool-fallback"
+    ],
+    "training-example": [
+      "v4-agent-state"
+    ],
+    "v4-accuracy": [
+      "training-example"
+    ],
+    "v4-latency": [
+      "v4-accuracy"
+    ],
+    "v4-cost": [
+      "v4-latency"
+    ],
+    "v4-list-comprehension": [
+      "v4-cost"
+    ],
+    "v4-generator": [
+      "v4-list-comprehension"
+    ],
+    "v4-filtered-list": [
+      "v4-generator"
+    ],
+    "heldout-evaluation": [
+      "v4-filtered-list"
+    ],
+    "v4-small-dataset": [
+      "heldout-evaluation"
+    ],
+    "epoch-log": [
+      "v4-small-dataset"
+    ],
+    "training-loss": [
+      "epoch-log"
+    ],
+    "v4-validation-split": [
+      "training-loss"
+    ],
+    "v4-overfit": [
+      "v4-validation-split"
+    ],
+    "v4-minimum": [
+      "v4-overfit"
+    ],
+    "v4-lambda": [
+      "v4-minimum"
+    ],
+    "v4-min-key": [
+      "v4-lambda"
+    ],
+    "v4-prepared-not-running": [
+      "v4-min-key"
+    ],
+    "v4-mini-router": [
+      "v4-prepared-not-running"
+    ],
+    "v4-mini-client": [
+      "v4-mini-router"
+    ],
+    "v4-mini-evaluation": [
+      "v4-mini-client"
+    ],
+    "v4-mini-training": [
+      "v4-mini-evaluation"
+    ]
+  },
+  "projectUnits": {
+    "model-router": [
+      "unit-03",
+      "unit-04",
+      "unit-07",
+      "unit-08",
+      "unit-11"
+    ],
+    "api-client": [
+      "unit-04",
+      "unit-05",
+      "unit-07",
+      "unit-08",
+      "unit-10"
+    ],
+    "model-evaluation": [
+      "unit-04",
+      "unit-06",
+      "unit-07",
+      "unit-08",
+      "unit-12"
+    ],
+    "training-pipeline": [
+      "unit-02",
+      "unit-03",
+      "unit-04",
+      "unit-07",
+      "unit-12",
+      "unit-13"
+    ]
+  }
+}
