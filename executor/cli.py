@@ -27,7 +27,7 @@ def main(argv=None):
         path=Path(args.job).absolute();job=files.read(path.parent,path.name,262144)
         if isinstance(job,dict) and job.get('format')=='python-ai-trainer-package':job=inspect_package(job)
         validate(job)
-        if args.operation=='validate':value={'valid':True,'spec_sha256':fingerprint(job),'network_used':False,'execution_sha256':fingerprint(execution(job,args.owner,args.run)) if args.owner else None}
+        if args.operation=='validate':value={'valid':True,'spec_sha256':fingerprint(job),'network_used':False,'execution_sha256':fingerprint(execution(job,args.owner,args.run)) if args.owner else None,'execution':execution(job,args.owner,args.run) if args.owner else None}
         else:
             if not args.workspace:raise ExecutorError('WORKSPACE_REQUIRED')
             policy=Policy(enabled=args.allow_network,allow_run=args.run,owner=args.owner,approved_sha256=args.approve)

@@ -144,3 +144,7 @@ python3 -m executor.cli local --job experiments/intent-inference-job.json --work
 ```
 
 O workspace do executor é privado e deve ficar fora de qualquer diretório servido por HTTP; caminhos dentro deste repositório são recusados. Operações remotas continuam desativadas e dependem de autorização futura separada, SDK fixado e autenticação no ambiente do operador. Não há credencial no frontend. Veja [executor](executor/README.md), [capacidades Kaggle verificadas](docs/KAGGLE-INTEGRATION.md), [matriz de qualidade](docs/QUALITY-AUDIT.md) e [relatório de entrega](docs/REPORT-KAGGLE-EXECUTION.md).
+
+## Kaggle End-to-End preparado
+
+Desenvolvimento em `feature/kaggle-end-to-end`, base `feature/integrated-learning-experience` (`d392beb`). O Laboratório IA exporta pacote único para o executor separado; a CLI exige autorização do notebook/configuração/conta exatos, reconcilia versões após envio incerto e gera relatórios importáveis com origem declarada. Nenhum job remoto foi executado. Veja [primeiro smoke CPU](docs/KAGGLE-FIRST-RUN.md) e [auditoria/limites](docs/KAGGLE-END-TO-END-AUDIT.md).

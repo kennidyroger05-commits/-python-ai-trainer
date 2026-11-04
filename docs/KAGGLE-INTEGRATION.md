@@ -74,3 +74,7 @@ Os comandos e gates estão em [executor/README.md](../executor/README.md). A seq
 6. Importar o relatório no aplicativo, mantendo os rótulos de origem. Para estado ainda não concluído, o CLI `report` gera `status-report.json` sem métricas inventadas.
 
 Não é API síncrona de inferência, GPU permanente ou recurso gratuito ilimitado. O primeiro ensaio autenticado ainda precisa ocorrer em ambiente autorizado; testes locais e SDK falso não o substituem.
+
+## Evolução operacional End-to-End
+
+A nova CLI exige recibo offline de execução, vinculando notebook/metadados, job, conta, modo e versões, e oferece reconciliação de versão explícita após timeout. O hash de job isolado não basta. O site exporta pacote JSON fechado e persiste identificadores declarados de relatórios importados. Veja o [procedimento atual](KAGGLE-FIRST-RUN.md), a [auditoria E2E](KAGGLE-END-TO-END-AUDIT.md) e as [assinaturas oficiais conferidas](kaggle-e2e-sdk.json). Continua sem autenticação/execução remota validada.

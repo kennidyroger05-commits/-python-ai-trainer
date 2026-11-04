@@ -14,6 +14,10 @@ python3 -m executor.cli local --job experiments/intent-inference-job.json --work
 
 Todas as operações, exceto `validate`, exigem `--workspace` explícito. Use um diretório do operador fora de qualquer raiz pública HTTP, incluindo seus ancestrais: o guard recusa caminhos dentro deste repositório, mas não conhece a configuração de outros servidores. O executor cria diretórios com modo 0700 e arquivos 0600; diretórios existentes compartilhados ou symlinks são recusados sem alterar suas permissões. Não sirva o workspace pelo GitHub Pages ou pelo servidor de desenvolvimento.
 
+## Workflow operacional com autorização individual
+
+O CLI agora usa `Workflow` sobre o executor anterior. Consulte [primeiro smoke](../docs/KAGGLE-FIRST-RUN.md) e [auditoria E2E](../docs/KAGGLE-END-TO-END-AUDIT.md). O CLI aceita tanto job.json quanto o pacote JSON exportado do site. ZIP/TAR não são extraídos.
+
 ## Futuro uso remoto autorizado
 
 Requer ambiente separado autorizado, rede permitida, dono correto e autenticação do SDK configurada no servidor/estação do operador. Não coloque credenciais em argumentos, frontend, notebook, localStorage ou Git. O transporte de referência suporta somente token do SDK já configurado no ambiente do operador; OAuth/credenciais legadas são capacidades oficiais pesquisadas, mas não implementadas como login deste app.
@@ -25,14 +29,16 @@ Exemplo **para autorização futura, não executado nesta missão**:
 ```bash
 python3 -m executor.cli submit --job experiments/intent-inference-job.json \
   --workspace ../python-ai-experiments-private \
-  --allow-network --owner AUTHORIZED_OWNER --approve SHA_FROM_VALIDATE
+  --allow-network --owner AUTHORIZED_OWNER --approve EXECUTION_SHA_FROM_VALIDATE_WITH_OWNER_AND_RUN
 ```
 
-Por padrão, `submit` chama `kernels_push(..., no_run=True)`: salva uma versão, sem rodar células. Para solicitar execução, um operador autorizado deve adicionar explicitamente `--run`. Essa permissão é vinculada ao SHA-256 do contrato. O dono vem da política do executor, não do frontend.
+Antes de submit, execute `validate --owner ... [--run]` e `authorize --owner ... [--run] --approve EXECUTION_SHA`; a autorização é offline e específica para o notebook, configuração, metadados, conta, modo e versões. O hash do job sozinho não serve como recibo. Use o mesmo modo também nas consultas.
+
+Por padrão, `submit` chama `kernels_push(..., no_run=True)`: salva uma versão, sem rodar células. Para solicitar execução, um operador autorizado deve adicionar explicitamente `--run`. Essa permissão é vinculada ao SHA-256 do envelope de execução completo. O dono vem da política do executor, não do frontend.
 
 `status`, `logs`, `follow` e `collect` precisam dos mesmos argumentos de autorização de rede/dono/SHA. As consultas usam `owner/slug/version`, não “latest”. `follow` tem orçamento de consultas, intervalo mínimo de 15 s e backoff; 429 respeita Retry-After limitado. `stop-following` é local e não cancela a execução remota. Não há operação de delete/cancel remoto.
 
-O ledger usa escrita atômica e lock por job. Toque/submit repetido não cria outra chamada. Timeout/falha incerta de submissão gera `submission_unknown`; a repetição é bloqueada até reconciliação manual externa. Não se pode tratar uma resposta perdida como autorização para submeter outra vez. IDs com configuração diferente também são recusados.
+O ledger usa escrita atômica e lock por job. Toque/submit repetido não cria outra chamada. Timeout/falha incerta de submissão gera `submission_unknown`; a repetição é bloqueada até `reconcile --remote-version N`, que verifica a versão observada externamente, suas fontes e metadados sem reenviar. Não se pode tratar uma resposta perdida como autorização para submeter outra vez. IDs com configuração diferente também são recusados.
 
 `COMPLETE` do SDK vira `remote_complete`. Só após recuperar a versão correta e validar fingerprint, schemas, tamanhos, nomes, métricas e artefatos o estado vira `completed`. Arquivos fora da whitelist, symlinks, path traversal, JSON inválido/duplicado e outputs ausentes são rejeitados. Estado local corrompido é preservado e impede novas ações; não é zerado automaticamente, pois isso poderia reenviar um job já criado.
 

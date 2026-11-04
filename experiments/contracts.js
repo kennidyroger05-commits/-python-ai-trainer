@@ -40,7 +40,7 @@
    require(keys(value,top)&&value.schema_version===1&&validate(value.spec).ok&&/^[a-f0-9]{64}$/.test(value.spec_sha256));
    const p=value.provenance;require(keys(p,['source','verification','remote_ref','remote_version']));
    if(p.source==='operator-state'){
-    require(['prepared','submitting','submitted','saved_only','submission_unknown','queued','running','remote_complete','failed','unknown','cancel_requested','cancelled'].includes(value.status)&&p.verification==='local-state-only'&&value.notebook_result===null&&Array.isArray(value.artifacts)&&!value.artifacts.length&&Array.isArray(value.errors)&&value.errors.length<=1&&value.errors.every(e=>keys(e,['code'])&&/^[A-Z_]{2,40}$/.test(e.code)));
+    require(['awaiting_authorization','authorized','prepared','submitting','submitted','saved_only','submission_unknown','queued','running','remote_complete','failed','unknown','cancel_requested','cancelled'].includes(value.status)&&p.verification==='local-state-only'&&value.notebook_result===null&&Array.isArray(value.artifacts)&&!value.artifacts.length&&Array.isArray(value.errors)&&value.errors.length<=1&&value.errors.every(e=>keys(e,['code'])&&/^[A-Z_]{2,40}$/.test(e.code)));
    }else{
     require(value.status==='completed'&&['local-cpu','kaggle-sdk','injected-transport'].includes(p.source));
     require(p.verification===(p.source==='local-cpu'?'bounded-local-process':'version-and-artifact-contract'));
