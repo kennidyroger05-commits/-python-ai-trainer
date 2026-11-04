@@ -38,6 +38,8 @@ Antes do segundo marco passaram 21 suítes locais, testes de falhas iniciais/exp
 
 Após ampliar os casos, passou a primeira passagem final: **40 suítes aprovadas, zero reprovadas**, sobre `215c8cb`. A revisão entre passagens ajustou a classificação das telas compartilhadas no menu (evidências em Meu progresso; debugging/testes em Praticar). O novo cenário passou, totalizando 14 cenários adversariais de integração. A segunda passagem completa ainda será registrada após execução real.
 
+Na segunda revisão também foi reproduzido reset incompleto quando uma área não carregava. A limpeza global foi desacoplada da existência dos módulos, incluindo suas cópias de recuperação e preservando outras chaves. A segunda execução parcial foi encerrada para essa correção e não é contada como passagem completa. O cenário adicional verifica cancelamento/confirmacão/recarga; total de 15 cenários adversariais de integração.
+
 Medições reais são coletadas por `subdirectory-browser.cjs`: abertura observada, bytes servidos, carregamento/execução fria e quente, navegação automatizada e heap JS quando disponível. Elas incluem overhead do Playwright em HTTP local/Chromium emulado; não são benchmark de iPhone. WASM permanece sob demanda, com recursos verificados reutilizados em memória; cada execução/caso ainda tem VM nova.
 
 ## Segurança, Kaggle e compatibilidade
@@ -55,6 +57,7 @@ Mobile automatizado usa Chromium com toque, sem teclado automático em escolhas,
 | `6c1685d` | Falhas opcionais isoladas e exportação compartilhada com regressões |
 | `52f8df4` | Navegação, pontes pedagógicas, evidências e jornada completa |
 | `215c8cb` | Carregamento parcial, retornos, respostas imutáveis e regressões adversariais |
+| `02c1f76` | Classificação semântica das áreas, contraste observado e primeira revisão completa |
 
 Os marcos foram enviados incrementalmente à branch. Pendências atuais: segunda passagem completa, evidências/documentação finais e tentativa de PR rascunho contra `feature/kaggle-execution-quality`. Nenhum merge ou publicação.
 

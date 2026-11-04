@@ -44,6 +44,8 @@ Os notebooks de inferência e treino de um classificador linear de 87 parâmetro
 
 A revisão usa erros, dicas, pré-requisitos e intervalo entre revisões. Cada lote é finito; não repete automaticamente sem fim. Apresentado, praticado e acertado são evidências distintas; um acerto não implica domínio. Reiniciar módulo/projeto segue o aviso específico de XP e histórico. O reset completo exige confirmação e preserva chaves de outros aplicativos.
 
+O reset completo também remove dados e cópias de recuperação de áreas que não carregaram naquela sessão. Ele não cancela jobs remotos, não apaga downloads nem arquivos privados do executor separado.
+
 Armazenamento indisponível gera aviso: a sessão continua, mas pode não sobreviver à recarga. Registros corrompidos recebem cópia local antes de serem substituídos. Sem sincronização entre dispositivos ou coordenação transacional de abas.
 
 Uma sessão já carregada permite ler código, usar glossário e resolver escolhas com conectividade limitada. Recursos WASM precisam estar disponíveis para iniciar Python. Não há garantia de abertura ou recarga totalmente offline e não há service worker. Mensagens de falha devem permitir uma nova tentativa sem apagar progresso.
