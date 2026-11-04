@@ -61,7 +61,7 @@
   }
   function stop(){executor.stop();}
   function hide(){if(busy){task++;executor.stop();busy=false;}area.hidden=true;}
-  function open(id=null,returnTo=null){if(busy){task++;executor.stop();busy=false;}selected=catalog.some(l=>l.id===id)?id:null;if(returnTo)back=returnTo;else if(!id)back=null;if(selected){P.get(state,lesson()).openedAt ||= Date.now();save();}area.hidden=false;render();$('rTitle').focus({preventScroll:true});$('rTitle').scrollIntoView({block:'start'});}
+  function open(id=null,returnTo=null){if(busy){task++;executor.stop();busy=false;}selected=catalog.some(l=>l.id===id)?id:null;back=typeof returnTo==='function'?returnTo:null;if(selected){P.get(state,lesson()).openedAt ||= Date.now();save();}area.hidden=false;render();$('rTitle').focus({preventScroll:true});$('rTitle').scrollIntoView({block:'start'});}
   $('rHome').onclick=()=>{hide();onHome();};$('rBack').onclick=()=>{hide();back?.();};$('rNext').onclick=()=>open();
   $('rMode').onchange=()=>{const d=draft(),old=code(),mode=$('rMode').value;d.mode=mode;d.codes[mode]??=mode==='blocks'?'':mode==='complete'?lesson().starter:old;render();};
   $('rEditor').oninput=()=>{draft().codes.free=$('rEditor').value;renderResult();};$('rEditor').maxLength=24000;

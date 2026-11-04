@@ -65,3 +65,13 @@ AI experiments acrescenta dois percursos conectados a programas e datasets concr
 As dez etapas de cada receita conectam objetivo, notebook, parâmetros, entradas, execução autorizada, logs, métricas, falhas, relatório e revisão. Alterar parâmetros prepara outro contrato; não altera resultados já medidos. A referência de CPU local aparece separada do próprio job e do Kaggle. Não há XP por consultar resultados ou afirmar que treinou um modelo.
 
 Os textos destacam que seis exemplos de validação/teste não comprovam generalização e que scores softmax não são probabilidades calibradas. Tempo mede somente o trecho informado; memória é pico do processo, não memória exclusiva dos pesos. O percurso e o Python no navegador continuam utilizáveis sem executor, conta ou rede Kaggle.
+
+## Orientação em uma única plataforma
+
+A navegação comum dá acesso às cinco áreas sem apresentar marcos técnicos como produtos separados. A ordem sugerida parte de missões elegíveis pendentes; inclui revisão de dificuldades, prática Python com os conhecimentos estudados e retomada de projeto. A pessoa pode explorar livremente sem que uma visita marque acerto ou salte a sequência principal.
+
+Conexões por ID mostram usos sucessivos do mesmo conceito. `return-score` liga à função real `exec-return` e ao erro de retorno ausente. Campos/JSON ligam ao cliente simulado e ao notebook de inferência. Avaliação e logs ligam a métricas reais locais e preparação de experimentos, sempre identificando a origem.
+
+Os desafios de funções receberam pré-requisitos explícitos de return; + e * têm legendas. Sete cartões preparam leitura de listas, operadores e expressões compactas. Roteador e Avaliação são recomendados antes dos desafios correspondentes que reutilizam suas construções. Não se adicionaram novas listas de questões independentes.
+
+Meu progresso apresenta evidências por conceito e atividade, sem declarar domínio por XP. O resumo exportável identifica projeto simulado, execução Python local, testes completos e experimento preparado; conta Kaggle e experiência profissional não são inferidas desses registros. O [guia de uso](USER-JOURNEY.md) descreve a jornada; [RELEASE-READINESS.md](RELEASE-READINESS.md) registra as validações ainda necessárias.

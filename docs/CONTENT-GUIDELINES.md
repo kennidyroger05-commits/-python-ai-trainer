@@ -90,3 +90,13 @@ Registre títulos, objetivos, etapas, falhas, revisão e termos nos três idioma
 Inclua entradas normais e inválidas, resultados calculados em CPU, reprodutibilidade com seed, separação treino/validação/teste e exportação de artefatos. `tests/notebooks.py` deve executar todas as células de código, não apenas validar JSON. `tests/security-adversarial.py` precisa rejeitar métricas/splits/checkpoints adulterados. Relatórios de referência são gerados por `scripts/record-local-experiments.py`, com origem local explícita; jamais edite números para fabricar um resultado desejado.
 
 Para novas receitas, amplie explicitamente a whitelist e o validador de artefatos, testes de falha e docs de hardware/dependências. A validação numérica atual foi feita para um modelo minúsculo: não generalize esse replay para jobs pesados sem outra estratégia. Acesso remoto ou GPU requer autorização independente e nunca decorre de uma opção no frontend público.
+
+## Conectar conteúdo à jornada
+
+Depois de cadastrar uma atividade em seu catálogo existente, use `learning/links.json` para conectar IDs. Cada link referencia missões, um desafio executável e, quando pertinente, atividade guiada/debugging e experimento. Títulos, respostas e traduções continuam nos catálogos; não copie perguntas para criar quantidade artificial. `integration-core.cjs` rejeita IDs ausentes/duplicados e exige conexão para todos os desafios executáveis.
+
+`projectRequires` registra missões de preparação recomendadas. `lessonPreparation` vincula projetos que explicam construções mais avançadas antes do desafio real; essas recomendações não bloqueiam exploração. Confirme que funções com return não apareçam antes de sua preparação, nem que igualdade, operadores ou sintaxe compacta fiquem sem legenda.
+
+Cartões em `learning/preparations.json` têm ID, kind/target, título/significado/aplicação em PT/Misto/EN e exemplo confiável. Ensine um elemento por cartão. São explicações de leitura sob demanda, não questões novas ou provas de domínio; não concedem XP e não executam o exemplo como se fosse resultado do aluno.
+
+Os testes precisam cobrir o comportamento da conexão: voltar sem perder estado, idioma, execução/validação reais, conclusão e relatório com origem. Não basta conferir um botão. Use `journey-browser.cjs` para a sequência completa, `subdirectory-browser.cjs` para caminhos/recursos e os testes adversariais de integração para falhas. Mantenha a validação integral de referências em desenvolvimento, mesmo quando a interface precisar degradar por recurso opcional indisponível.

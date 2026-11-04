@@ -39,4 +39,29 @@ Passaram os testes locais existentes, novos testes puros de grafo/estado/execuç
 
 Testes antigos de laboratório foram ajustados para a nova regra de Continuar e para abrir explicitamente os controles avançados; as validações de resposta/XP não foram afrouxadas. O manifesto de conteúdo anterior, inclusive `language.js`, permanece válido.
 
-Pendências deste marco: duas passagens completas, revisão adversarial adicional, documentação de uso/prontidão e entrega. Execução autenticada Kaggle e Safari/iPhone físico permanecem não verificados.
+## Revisão crítica adicional e correções
+
+A primeira tentativa completa (38 suítes configuradas) passou pelas missões, projetos, migrações e desafios reais, mas parou em `runtime-mobile-browser.cjs`: um teste ainda tentava clicar no planner com a seção avançada fechada. O teste foi corrigido para expandir a seção pela interface; não se afrouxaram critérios de execução, XP ou layout. Log preservado em `.quality-results/integration-first-attempt.log`.
+
+Uma revisão separada do próprio agente examinou isolamento entre áreas, callbacks, estados degradados, idioma e coerência do feedback. Não é uma auditoria externa/humana. Os novos cenários foram executados contra o comportamento anterior; seis falharam antes das correções e cinco já passavam. Casos adicionais verificaram os defeitos encontrados durante a inspeção e revisão visual.
+
+| Achado | Severidade | Correção / regressão |
+| --- | --- | --- |
+| Lab pendente retinha handlers essenciais | Alto | Missões são vinculadas antes de recursos opcionais; JSON tem deadline/abort. A conclusão tardia não tira o aluno da missão em andamento |
+| Falha de projetos desativava Python | Alto | Runtime independente; referência de projeto só pode ser desconhecida no modo degradado explícito. Validação integral em desenvolvimento continua obrigatória |
+| Glossário do Model Lab quebrava sem catálogo runtime | Alto | Termos carregados separadamente e fallback de indisponibilidade, sem acessar termo indefinido |
+| Recomendação herdava retorno antigo | Médio | Abrir runtime substitui/limpa callback de retorno |
+| Revisão normal herdava destino de projeto | Médio | Voltar ao início encerra contexto de revisão de projeto; timestamp de revisão inclui prática contextual |
+| Erro inicial ignorava idioma salvo | Médio | Preferência e XP legados lidos antes das requisições; erro/retry sem apagar dados |
+| Resposta resolvida podia mudar mantendo “Correto” | Alto pedagógico | Resposta, dicas e envio são bloqueados após acerto; handlers também recusam evento tardio/duplicado |
+| Dados indisponíveis pareciam progresso zero | Médio | UI/relatório declaram desconhecido, mantendo histórico sem recomputar; IDs antigos desconhecidos não inflam contadores |
+| Área ativa do menu podia ficar antiga | Médio, acessibilidade | Contexto explícito por área e aria-current verificado após cada transição; encontrado na revisão de screenshot com texto ampliado |
+| Projeção descartava XP legado finito não inteiro | Baixo | Projeção preserva o mesmo valor aceito pelo carregador; não muda ledger |
+| Resumo omitiria simulações do planner | Baixo | Seção própria com origem simulation; sem métricas reais inventadas |
+| Aviso de revisão mantinha idioma antigo | Baixo | Estado de aviso independente do texto, renderizado no idioma atual |
+
+`integration-edge-browser.cjs` agora executa 13 cenários reais de interface, incluindo storage negado, WASM corrompido/recuperado, toque duplo, exportações recusadas, importação malformada, troca de idioma no bootstrap, texto ampliado/redução de movimento/foco e IDs de progresso desconhecidos. Todos passaram nos testes direcionados. `content-loading.cjs` testa deadline/abort, paths relativos e modo degradado sem aceitar referências inválidas quando o catálogo existe.
+
+Provas preservadas no workspace: `integration-edge-before.log`, `integration-edge-after.log`, `glossary-reproduction-before.json`, `solved-answer-before.json`, `integration-projection-before.log`. O erro do glossário foi confirmado interceptando somente fontes públicas do commit `52f8df4` em um navegador de teste isolado: TypeError e glossário vazio; nenhum arquivo de produção foi revertido. Uma asserção de teste foi ajustada para expandir o glossário antes de ler texto visível.
+
+Depois das correções passaram as 22 suítes locais, as 40 missões nas três larguras, editor/Model Lab mobile, 13 cenários adicionais e o teste sob subdiretório. Duas passagens completas de 40 suítes serão executadas sobre a base corrigida; o resultado será registrado após término real. Kaggle autenticado e Safari/iPhone físico permanecem não verificados.

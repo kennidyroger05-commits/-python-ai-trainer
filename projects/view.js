@@ -13,7 +13,7 @@
     function header(){
       document.querySelector('.project-nav').setAttribute('aria-label',t('Navegação do Lab','Lab navigation'));
       $('pMenuLabel').textContent=t('Menu do Lab','Lab menu');$('pObjectiveLabel').textContent=t('Problema e objetivo','Problem and goal');
-      $('pHome').textContent=t('← Treino de missões','← Mission training');$('pHub').textContent=t('Projetos guiados','Guided projects');$('pDebug').textContent=t('Desafios de debugging','Debugging challenges');$('pTesting').textContent=t('Aprender a testar','Learn testing');$('pSkills').textContent=t('Minhas competências','My learning evidence');$('pPortfolio').textContent=t('Meus projetos','My projects');
+      $('pHome').textContent=t('← Início','← Home');$('pHub').textContent=t('Projetos guiados','Guided projects');$('pDebug').textContent=t('Desafios de debugging','Debugging challenges');$('pTesting').textContent=t('Aprender a testar','Learn testing');$('pSkills').textContent=t('Minhas competências','My learning evidence');$('pPortfolio').textContent=t('Meus projetos','My projects');
       $('pXP').textContent=`${t('XP do Lab já conquistado','Lab XP already earned')}: ${E.xp(state)}`;
     }
     function renderList(){
