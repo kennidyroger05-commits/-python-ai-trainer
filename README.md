@@ -2,7 +2,7 @@
 
 Uma plataforma para aprender Python aplicado a IA e inglês técnico: ler, montar, executar, testar, depurar e construir soluções guiadas. Reúne **40 missões**, quatro projetos, oito desafios de debugging, introdução a testes e 14 desafios com Python real. Funciona como site estático, com HTML, CSS e JavaScript, sem backend obrigatório, framework ou APIs de modelos.
 
-Desenvolvimento contínuo em `feature/integrated-learning-experience`, baseado em `feature/kaggle-execution-quality` (`2ceb711`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+Desenvolvimento contínuo em `feature/kaggle-end-to-end`, baseado em `feature/integrated-learning-experience` (`d392beb`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
 
 A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** mantém seu simulador. A área **AI experiments** acrescenta notebooks autocontidos de inferência/treinamento de um modelo linear de 87 parâmetros, executados e medidos em CPU local, e um **executor Kaggle separado, desativado por padrão**. O site não autentica contas, submete jobs ou inicia treino remoto. Relatórios importados têm origem declarada. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
 
@@ -12,7 +12,7 @@ O menu compacto **Áreas** conecta Aprender, Praticar, Projetos, Laboratório IA
 
 O progresso mostra apresentado, praticado, acertado e sugestão de revisão, além de conclusão por atividade. XP é apresentado por origem; não mede domínio ou experiência profissional. O portfólio e o resumo Markdown distinguem simulação, código executado, testes reais aprovados e preparação Kaggle. Não existe conexão Kaggle autenticada disfarçada de simulação.
 
-Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório desta entrega](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
+Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório da integração anterior](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
 
 ## Projetos guiados
 
@@ -126,7 +126,7 @@ Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração deve abrir PR de rascunho contra `feature/kaggle-execution-quality`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração Kaggle deve abrir PR de rascunho contra `feature/integrated-learning-experience`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
 
 As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
@@ -144,3 +144,7 @@ python3 -m executor.cli local --job experiments/intent-inference-job.json --work
 ```
 
 O workspace do executor é privado e deve ficar fora de qualquer diretório servido por HTTP; caminhos dentro deste repositório são recusados. Operações remotas continuam desativadas e dependem de autorização futura separada, SDK fixado e autenticação no ambiente do operador. Não há credencial no frontend. Veja [executor](executor/README.md), [capacidades Kaggle verificadas](docs/KAGGLE-INTEGRATION.md), [matriz de qualidade](docs/QUALITY-AUDIT.md) e [relatório de entrega](docs/REPORT-KAGGLE-EXECUTION.md).
+
+## Kaggle End-to-End preparado
+
+Desenvolvimento em `feature/kaggle-end-to-end`, base `feature/integrated-learning-experience` (`d392beb`). O Laboratório IA exporta pacote único para o executor separado; a CLI exige autorização do notebook/configuração/conta exatos, reconcilia versões após envio incerto e gera relatórios importáveis com origem declarada. Nenhum job remoto foi executado. Veja [primeiro smoke CPU](docs/KAGGLE-FIRST-RUN.md) e [auditoria/limites](docs/KAGGLE-END-TO-END-AUDIT.md).

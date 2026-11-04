@@ -1,0 +1,92 @@
+{
+  "checked_utc": "2026-11-04T10:21:47.800611+00:00",
+  "remote_calls": 0,
+  "sources": [
+    "https://pypi.org/pypi/kaggle/json",
+    "https://pypi.org/pypi/kagglesdk/json",
+    "https://github.com/Kaggle/kaggle-cli/blob/c10bff4bc13c6790e0914a8add3df33ac5e7510f/docs/kernels.md"
+  ],
+  "kaggle_current": "2.2.5",
+  "kagglesdk_current": "0.1.38",
+  "pinned": {
+    "kaggle": "2.2.5",
+    "kagglesdk": "0.1.38"
+  },
+  "methods_from_official_wheel": {
+    "authenticate": [
+      "self"
+    ],
+    "dataset_download_files": [
+      "self",
+      "dataset",
+      "path",
+      "force",
+      "quiet",
+      "unzip",
+      "licenses"
+    ],
+    "dataset_create_version": [
+      "self",
+      "folder",
+      "version_notes",
+      "quiet",
+      "convert_to_csv",
+      "delete_old_versions",
+      "dir_mode",
+      "ignore_patterns"
+    ],
+    "dataset_create_new": [
+      "self",
+      "folder",
+      "public",
+      "quiet",
+      "convert_to_csv",
+      "dir_mode",
+      "ignore_patterns"
+    ],
+    "quota_view": [
+      "self"
+    ],
+    "kernels_list_files": [
+      "self",
+      "kernel",
+      "page_token",
+      "page_size"
+    ],
+    "kernels_push": [
+      "self",
+      "folder",
+      "timeout",
+      "acc",
+      "no_run"
+    ],
+    "kernels_pull": [
+      "self",
+      "kernel",
+      "path",
+      "metadata",
+      "quiet"
+    ],
+    "kernels_output": [
+      "self",
+      "kernel",
+      "path",
+      "file_pattern",
+      "force",
+      "quiet",
+      "page_token",
+      "page_size"
+    ],
+    "kernels_status": [
+      "self",
+      "kernel"
+    ],
+    "kernels_logs": [
+      "self",
+      "kernel"
+    ]
+  },
+  "tested": "source inspection and injected SDK, not authenticated network",
+  "kaggle_wheel_sha256": "711901cf1dfe9133d83ffed6f09972d97ce87adafc2b24f9a91038828a6393d7",
+  "kagglesdk_wheel_sha256": "ec9cb3cb2acaa92106f7c0334b7374e022bd6e6d1176a6780fec5606f6bc568d"
+}

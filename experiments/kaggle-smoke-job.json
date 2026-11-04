@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "id": "cpu-smoke",
+  "recipe_id": "intent-inference",
+  "experiment_type": "inference",
+  "model": {
+    "id": "tiny-intent-softmax-v1",
+    "parameters": 87,
+    "weights_sha256": "0cc31078081eb0d4a349d55b1f748451c7e3f4da0b5a0c9ea75f5b8561e5cc77"
+  },
+  "dataset": {
+    "id": "synthetic-intents-30-v1",
+    "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178",
+    "train_examples": 18,
+    "validation_examples": 6,
+    "test_examples": 6
+  },
+  "objective": "Minimal CPU smoke on bundled synthetic data; no external downloads or GPU.",
+  "environment": {
+    "python_min": "3.10",
+    "libraries": {
+      "stdlib": "builtin"
+    },
+    "hardware": {
+      "device": "cpu",
+      "memory_mb": 512
+    },
+    "internet": false
+  },
+  "config": {
+    "inputs": [
+      "support login issue"
+    ]
+  },
+  "resources": {
+    "timeout_seconds": 300,
+    "max_artifact_bytes": 1048576
+  },
+  "provenance": {
+    "template_version": 1,
+    "core_sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9",
+    "producer": "python-ai-trainer"
+  }
+}

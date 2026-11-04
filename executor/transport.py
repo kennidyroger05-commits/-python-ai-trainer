@@ -38,8 +38,9 @@ class SdkTransport:
         if r.returncode or len(r.stdout)>65536:raise ExecutorError('SDK_PROCESS_FAILED')
         try:
             response=json.loads(r.stdout)
+            if type(response) is not dict:raise ExecutorError('UNEXPECTED_RESPONSE')
             if response.get('ok') is not True:
-                allowed={'REMOTE_DISABLED','AUTH_MISSING','AUTH_INVALID','ACCESS_DENIED','AUTH_OR_ACCESS_DENIED','JOB_UNAVAILABLE','RATE_LIMIT','REMOTE_UNAVAILABLE','TIMEOUT','SDK_FAILURE','SDK_UNAVAILABLE','SDK_VERSION_UNTESTED','UNEXPECTED_RESPONSE','UNSAFE_ARTIFACT','ARTIFACT_TOO_LARGE','OUTPUT_MISSING','PAGINATION_LIMIT'}
+                allowed={'REMOTE_DISABLED','AUTH_MISSING','AUTH_INVALID','ACCESS_DENIED','AUTH_OR_ACCESS_DENIED','JOB_UNAVAILABLE','RATE_LIMIT','REMOTE_UNAVAILABLE','TIMEOUT','SDK_FAILURE','SDK_UNAVAILABLE','SDK_VERSION_UNTESTED','UNEXPECTED_RESPONSE','INVALID_NOTEBOOK','INVALID_ARTIFACT','UNSAFE_PATH','UNSAFE_ARTIFACT','ARTIFACT_TOO_LARGE','OUTPUT_MISSING','PAGINATION_LIMIT'}
                 code=response.get('error');raise ExecutorError(code if code in allowed else 'SDK_FAILURE',retry_after=response.get('retry_after'))
             return response['value']
         except (ValueError,KeyError,TypeError):raise ExecutorError('UNEXPECTED_RESPONSE') from None
