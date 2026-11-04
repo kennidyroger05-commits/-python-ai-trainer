@@ -102,8 +102,9 @@ A suíte específica também testa corrida entre consultas, credencial ausente n
 - `11f2edc`: autorização de execução, pacote Python, reconciliação e smoke CPU.
 - `a4bb70c`: ponte de arquivos no aplicativo, identificadores persistentes, SDK documentado e testes E2E mobile.
 - `56bc725`: revisão adversarial, arquivos aprovados, fsync, artefatos retidos e proveniência após reload; 26 casos específicos aprovados.
+- `6cb0104`: evidência da segunda passagem completa, arquitetura/segurança atualizadas e procedimento final de primeiro smoke.
 
-Branch exclusiva `feature/kaggle-end-to-end`; base `feature/integrated-learning-experience`. Os três marcos foram enviados incrementalmente. O primeiro push de `56bc725` retornou 500 do GitHub; a consulta confirmou o remoto ainda em `a4bb70c` e o retry normal enviou `56bc725`, sem reset/force push. A segunda passagem completa passou. Após esse commit funcional, as alterações são somente documentação/evidências. O resultado da tentativa de PR será registrado na entrega.
+Branch exclusiva `feature/kaggle-end-to-end`; base `feature/integrated-learning-experience`. Os três marcos foram enviados incrementalmente. O primeiro push de `56bc725` retornou 500 do GitHub; a consulta confirmou o remoto ainda em `a4bb70c` e o retry normal enviou `56bc725`, sem reset/force push. A segunda passagem completa passou. Após esse commit funcional, as alterações são somente documentação/evidências. A tentativa de PR e a alternativa de comparação estão registradas abaixo.
 
 ## Estado da entrega
 
@@ -114,3 +115,9 @@ Os bugs reproduzidos e os gaps de segurança/retomada identificados foram corrig
 Para ativação autenticada futura: (1) autorização explícita para job/conta, (2) ambiente privado com SDK/rede/autenticação configurados pelo operador, (3) revisão do hash de execução e recibo individual, (4) smoke CPU e versão remota observada, (5) recuperação/validação/importação dos resultados. Procedimento e limites estão no guia. O primeiro ensaio real é pendente e não foi substituído por simulação.
 
 WebKit não foi encontrado na conferência do executável Playwright; nenhum iPhone físico ou Safari foi testado. Chromium com toque em 320/375/390 px e caminhos GitHub Pages sob prefixo passaram. Antes de qualquer lançamento autorizado, continuam os gates físicos da experiência mobile; main e a base estão preservados.
+
+## Entrega GitHub
+
+Após o envio da branch, `gh pr create --draft --base feature/integrated-learning-experience --head feature/kaggle-end-to-end` retornou `Post "https://api.github.com/graphql": Forbidden`. Nenhum PR foi criado por essa tentativa; o acesso Git de push funciona, mas a API necessária não está liberada neste ambiente. Não se contornou a política nem se pediram segredos.
+
+[Comparação para abrir o PR posteriormente](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/integrated-learning-experience...feature/kaggle-end-to-end?expand=1). [Corpo preparado do PR](PR-KAGGLE-END-TO-END.md). Base e main permanecem inalteradas. Não houve merge ou publicação.
