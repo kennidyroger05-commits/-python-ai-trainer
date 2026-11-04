@@ -1,7 +1,7 @@
 (function(root){
   const E=root.PythonLabEngine,M=root.PythonLabModels,Portfolio=root.PythonLabPortfolio;
   const skillNames={fundamentals:['Fundamentos Python','Python fundamentals'],data:['Estruturas de dados','Data structures'],functions:['Funções','Functions'],debugging:['Debugging','Debugging'],api:['APIs','APIs'],logic:['Raciocínio lógico','Logical reasoning'],ai:['Fluxos de IA','AI workflows'],evaluation:['Avaliação de modelos','Model evaluation'],training:['Fundamentos de treinamento','Training foundations'],english:['Inglês técnico','Technical English']};
-  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true}){
+  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true,onContext=()=>{}}){
     const $=id=>document.getElementById(id);let state=E.load(storage,catalog),view='hub',selected=null,group='project';
     E.importMissions(state,missionProgress(),missions);
     const t=(pt,en)=>language()==='en'?en:pt;
@@ -75,13 +75,14 @@
       for(const row of E.competencies(state)){const card=document.createElement('article');card.className='project-card';const h=document.createElement('h3');h.textContent=skillNames[row.skill][language()==='en'?1:0];card.append(h);for(const [field,pt,en]of [['presented','Apresentado','Presented'],['practiced','Praticado','Practiced'],['correct','Acertado ao menos uma vez','Correct at least once'],['review','Para revisar','Review suggested']]){const line=document.createElement('p');line.textContent=`${t(pt,en)}: ${row[field]}`;card.append(line);}$('pSkillsCards').append(card);}
     }
     function render(){
+      onContext({kind:view==='activity'?'activity':'projects',id:view==='activity'?selected:view});
       header();for(const id of ['pListPanel','pActivity','pConclusion','pPortfolioPanel','pSkillsPanel'])$(id).hidden=true;
       if(view==='hub'){ $('pListPanel').hidden=false;renderList(); }
       else if(view==='activity'){const a=activity();if(!a)return;const r=E.get(state,a);if(r.conclusion&&r.completedAt){$('pConclusion').hidden=false;renderConclusion(a);}else{$('pActivity').hidden=false;renderStep(a);}}
       else if(view==='portfolio'){$('pPortfolioPanel').hidden=false;renderPortfolio();}
       else if(view==='skills'){$('pSkillsPanel').hidden=false;renderSkills();}
     }
-    function open(){ $('projectsArea').hidden=false;view='hub';group='project';render();save(); }
+    function open(target=null){ $('projectsArea').hidden=false;if(catalog.some(a=>E.key(a)===target)){openActivity(target);return;}view=['portfolio','skills'].includes(target)?target:'hub';group=target==='debug'?'debug':'project';render();save();focusHeading(view==='portfolio'?'pPortfolioTitle':view==='skills'?'pSkillsTitle':'pListTitle'); }
     function hide(){ $('projectsArea').hidden=true;save(); }
     function missionPresented(e){E.present(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track));save();}
     function EvidenceSkills(track){return ({A:['fundamentals'],B:['logic'],C:['data'],D:['functions'],E:['api'],F:['debugging'],G:['ai'],H:['training','evaluation']})[track]||['fundamentals'];}
@@ -92,7 +93,7 @@
     $('pRestart').onclick=()=>{if(!confirm(t('Reiniciar etapas desta atividade? O XP já conquistado e o histórico de dificuldade serão mantidos.','Restart this activity stages? Already earned XP and difficulty history will be kept.')))return;E.restart(state,activity());render();save();};
     $('pRunTests').onclick=()=>{const a=activity(),artifact=E.artifact(state,a);E.testRun(state,a,M.tests(a,artifact,datasets),M.signature(a,artifact));render();save();};
     save();
-    return {open,hide,runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
+    return {open,hide,snapshot:()=>structuredClone(state),runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
       missionAttempt(e,correct){E.observe(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track),correct);save();},
       reset(){state=E.empty();if(!root.TrainerStorage.remove(storage,[E.KEY]))onWarning(t('Não foi possível apagar os registros do Lab.','Could not delete Lab records.')); view='hub';selected=null;},
       missionHint(e){E.evidence(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track)).hints++;save();}};

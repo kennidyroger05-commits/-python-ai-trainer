@@ -1,0 +1,149 @@
+[
+  {
+    "id": "list-literal",
+    "kind": "mission",
+    "target": "max-scores",
+    "title": {
+      "pt": "List [ ] — leia antes de praticar",
+      "mixed": "List [ ] (leia antes de praticar)",
+      "en": "List [ ] — read before practicing"
+    },
+    "meaning": {
+      "pt": "[ ] cria uma lista: uma coleção de valores em ordem. A coleção já foi fornecida; max procura seu maior valor.",
+      "mixed": "[ ] cria uma lista: uma coleção de valores em ordem. A coleção já foi fornecida; max procura seu maior valor.",
+      "en": "[ ] creates an ordered collection. The collection is already provided; max finds its largest value."
+    },
+    "example": "scores = [0.62, 0.91, 0.75]",
+    "ai": {
+      "pt": "Uma lista pode guardar scores de modelos.",
+      "mixed": "Uma lista pode guardar scores de modelos.",
+      "en": "A list can store model scores."
+    }
+  },
+  {
+    "id": "addition",
+    "kind": "executable",
+    "target": "exec-score",
+    "title": {
+      "pt": "+ — leia antes de praticar",
+      "mixed": "+ (leia antes de praticar)",
+      "en": "+ — read before practicing"
+    },
+    "meaning": {
+      "pt": "+ soma números; cada caso de teste fornece base_score.",
+      "mixed": "+ soma números; cada caso de teste fornece base_score.",
+      "en": "+ adds numbers; each test case supplies base_score."
+    },
+    "example": "score = base_score + 0.1",
+    "ai": {
+      "pt": "Transforme um score por regra; não o interprete como probabilidade calibrada.",
+      "mixed": "Transforme um score por regra; não o interprete como probabilidade calibrada.",
+      "en": "Transform a score using a rule; do not interpret it as a calibrated probability."
+    }
+  },
+  {
+    "id": "multiply",
+    "kind": "executable",
+    "target": "exec-return",
+    "title": {
+      "pt": "* — leia antes de praticar",
+      "mixed": "* (leia antes de praticar)",
+      "en": "* — read before practicing"
+    },
+    "meaning": {
+      "pt": "* multiplica números; return devolve o resultado.",
+      "mixed": "* multiplica números; return devolve o resultado.",
+      "en": "* multiplies numbers; return sends the result back."
+    },
+    "example": "return count * 2",
+    "ai": {
+      "pt": "Uma ferramenta calcula tokens para entradas diferentes.",
+      "mixed": "Uma ferramenta calcula tokens para entradas diferentes.",
+      "en": "A tool computes tokens for different inputs."
+    }
+  },
+  {
+    "id": "conditional-expression",
+    "kind": "executable",
+    "target": "exec-router",
+    "title": {
+      "pt": "Conditional expression — leia antes de praticar",
+      "mixed": "Conditional expression (leia antes de praticar)",
+      "en": "Conditional expression — read before practicing"
+    },
+    "meaning": {
+      "pt": "x if condição else y escolhe um valor, como if/else em blocos.",
+      "mixed": "x if condição else y escolhe um valor, como if/else em blocos.",
+      "en": "x if condition else y chooses a value, like if/else in blocks."
+    },
+    "example": "primary = \"quality_model\" if priority == \"quality\" else \"fast_model\"",
+    "ai": {
+      "pt": "O projeto Roteador permite acompanhar essa decisão antes de editar.",
+      "mixed": "O projeto Roteador permite acompanhar essa decisão antes de editar.",
+      "en": "The Router project lets you follow this decision before editing."
+    }
+  },
+  {
+    "id": "membership",
+    "kind": "executable",
+    "target": "exec-router",
+    "title": {
+      "pt": "in — leia antes de praticar",
+      "mixed": "in (leia antes de praticar)",
+      "en": "in — read before practicing"
+    },
+    "meaning": {
+      "pt": "in verifica presença em uma coleção; não executa o modelo.",
+      "mixed": "in verifica presença em uma coleção; não executa o modelo.",
+      "en": "in checks membership in a collection; it does not execute the model."
+    },
+    "example": "if primary in available:\n    return primary",
+    "ai": {
+      "pt": "Confirme disponibilidade antes de escolher um modelo.",
+      "mixed": "Confirme disponibilidade antes de escolher um modelo.",
+      "en": "Check availability before choosing a model."
+    }
+  },
+  {
+    "id": "zip-pairs",
+    "kind": "executable",
+    "target": "exec-evaluation",
+    "title": {
+      "pt": "zip — leia antes de praticar",
+      "mixed": "zip (leia antes de praticar)",
+      "en": "zip — read before practicing"
+    },
+    "meaning": {
+      "pt": "zip forma pares e para na menor lista; as previsões ausentes continuam no total esperado.",
+      "mixed": "zip forma pares e para na menor lista; as previsões ausentes continuam no total esperado.",
+      "en": "zip forms pairs and stops at the shorter list; missing predictions remain in the expected total."
+    },
+    "example": "pairs = zip(predicted, expected)",
+    "ai": {
+      "pt": "O projeto Avaliação explica por que usar todos os exemplos no denominador.",
+      "mixed": "O projeto Avaliação explica por que usar todos os exemplos no denominador.",
+      "en": "The Evaluation project explains why to include all expected examples in the denominator."
+    }
+  },
+  {
+    "id": "sum-generator",
+    "kind": "executable",
+    "target": "exec-evaluation",
+    "title": {
+      "pt": "sum + generator — leia antes de praticar",
+      "mixed": "sum + generator (leia antes de praticar)",
+      "en": "sum + generator — read before practicing"
+    },
+    "meaning": {
+      "pt": "sum(p == e for p, e in zip(...)) soma um por par igual; True conta como 1 neste cálculo.",
+      "mixed": "sum(p == e for p, e in zip(...)) soma um por par igual; True conta como 1 neste cálculo.",
+      "en": "sum(p == e for p, e in zip(...)) adds one per matching pair; True counts as 1 here."
+    },
+    "example": "correct = sum(p == e for p, e in zip(predicted, expected))",
+    "ai": {
+      "pt": "Conte acertos antes de interpretar uma métrica.",
+      "mixed": "Conte acertos antes de interpretar uma métrica.",
+      "en": "Count matches before interpreting a metric."
+    }
+  }
+]

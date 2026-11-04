@@ -23,6 +23,20 @@ As 19 suítes locais da base passaram novamente. Conteúdo e estado anteriores f
 
 Logs de reprodução: `.quality-results/integration-faults-before.log`. Uma primeira tentativa de teste encontrou o servidor HTTP desligado; foi corrigida a preparação do ambiente e a reprodução foi refeita, sem contar esse erro de infraestrutura como defeito do app.
 
-## Continuidade
+## Integração implementada
 
-Próximos marcos internos: navegação/estado agregado e ligações pedagógicas; jornada completa e falhas em subdiretório; auditoria de conteúdo/acessibilidade/desempenho; duas passagens completas e relatório. Os resultados finais substituirão as pendências, com limites explícitos.
+`learning/` acrescenta navegação por cinco áreas, grafo por IDs estáveis, recomendações determinísticas, preparação contextual e projeção de evidências sem outra base de progresso. Os subsistemas continuam donos de seus dados; snapshots são cópias de leitura. Não há soma de XP apresentada como competência.
+
+As 40 missões ficaram intactas. Três desafios receberam pré-requisitos explícitos adicionais (print, funções/return e igualdade); duas legendas agora explicam + e *. Os 14 IDs, soluções e testes foram preservados. Sete cartões curtos de leitura preparam listas, operadores e construções compactas; não são novas questões nem concedem XP. Projetos Roteador/Avaliação são preparação recomendada para seus desafios avançados.
+
+Abrir conteúdo é distinto de tentar/resolver. O runtime registra apresentação e execução com versão real do Python, sem guardar código livre ou conceder XP por executar. Registros antigos são normalizados de forma aditiva; não se estimam contagens históricas ausentes. A conclusão continua exigindo os testes reais.
+
+Defeito de orientação corrigido: continuar após revisão/exploração podia reutilizar o índice da outra atividade. A recomendação agora seleciona a primeira missão pendente elegível, sem alterar os registros anteriores ou bloquear exploração. A lista de missões dá acesso às 40; debugging deixa de bloquear rigidamente por pré-requisito.
+
+## Evidência antes do segundo marco
+
+Passaram os testes locais existentes, novos testes puros de grafo/estado/execução/exportação e a jornada completa em 320/375/390 px. Ela conclui as 14 missões iniciais, erra/consulta dicas e glossário, produz/corrige exceção real, valida Python, interrompe ao navegar, retoma/conclui um projeto e baixa relatórios. Também simula estados, prepara Kaggle sem envio, revisa, reseta com confirmação e recupera JSON corrompido. O teste de subdiretório executou CPython e exportou notebook mantendo todos os recursos sob o prefixo. Medições reais ficaram em `.quality-results/integration-performance.json`.
+
+Testes antigos de laboratório foram ajustados para a nova regra de Continuar e para abrir explicitamente os controles avançados; as validações de resposta/XP não foram afrouxadas. O manifesto de conteúdo anterior, inclusive `language.js`, permanece válido.
+
+Pendências deste marco: duas passagens completas, revisão adversarial adicional, documentação de uso/prontidão e entrega. Execução autenticada Kaggle e Safari/iPhone físico permanecem não verificados.

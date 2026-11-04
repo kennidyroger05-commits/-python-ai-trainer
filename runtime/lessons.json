@@ -88,7 +88,8 @@
       "en": "Cases check the real numeric result with an explicit 1e-9 tolerance."
     },
     "requires": [
-      "score-variable"
+      "score-variable",
+      "print-score"
     ],
     "concept": "assignment",
     "terms": [
@@ -97,9 +98,9 @@
     ],
     "projectId": null,
     "legend": {
-      "pt": "score = expressão guarda o valor; print(score) mostra o resultado.",
-      "mixed": "score = expressão guarda o valor; print(score) mostra o resultado.",
-      "en": "score = expression stores a value; print(score) displays it."
+      "pt": "+ soma dois números; = guarda o resultado; print mostra o valor.",
+      "mixed": "+ soma dois números; = guarda o resultado; print mostra o valor.",
+      "en": "+ adds two numbers; = stores the result; print displays the value."
     }
   },
   {
@@ -423,9 +424,9 @@
     ],
     "projectId": null,
     "legend": {
-      "pt": "return entrega o resultado ao chamador da função.",
-      "mixed": "return entrega o resultado ao chamador da função.",
-      "en": "return gives the result back to the function caller."
+      "pt": "* multiplica valores; return devolve o resultado ao chamador.",
+      "mixed": "* multiplica valores; return devolve o resultado ao chamador.",
+      "en": "* multiplies values; return sends the result to the caller."
     }
   },
   {
@@ -520,7 +521,9 @@
     },
     "requires": [
       "minimum-confidence",
-      "choose-fallback"
+      "choose-fallback",
+      "return-score",
+      "handle-api-error"
     ],
     "concept": "routing",
     "terms": [
@@ -632,7 +635,8 @@
       "en": "Real results are extracted from dictionaries with different values."
     },
     "requires": [
-      "read-response-field"
+      "read-response-field",
+      "return-score"
     ],
     "concept": "key-access",
     "terms": [
