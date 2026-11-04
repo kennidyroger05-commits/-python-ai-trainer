@@ -48,7 +48,7 @@
     }
     async function run(request,{onProgress,timeoutMs=LIMITS.runMs}={}){
       stop();const id=serial;
-      if(typeof request.code!=='string'||request.code.length>LIMITS.codeChars)throw Error('Code exceeds the local learning runtime limit');
+      if(typeof request.code!=='string'||request.code.length>LIMITS.codeChars)return {status:'policy_error',stdout:'',stderr:'Code exceeds the local learning runtime limit (24000 characters).',cases:[]};
       const tests=request.mode==='validate'?request.tests:[];
       if(request.mode==='validate'&&(!Array.isArray(tests)||!tests.length||tests.length>LIMITS.maxTests))throw Error('Invalid registered test count');
       let bundle;try{onProgress?.({phase:'loading'});bundle=await resources(onProgress);}catch(e){return {status:id!==serial?'cancelled':'initialization_error',stdout:'',stderr:id!==serial?'':String(e.message),cases:[]};}

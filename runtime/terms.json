@@ -1,0 +1,74 @@
+{
+  "rt-run": [
+    "run code",
+    "executar código",
+    "Compila e executa Python real no worker local.",
+    "Compiles and executes real Python in the local worker.",
+    "print(2 + 3)",
+    "A saída pertence ao código efetivamente executado.",
+    "Output belongs to the code actually executed."
+  ],
+  "rt-test": [
+    "test case",
+    "caso de teste",
+    "Relaciona entrada e resultado esperado.",
+    "Pairs input with an expected result.",
+    "assert double_tokens(3) == 6",
+    "Mais de uma entrada ajuda a rejeitar soluções decoradas.",
+    "Multiple inputs help reject memorized solutions."
+  ],
+  "rt-error": [
+    "runtime error",
+    "erro de execução",
+    "Exceção produzida enquanto o programa executa.",
+    "An exception produced while the program runs.",
+    "print(1 / 0)",
+    "Distinguir erro de execução de resultado errado ajuda a depurar.",
+    "Distinguishing runtime errors from wrong results helps debugging."
+  ],
+  "rt-expected": [
+    "expected output",
+    "saída esperada",
+    "Resultado definido pelo contrato do caso.",
+    "Result defined by the case contract.",
+    "assert route(request, models) == \"local_model\"",
+    "Não declare correção por um único exemplo aprovado.",
+    "Do not declare correctness from one passing example."
+  ],
+  "rt-status": [
+    "job status",
+    "estado do trabalho",
+    "Etapa observada ou simulada de um job, com origem identificada.",
+    "Observed or simulated job stage, with identified origin.",
+    "status = \"prepared\"",
+    "Um estado simulado não é progresso real no Kaggle.",
+    "A simulated state is not real Kaggle progress."
+  ],
+  "rt-inference": [
+    "inference",
+    "inferência",
+    "Produção de resposta usando um modelo já preparado.",
+    "Producing an answer using an already prepared model.",
+    "# inference uses trained weights",
+    "Este runtime inicial não carrega pesos de modelos.",
+    "This initial runtime does not load model weights."
+  ],
+  "rt-training": [
+    "training",
+    "treinamento",
+    "Processo que ajusta parâmetros de um modelo.",
+    "A process that updates model parameters.",
+    "# training updates weights",
+    "O laboratório prepara contratos, sem executar treinamento real.",
+    "The lab prepares contracts without performing real training."
+  ],
+  "rt-checkpoint": [
+    "checkpoint",
+    "ponto de salvamento",
+    "Estado salvo de parâmetros de uma etapa do treinamento.",
+    "Saved parameter state from a training stage.",
+    "chosen_epoch = 2",
+    "Selecionar um número de época não cria um checkpoint real.",
+    "Selecting an epoch number does not create a real checkpoint."
+  ]
+}

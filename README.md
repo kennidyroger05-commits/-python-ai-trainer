@@ -1,8 +1,10 @@
-# Python AI Trainer — Python AI Lab (V3)
+# Python AI Trainer — Python Runtime & AI Model Lab
 
 Aprendizado de Python aplicado a IA e inglês técnico por missões e projetos guiados. A V3 conserva as **40 missões da V2** e acrescenta quatro projetos, oito desafios de debugging e uma introdução a testes. Funciona como site estático, com HTML, CSS e JavaScript, sem backend, framework ou APIs de modelos.
 
-Desenvolvimento em `feature/v3-python-ai-lab`, baseado em `feature/v2-debug-training`. Esta branch não foi publicada nem integrada. A versão de `main` e os PRs anteriores permanecem preservados.
+Desenvolvimento contínuo em `feature/python-runtime-kaggle-lab`, baseado em `feature/v3-python-ai-lab`. Nenhuma versão desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+
+A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** prepara contratos/notebooks e demonstra um adaptador Kaggle simulado; não envia jobs, não autentica contas e não executa modelos ou treinamento real. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
 
 ## Projetos guiados
 
@@ -34,11 +36,11 @@ O Lab mantém rascunho, dicas, respostas, etapa e fluxo ao recarregar. É possí
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter os arquivos JSON. Não há service worker: recarregar totalmente offline não é garantido. Nenhum Python do aluno é executado.
+Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter os arquivos JSON. Não há service worker: recarregar totalmente offline não é garantido. As missões e projetos guiados mantêm suas simulações. Na área “Run Python”, o código do aluno executa localmente em um worker isolado, com limites documentados. O primeiro uso precisa obter ~12 MB de recursos do próprio site; HTTPS ou localhost são necessários para verificação de integridade.
 
 ## Persistência e compatibilidade
 
-As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
+As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Desafios executáveis usam `pythonExecutableV1`; contratos de experimentos, `pythonModelLabV1`. Os novos dados não substituem nem recalculam XP antigo. Código livre e saídas não são persistidos automaticamente. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
 
 Registros danificados são normalizados e uma cópia local `.recovery` é preservada antes da substituição. O reset geral confirmado remove também os dados e cópias de recuperação deste app, preservando chaves de outros aplicativos. Se o armazenamento estiver bloqueado ou sem quota, a interface avisa que a sessão pode não ser salva. Downloads já salvos pelo usuário não são removidos.
 
@@ -59,6 +61,14 @@ node tests/labs-browser.cjs
 node tests/projects-browser.cjs
 node tests/projects-edge-browser.cjs
 node tests/project-evaluation-browser.cjs
+node scripts/verify-runtime.cjs
+node tests/runtime-core.cjs
+python3 tests/runtime-python.py
+node tests/runtime-browser.cjs
+node tests/runtime-lessons-browser.cjs
+node tests/model-lab.cjs
+python3 tests/model-notebook.py
+node tests/model-lab-browser.cjs
 ```
 
 As quatro suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
@@ -80,14 +90,16 @@ Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode s
 - `projects/models.js`: transformações determinísticas das soluções cadastradas.
 - `projects/catalog.json`, `debugging.json`, `testing.json`, `datasets.json`, `terms.json`: projetos, cenários, tutorial, dados e vocabulário.
 - `projects/view.js`, `flow-view.js`, `portfolio.js`, `projects.css`: interface, fluxos e exportação.
+- `runtime/`: CPython/Pyodide verificado, isolamento, editor, conteúdo executável e progresso independente.
+- `model-lab/`: contratos, exportação de notebooks preparatórios, adaptador simulado e interface de experimentos.
 - `tests/`: regressões V1–V2, preservação de conteúdo, estado V3, fixtures e navegador.
 
 Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/LEARNING-PATH.md), as [diretrizes para cadastrar conteúdo](docs/CONTENT-GUIDELINES.md), a [matriz de compatibilidade](docs/COMPATIBILITY-V3.md) e o [relatório V3](docs/REPORT-V3.md).
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; o PR V3 é de rascunho contra V2.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta expansão deve abrir PR de rascunho contra V3, preservando PRs anteriores.
 
-A V3 usa escolhas, correções e funções previamente cadastradas, não um interpretador Python geral ou editor de código livre. Fluxos, modelos, APIs, custos e treinamento são simulados. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
+As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos didáticos, modelos, APIs, custos e treinamento permanecem simulados. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
-Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação manual. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Próximos passos: revisão com iniciantes e testes no iPhone antes de qualquer publicação; integrações de voz, professor opcional ou executor isolado ficam fora desta versão.
+Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação manual. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Antes de publicar: validar no Safari/iPhone real e revisar o consumo de memória do WASM. Integrações de voz, professor opcional, modelos reais e backend autenticado permanecem fora desta missão.

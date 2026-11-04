@@ -60,7 +60,7 @@ def _lab_execute_json(payload):
         runs = tests or [None]
         for spec in runs:
             namespace = {'__builtins__':dict(_SAFE), '__name__':'__learner__'}
-            if spec: namespace.update(spec.get('globals', {}))
+            namespace.update(spec.get('globals', {}) if spec else request.get('globals', {}))
             local_out = _Output(); local_err = _Output(); observed = None
             try:
                 with _contextlib.redirect_stdout(local_out), _contextlib.redirect_stderr(local_err):

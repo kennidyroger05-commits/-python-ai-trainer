@@ -1,0 +1,16 @@
+{
+  "exec-score": "score = base_score + 0.1\nprint(score)",
+  "exec-list": "selected = models[0]\nprint(selected)",
+  "exec-threshold": "accepted = confidence_score >= threshold\nprint(accepted)",
+  "exec-return": "def double_tokens(count):\n    return count * 2\n\nprint(double_tokens(3))",
+  "exec-select-model": "def select_model(priority):\n    if priority == \"quality\":\n        return \"quality_model\"\n    return \"fast_model\"\n\nprint(select_model(\"quality\"))",
+  "exec-response-field": "def model_name(response):\n    return response[\"model\"]\n\nprint(model_name({\"model\":\"local\", \"score\":0.8, \"text\":\"ready\"}))",
+  "exec-validate-dict": "def valid_response(response):\n    return isinstance(response.get(\"model\"), str)\n\nprint(valid_response({\"model\":\"local\"}))",
+  "exec-missing-data": "def response_text(response):\n    return response.get(\"text\", \"pending\")\n\nprint(response_text({}))",
+  "exec-token-tool": "def total_tokens(prompt_tokens, reply_tokens):\n    return prompt_tokens + reply_tokens\n\nprint(total_tokens(10, 5))",
+  "exec-json": "import json\n\ndef read_label(payload):\n    response = json.loads(payload)\n    return response[\"label\"]\n\nprint(read_label('{\"label\":\"billing\",\"model\":\"local\"}'))",
+  "exec-fallback": "def fallback_text(response):\n    return response.get(\"text\") or \"local\"\n\nprint(fallback_text({}))",
+  "exec-router": "def route(request, available):\n    primary = \"quality_model\" if request[\"priority\"] == \"quality\" else \"fast_model\"\n    if primary in available:\n        return primary\n    return \"local_model\" if \"local_model\" in available else None\n\nprint(route({\"priority\":\"quality\"}, [\"quality_model\",\"local_model\"]))",
+  "exec-evaluation": "def accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(expected)\n\nprint(accuracy([\"a\"], [\"a\",\"b\"]))",
+  "exec-checkpoint": "def choose_epoch(logs):\n    if not logs:\n        return None\n    best = logs[0]\n    for row in logs:\n        if row[\"validation_loss\"] < best[\"validation_loss\"]:\n            best = row\n    return best[\"epoch\"]\n\nprint(choose_epoch([{\"epoch\":1,\"validation_loss\":0.9},{\"epoch\":2,\"validation_loss\":0.6}]))"
+}
