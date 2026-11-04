@@ -55,42 +55,20 @@ Registros danificados são normalizados e uma cópia local `.recovery` é preser
 
 ## Testes
 
-Na raiz, com Node, Python 3.12 e o servidor HTTP ativo:
+Na raiz, com Node e Python 3.12, sem framework de testes:
 
 ```bash
-node tests/validate.js
-node tests/core.cjs
-python3 tests/python-fixtures.py
-node tests/projects-core.cjs
-node tests/projects-data.cjs
-node tests/storage-migration.cjs
-python3 tests/projects-python.py
-node tests/browser.cjs
-node tests/labs-browser.cjs
-node tests/projects-browser.cjs
-node tests/projects-edge-browser.cjs
-node tests/project-evaluation-browser.cjs
-node scripts/verify-runtime.cjs
-node tests/runtime-core.cjs
-node tests/runtime-migration.cjs
-python3 tests/runtime-python.py
-node tests/runtime-browser.cjs
-node tests/runtime-lessons-browser.cjs
-node tests/runtime-edge-browser.cjs
-node tests/runtime-mobile-browser.cjs
-node tests/runtime-language-browser.cjs
-node tests/model-lab.cjs
-python3 tests/model-notebook.py
-node tests/model-lab-browser.cjs
-node tests/runtime-memory.cjs
-node tests/runtime-races-browser.cjs
-python3 tests/notebooks.py
-python3 tests/executor.py
-python3 tests/security-adversarial.py
-node tests/experiments.cjs
-node tests/experiments-browser.cjs
-node tests/experiments-edge-browser.cjs
+node scripts/test.cjs
 ```
+
+Com o servidor HTTP ativo em 127.0.0.1:8000, execute a regressão completa (46 suítes):
+
+```bash
+node scripts/test.cjs --browser
+node scripts/test.cjs --browser --list
+```
+
+Para conteúdo novo: `node tests/curriculum-core.cjs` e `python3 tests/curriculum-python.py`. A interface curricular é verificada em `tests/v4-browser.cjs` e `tests/v4-edge-browser.cjs`; a suíte completa preserva os demais subsistemas.
 
 As suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
 

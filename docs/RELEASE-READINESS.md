@@ -1,4 +1,8 @@
-# Prontidão para lançamento
+# Prontidão para lançamento — V4
+
+A reconstrução V4 contém 145 missões/14 unidades, preservando as 40 originais. A evidência atual é consolidada em [REDESIGN-FINAL-REPORT.md](REDESIGN-FINAL-REPORT.md), [MOBILE-TEST-REPORT.md](MOBILE-TEST-REPORT.md) e nos relatórios V4 das duas passagens completas, após conclusão. Os números e provas `integration-pass*.json` abaixo pertencem ao marco de integração anterior e não são usados para declarar aprovação V4.
+
+## Histórico de integração preservado
 
 Esta branch é para revisão, **não para publicação automática**. Main e a configuração do GitHub Pages permanecem preservados. Não foi feito merge.
 
