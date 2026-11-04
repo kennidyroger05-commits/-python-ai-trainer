@@ -1,0 +1,19 @@
+{
+  "phase": 2,
+  "started_utc": "2026-11-04T10:43:00.213Z",
+  "completed_utc": "2026-11-04T10:56:43.259Z",
+  "tested_commit": "56bc72509692ebc9a601b79790394034e5992151",
+  "suites": 42,
+  "failed": 0,
+  "workflow_cases": 26,
+  "mobile_widths": [
+    320,
+    375,
+    390
+  ],
+  "command": "node scripts/test.cjs --browser",
+  "log_sha256": "7b43ed44065709ba253c49ba9fc654219cf562de2e13e1e5d51f846b2850f307",
+  "authenticated_kaggle_calls": 0,
+  "physical_iphone_tested": false,
+  "webkit_tested": false
+}

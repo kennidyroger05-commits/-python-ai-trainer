@@ -12,7 +12,7 @@ O menu compacto **Áreas** conecta Aprender, Praticar, Projetos, Laboratório IA
 
 O progresso mostra apresentado, praticado, acertado e sugestão de revisão, além de conclusão por atividade. XP é apresentado por origem; não mede domínio ou experiência profissional. O portfólio e o resumo Markdown distinguem simulação, código executado, testes reais aprovados e preparação Kaggle. Não existe conexão Kaggle autenticada disfarçada de simulação.
 
-Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório desta entrega](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
+Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório da integração anterior](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
 
 ## Projetos guiados
 
@@ -126,7 +126,7 @@ Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração deve abrir PR de rascunho contra `feature/kaggle-execution-quality`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração Kaggle deve abrir PR de rascunho contra `feature/integrated-learning-experience`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
 
 As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 

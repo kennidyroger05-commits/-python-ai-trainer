@@ -6,6 +6,8 @@ Nenhuma submissão real foi feita nesta missão. Os comandos remotos abaixo são
 
 No Laboratório IA → Experimentos, escolha a receita, inspecione objetivo, código e parâmetros, e use **Exportar pacote para o executor**. `kaggle-package.json` contém job, notebook e metadados. O executor compara todo o pacote com sua própria receita verificada. Não extrai ZIP/TAR nem executa código fornecido pelo arquivo.
 
+Para usar o pacote exportado nos comandos abaixo, substitua o valor de `--job` por `kaggle-package.json`; não descompacte ou execute seu conteúdo manualmente.
+
 Para o primeiro smoke use `experiments/kaggle-smoke-job.json`: inferência de um classificador linear de 87 parâmetros, um pedido, dados sintéticos embutidos, stdlib, CPU, sem GPU/internet/download. Não é um LLM. A execução local completa produz três artefatos reais: `result.json`, `metrics.json`, `events.json`. Não se atribui generalização a esse exemplo.
 
 ```bash
@@ -68,7 +70,7 @@ python3 -m executor.cli collect --job experiments/kaggle-smoke-job.json --worksp
 python3 -m executor.cli report --job experiments/kaggle-smoke-job.json --workspace ../pat-private --owner seu-usuario --run --approve HASH_DE_EXECUCAO
 ```
 
-`COMPLETE` vira `remote_complete`: execução concluída, resultados ainda não validados. `collect` baixa somente a whitelist de arquivos da versão explícita, verifica tamanho, JSON, hashes e cálculos determinísticos, preserva os bytes validados em `artifacts/` (0600) e grava `report.json` com estado `completed` (resultado recuperado). Falha no download mantém o estado recuperável, sem reenviar job. Logs filtrados ficam em `logs.json`; não são despejadas mensagens brutas do SDK.
+`COMPLETE` vira `remote_complete`: execução concluída, resultados ainda não validados. `collect` baixa somente a whitelist de arquivos da versão explícita, verifica tamanho, JSON, hashes e cálculos determinísticos, preserva os bytes validados em `artifacts/` (0600) e grava `report.json` com estado `completed` (resultado recuperado). Falha no download mantém o estado recuperável, sem reenviar job. Os hashes do relatório descrevem os mesmos bytes retidos. Diretórios são 0700; arquivos são 0600. Logs filtrados ficam em `logs.json`; não são despejadas mensagens brutas do SDK.
 
 Importe `report.json` (ou `status-report.json`, sem métricas para estados intermediários) na receita de inferência do aplicativo. Identificador remoto, versão, estado e origem declarada ficam no histórico local, até dez registros por receita. Métricas completas permanecem no arquivo/aba; nenhum upload automático ocorre. Job editado e relatório com outra configuração são identificados separadamente.
 
@@ -78,4 +80,4 @@ O navegador valida contratos e fingerprint, mas **não autentica a conta e não 
 
 ## Antes do primeiro envio real
 
-Confirmar autorização por job/conta, SDK fixado, rede permitida, privacidade e recursos. Verificar limite/quota da conta e disponibilidade; CPU não significa execução garantida ou instantânea. Não configurar GPU para o smoke. Registrar a versão retornada, logs/artefatos e resultado da importação. Essa validação autenticada permanece pendente; os testes locais não a substituem.
+Confirmar autorização por job/conta, SDK fixado, rede permitida, privacidade e recursos. Verificar limite/quota da conta e disponibilidade; CPU não significa execução garantida ou instantânea. O campo de memória do contrato é descritivo, não uma reserva ou quota remota; limites RLIMIT pertencem aos subprocessos locais do executor. Não configurar GPU para o smoke. Registrar a versão retornada, logs/artefatos e resultado da importação. Essa validação autenticada permanece pendente; os testes locais não a substituem.
