@@ -79,4 +79,14 @@ Inclua solução confiável em `tests/runtime-solutions.json` (somente testes de
 
 ## Contratos de experimentos
 
-Use `model-lab/contracts.js`; valide versões, campos, modo e proveniência. Fixtures simuladas devem ter valores consistentes e origem explícita em métricas/logs/artefatos. Nunca invente duração real, treinamento executado ou inferência. Para novo dataset do mock, amplie também o adaptador e casos de teste. O notebook atual é apenas preparação, testada em CPython; futuros treinamentos exigirão autorização e infraestrutura separadas. Consulte `MODEL-LAB.md` e `KAGGLE-INTEGRATION.md`.
+Use `model-lab/contracts.js` para o planner anterior; valide versões, campos, modo e proveniência. Fixtures simuladas devem ter valores consistentes e origem explícita em métricas/logs/artefatos. Nunca invente duração real, treinamento executado ou inferência. Para novo dataset do mock, amplie também o adaptador e casos de teste. O notebook desse planner é apenas preparação, testada em CPython; as receitas executáveis abaixo têm contrato próprio. Consulte `MODEL-LAB.md` e `KAGGLE-INTEGRATION.md`.
+
+## Receitas reais de experimentos
+
+Uma receita em `experiments/` tem fonte/dados/modelo com hashes em `assets.json`, contrato fechado em JavaScript e Python, notebook autocontido e testes de CPU completos. Não aceite campos de código, URL ou caminho arbitrários no job. Ao mudar uma fonte, atualize seu hash, gere os notebooks e compare os builders com `node tests/experiments.cjs`; o runtime do aluno não é o executor de notebooks.
+
+Registre títulos, objetivos, etapas, falhas, revisão e termos nos três idiomas. Use os dez IDs estáveis do percurso, mantendo distinção entre consulta e execução. Vincule uma prática Python existente por conceito; não prometa domínio por abrir um relatório. Dicas e conceitos de cada exercício continuam no catálogo original.
+
+Inclua entradas normais e inválidas, resultados calculados em CPU, reprodutibilidade com seed, separação treino/validação/teste e exportação de artefatos. `tests/notebooks.py` deve executar todas as células de código, não apenas validar JSON. `tests/security-adversarial.py` precisa rejeitar métricas/splits/checkpoints adulterados. Relatórios de referência são gerados por `scripts/record-local-experiments.py`, com origem local explícita; jamais edite números para fabricar um resultado desejado.
+
+Para novas receitas, amplie explicitamente a whitelist e o validador de artefatos, testes de falha e docs de hardware/dependências. A validação numérica atual foi feita para um modelo minúsculo: não generalize esse replay para jobs pesados sem outra estratégia. Acesso remoto ou GPU requer autorização independente e nunca decorre de uma opção no frontend público.

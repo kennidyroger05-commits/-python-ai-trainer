@@ -52,7 +52,13 @@ Antes de contato externo, política deve habilitar rede, especificar dono autori
 
 O ledger usa lock e escrita atômica. Repetição não produz uma nova submissão. Timeout de escrita é ambíguo: `submission_unknown` bloqueia repetição até reconciliação manual, evitando duplicar treino. Configuração alterada precisa de novo ID/aprovação. Acompanhamento tem orçamento de consultas e timeout por operação; parar acompanhamento não envia cancelamento remoto.
 
+A intenção de executar é durável: NEW_SCRIPT inesperado após envio não autoriza novo job. Uma versão salva deliberadamente sem execução pode ser enviada uma única vez com a permissão adicional. Estado antigo recupera a intenção de seus eventos registrados. Job aprovado, notebook e recibo compartilham o mesmo snapshot.
+
+O workspace privado é obrigatório e fica fora de qualquer raiz HTTP; caminhos dentro deste repositório são recusados. Não sirva o diretório do operador, nem um ancestral dele. Arquivos novos têm 0600 e diretórios 0700. O executor não corrige permissões de pastas existentes silenciosamente.
+
 Resultados são fixados em `owner/slug/version`, validam fingerprint, schema, valores finitos, arquivos/tamanhos, splits e coerência do checkpoint. Logs do SDK não são despejados: linhas desconhecidas são omitidas para evitar tokens e dados sensíveis. Erros retornam códigos estáveis, sem headers, URLs assinadas ou corpo bruto de resposta.
+
+Somente a whitelist de artefatos é baixada; um notebook auxiliar normal da plataforma não impede esse download, enquanto traversal/symlinks continuam recusados. Hashes descrevem o mesmo snapshot de bytes validado. Os cálculos das receitas pequenas são reproduzidos para conferir valores, incluindo métricas anteriores ao treino. O cache de relatórios concluídos também passa por validação fechada na releitura.
 
 O transporte de testes produz origem `injected-transport`; CPU local produz `local-cpu`. Somente o transporte SDK autorizado pode registrar `kaggle-sdk`. Mesmo assim, um arquivo importado no frontend tem **origem declarada**, não confirmação criptográfica ou nova autenticação no navegador.
 

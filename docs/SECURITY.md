@@ -26,7 +26,7 @@ Pyodide 314.0.7 foi obtido do pacote oficial, SRI conferido e arquivos redistrib
 
 GitHub Pages é público. Não existem campos para tokens Kaggle, cookies de conta, URLs de upload ou execução remota arbitrária. Contratos fechados recusam campos desconhecidos e material com aparência de credencial; isso não substitui um cofre de segredos. O mock não faz rede. O adaptador remoto retorna `BACKEND_REQUIRED` para enviar/consultar resultados.
 
-Uma integração real futura exige serviço autenticado separado, credenciais no servidor, autorização por job, limites e auditoria. Não foi instalado ou publicado backend. Notebook exportado é preparatório, privado, internet desativada e dono a revisar; não contém segredos nem roda modelo. `kernels delete` não é usado para cancelar jobs. Nenhuma conta foi autenticada ou job real solicitado nesta missão.
+Uma integração por serviço exige autenticação separada, credenciais no servidor, autorização por job, limites e auditoria. Não foi instalado ou publicado backend. O planner anterior exporta somente preparação. As duas novas receitas exportam código capaz de executar um modelo linear real quando iniciado pelo operador; exportar o arquivo não inicia execução. Metadados são privados, internet desativada e dono a revisar, sem segredos. `kernels delete` não é usado para cancelar jobs. Nenhuma conta foi autenticada ou job remoto solicitado nesta missão.
 
 ## Verificação e limite do parecer
 
@@ -41,10 +41,16 @@ Jobs não recebem código, URL, caminho de artefato, shell ou credencial. O buil
 
 Ledger, locks e commits atômicos impedem duplicação por cliques concorrentes. Submissão incerta não é reenviada automaticamente. Caminhos e symlinks são recusados; outputs têm whitelist, orçamento de tamanho, JSON estrito e validação semântica. Versões e dono são verificados antes de consultas. Estado corrompido é preservado e bloqueia novas ações; não é zerado para tentar outro envio.
 
+O workspace exige proprietário atual e permissões privadas, fora do repositório público. O CLI não escolhe uma pasta pública por default. Diretórios existentes compartilhados são recusados sem chmod; arquivos novos usam 0600. O operador também deve impedir que outros servidores exponham o workspace ou seus ancestrais: o guard conhece este repositório, não toda configuração HTTP do host. Esta referência POSIX não protege contra um processo hostil com o mesmo usuário do sistema ou contra administração do host.
+
+A autorização e o upload usam um único snapshot imutável do job. A intenção de executar fica no ledger; observar NEW_SCRIPT depois de um pedido de execução não permite enviar outra vez. Ledgers anteriores recuperam essa intenção de eventos existentes, sem apagar histórico. Estado e relatórios concluídos são revalidados por campos fechados, inclusive seus objetos internos. Os hashes correspondem aos mesmos bytes lidos por descritor sem seguir symlinks, sem reabrir os caminhos após validação.
+
+Para estas duas receitas minúsculas, a validação reproduz os cálculos determinísticos, splits, métricas e checkpoint. Isso verifica coerência numérica; não comprova onde o cálculo ocorreu ou autentica um relatório importado. Latência/memória continuam sendo valores declarados pelo processo de origem, sem alegação de atestado remoto.
+
 A importação no navegador é local e limitada a relatórios estruturados, renderizados como texto. Arquivo que diz `kaggle-sdk` não é atestado criptográfico. Estado/relatório não concedem XP nem comprovam competência. O próximo backend real precisará autenticação de usuário, autorização por job, proteção CSRF/CORS e cofre de segredos; nada disso é simulado como serviço instalado.
 
 ## Dependências e evidência
 
-Em 2026-11-04, a consulta pública npm de advisories para Pyodide 0.29.3 retornou objeto vazio; os metadados PyPI de Kaggle 2.2.5/kagglesdk 0.1.38 retornaram zero advisories. Isso não cobre todos os componentes nativos/transitivos. A revisão das notas oficiais do CPython 3.13.3/3.13.4 encontrou fixes posteriores ao antigo 3.13.2, incluindo bypasses em tarfile e use-after-free no decoder unicode-escape. O runtime foi atualizado para a distribuição atual verificada, CPython 3.14.2; módulos não previstos continuam bloqueados e o isolamento não foi enfraquecido.
+Em 2026-11-04, as consultas públicas npm de advisories para Pyodide 0.29.3 e 314.0.7 retornaram objetos vazios; os metadados PyPI de Kaggle 2.2.5/kagglesdk 0.1.38 retornaram zero advisories. Isso não cobre todos os componentes nativos/transitivos. A revisão das notas oficiais do CPython 3.13.3/3.13.4 encontrou fixes posteriores ao antigo 3.13.2, incluindo bypasses em tarfile e use-after-free no decoder unicode-escape. O runtime foi atualizado para a distribuição atual verificada, CPython 3.14.2; módulos não previstos continuam bloqueados e o isolamento não foi enfraquecido.
 
 Fontes: https://github.com/python/cpython/blob/v3.13.4/Misc/NEWS.d/3.13.4.rst e https://github.com/python/cpython/blob/v3.13.3/Misc/NEWS.d/3.13.3.rst. Não foi executado exploit de corrupção de memória. Testes de alocação são limitados/contidos; não se executou esgotamento de recursos no host. A revisão não é declaração de ausência de vulnerabilidades nem prova formal.

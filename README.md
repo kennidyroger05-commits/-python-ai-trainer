@@ -40,7 +40,7 @@ Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter
 
 ## Persistência e compatibilidade
 
-As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Desafios executáveis usam `pythonExecutableV1`; contratos de experimentos, `pythonModelLabV1`. Os novos dados não substituem nem recalculam XP antigo. Código livre e saídas não são persistidos automaticamente. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
+As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Desafios executáveis usam `pythonExecutableV1`; contratos do planner, `pythonModelLabV1`; percursos de experimentos, `pythonExperimentLearningV1`. O percurso registra etapas consultadas, sem XP ou alegação de treino concluído. Os novos dados não substituem nem recalculam XP antigo. Código livre e saídas não são persistidos automaticamente. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
 
 Registros danificados são normalizados e uma cópia local `.recovery` é preservada antes da substituição. O reset geral confirmado remove também os dados e cópias de recuperação deste app, preservando chaves de outros aplicativos. Se o armazenamento estiver bloqueado ou sem quota, a interface avisa que a sessão pode não ser salva. Downloads já salvos pelo usuário não são removidos.
 
@@ -73,6 +73,14 @@ node tests/runtime-language-browser.cjs
 node tests/model-lab.cjs
 python3 tests/model-notebook.py
 node tests/model-lab-browser.cjs
+node tests/runtime-memory.cjs
+node tests/runtime-races-browser.cjs
+python3 tests/notebooks.py
+python3 tests/executor.py
+python3 tests/security-adversarial.py
+node tests/experiments.cjs
+node tests/experiments-browser.cjs
+node tests/experiments-edge-browser.cjs
 ```
 
 As suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
@@ -112,7 +120,7 @@ GitHub Pages continua configurado para `main`. Nenhuma configuração administra
 
 As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
-Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação manual. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Antes de publicar: validar no Safari/iPhone real e revisar o consumo de memória do WASM. Integrações de voz, professor opcional, modelos reais e backend autenticado permanecem fora desta missão.
+Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Antes de publicar: validar no Safari/iPhone real e revisar o consumo de memória do WASM. Integrações de voz, professor opcional, APIs externas de modelos e backend hospedado permanecem fora desta missão.
 
 
 ## Experimentos e executor de referência
