@@ -7,7 +7,7 @@ Preserva 40 missões, quatro projetos, 14 desafios executáveis, debugging, idio
 ## Validação
 
 - Testes direcionados: 22 suítes locais, 40 missões nas três larguras, editor/Model Lab mobile, jornada completa, subdiretório com Python real e 15 cenários adversariais de integração, incluindo reset de módulos indisponíveis.
-- Primeira passagem completa: 40 suítes aprovadas. Segunda após revisão final das áreas ainda em verificação; resultado será atualizado após conclusão real.
+- Duas passagens completas: 40 suítes aprovadas em cada, zero reprovadas; segunda sobre `4c72eaa`, após correções de áreas e reset. Provas versionadas em `docs/integration-pass1.json` e `docs/integration-pass2.json`.
 - Os dois notebooks continuam sendo executados integralmente em CPU local pelos testes, sem conta ou GPU.
 - Paleta observada passou nos cálculos de contraste; foco, roles, texto ampliado, redução de movimento e overflow são testados no Chromium.
 

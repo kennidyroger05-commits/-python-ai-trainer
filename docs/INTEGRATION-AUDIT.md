@@ -66,8 +66,32 @@ Provas preservadas no workspace: `integration-edge-before.log`, `integration-edg
 
 Depois das correções passaram as 22 suítes locais, as 40 missões nas três larguras, editor/Model Lab mobile, 13 cenários adicionais e o teste sob subdiretório. A primeira passagem completa sobre `215c8cb` terminou com **40 suítes aprovadas, zero reprovadas**.
 
-Entre as passagens foi revisto o propósito das telas compartilhadas: evidências por área pertencem a Meu progresso; debugging e tutorial de testes pertencem a Praticar. O contexto passou a declarar a área explicitamente, em vez de herdar a localização técnica do renderer de projetos. O cenário adicional passou, totalizando 14 cenários adversariais de integração. A segunda passagem completa verificará esse ajuste e todas as regressões. Kaggle autenticado e Safari/iPhone físico permanecem não verificados.
+Entre as passagens foi revisto o propósito das telas compartilhadas: evidências por área pertencem a Meu progresso; debugging e tutorial de testes pertencem a Praticar. O contexto passou a declarar a área explicitamente, em vez de herdar a localização técnica do renderer de projetos. O cenário adicional passou, totalizando 14 cenários adversariais de integração. A segunda passagem completa verificou esse ajuste e todas as regressões. Kaggle autenticado e Safari/iPhone físico permanecem não verificados.
 
 Foi identificado ainda um reset incompleto em modo degradado: se o catálogo Python não carregasse, o objeto runtime não existia e seus dados antigos ficavam fora da limpeza. A reprodução preservou `pythonExecutableV1` após confirmar o reset. A limpeza global agora remove explicitamente todas as chaves conhecidas e backups, independentemente de módulos carregados, mantendo a confirmação e as chaves alheias. O teste verifica recusa, confirmação, remoção de recovery e recarga com histórico zerado. A fixture foi corrigida para não reinserir artificialmente os dados em toda recarga.
 
-A execução parcial da segunda passagem foi encerrada pelo agente para incluir essa correção; não foi contada como aprovação completa. Log parcial em `.quality-results/integration-pass2-partial-before-reset.log`; reprodução em `degraded-reset-before.json`. A passagem completa será reiniciada sobre o commit da correção. São agora 15 cenários adversariais de integração, além dos demais testes.
+A execução parcial da segunda passagem foi encerrada pelo agente para incluir essa correção; não foi contada como aprovação completa. Log parcial em `.quality-results/integration-pass2-partial-before-reset.log`; reprodução em `degraded-reset-before.json`. A passagem completa foi reiniciada sobre o commit da correção, `4c72eaa`, e terminou em **2026-11-04 07:56:57 UTC com 40 suítes aprovadas e zero reprovadas**, incluindo os 15 cenários adversariais de integração. A primeira terminou em 07:25 UTC sobre `215c8cb`, também com 40/40. Evidências com comandos, versões, commits e hashes dos logs: [passagem 1](integration-pass1.json) e [passagem 2](integration-pass2.json). Os logs brutos permanecem no workspace ignorado `.quality-results/`; não são necessários para executar novamente a suíte.
+
+## Matriz de verificação da jornada
+
+| Requisito / fluxo | Evidência | Limite |
+| --- | --- | --- |
+| Primeiro acesso, missão, erro, duas dicas, glossário e XP | `journey-browser.cjs`, `browser.cjs` | Não mede aprendizagem de uma pessoa real |
+| Português/Misto/English, inclusive atividade e erro inicial | `journey-browser.cjs`, `runtime-language-browser.cjs`, `integration-edge-browser.cjs` | Exceções Python continuam reais, no idioma do interpretador |
+| Recarga e migrações V1/V1.5/V2/V3 | `storage-migration.cjs`, `runtime-migration.cjs`, `projects-edge-browser.cjs` | Sem sincronização transacional entre abas/dispositivos |
+| Ler/montar/completar/editar/executar/testar/corrigir | `browser.cjs`, `runtime-lessons-browser.cjs`, `journey-browser.cjs` | Runtime é um subconjunto didático de Python |
+| Python real, exceção, correção, casos variados e XP único | `runtime-browser.cjs`, `runtime-python.py`, `runtime-core.cjs`, jornada | Testes públicos e locais não são certificação antifraude |
+| Concorrência, cancelamento, timeout, memória e estado limpo | `runtime-races-browser.cjs`, `runtime-memory.cjs`, `runtime-edge-browser.cjs` | Quota WASM não cobre todo o JS/navegador |
+| Projeto iniciado, retomado, concluído e relatório | `projects-browser.cjs`, `projects-python.py`, jornada | Projeto guiado continua simulado; prática real é separada |
+| Model Lab, preparação Kaggle e proveniência | `model-lab-browser.cjs`, `experiments-browser.cjs`, `experiments.cjs`, jornada | Não autentica nem submete conta Kaggle |
+| Notebooks e executor preservados | `notebooks.py`, `executor.py`, `security-adversarial.py` | CPU local e SDK injetado; nenhuma execução remota real |
+| Revisão determinística, elegibilidade, cooldown e retorno | `core.cjs`, `labs-browser.cjs`, integração core/edge | Sugestão por evidência registrada, sem nota de domínio |
+| Reset confirmado, inclusive módulos ausentes | `integration-edge-browser.cjs`, migração/storage, jornada | Arquivos baixados/estado privado do executor não são apagados |
+| Corrupção, JSON inválido e storage negado/quota | `integration-faults-browser.cjs`, `integration-edge-browser.cjs`, storage | Falha é visível; sessão sem storage não promete persistência |
+| Rede limitada | Jornada offline após carga; loader/edge com falhas e abort | Não há garantia de recarga offline nem service worker |
+| Prefixo GitHub Pages | `subdirectory-browser.cjs` com CPython e exportação de notebook | HTTP local emulado, sem mudança da configuração real do Pages |
+| Toque, foco, área ativa, texto ampliado e redução de movimento | Jornada/edge/mobile em 320/375/390 px e altura de 620–844 px | Não é teste físico de teclado, barras ou notch do iPhone |
+| Contraste e semântica | Seis pares calculados em `integration-accessibility.json`, roles/labels/foco nos testes de UI | Não é certificação WCAG completa ou teste com VoiceOver |
+| Exportação recusada e importação malformada | `download.cjs`, testes faults/edge/experiments | Iniciar download não atesta salvamento no Files do iOS |
+
+A contagem de suítes não é declaração de cobertura integral. Casos corretos/incorretos usam os verificadores reais ou CPython. Kaggle utiliza dependências injetadas; testes de falha também interceptam recursos e APIs do navegador para provocar indisponibilidade, sem substituir execuções Python aprovadas por resultados inventados. Os testes de UI concluem ações, consultam estado, capturam downloads e validam dados, em vez de apenas procurar elementos.

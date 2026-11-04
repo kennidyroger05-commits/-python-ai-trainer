@@ -1,0 +1,27 @@
+{
+  "measured_utc": "2026-11-04T07:56:37.459Z",
+  "browser": "155.0.8059.79",
+  "width": 375,
+  "scope": "Chromium desktop touch emulation on local HTTP, including Playwright overhead; not an iPhone benchmark",
+  "initial_ready_observed_ms": 215.31891900000005,
+  "initial_response_body_bytes": 832314,
+  "runtime_vendor_bytes": 13532188,
+  "cold_python_run_observed_ms": 1832.821736,
+  "warm_python_run_observed_ms": 1741.8905930000005,
+  "cold_python_reported_timing": "Python 3.14.2 · 2 ms (execução aproximada; não inclui download/inicialização)",
+  "warm_python_reported_timing": "Python 3.14.2 · 3 ms (execução aproximada; não inclui download/inicialização)",
+  "automated_navigation_ms": {
+    "practice": 72.49783100000002,
+    "projects": 67.37858900000003,
+    "lab": 73.86913100000004,
+    "progress": 64.06842399999994,
+    "learn": 64.61701500000004
+  },
+  "chromium_heap_observation": {
+    "used_js_heap_bytes": 18820207,
+    "total_js_heap_bytes": 24020675
+  },
+  "memory_limitations": "JS heap observation is approximate and excludes some WASM/browser memory; not process/device peak",
+  "prefix": "/course/-python-ai-trainer/",
+  "remote_calls": 0
+}
