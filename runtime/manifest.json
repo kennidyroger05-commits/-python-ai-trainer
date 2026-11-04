@@ -1,33 +1,34 @@
 {
-  "version": "0.29.3",
-  "source": "https://registry.npmjs.org/pyodide/-/pyodide-0.29.3.tgz",
-  "npmIntegrity": "sha512-22UBuhOJawj7vKUnS7/F3xK+515LJdjiMAHoCfuS6/PbHiOrSQVnYwDe+2sbVwiOZ3sMMexdXICew6NqOMQGgA==",
+  "version": "314.0.7",
+  "pythonVersion": "3.14.2",
+  "source": "https://registry.npmjs.org/pyodide/-/pyodide-314.0.7.tgz",
+  "npmIntegrity": "sha512-0YvXxEhfEdpLfb/XkM2BFAeMROq0iMUX2bzzH9pOttyMcWkwq+HbE5uyuGD82LN7y2q+SNvi/6V5JEsOlD2R1A==",
   "files": [
     {
       "name": "pyodide.js",
-      "bytes": 18597,
-      "sha256": "718d40f1c015dd25ec724cc8fc4e2325d6a45a92ae225121ff6953f224a16f72"
+      "sha256": "3141b814715a72e59b51b1b18b9ceae5bf19f7c852417e431bb0a34feadf825c",
+      "bytes": 18912
     },
     {
-      "name": "pyodide.asm.js",
-      "bytes": 1074322,
-      "sha256": "1263f02b5b26099b96112378156f242dd98b39a8201ba7765e5fe3d455c5ce91"
+      "name": "pyodide.asm.mjs",
+      "sha256": "f7cdc8ece80678ceb712f8e65ebe6d3a83203a180c399865f49612a051693635",
+      "bytes": 1250344
     },
     {
       "name": "pyodide.asm.wasm",
-      "bytes": 8647684,
-      "sha256": "e2f4ee75b325e35eb31bfb8c613d4dd5098f5502c156a97847686875b5025480"
+      "sha256": "cc36e3cab04fdfc9a63ff13eb52eae2b911bf46c025cc7b281f394bd3de1d5e6",
+      "bytes": 9598218
     },
     {
       "name": "python_stdlib.zip",
-      "bytes": 2423989,
-      "sha256": "4298b6ee445cb724c3973437da47789752b9e6ff4e26619026b283ec801fc46b"
+      "sha256": "fa1957e5777068fc4f7437f96d860ae2fbe9c19732ba06c84e004ec16dd7dd7a",
+      "bytes": 2545637
     },
     {
       "name": "pyodide-lock.json",
-      "bytes": 120010,
-      "sha256": "3256ffc76388de0e37f4b34d42ab484268d1afc675179ff97b2a5bb14f84ccac"
+      "sha256": "5dc2fc119108bc148c7457dc86e7675b5c87e1cafd420b9c34c1eaef7b36c010",
+      "bytes": 119077
     }
   ],
-  "totalBytes": 12284602
+  "totalBytes": 13532188
 }

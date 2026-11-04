@@ -1,25 +1,26 @@
 (function(root){
   const BASE=new URL('runtime/',document.baseURI);
   const LIMITS={codeChars:24000,outputChars:32768,runMs:5000,initMs:90000,maxTests:8};
-  const NAMES=['pyodide.js','pyodide.asm.js','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json'];
-  function create(){
+  const NAMES=['pyodide.js','pyodide.asm.mjs','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json'];
+  function create({resourceTimeoutMs=LIMITS.initMs}={}){
+    resourceTimeoutMs=Number.isFinite(resourceTimeoutMs)?Math.max(100,Math.min(resourceTimeoutMs,LIMITS.initMs)):LIMITS.initMs;
     let cached=null,active=null,serial=0,loading=null;
     async function resources(progress){
       if(cached)return cached;
-      const controller=new AbortController();loading=controller;
+      const controller=new AbortController();loading=controller;let expired=false;const deadline=setTimeout(()=>{expired=true;controller.abort();},resourceTimeoutMs);
       const load=async path=>{const r=await fetch(new URL(path,BASE),{signal:controller.signal});if(!r.ok)throw Error('Runtime resource unavailable: '+path);return r;};
       try{
         const manifest=await (await load('manifest.json')).json();
-        if(manifest.version!=='0.29.3'||manifest.files.length!==NAMES.length||manifest.files.some((f,i)=>f.name!==NAMES[i]||!/^[a-f0-9]{64}$/.test(f.sha256)))throw Error('Unsupported runtime manifest');
+        if(manifest.version!=='314.0.7'||manifest.files.length!==NAMES.length||manifest.files.some((f,i)=>f.name!==NAMES[i]||!/^[a-f0-9]{64}$/.test(f.sha256)))throw Error('Unsupported runtime manifest');
         let loaded=0;const assets=[];
         for(const file of manifest.files){
           const buffer=await (await load('vendor/pyodide/'+file.name)).arrayBuffer();const digest=await crypto.subtle.digest('SHA-256',buffer);const hex=[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');
           if(buffer.byteLength!==file.bytes||hex!==file.sha256)throw Error('Runtime integrity check failed: '+file.name);
           assets.push({name:file.name,buffer});loaded+=buffer.byteLength;progress?.({phase:'downloading',loaded,total:manifest.totalBytes});
         }
-        const [source,frame,harness]=await Promise.all(['worker.js','frame.js','runner.py'].map(async f=>(await load(f)).text()));
-        cached={assets,source,frame,harness,version:manifest.version};return cached;
-      }finally{if(loading===controller)loading=null;}
+        const [worker,frame,harness,memory]=await Promise.all(['worker.js','frame.js','runner.py','memory.js'].map(async f=>(await load(f)).text()));
+        cached={assets,source:memory+'\n'+worker,frame,harness,version:manifest.version};return cached;
+      }catch(e){if(expired)throw Error('Runtime resource download timed out');throw e;}finally{clearTimeout(deadline);if(loading===controller)loading=null;}
     }
     function stop(reason='cancelled'){
       serial++;loading?.abort();if(!active)return;const current=active;active=null;clearTimeout(current.timer);window.removeEventListener('message',current.listener);current.frame.contentWindow?.postMessage({token:current.token,kind:'stop'},'*');setTimeout(()=>current.frame.remove(),100);
@@ -38,7 +39,8 @@
           if(msg.kind==='ready'){
             const assets=bundle.assets.map(a=>({name:a.name,buffer:a.buffer.slice(0)}));frame.contentWindow.postMessage({kind:'start',token,assets,source:bundle.source,request,harness:bundle.harness},'*',assets.map(a=>a.buffer));
           }else if(msg.kind==='phase'){
-            onProgress?.({phase:msg.phase});if(msg.phase==='running'){clearTimeout(active.timer);active.runStarted=performance.now();active.timer=setTimeout(()=>stop('timeout'),Math.max(100,Math.min(timeoutMs,15000)));}
+            if(msg.phase==='running'){clearTimeout(active.timer);active.runStarted=performance.now();active.timer=setTimeout(()=>stop('timeout'),timeoutMs);}
+            onProgress?.({phase:msg.phase});
           }else if(msg.kind==='result')finish(msg.result);
           else if(msg.kind==='failure')finish({status:'initialization_error',stdout:'',stderr:String(msg.message).slice(0,4000),cases:[]});
         };
@@ -48,10 +50,19 @@
     }
     async function run(request,{onProgress,timeoutMs=LIMITS.runMs}={}){
       stop();const id=serial;
-      if(typeof request.code!=='string'||request.code.length>LIMITS.codeChars)return {status:'policy_error',stdout:'',stderr:'Code exceeds the local learning runtime limit (24000 characters).',cases:[]};
+      const invalid=message=>({status:'policy_error',stdout:'',stderr:message,cases:[]});
+      try{
+        const encoded=JSON.stringify(request,(k,v)=>{if(typeof v==='bigint'||typeof v==='function'||typeof v==='number'&&!Number.isFinite(v))throw Error('Request must contain finite JSON values');return v;});
+        if(!encoded||encoded.length>131072)return invalid('Runtime request exceeds the 128 KiB limit');
+        request=JSON.parse(encoded); // Capture inputs and code before the first asynchronous operation.
+      }catch{return invalid('Runtime request must be finite, serializable JSON');}
+      if(!request||typeof request!=='object'||typeof request.code!=='string'||request.code.length>LIMITS.codeChars)return invalid('Code exceeds the local learning runtime limit (24000 characters) or is missing');
+      request.mode??='run';if(!['run','validate'].includes(request.mode))return invalid('Invalid execution mode');
       const tests=request.mode==='validate'?request.tests:[];
-      if(request.mode==='validate'&&(!Array.isArray(tests)||!tests.length||tests.length>LIMITS.maxTests))throw Error('Invalid registered test count');
-      let bundle;try{onProgress?.({phase:'loading'});bundle=await resources(onProgress);}catch(e){return {status:id!==serial?'cancelled':'initialization_error',stdout:'',stderr:id!==serial?'':String(e.message),cases:[]};}
+      if(request.mode==='validate'&&(!Array.isArray(tests)||!tests.length||tests.length>LIMITS.maxTests||new Set(tests.map(t=>t?.id)).size!==tests.length||tests.some(t=>!t||typeof t.id!=='string'||!['call','variable','stdout'].includes(t.kind)||!Object.hasOwn(t,'expected')||t.kind==='call'&&(typeof t.function!=='string'||!Array.isArray(t.args))||t.kind==='variable'&&typeof t.name!=='string'||t.kind==='stdout'&&typeof t.expected!=='string')))return invalid('Invalid registered test contract');
+      timeoutMs=Number.isFinite(timeoutMs)?Math.max(100,Math.min(timeoutMs,15000)):LIMITS.runMs;
+      const callback=onProgress;onProgress=typeof callback==='function'?event=>{try{callback(event);}catch{/* A UI observer must not orphan the interpreter. */}}:undefined;
+      let bundle;try{onProgress?.({phase:'loading'});if(id!==serial)return {status:'cancelled',stdout:'',stderr:'',cases:[]};bundle=await resources(onProgress);}catch(e){return {status:id!==serial?'cancelled':'initialization_error',stdout:'',stderr:id!==serial?'':String(e.message),cases:[]};}
       if(id!==serial)return {status:'cancelled',stdout:'',stderr:'',cases:[]};
       if(!tests.length)return execute({...request,tests:[]},bundle,id,onProgress,timeoutMs);
       const combined={status:'success',stdout:'',stderr:'',cases:[],durationMs:0,pythonVersion:null};

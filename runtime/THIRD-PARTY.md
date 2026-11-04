@@ -1,13 +1,13 @@
 # Runtime distribution
 
-Pyodide **0.29.3**, CPython **3.13.2** (observed in the browser).
+Pyodide **314.0.7**, CPython **3.14.2** observed in Chromium.
 
-Source: https://registry.npmjs.org/pyodide/-/pyodide-0.29.3.tgz
+Source: https://registry.npmjs.org/pyodide/-/pyodide-314.0.7.tgz
 
-The npm tarball was verified against the official registry SHA-512 integrity value before extraction. `manifest.json` records the SRI plus SHA-256 and sizes of five unmodified browser artifacts. The app verifies those files before transferring them to the isolated frame. Run `node scripts/verify-runtime.cjs` to check the checkout.
+The official npm tarball SHA-512 SRI was verified before extraction. `manifest.json` records that integrity value plus SHA-256 and sizes of five **unmodified distributed artifacts**, totaling 13,532,188 bytes. Browser bootstrap verifies those bytes before using them. Pyodide MPL-2.0 and CPython license texts were retrieved from their exact release tags and are included beside the artifacts.
 
-The five runtime files total 12,284,602 bytes. They are loaded only after an explicit Python run, not on initial app load. Vendoring is deliberate: GitHub Pages can serve the application and runtime without third-party CDN calls or learner-code transfers.
+The runtime remains a classic worker in an opaque-origin frame with network-blocking CSP. A local Blob dynamic import loads `pyodide.asm.mjs`, then supplies its factory through the published experimental `createPyodideModule` option. This pinned injection point avoids the module-worker origin problem found in the earlier release attempt, without adding allow-same-origin. Updates must repeat the real worker/CSP, interruption, memory and mobile tests.
 
-Pyodide uses MPL-2.0; CPython uses the Python license. License texts are included under `vendor/pyodide/`. The standard-library archive and generated artifacts are redistributed unchanged. Browser application code is separate.
+The trusted loader applies `runtime/memory.js` to the verified WASM **in memory** before instantiation. It changes the primary memory declaration to a maximum of 1024 pages (64 MiB), validates the pinned format, and fails closed on unsupported binaries. The vendor file on disk is unchanged. The browser engine enforces this maximum even when memory is defined inside the module. This does not bound all JavaScript/buffer/browser memory or claim an absolute sandbox.
 
-The newer official 314.0.7 distribution was evaluated but not retained: it requires module workers, which failed in the tested opaque-origin sandbox. 0.29.3 supports classic workers, so isolation was preserved rather than weakening origin restrictions. Updating the pinned runtime requires repeating worker/CSP, Python, interruption and mobile tests; the manifest is not a substitute for trusted hosting.
+The previous 0.29.3 / CPython 3.13.2 distribution remains in Git history. The new release removes reliance on that older CPython after reviewing later upstream security fixes. Package advisory lookups are limited evidence, not a declaration that all compiled/transitive components are vulnerability-free.

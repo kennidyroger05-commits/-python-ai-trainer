@@ -1,0 +1,22 @@
+{
+  "phase": "functional-integration",
+  "command": "node scripts/test.cjs --browser",
+  "completed_utc": "2026-11-04T02:27:46Z",
+  "suite_count": 31,
+  "failed_suites": 0,
+  "python_notebook_cases": 8,
+  "python_executor_cases": 27,
+  "log_sha256": "4a429187a79d99517d2ac5d3c1d463e5df6792f697018732100f0bfb3c9b6953",
+  "local_cpython": "3.12.14",
+  "browser_cpython": "3.14.2",
+  "browsers": [
+    "Chromium desktop/mobile emulation"
+  ],
+  "widths": [
+    320,
+    375,
+    390
+  ],
+  "kaggle_authenticated_calls": 0,
+  "physical_iphone_tested": false
+}

@@ -57,3 +57,11 @@ Cada desafio recomenda missões anteriores. Um exemplo demonstrativo vem separad
 Os quatro projetos oferecem acesso opcional a um desafio Python após cinco etapas ou na conclusão. O projeto continua simulado; o desafio executa Python real sobre entradas didáticas. Escolher uma época não treina modelo nem produz checkpoint; calcular uma acurácia não roda inferência. O portfólio registra essas origens separadamente.
 
 No Model Lab, o aluno inspeciona o contrato antes de executar qualquer experimento futuro e compara simulação, cálculo Python local e preparação remota. GPU/quantização/tamanho não garantem viabilidade. Um notebook Kaggle é um experimento em lote com autenticação e recursos variáveis, não endpoint de modelo permanente. O inglês novo inclui run code, test case, expected output, runtime error, job status, inference, training e checkpoint, com tradução contextual.
+
+## De um programa a um experimento verificável
+
+AI experiments acrescenta dois percursos conectados a programas e datasets concretos. Primeiro, o aluno acompanha pesos incluídos, tokenização simples de palavras e inferência de intenções. Depois, acompanha treino de um modelo linear de 87 parâmetros: split, seed, batches, épocas, perdas, seleção por validação e teste separado. São receitas reais pequenas; não são LLMs nem fine-tuning.
+
+As dez etapas de cada receita conectam objetivo, notebook, parâmetros, entradas, execução autorizada, logs, métricas, falhas, relatório e revisão. Alterar parâmetros prepara outro contrato; não altera resultados já medidos. A referência de CPU local aparece separada do próprio job e do Kaggle. Não há XP por consultar resultados ou afirmar que treinou um modelo.
+
+Os textos destacam que seis exemplos de validação/teste não comprovam generalização e que scores softmax não são probabilidades calibradas. Tempo mede somente o trecho informado; memória é pico do processo, não memória exclusiva dos pesos. O percurso e o Python no navegador continuam utilizáveis sem executor, conta ou rede Kaggle.

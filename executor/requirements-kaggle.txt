@@ -1,0 +1,3 @@
+# Optional only for the separately authorized operator environment; no frontend dependency.
+kaggle==2.2.5
+kagglesdk==0.1.38

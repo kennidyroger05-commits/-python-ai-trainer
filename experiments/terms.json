@@ -1,0 +1,83 @@
+{
+  "exp-weights": [
+    "weights",
+    "pesos",
+    "Números ajustados pelo treinamento para transformar entradas em scores.",
+    "Numbers adjusted by training to transform inputs into scores.",
+    "weights[class_id][word_id]",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-tokenizer": [
+    "tokenizer",
+    "tokenizador",
+    "Converte texto em unidades; aqui usamos palavras ASCII, não tokens de LLM.",
+    "Converts text into units; here we use ASCII words, not LLM tokens.",
+    "tokenize(\"invoice payment\")",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-batch": [
+    "batch",
+    "lote",
+    "Grupo de exemplos usado para calcular uma atualização dos pesos.",
+    "A group of examples used to calculate one weight update.",
+    "batch_size = 4",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-epoch": [
+    "epoch",
+    "época",
+    "Uma passagem por todos os exemplos de treino.",
+    "One pass through all training examples.",
+    "epochs = 20",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-gradient": [
+    "gradient",
+    "gradiente",
+    "Indica como mudar um peso para reduzir a perda de treino.",
+    "Indicates how to change a weight to reduce training loss.",
+    "weight -= learning_rate * gradient",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-artifact": [
+    "artifact",
+    "artefato",
+    "Arquivo produzido pela execução e validado antes de usar o resultado.",
+    "A file produced by execution and validated before using the result.",
+    "checkpoint-best.json",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-provenance": [
+    "provenance",
+    "proveniência",
+    "Registro da origem e do contexto de um resultado.",
+    "A record of a result origin and context.",
+    "source = \"local-cpu\"",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-poll": [
+    "polling",
+    "consulta periódica",
+    "Consultas espaçadas de estado; não significam que o modelo responde instantaneamente.",
+    "Spaced status queries; they do not mean the model responds instantly.",
+    "poll_seconds = 15",
+    "A origem e os limites devem acompanhar o resultado.",
+    "Origin and limits must accompany the result."
+  ],
+  "exp-checkpoint": [
+    "checkpoint",
+    "pesos salvos",
+    "Cópia dos pesos selecionada com os dados de validação.",
+    "A copy of the weights selected using validation data.",
+    "checkpoint-best.json",
+    "A seleção usa validação; o teste permanece separado.",
+    "Selection uses validation; test data stays separate."
+  ]
+}

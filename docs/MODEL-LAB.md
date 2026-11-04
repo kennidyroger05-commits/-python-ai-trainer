@@ -27,3 +27,17 @@ Use `example(mode)` como formato inicial; escolha tarefa/objetivo/dataset coeren
 O exportador atual cria apenas artefato preparatório; nenhuma métrica de treino ou inferência. Um experimento real futuro precisará modelo/dataset/licenças verificáveis, ambiente fixado, recursos disponíveis, execução autorizada e validação dos resultados. Logs de perda menores não bastam para escolher modelo; dataset pequeno não comprova superioridade. Quantização e fine-tuning dependem do modelo/biblioteca e do hardware.
 
 Teste com `node tests/model-lab.cjs`, `python3 tests/model-notebook.py` e, com servidor, `node tests/model-lab-browser.cjs`. A documentação de operações reais verificadas e de autenticação fica em [Kaggle](KAGGLE-INTEGRATION.md); decisões de isolamento em [Segurança](SECURITY.md).
+
+## Experimentos verificáveis
+
+A área “AI experiments” coexiste com o planner/simulador anterior e oferece duas receitas **reais em CPU**: inferência e treinamento de um classificador linear de intenções, 87 parâmetros. O modelo usa tokenização de palavras ASCII e softmax; não é um LLM ou fine-tuning. Dados são sintéticos, com 18 exemplos de treino, seis de validação e seis de teste. Pesos/dados/código ficam no repositório com hashes e são incorporados ao notebook, sem downloads ou GPU.
+
+Os dois notebooks foram integralmente executados localmente, em subprocessos limitados. Os relatórios em `experiments/evidence/` registram medições locais de desenvolvimento e dizem isso na interface. Não são jobs do usuário nem Kaggle. A referência padrão treinou por 20 épocas/seed 7/batch 4, medindo 0.5 → 1.0 de acurácia de validação em seis exemplos e loss de validação final ~0.02281. Esses valores não são benchmark geral ou evidência de superioridade. A latência é medida dentro da inferência após carregamento; memória é pico do processo.
+
+Cada receita possui um percurso de dez etapas: objetivo, código, parâmetros, entradas, execução, logs, métricas, falhas, relatório e revisão. Os textos distinguem parâmetros de inferência e de treino. O aluno pode mudar configuração por toque, inspecionar código verificado, exportar job/notebook/metadados e abrir desafios Python existentes. Mudar parâmetros cria revisão do job e não produz métricas novas.
+
+Não há botão de submissão fictício nem polling no site. A execução remota está desativada; o executor separado exige autorização. Um relatório importado é lido localmente, validado e renderizado como texto, com **origem declarada**: o navegador não confirma autenticação/execução Kaggle. Relatórios parciais de acompanhamento não ganham métricas. Relatórios importados brutos ficam apenas em memória; não são salvos automaticamente ou enviados.
+
+Progresso do percurso usa `pythonExperimentLearningV1`; conta etapas consultadas, sem XP por leitura nem inferência de domínio. Não muda o XP anterior. Reset local confirmado não cancela jobs remotos nem remove arquivos já salvos pelo operador. O estado do executor é independente do localStorage.
+
+Arquivos: `experiments/contracts.js` e `executor/contracts.py` validam o mesmo job; testes comparam fingerprint e geração do notebook entre as linguagens. `state.js` preserva/repara o percurso; `view.js` mostra os dados sem executar Python na origem principal. `executor/` prepara/acompanha/coleta em um contexto separado, não implantado. Veja [Kaggle](KAGGLE-INTEGRATION.md), [auditoria](QUALITY-AUDIT.md) e [executor](../executor/README.md).

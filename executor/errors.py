@@ -1,0 +1,9 @@
+"""Stable, non-sensitive errors for operator logs and portable reports."""
+class ExecutorError(Exception):
+    def __init__(self, code, *, retry_after=None):
+        self.code=code
+        self.retry_after=retry_after if type(retry_after) is int and 1<=retry_after<=300 else None
+        super().__init__(code)
+
+# Only stable codes may enter durable state/portable reports; never arbitrary SDK text.
+ERROR_CODES=frozenset('INVALID_JOB REMOTE_DISABLED APPROVAL_MISMATCH INVALID_OWNER RUN_NOT_AUTHORIZED AUTH_MISSING AUTH_INVALID ACCESS_DENIED AUTH_OR_ACCESS_DENIED JOB_UNAVAILABLE RATE_LIMIT REMOTE_UNAVAILABLE TIMEOUT SDK_FAILURE SDK_PROCESS_FAILED SDK_UNAVAILABLE SDK_VERSION_UNTESTED UNEXPECTED_RESPONSE UNSAFE_ARTIFACT ARTIFACT_TOO_LARGE OUTPUT_MISSING PAGINATION_LIMIT REMOTE_JOB_FAILED INVALID_ARTIFACT REMOTE_OWNER_MISMATCH UNSAFE_PATH RECONCILIATION_REQUIRED TRANSPORT_FAILURE WORKSPACE_NOT_PRIVATE PUBLIC_WORKSPACE WORKSPACE_REQUIRED'.split())

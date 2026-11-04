@@ -63,7 +63,7 @@ O carregamento V3 não reescreve o histórico de missões em um formato novo. V1
 
 O botão de teste usa funções JavaScript cadastradas e entradas conhecidas. Os resultados são confrontados com soluções CPython em desenvolvimento. Etapas que exigem testes verificam sucesso e assinatura da configuração, evitando reaproveitar um resultado de um rascunho diferente. JSON é comparado por estrutura, sem depender da ordem de chaves.
 
-O workspace mostra a construção atual. Os fluxos são rotulados como referência da solução: não fingem interpretar o código do aluno. Cada fluxo guarda snapshots de entrada/saída e uma transformação explicada, inclusive falhas. APIs e treinamento nunca fazem chamadas ou executam ajustes reais de pesos.
+O workspace mostra a construção atual. Os fluxos são rotulados como referência da solução: não fingem interpretar o código do aluno. Cada fluxo guarda snapshots de entrada/saída e uma transformação explicada, inclusive falhas. Nesses projetos guiados, APIs e treinamento são simulados e não executam chamadas ou ajustes reais de pesos.
 
 ## Competências e revisão
 
@@ -99,3 +99,23 @@ O catálogo executável tem testes de variáveis, funções ou stdout com entrad
 As novas chaves não migram nem sobrescrevem XP de V1/V1.5/V2/V3: a migração é aditiva. Contratos antigos continuam sendo lidos pelos carregadores anteriores. O portfólio mantém a seção de projeto simulado e anexa, somente quando concluído, o registro independente do desafio Python associado. Nenhum treino/inferência real é inferido desse anexo.
 
 Decisões: textarea e seletores em vez de editor pesado; artefatos do próprio site em vez de CDN no runtime; worker clássico em origem opaca em vez de enfraquecer sandbox para aceitar module worker; VMs novas em vez de reaproveitar estado na avaliação; contrato preparatório em vez de token Kaggle público ou backend não autorizado. Os detalhes e limites estão em `PYTHON-RUNTIME.md`, `KAGGLE-INTEGRATION.md` e `SECURITY.md`.
+
+## Experimentos verificáveis e executor separado
+
+| Responsabilidade | Implementação |
+| --- | --- |
+| Receitas, dez etapas e vocabulário em três idiomas | `experiments/catalog.json`, `terms.json` |
+| Contratos fechados, notebook e fingerprint equivalentes | `experiments/contracts.js`, `executor/contracts.py`, `notebooks.py` |
+| Percurso local independente, sem XP por leitura | `experiments/state.js`, `pythonExperimentLearningV1` |
+| Interface, inspeção, downloads e relatórios de origem declarada | `experiments/view.js` |
+| Modelo linear e runner reais, autocontidos | `experiments/recipes/`, `data/` |
+| Relatórios e traces medidos em desenvolvimento local | `experiments/evidence/` |
+| Ledger, autorização, idempotência e acompanhamento | `executor/service.py`, `files.py` |
+| SDK oficial opcional em subprocesso autorizado | `executor/transport.py`, `sdk_worker.py` |
+| CPU local limitada e validação semântica de artefatos | `executor/local.py`, `artifacts.py` |
+
+O frontend continua estático. Não conversa com um endpoint executor, não recebe segredos e não faz polling. O CLI separado usa workspace privado externo ao diretório HTTP. Os contratos incluem somente duas receitas fixas, recursos e configuração; não incluem código arbitrário, URL de serviço ou credenciais. Uma nova receita requer revisão explícita do builder/validador e testes, em vez de um parâmetro que aceite qualquer notebook.
+
+Notebooks e job specs são exportados por ação local. Ler um relatório mantém a origem declarada, distinguindo `local-cpu`, `injected-transport`, `operator-state` e `kaggle-sdk`. Nenhuma origem é convertida em certificação pelo navegador. O progresso das dez etapas guarda consulta, não conclusão de treino. Importações brutas permanecem em RAM; o reset não cancela jobs nem apaga arquivos externos.
+
+A integração real segue um caminho de operador autorizado: autorização por SHA/dono, SDK, versão remota, estado remoto observado, recuperação e validação. O envio fica desativado por padrão. A referência não implementa login, HTTP, implantação, cancelamento remoto ou sincronização; os limites estão em `KAGGLE-INTEGRATION.md` e `SECURITY.md`.

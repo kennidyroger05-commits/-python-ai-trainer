@@ -4,7 +4,7 @@
   const state = { exercises: [], progress: game.createProgress(), index: 0, answer: '', attempts: 0, hintLevel: 0, language: 'mixed', known: [], term: null, simStep: -1, feedback: null };
   const storage = window.TrainerStorage.browser();
   const progressAPI=window.TrainerProgress, sessions=window.TrainerSession.create();
-  let labs,projects,runtime,modelLab,returnProject=null,projectReviewMode=false,reviewQueue=null,activeId=null;
+  let labs,projects,runtime,modelLab,experiments,returnProject=null,projectReviewMode=false,reviewQueue=null,activeId=null;
   function saveSession(){if(activeId&&!$('mission').hidden)sessions.save(activeId,{answer:state.answer,attempts:state.attempts,hintLevel:state.hintLevel,simStep:state.simStep,feedback:state.feedback,solved:state.solved||false,investigation:state.investigation??null,simOpen:!$('simulation').hidden});}
   function syncProgress(){if(!game.saveProgress(storage,state.progress)){ $('storageStatus').hidden=false;$('storageStatus').textContent=reviewText('Não foi possível salvar. Mantenha esta aba aberta; o progresso está só nesta sessão.','Could not save. Keep this tab open; progress is only in this session.');}}
   function reviewText(pt,en){return state.language==='en'?en:pt;}
@@ -14,12 +14,14 @@
   const content = () => ({ ...exercise(), ...exercise().translations[state.language] });
   function storageWarning(message){$('storageStatus').hidden=false;$('storageStatus').textContent=message;}
   function preference() { try{storage.setItem('trainer-language', state.language); storage.setItem('trainer-known', JSON.stringify(state.known));}catch{storageWarning(reviewText('Preferência mantida apenas nesta sessão.','Preference kept only in this session.'));} }
+  function renderXP(){const label=reviewText('XP das missões','Mission XP');$('xp').textContent=`${state.progress.xp} XP`;$('xp').title=label;$('xp').setAttribute('aria-label',label+' '+state.progress.xp);}
   function updateText() {
-    const t = ui();$('xp').title=reviewText('XP das missões','Mission XP');$('xp').setAttribute('aria-label',$('xp').title+' '+state.progress.xp); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
+    const t = ui();renderXP(); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
     $('reviewButton').textContent=reviewText('Revisar conceitos','Review concepts');$('debugButton').textContent=reviewText('Laboratório de debugging','Debugging lab');$('aiLabButton').textContent=reviewText('Laboratório de IA simulada','Simulated AI lab');
     if(labs)labs.render();
     $('projectsButton').textContent=reviewText('Python AI Lab — Projetos','Python AI Lab — Projects');$('returnToProject').textContent=reviewText('← Voltar ao projeto','← Return to project');
-    if(projects)projects.languageChanged();if(runtime)runtime.languageChanged();if(modelLab)modelLab.languageChanged();
+    if(projects)projects.languageChanged();if(runtime)runtime.languageChanged();if(modelLab)modelLab.languageChanged();if(experiments)experiments.languageChanged();
+    $('experimentsButton').textContent=state.language==='en'?'AI experiments':state.language==='mixed'?'AI experiments (experimentos de IA)':'Experimentos de IA';
     $('runtimeButton').textContent=state.language==='en'?'Run Python':state.language==='mixed'?'Run Python (executar Python)':'Python executável';
     if(!$('debugList').hidden)renderDebugList();
     $('tagline').textContent=state.language==='en'?'Python for AI':'Python aplicado a IA';$('homeTitle').textContent=state.language==='en'?'Your training':'Seu treino';
@@ -73,16 +75,16 @@
     window.TrainerSimulation.render(trace,state.simStep,state.language,ui().initial,{code:$('simCode'),variables:$('simVariables'),output:$('simOutput'),explanation:$('simExplanation'),prev:$('prevLine'),next:$('nextLine')});
   }
   function renderHome() {
-    saveSession();$('aiLab').hidden=true;if(projects)projects.hide();if(runtime)runtime.hide();if(modelLab)modelLab.hide();
+    saveSession();$('aiLab').hidden=true;if(projects)projects.hide();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();
     $('home').hidden = false; $('mission').hidden = true;
-    $('xp').textContent = `${state.progress.xp} XP`;
+    renderXP();
     updateText();
   }
   function renderMission() {
-    if(runtime)runtime.hide();if(modelLab)modelLab.hide();const e = state.exercises[state.index];activeId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
+    if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();const e = state.exercises[state.index];activeId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
     Object.assign(state,sessions.get(e.id)); $('simulation').hidden=!state.simOpen; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
     $('aiLab').hidden=true;$('home').hidden = true; $('mission').hidden = false;
-    $('xp').textContent = `${state.progress.xp} XP`;
+    renderXP();
     $('module').textContent = e.module;
     $('counter').textContent = `Missão ${state.index + 1} de ${state.exercises.length}`;
     $('bar').style.width = `${state.progress.completed.length / state.exercises.length * 100}%`;
@@ -118,7 +120,7 @@
       state.feedback={kind:'correct',gained};renderFeedback();
       $('next').hidden = false;
     } else {if(projects)projects.missionAttempt(e,false);progressAPI.record(state.progress,e,false,0,!!reviewQueue);state.feedback={kind:'wrong'};renderFeedback();}
-    syncProgress();saveSession();$('bar').style.width=`${state.progress.completed.length/state.exercises.length*100}%`; $('xp').textContent = `${state.progress.xp} XP`;
+    syncProgress();saveSession();$('bar').style.width=`${state.progress.completed.length/state.exercises.length*100}%`; renderXP();
   }
   function showHint() {
     const e = state.exercises[state.index];
@@ -150,10 +152,10 @@
     $('submit').onclick = submit; $('hint').onclick = showHint;
     $('next').onclick = () => { saveSession();if(projectReviewMode&&returnProject){$('mission').hidden=true;$('returnToProject').hidden=true;returnProject();return;}if(reviewQueue){reviewQueue.shift();if(!reviewQueue.length){reviewQueue=null;renderHome();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();return;} if(state.index===state.exercises.length-1){renderHome();return;} state.index = game.getNextIndex(state.exercises, state.index); renderMission(); };
     $('restartModule').onclick = restartModule;
-    $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm+' '+reviewText('Inclui projetos, portfólio e evidências do Lab.','Includes projects, portfolio and Lab evidence.'))){if(!progressAPI.clear(storage))storageWarning(reviewText('Não foi possível remover todos os dados locais.','Could not remove all local data.'));if(projects)projects.reset();if(runtime)runtime.reset();if(modelLab)modelLab.reset();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;sessions.clear();activeId=null;state.progress=game.createProgress();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;renderHome();}};
+    $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm+' '+reviewText('Inclui projetos, portfólio e evidências do Lab.','Includes projects, portfolio and Lab evidence.'))){if(!progressAPI.clear(storage))storageWarning(reviewText('Não foi possível remover todos os dados locais.','Could not remove all local data.'));if(projects)projects.reset();if(runtime)runtime.reset();if(modelLab)modelLab.reset();if(experiments)experiments.reset();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;sessions.clear();activeId=null;state.progress=game.createProgress();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;renderHome();}};
     $('reviewButton').onclick=()=>{saveSession();reviewQueue=progressAPI.reviews(state.progress,state.exercises);if(!reviewQueue.length){reviewQueue=null;$('reviewNotice').textContent=reviewText('Nenhuma revisão elegível agora. Continue o treino; revisões recentes têm intervalo de um minuto.','No eligible review now. Continue training; recent reviews have a one-minute interval.');return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();};
     $('debugButton').onclick=()=>{$('debugList').hidden=!$('debugList').hidden;renderDebugList();};
-    $('aiLabButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(projects)projects.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;labs.render();};
+    $('aiLabButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();if(projects)projects.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;labs.render();};
 
     try {
       const [catalog,debugging,testing,datasets,terms]=await Promise.all(['catalog','debugging','testing','datasets','terms'].map(async name=>{const r=await fetch(`projects/${name}.json`);if(!r.ok)throw Error('Project content unavailable');return r.json();}));
@@ -161,7 +163,7 @@
       projects=window.PythonLabProjects.create({catalog:activities,datasets,glossary:languageData.glossary,language:()=>state.language,storage,missions:state.exercises,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onPython:(projectId,back)=>{if(runtime){projects.hide();runtime.open(projectId,back);}},pythonReport:id=>runtime?.projectReport(id)||'',pythonAvailable:()=>!!runtime,onReview:(id,back)=>{
         const index=state.exercises.findIndex(e=>e.id===id);if(index<0)return;saveSession();const previousIndex=state.index;projectReviewMode=true;returnProject=()=>{state.index=previousIndex;projectReviewMode=false;returnProject=null;back();};reviewQueue=null;state.index=index;sessions.save(id,{answer:'',attempts:0,hintLevel:0,simStep:-1,feedback:null,solved:false,investigation:null,simOpen:false});$('returnToProject').hidden=false;renderMission();
       }});
-      $('projectsButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;projects.open();};
+      $('projectsButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;projects.open();};
       $('returnToProject').onclick=()=>{saveSession();$('mission').hidden=true;$('home').hidden=true;$('returnToProject').hidden=true;if(returnProject)returnProject();};
     }catch(error){$('projectsButton').disabled=true;storageWarning(reviewText('O Lab não pôde carregar. As missões continuam disponíveis.','The Lab could not load. Missions remain available.'));console.error(error);}
 
@@ -170,12 +172,18 @@
       Object.assign(languageData.glossary,terms);
       window.ExecutableContent.validate(lessons,state.exercises,await (await fetch('projects/catalog.json')).json(),languageData.glossary);
       runtime=window.ExecutableView.create({catalog:lessons,missions:state.exercises,glossary:languageData.glossary,language:()=>state.language,storage,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onEvidence:(l,correct)=>projects?.runtimeAttempt(l,correct)});
-      $('runtimeButton').onclick=()=>{saveSession();projects?.hide();modelLab?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;runtime.open();};
+      $('runtimeButton').onclick=()=>{saveSession();projects?.hide();modelLab?.hide();experiments?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;runtime.open();};
     }catch(error){$('runtimeButton').disabled=true;storageWarning(reviewText('Os desafios executáveis não puderam carregar. As atividades anteriores continuam disponíveis.','Executable challenges could not load. Previous activities remain available.'));console.error(error);}
     try {
-      modelLab=window.ModelLabView.create({language:()=>state.language,storage,glossary:languageData.glossary,onHome:renderHome,onWarning:storageWarning,pythonAvailable:()=>!!runtime,onPython:(id,back)=>runtime?.open(id,back)});
-      $('modelLabButton').hidden=false;$('modelLabButton').onclick=()=>{saveSession();projects?.hide();runtime?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;modelLab.open();};
+      modelLab=window.ModelLabView.create({language:()=>state.language,storage,glossary:languageData.glossary,onHome:renderHome,onWarning:storageWarning,pythonAvailable:()=>!!runtime,experimentsAvailable:()=>!!experiments,onExperiments:()=>{if(experiments){modelLab.hide();experiments.open();}},onPython:(id,back)=>runtime?.open(id,back)});
+      $('modelLabButton').hidden=false;$('modelLabButton').onclick=()=>{saveSession();projects?.hide();runtime?.hide();experiments?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;modelLab.open();};
     }catch(error){$('modelLabButton').disabled=true;console.error(error);}
+    try {
+      const [catalog,assets,terms]=await Promise.all(['catalog','assets','terms'].map(async name=>{const r=await fetch(`experiments/${name}.json`);if(!r.ok)throw Error('Experiments unavailable');return r.json();}));
+      Object.assign(languageData.glossary,terms);
+      experiments=window.ExperimentView.create({catalog,assets,glossary:languageData.glossary,language:()=>state.language,storage,onHome:renderHome,onWarning:storageWarning,pythonAvailable:()=>!!runtime,onPython:(id,back)=>runtime?.open(id,back)});
+      $('experimentsButton').onclick=()=>{saveSession();projects?.hide();runtime?.hide();modelLab?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;experiments.open();};
+    }catch(error){$('experimentsButton').disabled=true;storageWarning(reviewText('Os experimentos não puderam carregar. As atividades anteriores continuam disponíveis.','Experiments could not load. Previous activities remain available.'));console.error(error);}
     renderHome();
   }
   init().catch(error => { $('homeProgress').textContent = ui().loadError; console.error(error); });

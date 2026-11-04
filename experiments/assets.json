@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "parameters": 87,
+  "files": {
+    "core": {
+      "path": "recipes/tiny_intent.py",
+      "sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9"
+    },
+    "runner": {
+      "path": "recipes/run_experiment.py",
+      "sha256": "9ad4b613f80c82bc8281383b0cd292f48bb980ccd024afdc8a7aff141aaed46e"
+    },
+    "data": {
+      "path": "data/synthetic-intents.json",
+      "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178"
+    },
+    "model": {
+      "path": "data/intent-model.json",
+      "sha256": "0cc31078081eb0d4a349d55b1f748451c7e3f4da0b5a0c9ea75f5b8561e5cc77"
+    }
+  }
+}

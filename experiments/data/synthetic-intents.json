@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "id": "synthetic-intents-30-v1",
+  "examples": [
+    {
+      "id": "billing-train-1",
+      "text": "invoice payment failed",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-train-2",
+      "text": "refund invoice amount",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-train-3",
+      "text": "billing payment receipt",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-train-4",
+      "text": "invoice refund request",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-train-5",
+      "text": "billing charge amount",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-train-6",
+      "text": "payment charge receipt",
+      "label": "billing",
+      "split": "train"
+    },
+    {
+      "id": "billing-validation-1",
+      "text": "invoice payment request",
+      "label": "billing",
+      "split": "validation"
+    },
+    {
+      "id": "billing-validation-2",
+      "text": "refund billing receipt",
+      "label": "billing",
+      "split": "validation"
+    },
+    {
+      "id": "billing-test-1",
+      "text": "billing invoice amount",
+      "label": "billing",
+      "split": "test"
+    },
+    {
+      "id": "billing-test-2",
+      "text": "refund payment charge",
+      "label": "billing",
+      "split": "test"
+    },
+    {
+      "id": "support-train-1",
+      "text": "software error report",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-train-2",
+      "text": "support login issue",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-train-3",
+      "text": "reset account password",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-train-4",
+      "text": "login error help",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-train-5",
+      "text": "support software issue",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-train-6",
+      "text": "password reset help",
+      "label": "support",
+      "split": "train"
+    },
+    {
+      "id": "support-validation-1",
+      "text": "support error issue",
+      "label": "support",
+      "split": "validation"
+    },
+    {
+      "id": "support-validation-2",
+      "text": "login password reset",
+      "label": "support",
+      "split": "validation"
+    },
+    {
+      "id": "support-test-1",
+      "text": "software support help",
+      "label": "support",
+      "split": "test"
+    },
+    {
+      "id": "support-test-2",
+      "text": "account login error",
+      "label": "support",
+      "split": "test"
+    },
+    {
+      "id": "schedule-train-1",
+      "text": "schedule meeting time",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-train-2",
+      "text": "book calendar appointment",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-train-3",
+      "text": "reschedule meeting tomorrow",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-train-4",
+      "text": "calendar meeting invitation",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-train-5",
+      "text": "appointment schedule tomorrow",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-train-6",
+      "text": "book time invitation",
+      "label": "schedule",
+      "split": "train"
+    },
+    {
+      "id": "schedule-validation-1",
+      "text": "schedule calendar meeting",
+      "label": "schedule",
+      "split": "validation"
+    },
+    {
+      "id": "schedule-validation-2",
+      "text": "book appointment tomorrow",
+      "label": "schedule",
+      "split": "validation"
+    },
+    {
+      "id": "schedule-test-1",
+      "text": "reschedule calendar appointment",
+      "label": "schedule",
+      "split": "test"
+    },
+    {
+      "id": "schedule-test-2",
+      "text": "meeting time invitation",
+      "label": "schedule",
+      "split": "test"
+    }
+  ]
+}

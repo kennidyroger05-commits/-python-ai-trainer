@@ -1,0 +1,5 @@
+{
+  "source": "local-cpu",
+  "spec_sha256": "6353ec3bece47f423b2df6f6312754863fb56a47555264264dad69b05d48a09c",
+  "events_json": "[\n  {\n    \"event\": \"dataset_loaded\",\n    \"train\": 18,\n    \"validation\": 6,\n    \"test\": 6\n  },\n  {\n    \"event\": \"inference_complete\",\n    \"examples\": 3\n  }\n]"
+}
