@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "id": "intent-training-study",
+  "recipe_id": "intent-training",
+  "experiment_type": "training",
+  "model": {
+    "id": "tiny-intent-softmax-v1",
+    "parameters": 87,
+    "weights_sha256": null
+  },
+  "dataset": {
+    "id": "synthetic-intents-30-v1",
+    "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178",
+    "train_examples": 18,
+    "validation_examples": 6,
+    "test_examples": 6
+  },
+  "objective": "Run real tiny linear-model training on synthetic intent data; no LLM or external download.",
+  "environment": {
+    "python_min": "3.10",
+    "libraries": {
+      "stdlib": "builtin"
+    },
+    "hardware": {
+      "device": "cpu",
+      "memory_mb": 512
+    },
+    "internet": false
+  },
+  "config": {
+    "seed": 7,
+    "epochs": 20,
+    "batch_size": 4,
+    "learning_rate": 0.8
+  },
+  "resources": {
+    "timeout_seconds": 300,
+    "max_artifact_bytes": 1048576
+  },
+  "provenance": {
+    "template_version": 1,
+    "core_sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9",
+    "producer": "python-ai-trainer"
+  }
+}
