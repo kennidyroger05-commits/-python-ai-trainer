@@ -89,7 +89,7 @@ class ExecutorTests(unittest.TestCase):
         link=self.root/'linked';link.symlink_to('/tmp',target_is_directory=True);self.code('UNSAFE_PATH',Executor,link)
         self.service.prepare(self.job);path=self.root/self.job['id']/'state.json';path.write_text('{bad');self.code('STATE_CORRUPT',self.service.submit,self.job);self.assertEqual(path.read_text(),'{bad');self.assertEqual(self.fake.calls,[])
     def test_18_foreign_account_and_version_tampering(self):
-        self.submitted();path=self.root/self.job['id']/'state.json';data=json.loads(path.read_text());data['remote_ref']='foreign/something';path.write_text(json.dumps(data));self.code('REMOTE_OWNER_MISMATCH',self.service.status,self.job);self.assertEqual(len(self.fake.calls),1)
+        self.submitted();path=self.root/self.job['id']/'state.json';data=json.loads(path.read_text());data['remote_ref']='foreign/pat-'+self.job['id']+'-'+fingerprint(self.job)[:8];path.write_text(json.dumps(data));self.code('REMOTE_OWNER_MISMATCH',self.service.status,self.job);self.assertEqual(len(self.fake.calls),1)
     def test_19_transport_no_credentials_no_network(self):
         with patch.dict(os.environ,{},clear=True):self.code('AUTH_MISSING',SdkTransport(self.policy).preflight)
         command=[sys.executable,'-I',str(ROOT/'executor/sdk_worker.py')]

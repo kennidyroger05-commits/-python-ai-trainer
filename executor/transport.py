@@ -19,11 +19,11 @@ class Policy:
 class SdkTransport:
     def __init__(self,policy=Policy()):self.policy=policy
     def preflight(self):
-        if not self.policy.enabled:raise ExecutorError('REMOTE_DISABLED')
+        if self.policy.enabled is not True:raise ExecutorError('REMOTE_DISABLED')
         if not os.environ.get('KAGGLE_API_TOKEN'):raise ExecutorError('AUTH_MISSING')
     def call(self,operation,payload):
         self.preflight()
-        if operation=='submit' and payload.get('run') and not self.policy.allow_run:raise ExecutorError('RUN_NOT_AUTHORIZED')
+        if operation=='submit' and payload.get('run') and self.policy.allow_run is not True:raise ExecutorError('RUN_NOT_AUTHORIZED')
         timeout=max(1,min(self.policy.operation_timeout,60))
         def contain():
             import resource

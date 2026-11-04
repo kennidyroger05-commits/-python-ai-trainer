@@ -9,13 +9,16 @@ import time
 from pathlib import Path
 from .errors import ExecutorError
 
-def private_directory(path):
+def private_directory(path,*,private=False):
     path=Path(os.path.abspath(path))
     # Reject symlinks in any existing path component before creating children.
     for p in [path,*path.parents]:
         if p.is_symlink():raise ExecutorError('UNSAFE_PATH')
     path.mkdir(parents=True,exist_ok=True,mode=0o700)
     if not path.is_dir():raise ExecutorError('UNSAFE_PATH')
+    if private:
+        info=path.stat()
+        if not hasattr(os,'geteuid') or info.st_uid!=os.geteuid() or stat.S_IMODE(info.st_mode)&0o077:raise ExecutorError('WORKSPACE_NOT_PRIVATE')
     return path
 
 def child(root,name):
@@ -37,7 +40,7 @@ def atomic(root,name,value):
     finally:
         if os.path.exists(temp):os.unlink(temp)
 
-def read(root,name,maximum=1048576):
+def read_document(root,name,maximum=1048576):
     p=child(root,name)
     try:
         fd=os.open(p,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
@@ -52,10 +55,13 @@ def read(root,name,maximum=1048576):
                 if k in result:raise ValueError('duplicate JSON key')
                 result[k]=v
             return result
-        return json.loads(raw,object_pairs_hook=unique,parse_constant=lambda value:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
+        value=json.loads(raw,object_pairs_hook=unique,parse_constant=lambda value:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
+        return value,raw
     except FileNotFoundError:raise ExecutorError('OUTPUT_MISSING') from None
     except (ValueError,UnicodeError,TypeError,RecursionError):raise ExecutorError('INVALID_ARTIFACT') from None
     except OSError:raise ExecutorError('UNSAFE_PATH') from None
+
+def read(root,name,maximum=1048576):return read_document(root,name,maximum)[0]
 
 @contextlib.contextmanager
 def lock(root):

@@ -52,7 +52,7 @@ def invoke(api,operation,payload):
             if not isinstance(rows,list):raise ExecutorError('UNEXPECTED_RESPONSE')
             for item in rows:
                 name=getattr(item,'name',None);size=getattr(item,'size',None)
-                if not isinstance(name,str) or not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._-]{0,100}',name):raise ExecutorError('UNSAFE_ARTIFACT')
+                if not isinstance(name,str) or not re.fullmatch(r'[a-zA-Z0-9_][a-zA-Z0-9._-]{0,100}',name):raise ExecutorError('UNSAFE_ARTIFACT')
                 if type(size) is not int or size<0:raise ExecutorError('UNEXPECTED_RESPONSE')
                 if name in allowed:
                     if name in seen:raise ExecutorError('UNEXPECTED_RESPONSE')
