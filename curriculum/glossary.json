@@ -1,7 +1,7 @@
 {
   "v4-literal-value": [
     "literal value",
-    "Antes do código: reconheça o valor",
+    "valor literal",
     "Um valor literal aparece diretamente no código.",
     "A literal value appears directly in code.",
     "0.82",
@@ -10,7 +10,7 @@
   ],
   "v4-number": [
     "number",
-    "Reconheça um valor numérico",
+    "inteiro",
     "Um inteiro é um número sem parte decimal.",
     "An integer is a number without a fractional part.",
     "tokens = 12",
@@ -19,7 +19,7 @@
   ],
   "v4-float": [
     "float",
-    "Um score pode ter parte decimal",
+    "decimal",
     "Um float representa um número com parte decimal.",
     "A float represents a number with a fractional part.",
     "score = 0.75",
@@ -28,7 +28,7 @@
   ],
   "v4-string": [
     "string",
-    "Leia o nome do modelo",
+    "texto",
     "Aspas delimitam texto; não fazem parte do valor mostrado.",
     "Quotes delimit text; they are not part of the displayed value.",
     "model = \"local\"",
@@ -37,7 +37,7 @@
   ],
   "v4-boolean": [
     "boolean",
-    "Um sinal de disponibilidade",
+    "booleano",
     "True e False são valores booleanos, escritos com inicial maiúscula.",
     "True and False are Boolean values with an uppercase initial.",
     "available = True",
@@ -46,7 +46,7 @@
   ],
   "v4-print-arguments": [
     "print arguments",
-    "Mostre nome e contagem juntos",
+    "argumentos de saída",
     "print aceita vários argumentos e os separa por espaço por padrão.",
     "print accepts multiple arguments and separates them with a space by default.",
     "print(\"tokens\", 3)",
@@ -55,7 +55,7 @@
   ],
   "v4-addition": [
     "addition",
-    "Some tokens de duas mensagens",
+    "soma",
     "+ soma números.",
     "+ adds numbers.",
     "prompt_tokens = 8",
@@ -64,7 +64,7 @@
   ],
   "v4-integer-conversion": [
     "integer conversion",
-    "Converta a contagem recebida",
+    "conversão para inteiro",
     "int(texto) converte texto numérico em inteiro.",
     "int(text) converts numeric text to an integer.",
     "tokens = \"12\"",
@@ -73,7 +73,7 @@
   ],
   "v4-multiplication": [
     "multiplication",
-    "Dois pedidos com o mesmo limite",
+    "multiplicação",
     "* multiplica números.",
     "* multiplies numbers.",
     "limit = 6",
@@ -82,7 +82,7 @@
   ],
   "v4-division": [
     "division",
-    "Divida o orçamento entre pedidos",
+    "divisão",
     "/ faz divisão e produz um número decimal.",
     "/ performs division and produces a floating-point number.",
     "print(8 / 4)",
@@ -91,7 +91,7 @@
   ],
   "v4-list": [
     "list",
-    "Reconheça a lista de modelos",
+    "lista",
     "Colchetes criam uma lista ordenada de itens.",
     "Square brackets create an ordered list of items.",
     "models = [\"fast\", \"local\"]",
@@ -100,7 +100,7 @@
   ],
   "v4-zero-index": [
     "zero index",
-    "A primeira posição é zero",
+    "índice zero",
     "O índice 0 seleciona o primeiro elemento.",
     "Index 0 selects the first element.",
     "models = [\"fast\", \"local\"]",
@@ -109,7 +109,7 @@
   ],
   "v4-length": [
     "length",
-    "Conte os modelos disponíveis",
+    "comprimento",
     "len conta os elementos de uma coleção.",
     "len counts collection elements.",
     "models = [\"fast\", \"local\"]",
@@ -118,7 +118,7 @@
   ],
   "v4-append": [
     "append",
-    "Cadastre um modelo local",
+    "acrescentar item",
     "append(item) acrescenta um item ao final da lista.",
     "append(item) adds one item at the end of a list.",
     "models = [\"fast\"]",
@@ -127,7 +127,7 @@
   ],
   "v4-list-update": [
     "list update",
-    "Atualize uma rota na coleção",
+    "atualizar item",
     "lista[índice] = valor substitui um elemento.",
     "list[index] = value replaces one element.",
     "models = [\"fast\", \"old\"]",
@@ -136,7 +136,7 @@
   ],
   "v4-empty-list": [
     "empty list",
-    "Uma coleção sem modelos",
+    "lista vazia",
     "[] representa uma lista vazia; len conta seus itens.",
     "[] is an empty list; len counts its items.",
     "models = []",
@@ -145,7 +145,7 @@
   ],
   "v4-less-than": [
     "less than",
-    "Compare com o limite superior",
+    "menor que",
     "< verifica se o valor da esquerda é menor.",
     "< checks whether the left value is smaller.",
     "tokens = 4",
@@ -154,7 +154,7 @@
   ],
   "v4-equality": [
     "equality",
-    "Confirme o status exato",
+    "igualdade",
     "== compara valores, sem fazer atribuição.",
     "== compares values without assigning them.",
     "status = 200",
@@ -163,7 +163,7 @@
   ],
   "v4-inclusive-comparison": [
     "inclusive comparison",
-    "Inclua o valor do limite",
+    "limite inclusivo",
     ">= aceita valores maiores ou iguais ao limite.",
     ">= accepts values greater than or equal to the boundary.",
     "score = 7",
@@ -172,7 +172,7 @@
   ],
   "v4-and": [
     "and",
-    "Verifique duas exigências",
+    "e lógico",
     "and exige que as duas condições sejam verdadeiras.",
     "and requires both conditions to be true.",
     "ready = True",
@@ -181,7 +181,7 @@
   ],
   "v4-or": [
     "or",
-    "Aceite uma das rotas disponíveis",
+    "ou lógico",
     "or é verdadeiro quando pelo menos um lado é verdadeiro.",
     "or is true when at least one side is true.",
     "remote = False",
@@ -190,7 +190,7 @@
   ],
   "v4-not": [
     "not",
-    "Inverta o sinal de bloqueio",
+    "negação",
     "not inverte o valor lógico.",
     "not reverses a Boolean value.",
     "blocked = False",
@@ -199,7 +199,7 @@
   ],
   "v4-elif": [
     "elif",
-    "Três faixas de orçamento",
+    "outra condição",
     "elif testa outra condição quando o if anterior não foi atendido.",
     "elif tests another condition when the preceding if was not met.",
     "budget = 5",
@@ -208,7 +208,7 @@
   ],
   "v4-conditional-expression": [
     "conditional expression",
-    "Leia uma decisão em uma expressão",
+    "expressão condicional",
     "a if condição else b escolhe um dos dois valores.",
     "a if condition else b chooses one of two values.",
     "quality = False",
@@ -217,7 +217,7 @@
   ],
   "v4-def": [
     "def",
-    "Crie uma ferramenta sem entrada",
+    "definir função",
     "def define uma função; a chamada com () executa seu corpo.",
     "def defines a function; calling it with () runs its body.",
     "def ready():",
@@ -226,7 +226,7 @@
   ],
   "v4-parameter": [
     "parameter",
-    "Dê uma entrada à ferramenta",
+    "parâmetro",
     "Um parâmetro é o nome que recebe a entrada dentro da função.",
     "A parameter is the name that receives input inside the function.",
     "def show(model):",
@@ -235,7 +235,7 @@
   ],
   "v4-argument": [
     "argument",
-    "Mude o argumento, preserve a função",
+    "argumento",
     "Um argumento é o valor fornecido na chamada.",
     "An argument is the value supplied in a call.",
     "def show(model):",
@@ -244,7 +244,7 @@
   ],
   "v4-return": [
     "return",
-    "Use o valor retornado",
+    "retornar",
     "return devolve um valor; print pode mostrá-lo depois.",
     "return sends back a value; print can display it later.",
     "def cost(tokens):",
@@ -253,7 +253,7 @@
   ],
   "v4-default-parameter": [
     "default parameter",
-    "Um argumento pode ter padrão",
+    "parâmetro padrão",
     "Um valor padrão é usado quando o argumento é omitido.",
     "A default is used when the argument is omitted.",
     "def model(name=\"local\"):",
@@ -262,7 +262,7 @@
   ],
   "v4-none": [
     "none",
-    "Uma função pode não ter resultado",
+    "sem valor",
     "Uma função sem return explícito devolve None.",
     "A function without an explicit return returns None.",
     "def inspect():",
@@ -271,7 +271,7 @@
   ],
   "v4-unpacking": [
     "unpacking",
-    "Dê nomes aos itens de um par",
+    "desempacotamento",
     "Desempacotar distribui os itens em nomes na mesma ordem.",
     "Unpacking distributes items to names in the same order.",
     "name, score = [\"local\", 8]",
@@ -280,7 +280,7 @@
   ],
   "v4-composition": [
     "composition",
-    "Conecte duas funções",
+    "composição",
     "Composição usa o resultado de uma função dentro de outra.",
     "Composition uses one function result inside another.",
     "def cost(tokens):",
@@ -289,7 +289,7 @@
   ],
   "v4-concatenation": [
     "concatenation",
-    "Construa um prefixo de prompt",
+    "concatenação",
     "+ concatena strings, preservando espaços e sinais.",
     "+ concatenates strings, preserving spaces and punctuation.",
     "role = \"AI\"",
@@ -298,7 +298,7 @@
   ],
   "v4-strip": [
     "strip",
-    "Remova espaços da entrada",
+    "remover espaços",
     "strip() remove espaços das extremidades, não do meio.",
     "strip() removes surrounding whitespace, not internal spaces.",
     "prompt = \"  classify  \"",
@@ -307,7 +307,7 @@
   ],
   "v4-lower": [
     "lower",
-    "Normalize o rótulo recebido",
+    "minúsculas",
     "lower() converte letras para minúsculas.",
     "lower() converts letters to lowercase.",
     "label = \"SUPPORT\"",
@@ -316,7 +316,7 @@
   ],
   "v4-upper": [
     "upper",
-    "Mostre uma tag em destaque",
+    "maiúsculas",
     "upper() converte letras para maiúsculas.",
     "upper() converts letters to uppercase.",
     "tag = \"api\"",
@@ -325,7 +325,7 @@
   ],
   "v4-split": [
     "split",
-    "Separe palavras de um prompt",
+    "separar texto",
     "split() sem argumento separa texto por espaços em uma lista.",
     "split() without an argument splits whitespace-separated text into a list.",
     "prompt = \"classify this request\"",
@@ -334,7 +334,7 @@
   ],
   "v4-join": [
     "join",
-    "Reúna palavras normalizadas",
+    "unir textos",
     "separador.join(lista) une strings usando o separador.",
     "separator.join(list) joins strings using the separator.",
     "words = [\"classify\", \"request\"]",
@@ -343,7 +343,7 @@
   ],
   "v4-membership": [
     "membership",
-    "Confira se uma chave existe",
+    "pertencimento",
     "in em um dicionário procura nas chaves, não nos valores.",
     "in on a dictionary searches its keys, not its values.",
     "response = {\"model\": \"local\"}",
@@ -352,7 +352,7 @@
   ],
   "v4-text-pipeline": [
     "text pipeline",
-    "Limpe antes de classificar",
+    "transformação de texto",
     "Chamadas encadeadas transformam o resultado anterior.",
     "Chained calls transform the previous result.",
     "text = \"  SUPPORT  \"",
@@ -361,7 +361,7 @@
   ],
   "v4-for": [
     "for",
-    "Visite uma lista de ferramentas",
+    "percorrer",
     "for percorre itens da coleção na ordem.",
     "for visits collection items in order.",
     "tools = [\"search\", \"count\"]",
@@ -370,7 +370,7 @@
   ],
   "v4-range": [
     "range",
-    "Conte três tentativas",
+    "sequência numérica",
     "range(n) produz inteiros de zero até n, sem incluir n.",
     "range(n) produces integers from zero up to, but not including, n.",
     "for attempt in range(3):",
@@ -379,7 +379,7 @@
   ],
   "v4-list-conversion": [
     "list conversion",
-    "Transforme uma sequência em lista",
+    "conversão para lista",
     "list materializa os itens de uma sequência ou leitor.",
     "list materializes the items of a sequence or reader.",
     "print(list(range(3)))",
@@ -388,7 +388,7 @@
   ],
   "v4-accumulator": [
     "accumulator",
-    "Acumule o total de tokens",
+    "acumulador",
     "Um acumulador guarda o resultado parcial entre iterações.",
     "An accumulator keeps a partial result between iterations.",
     "total = 0",
@@ -397,7 +397,7 @@
   ],
   "v4-while": [
     "while",
-    "Repita até o limite",
+    "repetir por condição",
     "while repete enquanto a condição continuar verdadeira.",
     "while repeats while its condition remains true.",
     "attempt = 0",
@@ -406,7 +406,7 @@
   ],
   "v4-break": [
     "break",
-    "Pare na primeira rota local",
+    "interromper laço",
     "break encerra imediatamente o laço mais interno.",
     "break immediately exits the innermost loop.",
     "for model in [\"local\", \"fast\"]:",
@@ -415,7 +415,7 @@
   ],
   "v4-continue": [
     "continue",
-    "Ignore um modelo indisponível",
+    "próxima iteração",
     "continue pula o restante da iteração atual.",
     "continue skips the rest of the current iteration.",
     "for model in [\"offline\", \"local\"]:",
@@ -424,7 +424,7 @@
   ],
   "v4-zip": [
     "zip",
-    "Emparelhe previsões e referências",
+    "emparelhar",
     "zip emparelha coleções; nomes separados por vírgula recebem cada par.",
     "zip pairs collections; comma-separated names receive each pair.",
     "for predicted, expected in zip([\"a\", \"b\"], [\"a\", \"c\"]):",
@@ -433,7 +433,7 @@
   ],
   "v4-enumerate": [
     "enumerate",
-    "Registre a posição de cada pedido",
+    "enumerar",
     "enumerate fornece o índice e o item de cada iteração.",
     "enumerate supplies the index and item of each iteration.",
     "for index, task in enumerate([\"chat\", \"search\"]):",
@@ -442,7 +442,7 @@
   ],
   "v4-sum": [
     "sum",
-    "Some uma coleção de contagens",
+    "somar coleção",
     "sum soma os valores numéricos de uma coleção.",
     "sum adds numeric values from a collection.",
     "print(sum([2, 3, 4]))",
@@ -451,7 +451,7 @@
   ],
   "v4-boolean-count": [
     "boolean count",
-    "Conte condições verdadeiras",
+    "contagem de condições",
     "Em uma soma, True contribui 1 e False contribui 0.",
     "In a sum, True contributes 1 and False contributes 0.",
     "print(sum([True, False, True]))",
@@ -460,7 +460,7 @@
   ],
   "v4-dictionary": [
     "dictionary",
-    "Associe modelo e nome",
+    "dicionário",
     "Dicionários associam chaves a valores; [] acessa uma chave.",
     "Dictionaries associate keys with values; [] accesses a key.",
     "response = {\"model\": \"local\"}",
@@ -469,7 +469,7 @@
   ],
   "v4-nested-access": [
     "nested access",
-    "Abra o corpo da resposta",
+    "acesso aninhado",
     "Acessos encadeados atravessam dicionários aninhados.",
     "Chained key access traverses nested dictionaries.",
     "response = {\"data\": {\"model\": \"local\"}}",
@@ -478,7 +478,7 @@
   ],
   "v4-json-serialize": [
     "json serialize",
-    "Converta dados para texto JSON",
+    "serializar JSON",
     "json.dumps converte um objeto Python em texto JSON.",
     "json.dumps converts a Python object to JSON text.",
     "import json",
@@ -487,7 +487,7 @@
   ],
   "v4-get": [
     "get",
-    "Use um valor quando a chave faltar",
+    "valor padrão",
     "get(chave, padrão) devolve o padrão quando a chave não existe.",
     "get(key, default) returns the default when the key is missing.",
     "response = {}",
@@ -496,7 +496,7 @@
   ],
   "v4-isinstance": [
     "isinstance",
-    "Verifique o tipo do corpo",
+    "verificar tipo",
     "isinstance(valor, tipo) verifica se o valor tem o tipo esperado.",
     "isinstance(value, type) checks whether a value has the expected type.",
     "body = {\"model\": \"local\"}",
@@ -505,7 +505,7 @@
   ],
   "v4-type-object": [
     "type object",
-    "Valide um campo textual",
+    "tipo de dado",
     "str é o tipo de texto; números não são strings automaticamente.",
     "str is the text type; numbers are not automatically strings.",
     "response = {\"model\": 12}",
@@ -514,7 +514,7 @@
   ],
   "v4-items": [
     "items",
-    "Percorra chaves e valores",
+    "pares de chave e valor",
     "items() fornece pares de chave e valor para o laço.",
     "items() supplies key/value pairs for a loop.",
     "scores = {\"fast\": 8, \"local\": 6}",
@@ -523,7 +523,7 @@
   ],
   "v4-from-import": [
     "from import",
-    "Importe uma função específica",
+    "importação seletiva",
     "from módulo import nome disponibiliza um nome específico do módulo.",
     "from module import name makes a specific module name available.",
     "from json import loads",
@@ -532,7 +532,7 @@
   ],
   "v4-try-except": [
     "try except",
-    "Proteja a leitura de um campo",
+    "tratar exceção",
     "try/except permite reagir a uma exceção específica.",
     "try/except lets code react to a specific exception.",
     "response = {}",
@@ -541,7 +541,7 @@
   ],
   "v4-exception-tuple": [
     "exception tuple",
-    "Trate dois tipos de falha",
+    "grupo de exceções",
     "Uma tupla no except permite tratar mais de um tipo de exceção.",
     "A tuple in except allows handling more than one exception type.",
     "try:",
@@ -550,7 +550,7 @@
   ],
   "v4-json-error": [
     "json error",
-    "Detecte JSON malformado",
+    "JSON inválido",
     "json.JSONDecodeError identifica texto que não é JSON válido.",
     "json.JSONDecodeError identifies text that is not valid JSON.",
     "import json",
@@ -559,7 +559,7 @@
   ],
   "v4-float-conversion": [
     "float conversion",
-    "Converta um score textual",
+    "conversão decimal",
     "float converte texto numérico para número com parte decimal.",
     "float converts numeric text to a floating-point number.",
     "score = \"0.75\"",
@@ -568,7 +568,7 @@
   ],
   "v4-assert": [
     "assert",
-    "Um teste também deve detectar falhas",
+    "asserção",
     "Um teste falho produz AssertionError e não comprova correção.",
     "A failed test raises AssertionError and does not establish correctness.",
     "assert 2 + 2 == 5",
@@ -577,7 +577,7 @@
   ],
   "v4-truthiness": [
     "truthiness",
-    "Verifique se há logs para comparar",
+    "valor lógico",
     "Coleções vazias são falsas em condições; not inverte essa avaliação.",
     "Empty collections are false in conditions; not reverses that evaluation.",
     "logs = []",
@@ -586,7 +586,7 @@
   ],
   "v4-edge-test": [
     "edge test",
-    "Teste a coleção vazia",
+    "caso de borda",
     "Um caso de borda verifica uma entrada limite, como lista vazia.",
     "An edge case checks a boundary input such as an empty list.",
     "def first(models):",
@@ -595,7 +595,7 @@
   ],
   "v4-negative-test": [
     "negative test",
-    "Recuse uma entrada fora do contrato",
+    "teste negativo",
     "Um teste negativo verifica que uma entrada inválida é recusada.",
     "A negative test checks that invalid input is rejected.",
     "def valid(score):",
@@ -604,7 +604,7 @@
   ],
   "v4-file-read": [
     "file read",
-    "Leia um arquivo de texto em memória",
+    "leitura de arquivo",
     "read() lê o conteúdo de um arquivo; StringIO cria um arquivo em memória.",
     "read() reads file contents; StringIO creates an in-memory file.",
     "from io import StringIO",
@@ -613,7 +613,7 @@
   ],
   "v4-file-line": [
     "file line",
-    "Leia uma linha do log",
+    "linha de arquivo",
     "readline() lê somente a próxima linha do arquivo.",
     "readline() reads only the next file line.",
     "from io import StringIO",
@@ -622,7 +622,7 @@
   ],
   "v4-file-cursor": [
     "file cursor",
-    "Uma leitura avança o cursor",
+    "posição de leitura",
     "O cursor avança após a leitura; no fim, read retorna texto vazio.",
     "The cursor advances after reading; at the end, read returns an empty string.",
     "from io import StringIO",
@@ -631,7 +631,7 @@
   ],
   "v4-seek": [
     "seek",
-    "Volte ao início para reler",
+    "reposicionar leitura",
     "seek(0) posiciona o cursor no início do arquivo.",
     "seek(0) positions the cursor at the file start.",
     "from io import StringIO",
@@ -640,7 +640,7 @@
   ],
   "v4-with": [
     "with",
-    "Feche o recurso ao sair do bloco",
+    "gerenciar recurso",
     "with gerencia a abertura e o fechamento de um recurso.",
     "with manages opening and closing a resource.",
     "from io import StringIO",
@@ -649,7 +649,7 @@
   ],
   "v4-json-load": [
     "json load",
-    "Leia JSON de um arquivo",
+    "ler arquivo JSON",
     "json.load lê de um arquivo; json.loads recebe uma string.",
     "json.load reads from a file; json.loads receives a string.",
     "import json",
@@ -658,7 +658,7 @@
   ],
   "v4-csv-reader": [
     "csv reader",
-    "Leia colunas de um CSV",
+    "leitor CSV",
     "csv.reader separa linhas em colunas; list materializa o leitor.",
     "csv.reader splits rows into columns; list materializes the reader.",
     "import csv",
@@ -667,7 +667,7 @@
   ],
   "v4-csv-dict": [
     "csv dict",
-    "Use os nomes das colunas",
+    "colunas nomeadas",
     "DictReader transforma cada linha em um dicionário de colunas.",
     "DictReader turns each row into a dictionary of columns.",
     "import csv",
@@ -676,7 +676,7 @@
   ],
   "v4-request-contract": [
     "request contract",
-    "Prepare uma requisição simulada",
+    "contrato de requisição",
     "Uma requisição descreve método e dados enviados a um serviço.",
     "A request describes the method and data sent to a service.",
     "request = {\"method\": \"POST\", \"body\": {\"prompt\": \"classify\"}}",
@@ -685,7 +685,7 @@
   ],
   "v4-headers": [
     "headers",
-    "Reconheça um cabeçalho de formato",
+    "cabeçalhos",
     "Content-Type descreve o formato do corpo da mensagem.",
     "Content-Type describes the message body format.",
     "headers = {\"Content-Type\": \"application/json\"}",
@@ -694,7 +694,7 @@
   ],
   "v4-authentication": [
     "authentication",
-    "Autenticação não é o conteúdo do prompt",
+    "autenticação",
     "Autenticação controla acesso; segredos não pertencem ao frontend público.",
     "Authentication controls access; secrets do not belong in a public frontend.",
     "request = {\"auth_required\": True, \"body\": {\"prompt\": \"hello\"}}",
@@ -703,7 +703,7 @@
   ],
   "v4-service-failure": [
     "service failure",
-    "Interprete uma falha de serviço",
+    "falha de serviço",
     "Um status de erro deve seguir um caminho de falha explícito.",
     "An error status should follow an explicit failure path.",
     "response = {\"status\": 503}",
@@ -712,7 +712,7 @@
   ],
   "v4-retry-budget": [
     "retry budget",
-    "Limite novas tentativas",
+    "limite de tentativas",
     "Um orçamento de tentativas evita repetir uma falha indefinidamente.",
     "A retry budget avoids repeating a failure indefinitely.",
     "attempts = 3",
@@ -721,7 +721,7 @@
   ],
   "v4-tool-name": [
     "tool name",
-    "Selecione o nome permitido",
+    "nome de ferramenta",
     "Um roteador deve mapear nomes de ferramentas de forma explícita.",
     "A router should map tool names explicitly.",
     "tools = {\"count\": \"count_words\", \"find\": \"search_docs\"}",
@@ -730,7 +730,7 @@
   ],
   "v4-tool-input": [
     "tool input",
-    "Passe argumentos estruturados",
+    "entrada da ferramenta",
     "Argumentos estruturados definem a entrada de uma ferramenta.",
     "Structured arguments define a tool input.",
     "call = {\"tool\": \"count\", \"arguments\": {\"text\": \"two words\"}}",
@@ -739,7 +739,7 @@
   ],
   "v4-determinism": [
     "determinism",
-    "Uma ferramenta com saída previsível",
+    "determinismo",
     "Uma ferramenta determinística usa regras explícitas para a mesma entrada.",
     "A deterministic tool uses explicit rules for the same input.",
     "def count_words(text):",
@@ -748,7 +748,7 @@
   ],
   "v4-allowlist": [
     "allowlist",
-    "Recuse uma ferramenta desconhecida",
+    "lista de permitidos",
     "Uma allowlist aceita somente nomes cadastrados.",
     "An allowlist accepts only registered names.",
     "allowed = [\"count\", \"search\"]",
@@ -757,7 +757,7 @@
   ],
   "v4-agent-state": [
     "agent state",
-    "Um agente precisa observar um resultado",
+    "estado do agente",
     "Um fluxo de agente conserva estado e observa resultados de ferramentas.",
     "An agent workflow keeps state and observes tool results.",
     "state = {\"tool_result\": \"found\", \"done\": True}",
@@ -766,7 +766,7 @@
   ],
   "v4-accuracy": [
     "accuracy",
-    "Calcule a fração de acertos",
+    "acurácia",
     "Acurácia é acertos divididos pelo total de casos avaliados.",
     "Accuracy is correct answers divided by total evaluated cases.",
     "correct = 3",
@@ -775,7 +775,7 @@
   ],
   "v4-latency": [
     "latency",
-    "Menos tempo não significa mais acertos",
+    "latência",
     "Latência mede tempo; não mede qualidade da resposta.",
     "Latency measures time, not response quality.",
     "latency_ms = {\"fast\": 20, \"quality\": 80}",
@@ -784,7 +784,7 @@
   ],
   "v4-cost": [
     "cost",
-    "Compare custos do mesmo lote",
+    "custo",
     "Custo, latência e acurácia são dimensões diferentes.",
     "Cost, latency and accuracy are different dimensions.",
     "cost = {\"a\": 2, \"b\": 5}",
@@ -793,7 +793,7 @@
   ],
   "v4-list-comprehension": [
     "list comprehension",
-    "Extraia rótulos de uma coleção",
+    "compreensão de lista",
     "Uma compreensão de lista transforma cada item em um novo elemento.",
     "A list comprehension transforms each item into a new element.",
     "tasks = [{\"expected\": \"a\"}, {\"expected\": \"b\"}]",
@@ -802,7 +802,7 @@
   ],
   "v4-generator-expression": [
     "generator expression",
-    "Conte correspondências sem lista intermediária",
+    "expressão geradora",
     "Uma expressão geradora fornece valores a outra função durante a iteração.",
     "A generator expression supplies values to another function during iteration.",
     "print(sum(value > 0 for value in [2, 0, 3]))",
@@ -811,7 +811,7 @@
   ],
   "v4-filtered-comprehension": [
     "filtered comprehension",
-    "Registre apenas os casos falhos",
+    "compreensão com filtro",
     "Uma condição na compreensão filtra quais itens entram na nova lista.",
     "A condition in a comprehension filters items entering the new list.",
     "scores = [0, 2, 0]",
@@ -820,7 +820,7 @@
   ],
   "v4-sample-limit": [
     "sample limit",
-    "Uma amostra pequena tem limites",
+    "limite da amostra",
     "Dois acertos em dois casos não provam qualidade geral do modelo.",
     "Two correct answers out of two do not prove general model quality.",
     "correct = 2",
@@ -829,7 +829,7 @@
   ],
   "v4-validation-split": [
     "validation split",
-    "Separe treino de validação",
+    "separação de validação",
     "Validação deve usar exemplos separados dos usados para ajustar o modelo.",
     "Validation should use examples separate from those used to fit the model.",
     "train_ids = [1, 2]",
@@ -838,7 +838,7 @@
   ],
   "v4-overfitting": [
     "overfitting",
-    "Duas curvas contam histórias diferentes",
+    "sobreajuste",
     "Treino melhorando e validação piorando podem indicar overfitting.",
     "Improving training with worsening validation may indicate overfitting.",
     "training_loss = [0.8, 0.2]",
@@ -847,7 +847,7 @@
   ],
   "v4-min": [
     "min",
-    "Encontre a menor perda observada",
+    "mínimo",
     "min devolve o menor item, sem afirmar que ele generaliza melhor.",
     "min returns the smallest item without claiming better generalization.",
     "print(min([0.6, 0.4, 0.5]))",
@@ -856,7 +856,7 @@
   ],
   "v4-lambda": [
     "lambda",
-    "Defina uma função curta de seleção",
+    "função curta",
     "lambda cria uma função curta que devolve uma expressão.",
     "lambda creates a short function that returns an expression.",
     "validation = lambda row: row[\"loss\"]",
@@ -865,7 +865,7 @@
   ],
   "v4-min-key": [
     "min key",
-    "Selecione um checkpoint por critério",
+    "critério de seleção",
     "key fornece o critério usado por min para comparar registros.",
     "key supplies the criterion min uses to compare records.",
     "logs = [{\"epoch\": 1, \"loss\": 0.6}, {\"epoch\": 2, \"loss\": 0.4}]",
@@ -874,7 +874,7 @@
   ],
   "v4-job-state": [
     "job state",
-    "Preparar não significa executar",
+    "estado do experimento",
     "Um notebook preparado não comprova submissão ou execução no Kaggle.",
     "A prepared notebook does not establish submission or execution on Kaggle.",
     "job = {\"status\": \"prepared\", \"remote_id\": None}",
@@ -883,7 +883,7 @@
   ],
   "v4-routing-practice": [
     "routing practice",
-    "Consolide uma regra de roteamento",
+    "prática de roteamento",
     "Uma função pode devolver decisões diferentes conforme a entrada.",
     "A function can return different decisions depending on input.",
     "def route(priority):",
@@ -892,7 +892,7 @@
   ],
   "v4-api-practice": [
     "api practice",
-    "Consolide o corpo de uma resposta",
+    "prática de API",
     "O contrato separa status, texto serializado e dados Python.",
     "The contract separates status, serialized text and Python data.",
     "import json",
@@ -901,7 +901,7 @@
   ],
   "v4-evaluation-practice": [
     "evaluation practice",
-    "Valide uma métrica completa",
+    "prática de avaliação",
     "Reutilize pares, comparações, soma e divisão para avaliar casos.",
     "Reuse pairs, comparisons, summation and division to evaluate cases.",
     "predictions = [\"a\", \"b\"]",
@@ -910,7 +910,7 @@
   ],
   "v4-training-practice": [
     "training practice",
-    "Interprete o checkpoint final",
+    "prática de treinamento",
     "Selecione por validação; a última época nem sempre é a melhor.",
     "Select by validation; the final epoch is not always best.",
     "logs = [{\"epoch\": 1, \"validation_loss\": 0.3}, {\"epoch\": 2, \"validation_loss\": 0.5}]",

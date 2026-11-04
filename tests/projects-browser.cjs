@@ -1,3 +1,4 @@
+const V4=require('./v4-navigation.cjs');
 const {chromium}=require('playwright');const assert=require('node:assert/strict'),fs=require('node:fs/promises');
 const activities=[...require('../projects/catalog.json'),...require('../projects/debugging.json'),...require('../projects/testing.json')];
 const E=require('../projects/engine'),M=require('../projects/models'),datasets=require('../projects/datasets.json');
@@ -6,7 +7,7 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
   const context=await browser.newContext({viewport:{width,height:850},isMobile:true,hasTouch:true,acceptDownloads:true,reducedMotion:'reduce'});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8000');await page.waitForFunction(()=>document.querySelector('#homeProgress').textContent.includes('40'));assert.equal(await page.locator('#language').inputValue(),'mixed');
   const originalMission=await page.evaluate(()=>localStorage.getItem('pythonAiTrainerV2'));
-  await page.locator('#projectsButton').tap();
+  await V4.area(page,'projects');
   const menu=async id=>{if(!await page.locator('#pMenu').evaluate(el=>el.open))await page.locator('#pMenuLabel').tap();await page.locator('#'+id).tap();};
   const open=async a=>{if(a.kind==='testing'){await menu('pTesting');return;}await menu(a.kind==='debug'?'pDebug':'pHub');await page.locator(`[data-activity="${E.key(a)}"]`).tap();};
   const record=async a=>page.evaluate(({key,id})=>JSON.parse(localStorage.getItem(key)).activities[id],{key:E.KEY,id:E.key(a)});
@@ -33,7 +34,7 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
     await page.locator('#language').selectOption('en');assert.equal(await page.locator('#pAnswers [aria-pressed=true]').getAttribute('data-choice'),s.correctId);assert.equal(await page.locator('#pCode').textContent(),code);assert.equal(await page.locator('#pPrompt').textContent(),s.prompt.en);
     // Persist mid-stage, including answer, hint level, flow and current step, rather than only completions.
     if(a.kind==='project'&&(i===0||i===4)){
-     await page.reload();await page.waitForFunction(()=>document.querySelector('#homeProgress').textContent.includes('40'));assert.equal(await page.locator('#language').inputValue(),'en');await page.locator('#projectsButton').tap();await open(a);assert.equal((await record(a)).currentStepId,s.id);assert.equal(await page.locator('#pAnswers [aria-pressed=true]').getAttribute('data-choice'),s.correctId);assert.equal(await page.locator('#pHint').isDisabled(),true);
+     await page.reload();await page.waitForFunction(()=>document.querySelector('#homeProgress').textContent.includes('40'));assert.equal(await page.locator('#language').inputValue(),'en');await V4.area(page,'projects');await open(a);assert.equal((await record(a)).currentStepId,s.id);assert.equal(await page.locator('#pAnswers [aria-pressed=true]').getAttribute('data-choice'),s.correctId);assert.equal(await page.locator('#pHint').isDisabled(),true);
     }
     await page.locator('#language').selectOption('mixed');
     if(i===0){
@@ -68,8 +69,8 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
   for(const s of a.steps){await page.locator(`[data-choice="${s.correctId}"]`).tap();if(s.requiresTests)await page.locator('#pRunTests').tap();await page.locator('#pSubmit').tap();await page.locator('#pNext').tap();}assert.match(await page.locator('#pXP').textContent(),/140$/);
   assert.equal(await page.evaluate(()=>localStorage.getItem('pythonAiTrainerV2')),originalMission,'Lab must not overwrite mission history');
   // Rapid screen alternation preserves completed records and the current project.
-  for(let n=0;n<3;n++){await page.locator('#pHome').tap();await page.locator('#projectsButton').tap();await open(a);assert.equal(await page.locator('#pConclusion').isVisible(),true);}
-  await page.screenshot({path:`/tmp/v3-complete-${width}.png`,fullPage:true});await page.locator('#pHome').tap();page.once('dialog',d=>d.dismiss());await page.locator('#reset').tap();assert.ok(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).awards,E.KEY));page.once('dialog',d=>d.accept());await page.locator('#reset').tap();assert.equal(await page.locator('#xp').textContent(),'0 XP');assert.deepEqual(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).awards,E.KEY),{});assert.equal(await page.locator('#language').inputValue(),'mixed');
+  for(let n=0;n<3;n++){await page.locator('#pHome').tap();await V4.area(page,'projects');await open(a);assert.equal(await page.locator('#pConclusion').isVisible(),true);}
+  await page.screenshot({path:`/tmp/v3-complete-${width}.png`,fullPage:true});await page.locator('#pHome').tap();page.once('dialog',d=>d.dismiss());await V4.area(page,'progress');await page.locator('#reset').tap();assert.ok(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).awards,E.KEY));page.once('dialog',d=>d.accept());await V4.area(page,'progress');await page.locator('#reset').tap();assert.equal(await page.locator('#xp').textContent(),'0 XP');assert.deepEqual(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).awards,E.KEY),{});assert.equal(await page.locator('#language').inputValue(),'mixed');
   assert.deepEqual(errors,[]);await context.close();console.log(`PASS V3 ${width}px: 70 stages, 4 projects, 8 debugging cases, tutorial, flows, reload/translation/return, test gating, evidence, exports, restart/reset and isolated mission XP.`);
  }
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

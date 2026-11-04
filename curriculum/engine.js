@@ -16,6 +16,6 @@
  function next(plan,p){const route=plan.units.flatMap(u=>u.missions);return route.find(id=>!p.completed.includes(id)&&plan.requires[id].every(k=>p.completed.includes(k)))||route.find(id=>!p.completed.includes(id))||route[0];}
  function status(unit,p){const done=unit.missions.filter(id=>p.completed.includes(id)).length;return {done,total:unit.missions.length,started:unit.missions.some(id=>p.completed.includes(id)||p.attempts[id]),complete:done===unit.missions.length};}
  function prepare(plan,exercises,p){validate(plan,exercises);if(p.curriculumVersion!==4){p.legacyCompleted=[...p.completed];p.curriculumVersion=4;}return exercises.map(e=>({...e,requires:plan.requires[e.id],...(p.legacyCompleted?.includes(e.id)?{reviewRequires:e.requires}:{}),unit:unitFor(plan,e.id).id}));}
- function resetUnit(plan,p,id){const unit=plan.units.find(u=>u.id===id);if(!unit)return;const keys=new Set(unit.missions);let removed=0;for(const key of keys){removed+=p.awards[key]||0;delete p.awards[key];}p.completed=p.completed.filter(k=>!keys.has(k));p.xp=Math.max(0,p.xp-removed);}
+ function resetUnit(plan,p,id){const unit=plan.units.find(u=>u.id===id);if(!unit)return;const keys=new Set(unit.missions);let removed=0;for(const key of keys){removed+=p.awards[key]||0;delete p.awards[key];delete p.attempts[key];if(p.missionHints)delete p.missionHints[key];}p.completed=p.completed.filter(k=>!keys.has(k));p.xp=Math.max(0,p.xp-removed);}
  return {validate,unitFor,next,status,prepare,resetUnit};
 });

@@ -13,6 +13,7 @@
       if(!c||typeof c!=='object'||Array.isArray(c)){delete p.concepts[key];continue;}
       p.concepts[key]={attempts:count(c.attempts),correct:count(c.correct),errors:count(c.errors),hints:count(c.hints),lastReview:Number.isFinite(c.lastReview)?c.lastReview:null,recent:Array.isArray(c.recent)?c.recent.filter(v=>typeof v==='boolean').slice(-5):[]};
     }
+    if(value.missionHints&&typeof value.missionHints==='object'&&!Array.isArray(value.missionHints))p.missionHints=Object.fromEntries(Object.entries(value.missionHints).filter(([id,n])=>typeof id==='string'&&Number.isInteger(n)&&n>=0&&n<=2));
     if(value.curriculumVersion===4){p.curriculumVersion=4;p.legacyCompleted=Array.isArray(value.legacyCompleted)?value.legacyCompleted.filter(id=>typeof id==='string'):[];}
     return p;
   }
@@ -29,7 +30,7 @@
   }
   function hint(p,e){const key=e.concept||e.concepts[0];const c=p.concepts[key] ||= {attempts:0,correct:0,errors:0,hints:0,lastReview:null,recent:[]};c.hints++;}
   function reviews(p,exercises,now=Date.now()){
-    return exercises.filter(e=>p.attempts[e.id]&&(e.reviewRequires||e.requires).every(id=>p.completed.includes(id)))
+    return exercises.filter(e=>p.attempts[e.id]&&(p.completed.includes(e.id)||(e.reviewRequires||e.requires).every(id=>p.completed.includes(id))))
       .map(e=>({e,c:p.concepts[e.concept||e.concepts[0]]}))
       .filter(({c})=>c&&(c.errors>0||c.hints>0)&&(!c.lastReview||now-c.lastReview>=60000))
       .sort((a,b)=>{const score=c=>c.errors/Math.max(c.attempts,1)+c.recent.filter(x=>!x).length/5+c.hints/Math.max(c.attempts,1)/4;return score(b.c)-score(a.c)||a.e.id.localeCompare(b.e.id);})

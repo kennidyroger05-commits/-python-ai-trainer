@@ -61,7 +61,7 @@
         ]
       },
       "mixed": {
-        "title": "Before code: recognize a value (antes do código: reconheça o valor)",
+        "title": "Antes do código: reconheça o valor · literal value",
         "prompt": "O que este trecho representa?",
         "hints": [
           "Um valor literal aparece diretamente no código.",
@@ -167,7 +167,7 @@
         ]
       },
       "mixed": {
-        "title": "Recognize a numeric value (reconheça um valor numérico)",
+        "title": "Reconheça um valor numérico · number",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um inteiro é um número sem parte decimal.",
@@ -273,7 +273,7 @@
         ]
       },
       "mixed": {
-        "title": "A score can have a fractional part (um score pode ter parte decimal)",
+        "title": "Um score pode ter parte decimal · float",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um float representa um número com parte decimal.",
@@ -379,7 +379,7 @@
         ]
       },
       "mixed": {
-        "title": "Read a model name (leia o nome do modelo)",
+        "title": "Leia o nome do modelo · string",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Aspas delimitam texto; não fazem parte do valor mostrado.",
@@ -485,7 +485,7 @@
         ]
       },
       "mixed": {
-        "title": "An availability flag (um sinal de disponibilidade)",
+        "title": "Um sinal de disponibilidade · boolean",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "True e False são valores booleanos, escritos com inicial maiúscula.",
@@ -591,7 +591,7 @@
         ]
       },
       "mixed": {
-        "title": "Show a name and count together (mostre nome e contagem juntos)",
+        "title": "Mostre nome e contagem juntos · print arguments",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "print aceita vários argumentos e os separa por espaço por padrão.",
@@ -701,7 +701,7 @@
         ]
       },
       "mixed": {
-        "title": "Add tokens from two messages (some tokens de duas mensagens)",
+        "title": "Some tokens de duas mensagens · addition",
         "prompt": "Complete o trecho para produzir: 12",
         "hints": [
           "+ soma números.",
@@ -807,7 +807,7 @@
         ]
       },
       "mixed": {
-        "title": "Convert the received count (converta a contagem recebida)",
+        "title": "Converta a contagem recebida · integer conversion",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "int(texto) converte texto numérico em inteiro.",
@@ -910,7 +910,7 @@
         }
       },
       "mixed": {
-        "title": "Two requests with the same limit (dois pedidos com o mesmo limite)",
+        "title": "Dois pedidos com o mesmo limite · multiplication",
         "prompt": "Monte o código que produz: 12",
         "hints": [
           "* multiplica números.",
@@ -1006,7 +1006,7 @@
         ]
       },
       "mixed": {
-        "title": "Divide the budget between requests (divida o orçamento entre pedidos)",
+        "title": "Divida o orçamento entre pedidos · division",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "/ faz divisão e produz um número decimal.",
@@ -1112,7 +1112,7 @@
         ]
       },
       "mixed": {
-        "title": "Recognize the model list (reconheça a lista de modelos)",
+        "title": "Reconheça a lista de modelos · list",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Colchetes criam uma lista ordenada de itens.",
@@ -1222,7 +1222,7 @@
         ]
       },
       "mixed": {
-        "title": "The first position is zero (a primeira posição é zero)",
+        "title": "A primeira posição é zero · zero index",
         "prompt": "Complete o trecho para produzir: fast",
         "hints": [
           "O índice 0 seleciona o primeiro elemento.",
@@ -1328,7 +1328,7 @@
         ]
       },
       "mixed": {
-        "title": "Count available models (conte os modelos disponíveis)",
+        "title": "Conte os modelos disponíveis · length",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "len conta os elementos de uma coleção.",
@@ -1434,7 +1434,7 @@
         ]
       },
       "mixed": {
-        "title": "Register a local model (cadastre um modelo local)",
+        "title": "Cadastre um modelo local · append",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "append(item) acrescenta um item ao final da lista.",
@@ -1538,7 +1538,7 @@
         }
       },
       "mixed": {
-        "title": "Update a route in the collection (atualize uma rota na coleção)",
+        "title": "Atualize uma rota na coleção · list update",
         "prompt": "Monte o código que produz: local",
         "hints": [
           "lista[índice] = valor substitui um elemento.",
@@ -1634,7 +1634,7 @@
         ]
       },
       "mixed": {
-        "title": "A collection with no models (uma coleção sem modelos)",
+        "title": "Uma coleção sem modelos · empty list",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "[] representa uma lista vazia; len conta seus itens.",
@@ -1740,7 +1740,7 @@
         ]
       },
       "mixed": {
-        "title": "Compare with an upper limit (compare com o limite superior)",
+        "title": "Compare com o limite superior · less than",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "< verifica se o valor da esquerda é menor.",
@@ -1850,7 +1850,7 @@
         ]
       },
       "mixed": {
-        "title": "Check the exact status (confirme o status exato)",
+        "title": "Confirme o status exato · equality",
         "prompt": "Complete o trecho para produzir: True",
         "hints": [
           "== compara valores, sem fazer atribuição.",
@@ -1960,7 +1960,7 @@
         ]
       },
       "mixed": {
-        "title": "Include the boundary value (inclua o valor do limite)",
+        "title": "Inclua o valor do limite · inclusive comparison",
         "prompt": "Escolha a correção que produz a saída esperada: True",
         "hints": [
           ">= aceita valores maiores ou iguais ao limite.",
@@ -2066,7 +2066,7 @@
         ]
       },
       "mixed": {
-        "title": "Check two requirements (verifique duas exigências)",
+        "title": "Verifique duas exigências · and",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "and exige que as duas condições sejam verdadeiras.",
@@ -2172,7 +2172,7 @@
         ]
       },
       "mixed": {
-        "title": "Accept either available route (aceite uma das rotas disponíveis)",
+        "title": "Aceite uma das rotas disponíveis · or",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "or é verdadeiro quando pelo menos um lado é verdadeiro.",
@@ -2278,7 +2278,7 @@
         ]
       },
       "mixed": {
-        "title": "Invert a blocking flag (inverta o sinal de bloqueio)",
+        "title": "Inverta o sinal de bloqueio · not",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "not inverte o valor lógico.",
@@ -2384,7 +2384,7 @@
         ]
       },
       "mixed": {
-        "title": "Three budget bands (três faixas de orçamento)",
+        "title": "Três faixas de orçamento · elif",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "elif testa outra condição quando o if anterior não foi atendido.",
@@ -2490,7 +2490,7 @@
         ]
       },
       "mixed": {
-        "title": "Read a decision in an expression (leia uma decisão em uma expressão)",
+        "title": "Leia uma decisão em uma expressão · conditional expression",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "a if condição else b escolhe um dos dois valores.",
@@ -2596,7 +2596,7 @@
         ]
       },
       "mixed": {
-        "title": "Create a tool with no input (crie uma ferramenta sem entrada)",
+        "title": "Crie uma ferramenta sem entrada · def",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "def define uma função; a chamada com () executa seu corpo.",
@@ -2702,7 +2702,7 @@
         ]
       },
       "mixed": {
-        "title": "Give the tool an input (dê uma entrada à ferramenta)",
+        "title": "Dê uma entrada à ferramenta · parameter",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um parâmetro é o nome que recebe a entrada dentro da função.",
@@ -2808,7 +2808,7 @@
         ]
       },
       "mixed": {
-        "title": "Change the argument, keep the function (mude o argumento, preserve a função)",
+        "title": "Mude o argumento, preserve a função · argument",
         "prompt": "Qual valor é fornecido a show?",
         "hints": [
           "Um argumento é o valor fornecido na chamada.",
@@ -2918,7 +2918,7 @@
         ]
       },
       "mixed": {
-        "title": "Use the returned value (use o valor retornado)",
+        "title": "Use o valor retornado · return",
         "prompt": "Complete o trecho para produzir: 6",
         "hints": [
           "return devolve um valor; print pode mostrá-lo depois.",
@@ -3024,7 +3024,7 @@
         ]
       },
       "mixed": {
-        "title": "An argument can have a default (um argumento pode ter padrão)",
+        "title": "Um argumento pode ter padrão · default parameter",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um valor padrão é usado quando o argumento é omitido.",
@@ -3130,7 +3130,7 @@
         ]
       },
       "mixed": {
-        "title": "A function may have no result (uma função pode não ter resultado)",
+        "title": "Uma função pode não ter resultado · none",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma função sem return explícito devolve None.",
@@ -3236,7 +3236,7 @@
         ]
       },
       "mixed": {
-        "title": "Name the items in a pair (dê nomes aos itens de um par)",
+        "title": "Dê nomes aos itens de um par · unpacking",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Desempacotar distribui os itens em nomes na mesma ordem.",
@@ -3342,7 +3342,7 @@
         ]
       },
       "mixed": {
-        "title": "Connect two functions (conecte duas funções)",
+        "title": "Conecte duas funções · composition",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Composição usa o resultado de uma função dentro de outra.",
@@ -3448,7 +3448,7 @@
         ]
       },
       "mixed": {
-        "title": "Build a prompt prefix (construa um prefixo de prompt)",
+        "title": "Construa um prefixo de prompt · concatenation",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "+ concatena strings, preservando espaços e sinais.",
@@ -3558,7 +3558,7 @@
         ]
       },
       "mixed": {
-        "title": "Trim input whitespace (remova espaços da entrada)",
+        "title": "Remova espaços da entrada · strip",
         "prompt": "Complete o trecho para produzir: classify",
         "hints": [
           "strip() remove espaços das extremidades, não do meio.",
@@ -3664,7 +3664,7 @@
         ]
       },
       "mixed": {
-        "title": "Normalize a received label (normalize o rótulo recebido)",
+        "title": "Normalize o rótulo recebido · lower",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "lower() converte letras para minúsculas.",
@@ -3767,7 +3767,7 @@
         }
       },
       "mixed": {
-        "title": "Display an uppercase tag (mostre uma tag em destaque)",
+        "title": "Mostre uma tag em destaque · upper",
         "prompt": "Monte o código que produz: API",
         "hints": [
           "upper() converte letras para maiúsculas.",
@@ -3863,7 +3863,7 @@
         ]
       },
       "mixed": {
-        "title": "Split prompt words (separe palavras de um prompt)",
+        "title": "Separe palavras de um prompt · split",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "split() sem argumento separa texto por espaços em uma lista.",
@@ -3969,7 +3969,7 @@
         ]
       },
       "mixed": {
-        "title": "Join normalized words (reúna palavras normalizadas)",
+        "title": "Reúna palavras normalizadas · join",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "separador.join(lista) une strings usando o separador.",
@@ -4075,7 +4075,7 @@
         ]
       },
       "mixed": {
-        "title": "Find an intent in text (procure uma intenção no texto)",
+        "title": "Procure uma intenção no texto · membership",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "in verifica se um elemento ou trecho está presente.",
@@ -4185,7 +4185,7 @@
         ]
       },
       "mixed": {
-        "title": "Clean before classifying (limpe antes de classificar)",
+        "title": "Limpe antes de classificar · text pipeline",
         "prompt": "Complete o trecho para produzir: support",
         "hints": [
           "Chamadas encadeadas transformam o resultado anterior.",
@@ -4291,7 +4291,7 @@
         ]
       },
       "mixed": {
-        "title": "Visit a tool list (visite uma lista de ferramentas)",
+        "title": "Visite uma lista de ferramentas · for",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "for percorre itens da coleção na ordem.",
@@ -4397,7 +4397,7 @@
         ]
       },
       "mixed": {
-        "title": "Count three attempts (conte três tentativas)",
+        "title": "Conte três tentativas · range",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "range(n) produz inteiros de zero até n, sem incluir n.",
@@ -4503,7 +4503,7 @@
         ]
       },
       "mixed": {
-        "title": "Turn a sequence into a list (transforme uma sequência em lista)",
+        "title": "Transforme uma sequência em lista · list conversion",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "list materializa os itens de uma sequência ou leitor.",
@@ -4613,7 +4613,7 @@
         ]
       },
       "mixed": {
-        "title": "Accumulate total tokens (acumule o total de tokens)",
+        "title": "Acumule o total de tokens · accumulator",
         "prompt": "Complete o trecho para produzir: 7",
         "hints": [
           "Um acumulador guarda o resultado parcial entre iterações.",
@@ -4719,7 +4719,7 @@
         ]
       },
       "mixed": {
-        "title": "Repeat until a limit (repita até o limite)",
+        "title": "Repita até o limite · while",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "while repete enquanto a condição continuar verdadeira.",
@@ -4825,7 +4825,7 @@
         ]
       },
       "mixed": {
-        "title": "Stop at the first local route (pare na primeira rota local)",
+        "title": "Pare na primeira rota local · break",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "break encerra imediatamente o laço mais interno.",
@@ -4931,7 +4931,7 @@
         ]
       },
       "mixed": {
-        "title": "Skip an unavailable model (ignore um modelo indisponível)",
+        "title": "Ignore um modelo indisponível · continue",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "continue pula o restante da iteração atual.",
@@ -5037,7 +5037,7 @@
         ]
       },
       "mixed": {
-        "title": "Pair predictions and references (emparelhe previsões e referências)",
+        "title": "Emparelhe previsões e referências · zip",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "zip emparelha coleções; nomes separados por vírgula recebem cada par.",
@@ -5143,7 +5143,7 @@
         ]
       },
       "mixed": {
-        "title": "Record each request position (registre a posição de cada pedido)",
+        "title": "Registre a posição de cada pedido · enumerate",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "enumerate fornece o índice e o item de cada iteração.",
@@ -5249,7 +5249,7 @@
         ]
       },
       "mixed": {
-        "title": "Sum a collection of counts (some uma coleção de contagens)",
+        "title": "Some uma coleção de contagens · sum",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "sum soma os valores numéricos de uma coleção.",
@@ -5355,7 +5355,7 @@
         ]
       },
       "mixed": {
-        "title": "Count true conditions (conte condições verdadeiras)",
+        "title": "Conte condições verdadeiras · boolean count",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Em uma soma, True contribui 1 e False contribui 0.",
@@ -5461,7 +5461,7 @@
         ]
       },
       "mixed": {
-        "title": "Associate a model key and name (associe modelo e nome)",
+        "title": "Associe modelo e nome · dictionary",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Dicionários associam chaves a valores; [] acessa uma chave.",
@@ -5565,7 +5565,7 @@
         ]
       },
       "mixed": {
-        "title": "Check whether a key exists (confira se uma chave existe)",
+        "title": "Confira se uma chave existe · membership",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "in em um dicionário procura nas chaves, não nos valores.",
@@ -5675,7 +5675,7 @@
         ]
       },
       "mixed": {
-        "title": "Open the response body (abra o corpo da resposta)",
+        "title": "Abra o corpo da resposta · nested access",
         "prompt": "Complete o trecho para produzir: local",
         "hints": [
           "Acessos encadeados atravessam dicionários aninhados.",
@@ -5781,7 +5781,7 @@
         ]
       },
       "mixed": {
-        "title": "Convert data to JSON text (converta dados para texto json)",
+        "title": "Converta dados para texto JSON · json serialize",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "json.dumps converte um objeto Python em texto JSON.",
@@ -5891,7 +5891,7 @@
         ]
       },
       "mixed": {
-        "title": "Use a value when a key is missing (use um valor quando a chave faltar)",
+        "title": "Use um valor quando a chave faltar · get",
         "prompt": "Complete o trecho para produzir: local",
         "hints": [
           "get(chave, padrão) devolve o padrão quando a chave não existe.",
@@ -5997,7 +5997,7 @@
         ]
       },
       "mixed": {
-        "title": "Check the body type (verifique o tipo do corpo)",
+        "title": "Verifique o tipo do corpo · isinstance",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "isinstance(valor, tipo) verifica se o valor tem o tipo esperado.",
@@ -6103,7 +6103,7 @@
         ]
       },
       "mixed": {
-        "title": "Validate a text field (valide um campo textual)",
+        "title": "Valide um campo textual · type object",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "str é o tipo de texto; números não são strings automaticamente.",
@@ -6209,7 +6209,7 @@
         ]
       },
       "mixed": {
-        "title": "Visit keys and values (percorra chaves e valores)",
+        "title": "Percorra chaves e valores · items",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "items() fornece pares de chave e valor para o laço.",
@@ -6315,7 +6315,7 @@
         ]
       },
       "mixed": {
-        "title": "Import a specific function (importe uma função específica)",
+        "title": "Importe uma função específica · from import",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "from módulo import nome disponibiliza um nome específico do módulo.",
@@ -6421,7 +6421,7 @@
         ]
       },
       "mixed": {
-        "title": "Protect a field lookup (proteja a leitura de um campo)",
+        "title": "Proteja a leitura de um campo · try except",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "try/except permite reagir a uma exceção específica.",
@@ -6527,7 +6527,7 @@
         ]
       },
       "mixed": {
-        "title": "Handle two kinds of failure (trate dois tipos de falha)",
+        "title": "Trate dois tipos de falha · exception tuple",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma tupla no except permite tratar mais de um tipo de exceção.",
@@ -6633,7 +6633,7 @@
         ]
       },
       "mixed": {
-        "title": "Detect malformed JSON (detecte json malformado)",
+        "title": "Detecte JSON malformado · json error",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "json.JSONDecodeError identifica texto que não é JSON válido.",
@@ -6743,7 +6743,7 @@
         ]
       },
       "mixed": {
-        "title": "Convert a text score (converta um score textual)",
+        "title": "Converta um score textual · float conversion",
         "prompt": "Escolha a correção que produz a saída esperada: 0.75",
         "hints": [
           "float converte texto numérico para número com parte decimal.",
@@ -6853,7 +6853,7 @@
         ]
       },
       "mixed": {
-        "title": "Write an executable expectation (escreva uma expectativa executável)",
+        "title": "Escreva uma expectativa executável · assert",
         "prompt": "Complete o trecho para produzir: passed",
         "hints": [
           "assert verifica uma condição e falha se ela for falsa.",
@@ -6957,7 +6957,7 @@
         ]
       },
       "mixed": {
-        "title": "A test must also detect failures (um teste também deve detectar falhas)",
+        "title": "Um teste também deve detectar falhas · assert",
         "prompt": "Qual exceção este código produz?",
         "hints": [
           "Um teste falho produz AssertionError e não comprova correção.",
@@ -7063,7 +7063,7 @@
         ]
       },
       "mixed": {
-        "title": "Check whether logs exist to compare (verifique se há logs para comparar)",
+        "title": "Verifique se há logs para comparar · truthiness",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Coleções vazias são falsas em condições; not inverte essa avaliação.",
@@ -7173,7 +7173,7 @@
         ]
       },
       "mixed": {
-        "title": "Test an empty collection (teste a coleção vazia)",
+        "title": "Teste a coleção vazia · edge test",
         "prompt": "Escolha a correção que produz a saída esperada: local",
         "hints": [
           "Um caso de borda verifica uma entrada limite, como lista vazia.",
@@ -7279,7 +7279,7 @@
         ]
       },
       "mixed": {
-        "title": "Reject input outside a contract (recuse uma entrada fora do contrato)",
+        "title": "Recuse uma entrada fora do contrato · negative test",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um teste negativo verifica que uma entrada inválida é recusada.",
@@ -7385,7 +7385,7 @@
         ]
       },
       "mixed": {
-        "title": "Read an in-memory text file (leia um arquivo de texto em memória)",
+        "title": "Leia um arquivo de texto em memória · file read",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "read() lê o conteúdo de um arquivo; StringIO cria um arquivo em memória.",
@@ -7491,7 +7491,7 @@
         ]
       },
       "mixed": {
-        "title": "Read one log line (leia uma linha do log)",
+        "title": "Leia uma linha do log · file line",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "readline() lê somente a próxima linha do arquivo.",
@@ -7597,7 +7597,7 @@
         ]
       },
       "mixed": {
-        "title": "Reading advances the cursor (uma leitura avança o cursor)",
+        "title": "Uma leitura avança o cursor · file cursor",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "O cursor avança após a leitura; no fim, read retorna texto vazio.",
@@ -7707,7 +7707,7 @@
         ]
       },
       "mixed": {
-        "title": "Rewind before reading again (volte ao início para reler)",
+        "title": "Volte ao início para reler · seek",
         "prompt": "Escolha a correção que produz a saída esperada: local",
         "hints": [
           "seek(0) posiciona o cursor no início do arquivo.",
@@ -7813,7 +7813,7 @@
         ]
       },
       "mixed": {
-        "title": "Close the resource when leaving a block (feche o recurso ao sair do bloco)",
+        "title": "Feche o recurso ao sair do bloco · with",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "with gerencia a abertura e o fechamento de um recurso.",
@@ -7923,7 +7923,7 @@
         ]
       },
       "mixed": {
-        "title": "Read JSON from a file (leia json de um arquivo)",
+        "title": "Leia JSON de um arquivo · json load",
         "prompt": "Complete o trecho para produzir: local",
         "hints": [
           "json.load lê de um arquivo; json.loads recebe uma string.",
@@ -8029,7 +8029,7 @@
         ]
       },
       "mixed": {
-        "title": "Read CSV columns (leia colunas de um csv)",
+        "title": "Leia colunas de um CSV · csv reader",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "csv.reader separa linhas em colunas; list materializa o leitor.",
@@ -8135,7 +8135,7 @@
         ]
       },
       "mixed": {
-        "title": "Use column names (use os nomes das colunas)",
+        "title": "Use os nomes das colunas · csv dict",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "DictReader transforma cada linha em um dicionário de colunas.",
@@ -8241,7 +8241,7 @@
         ]
       },
       "mixed": {
-        "title": "Prepare a simulated request (prepare uma requisição simulada)",
+        "title": "Prepare uma requisição simulada · request contract",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma requisição descreve método e dados enviados a um serviço.",
@@ -8347,7 +8347,7 @@
         ]
       },
       "mixed": {
-        "title": "Recognize a format header (reconheça um cabeçalho de formato)",
+        "title": "Reconheça um cabeçalho de formato · headers",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Content-Type descreve o formato do corpo da mensagem.",
@@ -8453,7 +8453,7 @@
         ]
       },
       "mixed": {
-        "title": "Authentication is not prompt content (autenticação não é o conteúdo do prompt)",
+        "title": "Autenticação não é o conteúdo do prompt · authentication",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Autenticação controla acesso; segredos não pertencem ao frontend público.",
@@ -8563,7 +8563,7 @@
         ]
       },
       "mixed": {
-        "title": "Interpret a service failure (interprete uma falha de serviço)",
+        "title": "Interprete uma falha de serviço · service failure",
         "prompt": "Escolha a correção que produz a saída esperada: fallback",
         "hints": [
           "Um status de erro deve seguir um caminho de falha explícito.",
@@ -8669,7 +8669,7 @@
         ]
       },
       "mixed": {
-        "title": "Bound retry attempts (limite novas tentativas)",
+        "title": "Limite novas tentativas · retry budget",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um orçamento de tentativas evita repetir uma falha indefinidamente.",
@@ -8775,7 +8775,7 @@
         ]
       },
       "mixed": {
-        "title": "Select an allowed name (selecione o nome permitido)",
+        "title": "Selecione o nome permitido · tool name",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um roteador deve mapear nomes de ferramentas de forma explícita.",
@@ -8881,7 +8881,7 @@
         ]
       },
       "mixed": {
-        "title": "Pass structured arguments (passe argumentos estruturados)",
+        "title": "Passe argumentos estruturados · tool input",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Argumentos estruturados definem a entrada de uma ferramenta.",
@@ -8991,7 +8991,7 @@
         ]
       },
       "mixed": {
-        "title": "A tool with predictable output (uma ferramenta com saída previsível)",
+        "title": "Uma ferramenta com saída previsível · determinism",
         "prompt": "Escolha a correção que produz a saída esperada: 2",
         "hints": [
           "Uma ferramenta determinística usa regras explícitas para a mesma entrada.",
@@ -9097,7 +9097,7 @@
         ]
       },
       "mixed": {
-        "title": "Reject an unknown tool (recuse uma ferramenta desconhecida)",
+        "title": "Recuse uma ferramenta desconhecida · allowlist",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma allowlist aceita somente nomes cadastrados.",
@@ -9203,7 +9203,7 @@
         ]
       },
       "mixed": {
-        "title": "An agent needs to observe a result (um agente precisa observar um resultado)",
+        "title": "Um agente precisa observar um resultado · agent state",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um fluxo de agente conserva estado e observa resultados de ferramentas.",
@@ -9313,7 +9313,7 @@
         ]
       },
       "mixed": {
-        "title": "Compute the fraction correct (calcule a fração de acertos)",
+        "title": "Calcule a fração de acertos · accuracy",
         "prompt": "Escolha a correção que produz a saída esperada: 0.75",
         "hints": [
           "Acurácia é acertos divididos pelo total de casos avaliados.",
@@ -9419,7 +9419,7 @@
         ]
       },
       "mixed": {
-        "title": "Less time does not mean more correct answers (menos tempo não significa mais acertos)",
+        "title": "Menos tempo não significa mais acertos · latency",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Latência mede tempo; não mede qualidade da resposta.",
@@ -9525,7 +9525,7 @@
         ]
       },
       "mixed": {
-        "title": "Compare costs for the same batch (compare custos do mesmo lote)",
+        "title": "Compare custos do mesmo lote · cost",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Custo, latência e acurácia são dimensões diferentes.",
@@ -9631,7 +9631,7 @@
         ]
       },
       "mixed": {
-        "title": "Extract labels from a collection (extraia rótulos de uma coleção)",
+        "title": "Extraia rótulos de uma coleção · list comprehension",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma compreensão de lista transforma cada item em um novo elemento.",
@@ -9737,7 +9737,7 @@
         ]
       },
       "mixed": {
-        "title": "Count matches without an intermediate list (conte correspondências sem lista intermediária)",
+        "title": "Conte correspondências sem lista intermediária · generator expression",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma expressão geradora fornece valores a outra função durante a iteração.",
@@ -9843,7 +9843,7 @@
         ]
       },
       "mixed": {
-        "title": "Record only failing cases (registre apenas os casos falhos)",
+        "title": "Registre apenas os casos falhos · filtered comprehension",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Uma condição na compreensão filtra quais itens entram na nova lista.",
@@ -9949,7 +9949,7 @@
         ]
       },
       "mixed": {
-        "title": "A small sample has limits (uma amostra pequena tem limites)",
+        "title": "Uma amostra pequena tem limites · sample limit",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Dois acertos em dois casos não provam qualidade geral do modelo.",
@@ -10055,7 +10055,7 @@
         ]
       },
       "mixed": {
-        "title": "Separate training from validation (separe treino de validação)",
+        "title": "Separe treino de validação · validation split",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Validação deve usar exemplos separados dos usados para ajustar o modelo.",
@@ -10161,7 +10161,7 @@
         ]
       },
       "mixed": {
-        "title": "Two curves tell different stories (duas curvas contam histórias diferentes)",
+        "title": "Duas curvas contam histórias diferentes · overfitting",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Treino melhorando e validação piorando podem indicar overfitting.",
@@ -10267,7 +10267,7 @@
         ]
       },
       "mixed": {
-        "title": "Find the lowest observed loss (encontre a menor perda observada)",
+        "title": "Encontre a menor perda observada · min",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "min devolve o menor item, sem afirmar que ele generaliza melhor.",
@@ -10373,7 +10373,7 @@
         ]
       },
       "mixed": {
-        "title": "Define a short selection function (defina uma função curta de seleção)",
+        "title": "Defina uma função curta de seleção · lambda",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "lambda cria uma função curta que devolve uma expressão.",
@@ -10479,7 +10479,7 @@
         ]
       },
       "mixed": {
-        "title": "Select a checkpoint by criterion (selecione um checkpoint por critério)",
+        "title": "Selecione um checkpoint por critério · min key",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "key fornece o critério usado por min para comparar registros.",
@@ -10585,7 +10585,7 @@
         ]
       },
       "mixed": {
-        "title": "Prepared does not mean running (preparar não significa executar)",
+        "title": "Preparar não significa executar · job state",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Um notebook preparado não comprova submissão ou execução no Kaggle.",
@@ -10695,7 +10695,7 @@
         ]
       },
       "mixed": {
-        "title": "Consolidate a routing rule (consolide uma regra de roteamento)",
+        "title": "Consolide uma regra de roteamento · routing practice",
         "prompt": "Escolha a correção que produz a saída esperada: local_model",
         "hints": [
           "Uma função pode devolver decisões diferentes conforme a entrada.",
@@ -10801,7 +10801,7 @@
         ]
       },
       "mixed": {
-        "title": "Consolidate a response body (consolide o corpo de uma resposta)",
+        "title": "Consolide o corpo de uma resposta · api practice",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "O contrato separa status, texto serializado e dados Python.",
@@ -10907,7 +10907,7 @@
         ]
       },
       "mixed": {
-        "title": "Validate a complete metric (valide uma métrica completa)",
+        "title": "Valide uma métrica completa · evaluation practice",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Reutilize pares, comparações, soma e divisão para avaliar casos.",
@@ -11013,7 +11013,7 @@
         ]
       },
       "mixed": {
-        "title": "Interpret a final checkpoint (interprete o checkpoint final)",
+        "title": "Interprete o checkpoint final · training practice",
         "prompt": "Qual é a saída deste código?",
         "hints": [
           "Selecione por validação; a última época nem sempre é a melhor.",

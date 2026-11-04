@@ -4,8 +4,8 @@
   const state = { exercises: [], progress: game.createProgress(), index: 0, answer: '', attempts: 0, hintLevel: 0, language: 'mixed', known: [], term: null, simStep: -1, feedback: null };
   const storage = window.TrainerStorage.browser();
   const progressAPI=window.TrainerProgress, sessions=window.TrainerSession.create();
-  let labs,projects,runtime,modelLab,experiments,returnProject=null,projectReviewMode=false,reviewQueue=null,activeId=null,journey,learningContext={kind:"home"},activityCatalog=[],executableCatalog=[],experimentCatalog=[],reviewMessage=false;
-  function contextChanged(context){learningContext=context;journey?.context(context);}
+  let curriculum,plan,guided=true,labs,projects,runtime,modelLab,experiments,returnProject=null,projectReviewMode=false,reviewQueue=null,activeId=null,journey,learningContext={kind:"home"},activityCatalog=[],executableCatalog=[],experimentCatalog=[],reviewMessage=false;
+  function contextChanged(context){learningContext=context;journey?.context(context);curriculum?.context(context);}
   function saveSession(){if(activeId&&!$('mission').hidden)sessions.save(activeId,{answer:state.answer,attempts:state.attempts,hintLevel:state.hintLevel,simStep:state.simStep,feedback:state.feedback,solved:state.solved||false,investigation:state.investigation??null,simOpen:!$('simulation').hidden});}
   function syncProgress(){if(!game.saveProgress(storage,state.progress)){ $('storageStatus').hidden=false;$('storageStatus').textContent=reviewText('Não foi possível salvar. Mantenha esta aba aberta; o progresso está só nesta sessão.','Could not save. Keep this tab open; progress is only in this session.');}}
   function reviewText(pt,en){return state.language==='en'?en:pt;}
@@ -30,13 +30,13 @@
     $('tagline').textContent=state.language==='en'?'Python for AI':'Python aplicado a IA';$('homeTitle').textContent=state.language==='en'?'Your training':'Seu treino';
     $('language').value = state.language; $('languageLabel').textContent = t.language;
     for (const [id,key] of Object.entries({continue:'continue',reset:'reset',homeButton:'home',submit:'submit',restartModule:'restart',simulate:'sim',prevLine:'prevLine',nextLine:'nextLine',resetSim:'resetSim',simLabel:'simLabel',variablesLabel:'variables',outputLabel:'output',closeGlossary:'close'})) $(id).textContent=t[key];
-    $('homeProgress').textContent=`${completedCount()} ${t.of} ${state.exercises.length} ${t.progress}`;
+    $('homeProgress').textContent=`${state.exercises.filter(e=>!e.id.startsWith('v4-')&&state.progress.completed.includes(e.id)).length} ${t.of} 40 ${t.progress}`;
     if (!$('mission').hidden) {
       const e = exercise(), c = content();
       $('module').textContent=state.language==='en' ? ({Fundamentos:'Basics','Scores e modelos':'Scores and models',Listas:'Lists','Decisões':'Decisions',Respostas:'Responses','Funções':'Functions','Integração':'Integration','APIs simuladas':'Simulated APIs','Debugging':'Debugging','Fluxos de IA':'AI workflows','Treinamento':'Training'})[e.module]||e.module : e.module;
-      $('counter').textContent=`${t.mission} ${state.index+1} ${t.of} ${state.exercises.length}`;
+      $('counter').textContent=`${t.mission} ${state.index+1} ${t.of} ${!guided&&state.index<40?40:state.exercises.length}`;
       const term=languageData.glossary[e.terms[0]];
-      $('title').textContent=state.language==='mixed' ? `${e.title} · ${term[0]}${state.known.includes(e.terms[0])?'':` (${term[1]})`}` : c.title;
+      $('title').textContent=e.id.startsWith('v4-')?c.title:state.language==='mixed' ? `${e.title} · ${term[0]}${state.known.includes(e.terms[0])?'':` (${term[1]})`}` : c.title;
       $('prompt').textContent=c.prompt; $('context').textContent=c.context||'';
       if(e.type!=='build') [...$('answer').children].forEach((b,i)=>b.textContent=c.options[i]);
       else $('answer').lastChild.textContent=t.undo;
@@ -48,11 +48,11 @@
       for(const key of e.terms){const b=document.createElement('button'),g=languageData.glossary[key];b.textContent=state.language==='en'?g[0]:`${g[0]}${state.language==='pt'||!state.known.includes(key)?` (${g[1]})`:''}`;b.onclick=()=>{state.term=key;$('glossary').hidden=false;renderTerm();};$('legend').append(b);}
       renderPreview();renderFeedback(); renderSimulation(); if(!$('glossary').hidden)renderTerm();
     }
-    journey?.languageChanged();
+    journey?.languageChanged();curriculum?.render();if(!$(`mission`).hidden)curriculum?.lesson(exercise(),guided);
   }
   function renderFeedback(){
     for(const button of $('answer').children)button.disabled=!!state.solved;$('submit').disabled=!!state.solved;$('hint').disabled=!!state.solved;
-    const f=state.feedback;if(!f){$('feedback').textContent='';return;}
+    $('vExplanation').hidden=!state.solved;$('feedback').dataset.kind=state.feedback?.kind||'';const f=state.feedback;if(!f){$('feedback').textContent='';return;}
     const t=ui(),c=content();
     $('feedback').textContent=f.kind==='hint'?c.hints[state.hintLevel-1]:f.kind==='correct'?`${t.right} ${f.gained?`+${f.gained} XP.`:t.again} ${c.explanation} ${c.aiApplication}`:t[f.kind];
   }
@@ -84,11 +84,11 @@
     saveSession();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;if(progressAPI.reviews(state.progress,state.exercises).length)reviewMessage=false;$('aiLab').hidden=true;if(projects)projects.hide();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();
     $('home').hidden = false; $('mission').hidden = true;
     renderXP();
-    updateText();contextChanged({kind:"home",area});journey?.home();$("homeTitle").focus({preventScroll:true});
+    updateText();contextChanged({kind:"home",area});journey?.home();curriculum?.render();if(document.activeElement!==document.body)$("homeTitle").focus({preventScroll:true});
   }
   function renderMission() {
-    if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();const e = state.exercises[state.index];activeId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
-    Object.assign(state,sessions.get(e.id)); $('simulation').hidden=!state.simOpen; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
+    if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();const e = state.exercises[state.index];activeId=e.id;$('mission').dataset.exerciseId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
+    Object.assign(state,sessions.get(e.id));state.attempts=state.progress.attempts[e.id]||0;state.hintLevel=Math.max(state.hintLevel,state.progress.missionHints?.[e.id]||0); $('simulation').hidden=!state.simOpen; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
     $('aiLab').hidden=true;$('home').hidden = true; $('mission').hidden = false;
     renderXP();
     $('module').textContent = e.module;
@@ -117,7 +117,7 @@
     state.attempts++;
     state.progress.attempts[e.id] = (state.progress.attempts[e.id] || 0) + 1;
     if (game.checkAnswer(e, state.answer)) {
-      const gained = game.awardXP(state.progress, e.id, state.attempts, state.hintLevel > 0);
+      const gained = game.awardXP(state.progress, e.id, state.progress.attempts[e.id], state.hintLevel > 0);
       if(!projectReviewMode)state.progress.current = Math.max(state.progress.current, state.index + 1);
       const next = state.exercises[state.index + 1];
       if (next && !state.progress.unlocked.includes(next.module)) state.progress.unlocked.push(next.module);
@@ -126,17 +126,17 @@
       state.feedback={kind:'correct',gained};renderFeedback();
       $('next').hidden = false;
     } else {if(projects)projects.missionAttempt(e,false);progressAPI.record(state.progress,e,false,0,!!reviewQueue||projectReviewMode);state.feedback={kind:'wrong'};renderFeedback();}
-    syncProgress();saveSession();$('bar').style.width=`${completedCount()/state.exercises.length*100}%`; renderXP();
+    syncProgress();saveSession();$('bar').style.width=`${completedCount()/state.exercises.length*100}%`; renderXP();if(guided)curriculum?.lesson(exercise(),true);
   }
   function showHint() {
     const e = state.exercises[state.index];
     if(state.solved)return;
-    if (state.hintLevel < 2) {state.hintLevel++;if(projects)projects.missionHint(e);progressAPI.hint(state.progress,e);syncProgress();}
+    if (state.hintLevel < 2) {state.hintLevel++;state.progress.missionHints ||= {};state.progress.missionHints[e.id]=state.hintLevel;if(projects)projects.missionHint(e);progressAPI.hint(state.progress,e);syncProgress();}
     state.feedback={kind:'hint'};saveSession();updateText();
   }
   function restartModule() {
     if (!window.confirm(ui().restartConfirm)) return;
-    game.resetModule(state.progress, state.exercises, state.exercises[state.index].module);
+    if(guided&&plan){const id=window.TrainerCurriculum.unitFor(plan,exercise().id).id;window.TrainerCurriculum.resetUnit(plan,state.progress,id);}else game.resetModule(state.progress,state.exercises.filter(e=>!e.id.startsWith('v4-')),state.exercises[state.index].module);
     sessions.clear();activeId=null;syncProgress(); state.index=state.progress.current; renderHome();
   }
   async function init() {
@@ -144,7 +144,9 @@
     state.language=['pt','mixed','en'].includes(preferredLanguage)?preferredLanguage:'mixed';$('language').value=state.language;$('languageLabel').textContent=ui().language;document.documentElement.lang=state.language==='en'?'en':'pt-BR';state.progress=game.loadProgress(storage);renderXP();
     const json=window.TrainerContent.json;for(const button of document.querySelectorAll('#home button'))button.disabled=true;$('language').disabled=true;
     Object.assign(languageData.glossary,await json('glossary-v2.json'));
-    state.exercises=await window.TrainerContent.load(languageData.glossary);state.progress=game.loadProgress(storage);syncProgress();
+    state.exercises=await window.TrainerContent.load(languageData.glossary);state.progress=game.loadProgress(storage);
+    try{const [fresh,terms,map]=await Promise.all(['exercises','glossary','units'].map(n=>json(`curriculum/${n}.json`)));Object.assign(languageData.glossary,terms);window.TrainerContent.validate(fresh.map(e=>({...e,requires:[]})),languageData.glossary);plan=window.TrainerCurriculum.validate(map,[...state.exercises,...fresh]);state.exercises=window.TrainerCurriculum.prepare(plan,[...state.exercises,...fresh],state.progress);}catch(error){storageWarning(reviewText('A trilha ampliada não carregou. As 40 missões originais continuam disponíveis.','The expanded path did not load. The original 40 missions remain available.'));console.error(error);}
+    syncProgress();
     try{state.known=JSON.parse(storage.getItem('trainer-known'))||[];if(!Array.isArray(state.known))state.known=[];}catch{state.known=[];}
     $('language').onchange=()=>{state.language=$('language').value;preference();updateText();saveSession();};
     $('simulate').onclick=()=>{$('simulation').hidden=!$('simulation').hidden;renderSimulation();saveSession();};
@@ -154,11 +156,11 @@
     $('closeGlossary').onclick=()=>{$('glossary').hidden=true;};
     $('knowTerm').onclick=()=>{state.known=state.known.includes(state.term)?state.known.filter(k=>k!==state.term):[...state.known,state.term];preference();updateText();};
     state.index = Math.min(state.progress.current, state.exercises.length - 1);
-    $('continue').onclick = () => {const next=window.LearningPath.nextMission(state.exercises,state.progress);if(next)state.index=state.exercises.indexOf(next);returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;reviewQueue=null;renderMission();}; $('homeButton').onclick = renderHome;
+    $('continue').onclick = () => {guided=!!plan;const next=plan?state.exercises.find(e=>e.id===window.TrainerCurriculum.next(plan,state.progress)):window.LearningPath.nextMission(state.exercises,state.progress);if(next)state.index=state.exercises.indexOf(next);returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;reviewQueue=null;renderMission();}; $('homeButton').onclick = renderHome;
     $('submit').onclick = submit; $('hint').onclick = showHint;
-    $('next').onclick = () => { saveSession();if(projectReviewMode&&returnProject){$('mission').hidden=true;$('returnToProject').hidden=true;returnProject();return;}if(reviewQueue){reviewQueue.shift();if(!reviewQueue.length){reviewQueue=null;renderHome();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();return;} if(state.index===state.exercises.length-1){renderHome();return;} state.index = game.getNextIndex(state.exercises, state.index); renderMission(); };
+    $('next').onclick = () => { saveSession();if(projectReviewMode&&returnProject){$('mission').hidden=true;$('returnToProject').hidden=true;returnProject();return;}if(reviewQueue){reviewQueue.shift();if(!reviewQueue.length){reviewQueue=null;renderHome();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();return;} if(guided&&plan){const unit=window.TrainerCurriculum.unitFor(plan,exercise().id);if(unit.missions.at(-1)===exercise().id){renderHome();curriculum?.openUnit(unit.id);return;}const ids=unit.missions;state.index=state.exercises.findIndex(e=>e.id===ids[ids.indexOf(exercise().id)+1]);renderMission();return;}if(state.index===state.exercises.length-1||!guided&&state.index===39){renderHome();return;}state.index=game.getNextIndex(state.exercises,state.index);renderMission(); };
     $('restartModule').onclick = restartModule;
-    $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm+' '+reviewText('Inclui projetos, portfólio e evidências do Lab.','Includes projects, portfolio and Lab evidence.'))){const coreCleared=progressAPI.clear(storage),areasCleared=window.TrainerStorage.remove(storage,['pythonAiLabV3','pythonExecutableV1','pythonModelLabV1','pythonExperimentLearningV1']);if(!coreCleared||!areasCleared)storageWarning(reviewText('Não foi possível remover todos os dados locais.','Could not remove all local data.'));if(projects)projects.reset();if(runtime)runtime.reset();if(modelLab)modelLab.reset();if(experiments)experiments.reset();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;sessions.clear();activeId=null;state.progress=game.createProgress();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;reviewMessage=false;renderHome();}};
+    $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm+' '+reviewText('Inclui projetos, portfólio e evidências do Lab.','Includes projects, portfolio and Lab evidence.'))){const coreCleared=progressAPI.clear(storage),areasCleared=window.TrainerStorage.remove(storage,['pythonAiLabV3','pythonExecutableV1','pythonModelLabV1','pythonExperimentLearningV1','trainer-theme','trainer-unit-v4']);if(!coreCleared||!areasCleared)storageWarning(reviewText('Não foi possível remover todos os dados locais.','Could not remove all local data.'));if(projects)projects.reset();if(runtime)runtime.reset();if(modelLab)modelLab.reset();if(experiments)experiments.reset();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;sessions.clear();activeId=null;state.progress=game.createProgress();if(plan)window.TrainerCurriculum.prepare(plan,state.exercises,state.progress);curriculum?.reset();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;reviewMessage=false;renderHome();}};
     $('reviewButton').onclick=()=>{saveSession();reviewMessage=false;reviewQueue=progressAPI.reviews(state.progress,state.exercises);if(!reviewQueue.length){reviewQueue=null;reviewMessage=true;updateText();return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();};
     $('debugButton').onclick=()=>{$('debugList').hidden=!$('debugList').hidden;renderDebugList();};
     $('aiLabButton').onclick=()=>{if(!labs)return;saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();if(projects)projects.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;contextChanged({kind:'lab',id:'simulation'});labs.render();};
@@ -197,11 +199,14 @@
     let graph={version:1,links:[],projectRequires:{},lessonPreparation:{}},preparations=[];
     try{const responses=await Promise.all(['links','preparations'].map(name=>json(`learning/${name}.json`)));if(responses[0].version!==1||!Array.isArray(responses[0].links)||!Array.isArray(responses[1]))throw Error();window.LearningPath.validate(responses[0],{missions:state.exercises,lessons:executableCatalog,activities:activityCatalog,experiments:experimentCatalog},{partial:true});window.LearningPath.validatePreparations(responses[1],{missions:state.exercises,lessons:executableCatalog},{partial:true});[graph,preparations]=responses;}catch{storageWarning(reviewText('As conexões pedagógicas não carregaram. As atividades continuam disponíveis.','Learning connections could not load. Activities remain available.'));}
     journey=window.LearningExperience.create({graph,preparations,catalog:{missions:state.exercises,lessons:executableCatalog,activities:activityCatalog,experiments:experimentCatalog},language:()=>state.language,reviews:()=>progressAPI.reviews(state.progress,state.exercises),available:kind=>kind==='projects'?!!projects:kind==='runtime'?!!runtime:kind==='model'?!!modelLab:!!experiments,onWarning:storageWarning,navigate:openLearningActivity,snapshot:()=>{const e=experiments?.snapshot();return {availability:{projects:!!projects,runtime:!!runtime,experiments:!!experiments,model:!!modelLab},mission:state.progress,project:projects?.snapshot()||{},runtime:runtime?.snapshot()||{},model:modelLab?.snapshot()||{},experiments:e?.state||{},reports:e?.reports||[]};},onArea:area=>{if(area==='projects'){openLearningActivity({kind:'activity-list',id:'hub'});return;}renderHome(area);const id=({learn:'jLearnTitle',practice:'jPracticeTitle',lab:'jLabTitle',progress:'jProgressTitle'})[area];$(id).focus({preventScroll:true});$(id).scrollIntoView({block:'start'});}});
+    if(plan){curriculum=window.CurriculumExperience.create({plan,exercises:state.exercises,progress:()=>state.progress,language:()=>state.language,navigate:openLearningActivity,storage,onWarning:storageWarning,review:()=>{$('reviewButton').click();}});$('themeToggle').disabled=false;}
     $('bootStatus').hidden=true;if(!$('home').hidden)renderHome();else{updateText();contextChanged(learningContext);}
   }
   function openLearningActivity(target){
+    if(target.kind==='curriculum'){guided=true;renderHome('learn');return;}if(target.kind==='area'){if(target.area==='projects'){openLearningActivity({kind:'activity-list',id:'hub'});return;}renderHome(target.area);return;}
     const from={...learningContext},previousIndex=state.index;saveSession();runtime?.hide();projects?.hide();modelLab?.hide();experiments?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;reviewQueue=null;projectReviewMode=false;returnProject=null;$('returnToProject').hidden=true;$('jMenu').open=false;
     if(target.kind==='mission'){
+      guided=!!target.guided;
       const i=state.exercises.findIndex(e=>e.id===target.id);if(i<0){renderHome();return;}state.index=i;
       if(['activity','executable','experiment'].includes(from.kind)){projectReviewMode=true;returnProject=()=>{state.index=previousIndex;projectReviewMode=false;returnProject=null;openLearningActivity(from);};$('returnToProject').hidden=false;}
       renderMission();return;
