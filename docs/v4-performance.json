@@ -1,0 +1,49 @@
+{
+  "measured_utc": "2026-11-04T18:04:44.060Z",
+  "revision": "5002e6611184ea1d0d3c18ff060c8cd67ca75fa9",
+  "environment": "Linux Chromium, localhost, cold browser context, shared cloud CPU; not iPhone/cellular benchmark",
+  "samples": [
+    {
+      "width": 320,
+      "first_path_wall_ms": 201,
+      "all_modules_wall_ms": 274,
+      "navigation": {
+        "dom_content_loaded_ms": 133.29999999701977,
+        "load_event_ms": 137
+      },
+      "runtime_requests_before_execution": 0
+    },
+    {
+      "width": 375,
+      "first_path_wall_ms": 205,
+      "all_modules_wall_ms": 251,
+      "navigation": {
+        "dom_content_loaded_ms": 126.19999998807907,
+        "load_event_ms": 131.69999998807907
+      },
+      "runtime_requests_before_execution": 0
+    },
+    {
+      "width": 390,
+      "first_path_wall_ms": 188,
+      "all_modules_wall_ms": 249,
+      "navigation": {
+        "dom_content_loaded_ms": 137.70000000298023,
+        "load_event_ms": 138.79999999701977
+      },
+      "runtime_requests_before_execution": 0
+    }
+  ],
+  "first_python_wall_ms": 2106,
+  "python_run": "Python 3.14.2 · 3 ms (execução aproximada; não inclui download/inicialização)",
+  "three_clean_python_cases_wall_ms": 5763,
+  "validation": "Execução concluída · +10 XP",
+  "files_bytes": {
+    "curriculum/exercises.json": 385226,
+    "curriculum/glossary.json": 31603,
+    "curriculum/units.json": 20084,
+    "style.css": 5743,
+    "curriculum/design.css": 6765
+  },
+  "runtime_resource_bytes": 13532188
+}

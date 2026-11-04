@@ -15,3 +15,5 @@ Os testes CPython executam os exemplos confiáveis e cada alternativa de reparo,
 O currículo e a interface estão integrados. A revisão dos desafios acrescentou a semântica de `or` como valor alternativo, e uma matriz própria de pré-requisitos do runtime. As validações completas serão registradas após execução real.
 
 Na revisão do motor foi corrigido XP de primeira tentativa indevido após recarregar uma resposta errada, e perda da contagem de dicas por missão. Novos campos são aditivos. A recuperação dos projetos também passou a importar a taxonomia explícita de novos conceitos sem criar evidência inválida para tracks desconhecidos. Os testes cobrem a indisponibilidade temporária desse módulo.
+
+A preservação é verificável em [v4-preservation.json](v4-preservation.json): 58 arquivos comparados byte a byte com a main de origem, incluindo o catálogo original, dados dos quatro projetos, mecanismos do runtime, experimentos e executor. `runtime/view.js` só acrescenta o modo inicial recomendado por unidade; a segurança de execução permanece no mecanismo anterior.

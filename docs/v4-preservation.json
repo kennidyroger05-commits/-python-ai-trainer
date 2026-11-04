@@ -1,0 +1,239 @@
+{
+  "base": "57eaec8b2e5f36f1b9bdaf2f2fd4b2aa676797c6",
+  "checked_utc": "2026-11-04T18:08:13.926497+00:00",
+  "unchanged_files": 58,
+  "files": [
+    {
+      "path": "executor/README.md",
+      "sha256": "1c14b1ab74df24663b11ba9aa33821a774e1b5235371b79a04c23db31bd89543"
+    },
+    {
+      "path": "executor/__init__.py",
+      "sha256": "036ef79728c23febb03559775a7753a84766dc32540c3c24be56f43894d4ea3f"
+    },
+    {
+      "path": "executor/artifacts.py",
+      "sha256": "484b8fd6e7884357a6be06729e4c972e25b0f38ce7713da8e5fede718507fa1c"
+    },
+    {
+      "path": "executor/cli.py",
+      "sha256": "0ffa3ed282cf8e2ba4b84acce2cbf1352f645262b3d594ae25cc304a8b62d14b"
+    },
+    {
+      "path": "executor/contracts.py",
+      "sha256": "d983a3d8f7b4b8f45217ac6936a231b2bf9a5e367dd088e02b3a708a5a215bf6"
+    },
+    {
+      "path": "executor/errors.py",
+      "sha256": "ea6333ceb7c6849def365d29bcbc6df06737e513e8425ff942bf18743f427162"
+    },
+    {
+      "path": "executor/files.py",
+      "sha256": "54ec5a8e051d64f79b71070c6f2d1b7c44d1e117826bacfd7c403d0c53e65bbc"
+    },
+    {
+      "path": "executor/local.py",
+      "sha256": "9986f4d69184b66002fab1e6d52542f25f6a1a2cdb47212e7cfe9fb7a6bf2949"
+    },
+    {
+      "path": "executor/notebooks.py",
+      "sha256": "c7767e7a9bee872b7c1ce069d8f18c4e9807f9a79a374f27cb999c91443e145f"
+    },
+    {
+      "path": "executor/package.py",
+      "sha256": "55dbe65d37f9cb04104a0c265fc871cb1a77a37c4590bff933c1317640d3c24f"
+    },
+    {
+      "path": "executor/requirements-kaggle.txt",
+      "sha256": "75dcb1c31a98037c309d659ddac829a65b740fb450640a6e99d65506295f65bf"
+    },
+    {
+      "path": "executor/sdk_worker.py",
+      "sha256": "c1cd8b41eb383671d048d1a11777e1a8778f5b7bc128f9c97debb75e342b0e73"
+    },
+    {
+      "path": "executor/service.py",
+      "sha256": "3d28838e678da77a36a7384ea1e4b14366f8e0b27fcd0372764f334bd9bcf5b4"
+    },
+    {
+      "path": "executor/transport.py",
+      "sha256": "38d655d055fc8517a9c4c872e240ec3d3e96529b6af33aeee63dcc8b35f618b3"
+    },
+    {
+      "path": "executor/workflow.py",
+      "sha256": "e850797466bde68732f32d726383b9815c59c24be181bcb082df290c1aec51ec"
+    },
+    {
+      "path": "exercises.json",
+      "sha256": "4cbeebc99ab487af3f845e4f7a5b822d98e0b5472296f7033d01e18d66a30208"
+    },
+    {
+      "path": "experiments/README.md",
+      "sha256": "b06e2058e5cba477aac90c3103941a99aca08f1de3e3afa10531b777b6fae193"
+    },
+    {
+      "path": "experiments/assets.json",
+      "sha256": "30628c53fcfca587c62963e6b3317d9a72b3da7161707d4806753762ec79cde5"
+    },
+    {
+      "path": "experiments/catalog.json",
+      "sha256": "30e07e671ea6281de5526be61547640128e003fc17cf00e1edf1f64bd05e6f8c"
+    },
+    {
+      "path": "experiments/contracts.js",
+      "sha256": "daba4cec4f5616bc37d867e963cab6abd924ddc2675b50c3d3863165f6a045e0"
+    },
+    {
+      "path": "experiments/data/intent-model.json",
+      "sha256": "0cc31078081eb0d4a349d55b1f748451c7e3f4da0b5a0c9ea75f5b8561e5cc77"
+    },
+    {
+      "path": "experiments/data/synthetic-intents.json",
+      "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178"
+    },
+    {
+      "path": "experiments/evidence/intent-inference-local.json",
+      "sha256": "1f306d50bae4845384a46392b2320f4e5c16452d0347fadf254009f5316633e7"
+    },
+    {
+      "path": "experiments/evidence/intent-inference-trace.json",
+      "sha256": "3e0ccc1f4c99725f77e792250492359d8dcf495ade0cc4f29a70a55bb249a2fa"
+    },
+    {
+      "path": "experiments/evidence/intent-training-local.json",
+      "sha256": "5226b0e6769a8f06cf6c9123e7d0ea83d4ad3d94b5b48fa75c3d48d7d0ed905e"
+    },
+    {
+      "path": "experiments/evidence/intent-training-trace.json",
+      "sha256": "cf86a49b12d937707eb8a867673063d0c9f2071794ac59e481c06e724ecff911"
+    },
+    {
+      "path": "experiments/experiments.css",
+      "sha256": "aeb537df8635456c7fe3af7707e69880c7442e8d098a7555ffb078ef18156eae"
+    },
+    {
+      "path": "experiments/intent-inference-job.json",
+      "sha256": "aa731d9d509b9bc9045e6134ef305b8546c6c07d4eda48db38ece771b2a81b17"
+    },
+    {
+      "path": "experiments/intent-training-job.json",
+      "sha256": "8ceb8e75c9c734726ccf25ea5e7ac308a988f13252633e6df836cdae9c8cdf00"
+    },
+    {
+      "path": "experiments/kaggle-smoke-job.json",
+      "sha256": "823762e01c47ac716804da2042e15e7169ebea802c9874c78b391ae2861d7d41"
+    },
+    {
+      "path": "experiments/notebooks/intent-inference.ipynb",
+      "sha256": "329487b1566642c9d4f6989dd1396867a22a58636066222c088ea84f4b19fe5b"
+    },
+    {
+      "path": "experiments/notebooks/intent-training.ipynb",
+      "sha256": "23c8ed8b0487126a0cd9ec6fab274013a3e63b579f5b9baea920da7ceb14e325"
+    },
+    {
+      "path": "experiments/recipes/run_experiment.py",
+      "sha256": "9ad4b613f80c82bc8281383b0cd292f48bb980ccd024afdc8a7aff141aaed46e"
+    },
+    {
+      "path": "experiments/recipes/tiny_intent.py",
+      "sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9"
+    },
+    {
+      "path": "experiments/state.js",
+      "sha256": "fce3c9498e98d1fd51190eb4241f8fb6560c78882e7e695d0ca5c3fd158aded7"
+    },
+    {
+      "path": "experiments/terms.json",
+      "sha256": "5b4976ebf0557b48e8884fd13ed00e0d1dbe21d3f9f232c2df82b3bdc4130fab"
+    },
+    {
+      "path": "experiments/view.js",
+      "sha256": "b6d8e77ae6778dd4a45b742109648c291f3f29dd08f4ab149c2cbc0572f4ad7b"
+    },
+    {
+      "path": "glossary-v2.json",
+      "sha256": "73da757f7533ac7c67ac91059a4f93e107bd85ec0967b8ebf150e452011337c9"
+    },
+    {
+      "path": "labs.js",
+      "sha256": "943fb4ae1e7ba786b8f15f98fd17ba2a3595c6ff5bbbdf403c91cdc02fa7fbe9"
+    },
+    {
+      "path": "labs.json",
+      "sha256": "9e91dddbab4c130735420cb28b3c3e673bea4d5e34b305a9a3aa9d5e5fe4cc14"
+    },
+    {
+      "path": "language.js",
+      "sha256": "02b788834686b20881b07d1285d098c5181064570e51dab87d1d0d666b55312a"
+    },
+    {
+      "path": "model-lab/contracts.js",
+      "sha256": "250d55e00e2c65c5c82fdc00c940eed05e19f29f4f788d4ab6c5f6dbf1f0869c"
+    },
+    {
+      "path": "model-lab/kaggle.js",
+      "sha256": "00b716fcbb5da9b3f4f22fdd66c16d40b50cafa719df15c5926d25ac91182b12"
+    },
+    {
+      "path": "model-lab/state.js",
+      "sha256": "0368a95a2996d6811b432ca1c18a5347dc140661a413210477e8bb242ff80365"
+    },
+    {
+      "path": "model-lab/view.js",
+      "sha256": "c75c8252e187cdc96f6fd4ce73455c4cd17fb175cc201b6281a9ccec7bdacf92"
+    },
+    {
+      "path": "projects/catalog.json",
+      "sha256": "5f82ca4b3180e3524b8b55470a368b3733ea088950a3490ef2531aa047b93189"
+    },
+    {
+      "path": "projects/datasets.json",
+      "sha256": "7b6d9c2904696951c78d6f9adce0d743d76a061e8facc2f1dba6ca9193a7a26d"
+    },
+    {
+      "path": "projects/debugging.json",
+      "sha256": "02adabff2f70ca3a7b0658cc64bf06a4185bc9c2032fd4463286a4d5eb64fd2a"
+    },
+    {
+      "path": "projects/models.js",
+      "sha256": "7d99dada5d163cf20f10d5bd98503085c921f95b357a6e42d1ef9ad0e4a532ae"
+    },
+    {
+      "path": "projects/testing.json",
+      "sha256": "fbeab91c2884e1cc25ba5f235f48fd223cbee964189e9227e1024d20d3519192"
+    },
+    {
+      "path": "runtime/client.js",
+      "sha256": "fc95215f15fbb7d073d29ba623aa2d4492085fbfd93b2e1f56ea2254e1f683fb"
+    },
+    {
+      "path": "runtime/frame.js",
+      "sha256": "2d48b7c6412594a168b9dc6344ee81f3cc251a9972a54085b694af4eecbbcc1e"
+    },
+    {
+      "path": "runtime/lessons.json",
+      "sha256": "2640f49b0dfd65de0c5b69cd0b8884727d6588f33ebe19cb2a55233795eb15b1"
+    },
+    {
+      "path": "runtime/manifest.json",
+      "sha256": "7cbc10efb1fc2e5a1664ebd6f090497a1465d275dba5eb393409116a1c35d45c"
+    },
+    {
+      "path": "runtime/memory.js",
+      "sha256": "faebb012b86d0e6ad6fbd28a8e787495bbb987ff62af779cd126482db28225c3"
+    },
+    {
+      "path": "runtime/progress.js",
+      "sha256": "886c2151a997d4985f3aeb3249b14b950923873ee226f60547161e2df816236d"
+    },
+    {
+      "path": "runtime/runner.py",
+      "sha256": "d0aa8027ea95ee8ce3025fdbc334b1692dc79bcd9e3ad3f9e94b2fa7e116ed39"
+    },
+    {
+      "path": "runtime/worker.js",
+      "sha256": "0976b41c662af5dd89df76f92ef7fd598bf25548d33cb3c65ba0eee4a9da605e"
+    }
+  ]
+}
