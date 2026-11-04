@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "spec": {
+    "schema_version": 2,
+    "id": "intent-training-study",
+    "recipe_id": "intent-training",
+    "experiment_type": "training",
+    "model": {
+      "id": "tiny-intent-softmax-v1",
+      "parameters": 87,
+      "weights_sha256": null
+    },
+    "dataset": {
+      "id": "synthetic-intents-30-v1",
+      "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178",
+      "train_examples": 18,
+      "validation_examples": 6,
+      "test_examples": 6
+    },
+    "objective": "Run real tiny linear-model training on synthetic intent data; no LLM or external download.",
+    "environment": {
+      "python_min": "3.10",
+      "libraries": {
+        "stdlib": "builtin"
+      },
+      "hardware": {
+        "device": "cpu",
+        "memory_mb": 512
+      },
+      "internet": false
+    },
+    "config": {
+      "seed": 7,
+      "epochs": 20,
+      "batch_size": 4,
+      "learning_rate": 0.8
+    },
+    "resources": {
+      "timeout_seconds": 300,
+      "max_artifact_bytes": 1048576
+    },
+    "provenance": {
+      "template_version": 1,
+      "core_sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9",
+      "producer": "python-ai-trainer"
+    }
+  },
+  "spec_sha256": "ce95258932553ab840d257f31c249587965b3e347546c11c4246613def4321e3",
+  "provenance": {
+    "source": "local-cpu",
+    "verification": "bounded-local-process",
+    "remote_ref": null,
+    "remote_version": null
+  },
+  "notebook_result": {
+    "schema_version": 1,
+    "status": "completed",
+    "spec_sha256": "ce95258932553ab840d257f31c249587965b3e347546c11c4246613def4321e3",
+    "recipe_id": "intent-training",
+    "experiment_type": "training",
+    "provenance": {
+      "source": "notebook-process",
+      "python": "3.12.14",
+      "libraries": {
+        "stdlib": "3.12.14"
+      },
+      "platform": "Linux",
+      "started_at": "2026-11-04T01:48:21.401949+00:00",
+      "duration_ms": 7.7416359999915585,
+      "model_kind": "linear-softmax",
+      "parameters": 87,
+      "dataset": "synthetic-intents-30-v1",
+      "remote_verified": false
+    },
+    "metrics": {
+      "before_validation_accuracy": 0.5,
+      "after_validation_accuracy": 1.0,
+      "heldout_test_accuracy": 1.0,
+      "training_loss_last": 0.02513679580628067,
+      "validation_loss_best": 0.022809613540332507,
+      "epochs_completed": 20,
+      "selected_epoch": 20,
+      "peak_process_memory_kib": 11264
+    },
+    "details": {
+      "before_validation": {
+        "accuracy": 0.5,
+        "loss": 1.0969575537286487,
+        "correct": 3,
+        "examples": 6
+      },
+      "after_validation": {
+        "accuracy": 1.0,
+        "loss": 0.022809613540332507,
+        "correct": 6,
+        "examples": 6
+      },
+      "heldout_test": {
+        "accuracy": 1.0,
+        "loss": 0.02837084100806994,
+        "correct": 6,
+        "examples": 6
+      },
+      "selected_epoch": 20
+    },
+    "errors": []
+  },
+  "artifacts": [
+    {
+      "name": "checkpoint-best.json",
+      "bytes": 2979,
+      "sha256": "4124191f38382e96fc590869c9b7fd1bf059588def10ada9656f962cd7099cba"
+    },
+    {
+      "name": "events.json",
+      "bytes": 3393,
+      "sha256": "19fba506ee70c264394e7892ab91634409997c98a31a7abeeceeb70418b8fceb"
+    },
+    {
+      "name": "history.json",
+      "bytes": 3301,
+      "sha256": "eab71ffa1aa84ddfdee62496b4bf4d35cf88f8a6ef6abea10f5d52e3686fc545"
+    },
+    {
+      "name": "metrics.json",
+      "bytes": 286,
+      "sha256": "9d3d78bc6636c2f8c70a48ee2bf6c4fad13823b1a9573e8543961467f743ea5c"
+    },
+    {
+      "name": "result.json",
+      "bytes": 1353,
+      "sha256": "e2ad2ccc7abb586d43d9102f2d3a0f98460ef82276e89c9b3d38b15d8f752db6"
+    },
+    {
+      "name": "splits.json",
+      "bytes": 781,
+      "sha256": "d4a3978ce997815380ee7ab492c64b4f83adebcd042e88e7f50bf66039c90151"
+    }
+  ],
+  "reference_notice": "Measured local development reference; not your job, not Kaggle, not a general model benchmark."
+}
