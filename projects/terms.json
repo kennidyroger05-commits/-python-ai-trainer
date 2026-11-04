@@ -1,0 +1,281 @@
+{
+  "contract": [
+    "contract",
+    "contrato",
+    "Define campos, tipos e resultados aceitos.",
+    "Defines accepted fields, types and results.",
+    "{\"priority\": \"quality\"}",
+    "Contratos deixam integrações previsíveis.",
+    "Contracts make integrations predictable."
+  ],
+  "routing": [
+    "routing",
+    "roteamento",
+    "Escolhe um caminho por regras explícitas.",
+    "Chooses a path using explicit rules.",
+    "if priority == \"quality\":",
+    "Regras são verificáveis com casos conhecidos.",
+    "Rules can be checked with known cases."
+  ],
+  "availability": [
+    "availability",
+    "disponibilidade",
+    "Indica se uma opção pode ser usada agora.",
+    "Indicates whether an option can be used now.",
+    "primary in available",
+    "Um modelo indisponível exige alternativa definida.",
+    "An unavailable model needs a defined alternative."
+  ],
+  "test-case": [
+    "test case",
+    "caso de teste",
+    "Combina entrada e resultado esperado.",
+    "Combines an input and expected result.",
+    "assert route(request, models) == \"quality_model\"",
+    "Casos verificam regras de ferramentas e roteadores.",
+    "Cases check tool and router rules."
+  ],
+  "assertion": [
+    "assertion",
+    "asserção",
+    "Verifica uma condição; se falsa, gera AssertionError.",
+    "Checks a condition; if false, raises AssertionError.",
+    "assert dobro(3) == 6",
+    "Um teste aprovado cobre o caso, não todos os bugs.",
+    "A passing test covers the case, not every bug."
+  ],
+  "serialization": [
+    "serialization",
+    "serialização",
+    "Converte uma estrutura em texto para transporte.",
+    "Converts a structure into text for transport.",
+    "json.dumps({\"model\": \"local_model\"})",
+    "Texto JSON precisa ser interpretado antes de acessar campos.",
+    "JSON text must be parsed before accessing fields."
+  ],
+  "required-field": [
+    "required field",
+    "campo obrigatório",
+    "Deve existir e atender ao tipo contratado.",
+    "Must exist and match the contracted type.",
+    "isinstance(body.get(\"model\"), str)",
+    "Status HTTP bem-sucedido não garante conteúdo válido.",
+    "A successful HTTP status does not guarantee valid content."
+  ],
+  "accuracy": [
+    "accuracy",
+    "acurácia",
+    "Fração de respostas corretas no conjunto avaliado.",
+    "Fraction of correct answers in the evaluated dataset.",
+    "correct / len(expected)",
+    "Amostras pequenas não demonstram superioridade geral.",
+    "Small samples do not demonstrate general superiority."
+  ],
+  "latency": [
+    "latency",
+    "latência",
+    "Tempo até obter uma resposta, aqui fictício.",
+    "Time until a response, fictional here.",
+    "latency_ms = 120",
+    "Latência, custo e acurácia medem aspectos diferentes.",
+    "Latency, cost and accuracy measure different things."
+  ],
+  "split": [
+    "split",
+    "separação dos dados",
+    "Mantém treino e validação em conjuntos distintos.",
+    "Keeps training and validation in separate sets.",
+    "train_ids = [\"t1\", \"t2\"]",
+    "Dados de validação não devem ser usados para ajustar pesos.",
+    "Validation data must not be used to update weights."
+  ],
+  "batch": [
+    "batch",
+    "lote",
+    "Grupo de exemplos processados juntos no treinamento.",
+    "A group of examples processed together during training.",
+    "batch_size = 2",
+    "O tamanho do lote afeta recursos e atualizações.",
+    "Batch size affects resources and updates."
+  ],
+  "validation-loss": [
+    "validation loss",
+    "perda de validação",
+    "Erro medido em dados separados dos ajustes de pesos.",
+    "Error measured on data separate from weight updates.",
+    "validation_loss = 0.6",
+    "Compare a mesma métrica e considere os dados usados.",
+    "Compare the same metric and consider the data used."
+  ],
+  "overfitting": [
+    "overfitting",
+    "sobreajuste",
+    "Treino melhora enquanto a generalização pode piorar.",
+    "Training improves while generalization can worsen.",
+    "train_loss = 0.3; validation_loss = 0.8",
+    "Uma tendência é indício; investigar dados e mais métricas.",
+    "A trend is evidence to investigate, not proof on its own."
+  ],
+  "checkpoint": [
+    "checkpoint",
+    "estado salvo do modelo",
+    "Registro de parâmetros de uma etapa do treinamento.",
+    "Saved model parameters at a training stage.",
+    "best_epoch = 2",
+    "Selecione por critérios definidos em dados adequados.",
+    "Select using defined criteria and suitable data."
+  ],
+  "fine-tuning": [
+    "fine-tuning",
+    "ajuste fino",
+    "Continua o treinamento de um modelo já treinado.",
+    "Continues training an already trained model.",
+    "# training changes weights; inference uses them",
+    "Inferência usa pesos; treinamento e ajuste fino os alteram.",
+    "Inference uses weights; training and fine-tuning change them."
+  ],
+  "expected-output": [
+    "expected output",
+    "saída esperada",
+    "Resultado que o contrato exige para uma entrada.",
+    "The result required by the contract for an input.",
+    "assert dobro(3) == 6",
+    "Compare esperado e obtido, sem confundir um exemplo com garantia geral.",
+    "Compare expected and observed results without treating one example as a general guarantee."
+  ],
+  "boundary": [
+    "edge case",
+    "caso de borda",
+    "Entrada no limite do domínio, como uma lista vazia.",
+    "An input at the domain boundary, such as an empty list.",
+    "assert safe_max([]) is None",
+    "Casos de borda revelam falhas que casos comuns podem esconder.",
+    "Edge cases expose failures that common cases can hide."
+  ],
+  "negative-test": [
+    "negative test",
+    "teste negativo",
+    "Verifica o comportamento contratado diante de entrada inválida.",
+    "Checks contracted behavior for invalid input.",
+    "assert client({\"status\": 503})[\"reason\"] == \"service_error\"",
+    "Um teste negativo deve passar quando a rejeição correta ocorre.",
+    "A negative test passes when correct rejection occurs."
+  ],
+  "conversion": [
+    "type conversion",
+    "conversão de tipo",
+    "Converte um valor quando o contrato permite esse formato.",
+    "Converts a value when the contract allows that format.",
+    "int(\"12\") + 1",
+    "Conversão não torna qualquer texto válido; erros ainda precisam de contrato.",
+    "Conversion does not make every text valid; errors still need a contract."
+  ],
+  "implicit-none": [
+    "implicit None",
+    "None implícito",
+    "Uma função sem return de valor devolve None.",
+    "A function without a value return produces None.",
+    "return count * 2",
+    "Um cálculo feito no corpo não é automaticamente devolvido.",
+    "A calculation in the body is not automatically returned."
+  ],
+  "inclusive-bound": [
+    "inclusive bound",
+    "limite inclusivo",
+    "<= permite igualdade no limite definido.",
+    "<= permits equality at the defined boundary.",
+    "cost <= budget",
+    "Escolha limites conforme o contrato e teste a igualdade.",
+    "Choose boundaries from the contract and test equality."
+  ],
+  "early-return": [
+    "early return",
+    "retorno antecipado",
+    "return encerra a função e impede executar o trecho seguinte.",
+    "return ends the function and prevents following code from running.",
+    "return response.get(\"text\") or \"local\"",
+    "Posicione guardas antes de retornos que as tornem inalcançáveis.",
+    "Place guards before returns that would make them unreachable."
+  ],
+  "parse-error": [
+    "parse error",
+    "erro de interpretação",
+    "Texto malformado pode falhar ao ser interpretado como JSON.",
+    "Malformed text can fail JSON parsing.",
+    "except json.JSONDecodeError:",
+    "Não trate um corpo inválido como resposta bem-sucedida.",
+    "Do not treat an invalid body as a successful response."
+  ],
+  "empty-list": [
+    "empty list",
+    "lista vazia",
+    "Uma coleção sem itens pode exigir resultado especial.",
+    "A collection without items may require a special result.",
+    "return max(scores) if scores else None",
+    "Defina explicitamente o comportamento para ausência de dados.",
+    "Define behavior for missing data explicitly."
+  ],
+  "denominator": [
+    "denominator",
+    "denominador",
+    "O total usado na divisão precisa corresponder ao contrato.",
+    "The division total must match the contract.",
+    "correct / len(expected)",
+    "Respostas ausentes podem contar como erro e não devem sumir do total.",
+    "Missing predictions can count as errors and must not disappear from the total."
+  ],
+  "nested-key": [
+    "missing key",
+    "chave ausente",
+    "O acesso direto falha se a chave não existir.",
+    "Direct lookup fails if the key is missing.",
+    "response.get(\"body\", {}).get(\"text\", \"fallback\")",
+    "Valide contratos em camadas, inclusive campos internos.",
+    "Validate layered contracts, including inner fields."
+  ],
+  "pairing": [
+    "zip",
+    "pareamento",
+    "zip percorre pares das duas coleções, até a menor terminar.",
+    "zip visits pairs from both collections until the shorter one ends.",
+    "for prediction, target in zip(predicted, expected):",
+    "O total da métrica ainda deve incluir todas as tarefas esperadas.",
+    "The metric denominator must still include all expected tasks."
+  ],
+  "comprehension": [
+    "comprehension",
+    "expressão de coleção",
+    "Resume um laço que produz valores; leia a expressão e o for juntos.",
+    "Summarizes a loop that produces values; read the expression and for together.",
+    "[task[\"expected\"] for task in tasks]",
+    "Uma forma compacta de extrair campos; pode ser expandida em um laço comum.",
+    "A compact way to extract fields; it can be expanded into an ordinary loop."
+  ],
+  "minimum-key": [
+    "minimum by key",
+    "mínimo por critério",
+    "min com key escolhe o item pelo valor que a função key calcula.",
+    "min with key selects the item by the value computed by the key function.",
+    "min(logs, key=lambda row: row[\"validation_loss\"])",
+    "lambda row: ... é uma função curta que lê o campo usado na comparação.",
+    "lambda row: ... is a short function that reads the field used for comparison."
+  ],
+  "exception-handler": [
+    "exception handler",
+    "tratamento de exceção",
+    "try tenta o bloco; except trata apenas a classe de erro indicada.",
+    "try attempts the block; except handles only the named error class.",
+    "except json.JSONDecodeError:",
+    "Preserve erros desconhecidos e trate falhas previstas pelo contrato.",
+    "Preserve unknown errors and handle failures anticipated by the contract."
+  ],
+  "strip-text": [
+    "strip",
+    "remover espaços externos",
+    "strip() remove espaços no começo e no fim de um texto.",
+    "strip() removes whitespace at the start and end of text.",
+    "body[\"model\"].strip()",
+    "Um nome formado só por espaços não identifica um modelo.",
+    "A name made only of spaces does not identify a model."
+  ]
+}

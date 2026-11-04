@@ -1,0 +1,148 @@
+{
+  "router": {
+    "request": {
+      "priority": "quality"
+    },
+    "available": [
+      "fast_model",
+      "quality_model",
+      "local_model"
+    ]
+  },
+  "api": {
+    "request": {
+      "model": "fast_model",
+      "prompt": "Classify this ticket",
+      "response_format": "JSON"
+    },
+    "responses": {
+      "success": {
+        "status": 200,
+        "body": "{\"model\":\"fast_model\",\"text\":\"billing\"}"
+      },
+      "missing": {
+        "status": 200,
+        "body": "{\"text\":\"billing\"}"
+      },
+      "error": {
+        "status": 503,
+        "body": ""
+      },
+      "malformed": {
+        "status": 200,
+        "body": "{\"model\":}"
+      }
+    }
+  },
+  "evaluation": {
+    "tasks": [
+      {
+        "id": "task-1",
+        "input": "2+2",
+        "expected": "4"
+      },
+      {
+        "id": "task-2",
+        "input": "Classify invoice",
+        "expected": "billing"
+      },
+      {
+        "id": "task-3",
+        "input": "Return greeting",
+        "expected": "hello"
+      },
+      {
+        "id": "task-4",
+        "input": "3+3",
+        "expected": "6"
+      }
+    ],
+    "models": {
+      "model_a": {
+        "predictions": [
+          "4",
+          "billing",
+          "hello",
+          "5"
+        ],
+        "latency_ms": 120,
+        "cost_usd": 0.004
+      },
+      "model_b": {
+        "predictions": [
+          "4",
+          "other",
+          "hello",
+          "5"
+        ],
+        "latency_ms": 40,
+        "cost_usd": 0.001
+      }
+    },
+    "measurement_scope": {
+      "latency_ms": "fictional average per task",
+      "cost_usd": "fictional total for the four-task batch"
+    }
+  },
+  "training": {
+    "examples": [
+      {
+        "id": "t1",
+        "input": "invoice",
+        "target": "billing"
+      },
+      {
+        "id": "t2",
+        "input": "payment",
+        "target": "billing"
+      },
+      {
+        "id": "t3",
+        "input": "hello",
+        "target": "greeting"
+      },
+      {
+        "id": "t4",
+        "input": "hi",
+        "target": "greeting"
+      },
+      {
+        "id": "v1",
+        "input": "bill",
+        "target": "billing"
+      },
+      {
+        "id": "v2",
+        "input": "hey",
+        "target": "greeting"
+      }
+    ],
+    "train_ids": [
+      "t1",
+      "t2",
+      "t3",
+      "t4"
+    ],
+    "validation_ids": [
+      "v1",
+      "v2"
+    ],
+    "logs": [
+      {
+        "epoch": 1,
+        "training_loss": 0.8,
+        "validation_loss": 0.9
+      },
+      {
+        "epoch": 2,
+        "training_loss": 0.5,
+        "validation_loss": 0.6
+      },
+      {
+        "epoch": 3,
+        "training_loss": 0.3,
+        "validation_loss": 0.8
+      }
+    ]
+  }
+}

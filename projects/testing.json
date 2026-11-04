@@ -1,0 +1,652 @@
+[
+  {
+    "id": "testing-basics",
+    "kind": "testing",
+    "title": {
+      "pt": "Introdução a testes",
+      "mixed": "Testing basics (introdução a testes)",
+      "en": "Testing basics"
+    },
+    "goal": {
+      "pt": "Construir um plano de teste para uma ferramenta pequena.",
+      "mixed": "Construir um plano de teste para uma ferramenta pequena.",
+      "en": "Build a test plan for a small tool."
+    },
+    "context": {
+      "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+      "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+      "en": "Agent tools need verifiable contracts before integration."
+    },
+    "limitations": {
+      "pt": "Os exemplos são estáticos; testes aprovados não provam ausência de todos os bugs.",
+      "mixed": "Os exemplos são estáticos; testes aprovados não provam ausência de todos os bugs.",
+      "en": "Examples are static; passing tests do not prove the absence of all bugs."
+    },
+    "result": {
+      "pt": "Plano com entrada, esperado, caso positivo, negativo, borda e asserção.",
+      "mixed": "Plano com entrada, esperado, caso positivo, negativo, borda e asserção.",
+      "en": "A plan with input, expected output, positive, negative, edge case and assertion."
+    },
+    "initialArtifact": {},
+    "steps": [
+      {
+        "id": "input-expected",
+        "title": {
+          "pt": "Separe entrada e saída",
+          "mixed": "Separate input and output (separe entrada e saída)",
+          "en": "Separate input and output"
+        },
+        "prompt": {
+          "pt": "Para dobro(3), qual par define o caso de teste?",
+          "mixed": "Para dobro(3), qual par define o caso de teste?",
+          "en": "For dobro(3), which pair defines the test case?"
+        },
+        "code": "def dobro(valor):\n    return valor * 2\nassert dobro(3) == 6\n",
+        "choices": [
+          {
+            "id": "input-expected-a",
+            "label": {
+              "pt": "Entrada 6, esperado 3.",
+              "mixed": "Entrada 6, esperado 3.",
+              "en": "Input 6, expected 3."
+            }
+          },
+          {
+            "id": "input-expected-b",
+            "label": {
+              "pt": "Entrada 3, esperado 6.",
+              "mixed": "Entrada 3, esperado 6.",
+              "en": "Input 3, expected 6."
+            }
+          },
+          {
+            "id": "input-expected-c",
+            "label": {
+              "pt": "Entrada 3, esperado sempre qualquer número.",
+              "mixed": "Entrada 3, esperado sempre qualquer número.",
+              "en": "Input 3, expected any number."
+            }
+          }
+        ],
+        "correctId": "input-expected-b",
+        "hints": [
+          {
+            "pt": "A função recebe o argumento e devolve seu dobro.",
+            "mixed": "A função recebe o argumento e devolve seu dobro.",
+            "en": "The function receives its argument and returns twice it."
+          },
+          {
+            "pt": "O caso é definido antes de observar o resultado.",
+            "mixed": "O caso é definido antes de observar o resultado.",
+            "en": "The case is defined before observing the result."
+          }
+        ],
+        "explanation": {
+          "pt": "A entrada é 3; esperado e obtido são comparados, não confundidos.",
+          "mixed": "A entrada é 3; esperado e obtido são comparados, não confundidos.",
+          "en": "Input is 3; expected and observed results are compared, not confused."
+        },
+        "effect": {
+          "input": 3,
+          "expected": 6
+        },
+        "concept": "test-case",
+        "skills": [
+          "fundamentals",
+          "debugging"
+        ],
+        "terms": [
+          "expected-output"
+        ],
+        "requires": [],
+        "layers": {
+          "definition": {
+            "pt": "Resultado que o contrato exige para uma entrada.",
+            "mixed": "Resultado que o contrato exige para uma entrada.",
+            "en": "The result required by the contract for an input."
+          },
+          "example": {
+            "pt": "A entrada é 3; esperado e obtido são comparados, não confundidos.",
+            "mixed": "A entrada é 3; esperado e obtido são comparados, não confundidos.",
+            "en": "Input is 3; expected and observed results are compared, not confused."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "debug-logic"
+      },
+      {
+        "id": "positive-case",
+        "title": {
+          "pt": "Defina o teste positivo",
+          "mixed": "Define a positive test (defina o teste positivo)",
+          "en": "Define a positive test"
+        },
+        "prompt": {
+          "pt": "Qual asserção verifica uma entrada válida conhecida?",
+          "mixed": "Qual asserção verifica uma entrada válida conhecida?",
+          "en": "Which assertion checks a known valid input?"
+        },
+        "code": "def dobro(valor):\n    return valor * 2\nassert dobro(3) == 6\n",
+        "choices": [
+          {
+            "id": "positive-case-a",
+            "label": {
+              "pt": "assert dobro(3) == 6",
+              "mixed": "assert dobro(3) == 6",
+              "en": "assert dobro(3) == 6"
+            }
+          },
+          {
+            "id": "positive-case-b",
+            "label": {
+              "pt": "assert dobro(3) == 3",
+              "mixed": "assert dobro(3) == 3",
+              "en": "assert dobro(3) == 3"
+            }
+          },
+          {
+            "id": "positive-case-c",
+            "label": {
+              "pt": "assert dobro(3) == 0",
+              "mixed": "assert dobro(3) == 0",
+              "en": "assert dobro(3) == 0"
+            }
+          }
+        ],
+        "correctId": "positive-case-a",
+        "hints": [
+          {
+            "pt": "O teste deve comparar o valor devolvido.",
+            "mixed": "O teste deve comparar o valor devolvido.",
+            "en": "The test should compare the returned value."
+          },
+          {
+            "pt": "O dobro de 3 é 6.",
+            "mixed": "O dobro de 3 é 6.",
+            "en": "Twice 3 is 6."
+          }
+        ],
+        "explanation": {
+          "pt": "Este é um caso positivo: uma entrada válida com resultado contratado.",
+          "mixed": "Este é um caso positivo: uma entrada válida com resultado contratado.",
+          "en": "This is a positive case: valid input with a contracted result."
+        },
+        "effect": {
+          "positive": "dobro(3) == 6"
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "test-case"
+        ],
+        "requires": [
+          "input-expected"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Combina entrada e resultado esperado.",
+            "mixed": "Combina entrada e resultado esperado.",
+            "en": "Combines an input and expected result."
+          },
+          "example": {
+            "pt": "Este é um caso positivo: uma entrada válida com resultado contratado.",
+            "mixed": "Este é um caso positivo: uma entrada válida com resultado contratado.",
+            "en": "This is a positive case: valid input with a contracted result."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "debug-logic"
+      },
+      {
+        "id": "negative-case",
+        "title": {
+          "pt": "Defina o teste negativo",
+          "mixed": "Define a negative test (defina o teste negativo)",
+          "en": "Define a negative test"
+        },
+        "prompt": {
+          "pt": "Um cliente promete fallback para status 503. Qual teste negativo correto deve passar?",
+          "mixed": "Um cliente promete fallback para status 503. Qual teste negativo correto deve passar?",
+          "en": "A client promises fallback for status 503. Which correct negative test should pass?"
+        },
+        "code": "response = {\"status\": 503}",
+        "choices": [
+          {
+            "id": "negative-case-a",
+            "label": {
+              "pt": "Esperar sucesso sem verificar o status.",
+              "mixed": "Esperar sucesso sem verificar o status.",
+              "en": "Expect success without checking status."
+            }
+          },
+          {
+            "id": "negative-case-b",
+            "label": {
+              "pt": "Obrigar o teste a falhar sempre.",
+              "mixed": "Obrigar o teste a falhar sempre.",
+              "en": "Require the test to always fail."
+            }
+          },
+          {
+            "id": "negative-case-c",
+            "label": {
+              "pt": "Verificar que a resposta de erro usa o fallback definido.",
+              "mixed": "Verificar que a resposta de erro usa o fallback definido.",
+              "en": "Check that the error response uses the defined fallback."
+            }
+          }
+        ],
+        "correctId": "negative-case-c",
+        "hints": [
+          {
+            "pt": "Negativo descreve o cenário, não o resultado desejado do teste.",
+            "mixed": "Negativo descreve o cenário, não o resultado desejado do teste.",
+            "en": "Negative describes the scenario, not the desired test outcome."
+          },
+          {
+            "pt": "A rejeição correta faz o teste passar.",
+            "mixed": "A rejeição correta faz o teste passar.",
+            "en": "Correct rejection makes the test pass."
+          }
+        ],
+        "explanation": {
+          "pt": "Testes negativos verificam comportamento definido para dados ou estados inválidos.",
+          "mixed": "Testes negativos verificam comportamento definido para dados ou estados inválidos.",
+          "en": "Negative tests check defined behavior for invalid data or states."
+        },
+        "effect": {
+          "negative": "503 -> defined fallback"
+        },
+        "concept": "test-case",
+        "skills": [
+          "api",
+          "debugging"
+        ],
+        "terms": [
+          "negative-test"
+        ],
+        "requires": [
+          "positive-case"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Verifica o comportamento contratado diante de entrada inválida.",
+            "mixed": "Verifica o comportamento contratado diante de entrada inválida.",
+            "en": "Checks contracted behavior for invalid input."
+          },
+          "example": {
+            "pt": "Testes negativos verificam comportamento definido para dados ou estados inválidos.",
+            "mixed": "Testes negativos verificam comportamento definido para dados ou estados inválidos.",
+            "en": "Negative tests check defined behavior for invalid data or states."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "debug-logic"
+      },
+      {
+        "id": "edge-case",
+        "title": {
+          "pt": "Inclua uma borda",
+          "mixed": "Include an edge case (inclua uma borda)",
+          "en": "Include an edge case"
+        },
+        "prompt": {
+          "pt": "Qual caso pode expor o uso indevido de um máximo sem dados?",
+          "mixed": "Qual caso pode expor o uso indevido de um máximo sem dados?",
+          "en": "Which case can expose an improper maximum without data?"
+        },
+        "code": "def safe_max(scores):\n    return max(scores) if scores else None",
+        "choices": [
+          {
+            "id": "edge-case-a",
+            "label": {
+              "pt": "scores = [0.2, 0.9]",
+              "mixed": "scores = [0.2, 0.9]",
+              "en": "scores = [0.2, 0.9]"
+            }
+          },
+          {
+            "id": "edge-case-b",
+            "label": {
+              "pt": "scores = []",
+              "mixed": "scores = []",
+              "en": "scores = []"
+            }
+          },
+          {
+            "id": "edge-case-c",
+            "label": {
+              "pt": "scores = [0.8]",
+              "mixed": "scores = [0.8]",
+              "en": "scores = [0.8]"
+            }
+          }
+        ],
+        "correctId": "edge-case-b",
+        "hints": [
+          {
+            "pt": "Pense em ausência, não apenas valores comuns.",
+            "mixed": "Pense em ausência, não apenas valores comuns.",
+            "en": "Think about absence, not only common values."
+          },
+          {
+            "pt": "Uma coleção vazia não possui máximo neste contrato.",
+            "mixed": "Uma coleção vazia não possui máximo neste contrato.",
+            "en": "An empty collection has no maximum under this contract."
+          }
+        ],
+        "explanation": {
+          "pt": "O teste deve esperar None para [], sem fabricar um score zero.",
+          "mixed": "O teste deve esperar None para [], sem fabricar um score zero.",
+          "en": "The test should expect None for [], without inventing a zero score."
+        },
+        "effect": {
+          "edge": "safe_max([]) is None"
+        },
+        "concept": "test-case",
+        "skills": [
+          "data",
+          "debugging"
+        ],
+        "terms": [
+          "boundary"
+        ],
+        "requires": [
+          "negative-case"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Entrada no limite do domínio, como uma lista vazia.",
+            "mixed": "Entrada no limite do domínio, como uma lista vazia.",
+            "en": "An input at the domain boundary, such as an empty list."
+          },
+          "example": {
+            "pt": "O teste deve esperar None para [], sem fabricar um score zero.",
+            "mixed": "O teste deve esperar None para [], sem fabricar um score zero.",
+            "en": "The test should expect None for [], without inventing a zero score."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "debug-logic"
+      },
+      {
+        "id": "assertion-limit",
+        "title": {
+          "pt": "Entenda a asserção",
+          "mixed": "Understand the assertion (entenda a asserção)",
+          "en": "Understand the assertion"
+        },
+        "prompt": {
+          "pt": "Se assert dobro(0) == 0 passa, o que foi comprovado?",
+          "mixed": "Se assert dobro(0) == 0 passa, o que foi comprovado?",
+          "en": "If assert dobro(0) == 0 passes, what was demonstrated?"
+        },
+        "code": "assert dobro(0) == 0",
+        "choices": [
+          {
+            "id": "assertion-limit-a",
+            "label": {
+              "pt": "O comportamento deste caso; outras entradas ainda podem revelar bugs.",
+              "mixed": "O comportamento deste caso; outras entradas ainda podem revelar bugs.",
+              "en": "The behavior of this case; other inputs may still reveal bugs."
+            }
+          },
+          {
+            "id": "assertion-limit-b",
+            "label": {
+              "pt": "Ausência de todos os bugs.",
+              "mixed": "Ausência de todos os bugs.",
+              "en": "Absence of all bugs."
+            }
+          },
+          {
+            "id": "assertion-limit-c",
+            "label": {
+              "pt": "Empregabilidade como desenvolvedor.",
+              "mixed": "Empregabilidade como desenvolvedor.",
+              "en": "Employability as a developer."
+            }
+          }
+        ],
+        "correctId": "assertion-limit-a",
+        "hints": [
+          {
+            "pt": "Uma função que sempre retorna zero também passaria nesse caso.",
+            "mixed": "Uma função que sempre retorna zero também passaria nesse caso.",
+            "en": "A function that always returns zero would also pass this case."
+          },
+          {
+            "pt": "Mais casos podem distinguir implementações erradas.",
+            "mixed": "Mais casos podem distinguir implementações erradas.",
+            "en": "More cases can distinguish wrong implementations."
+          }
+        ],
+        "explanation": {
+          "pt": "Asserções apoiam evidências concretas, sem garantir correção universal.",
+          "mixed": "Asserções apoiam evidências concretas, sem garantir correção universal.",
+          "en": "Assertions support concrete evidence without guaranteeing universal correctness."
+        },
+        "effect": {
+          "assertionLimit": true
+        },
+        "concept": "test-case",
+        "skills": [
+          "debugging"
+        ],
+        "terms": [
+          "assertion"
+        ],
+        "requires": [
+          "edge-case"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Verifica uma condição; se falsa, gera AssertionError.",
+            "mixed": "Verifica uma condição; se falsa, gera AssertionError.",
+            "en": "Checks a condition; if false, raises AssertionError."
+          },
+          "example": {
+            "pt": "Asserções apoiam evidências concretas, sem garantir correção universal.",
+            "mixed": "Asserções apoiam evidências concretas, sem garantir correção universal.",
+            "en": "Assertions support concrete evidence without guaranteeing universal correctness."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "debug-logic"
+      },
+      {
+        "id": "test-vocabulary",
+        "title": {
+          "pt": "Leia o termo no contexto",
+          "mixed": "Read the term in context (leia o termo no contexto)",
+          "en": "Read the term in context"
+        },
+        "prompt": {
+          "pt": "No teste dobro(3) == 6, o que significa expected output?",
+          "mixed": "No teste dobro(3) == 6, o que significa expected output?",
+          "en": "In the test dobro(3) == 6, what does expected output mean?"
+        },
+        "code": "assert dobro(3) == 6",
+        "choices": [
+          {
+            "id": "test-vocabulary-a",
+            "label": {
+              "pt": "Erro que sempre deve ocorrer.",
+              "mixed": "Erro que sempre deve ocorrer.",
+              "en": "An error that must always occur."
+            }
+          },
+          {
+            "id": "test-vocabulary-b",
+            "label": {
+              "pt": "Entrada que nunca foi testada.",
+              "mixed": "Entrada que nunca foi testada.",
+              "en": "An input that was never tested."
+            }
+          },
+          {
+            "id": "test-vocabulary-c",
+            "label": {
+              "pt": "Saída esperada: o valor 6 definido pelo caso.",
+              "mixed": "Saída esperada: o valor 6 definido pelo caso.",
+              "en": "Expected output: the value 6 defined by the case."
+            }
+          }
+        ],
+        "correctId": "test-vocabulary-c",
+        "hints": [
+          {
+            "pt": "O termo descreve o lado esperado da comparação.",
+            "mixed": "O termo descreve o lado esperado da comparação.",
+            "en": "The term describes the expected side of the comparison."
+          },
+          {
+            "pt": "expected significa esperado; output significa saída.",
+            "mixed": "expected significa esperado; output significa saída.",
+            "en": "expected names what should happen; output is the produced result."
+          }
+        ],
+        "explanation": {
+          "pt": "Esta resposta é evidência de vocabulário neste contexto, não de proficiência em inglês.",
+          "mixed": "Esta resposta é evidência de vocabulário neste contexto, não de proficiência em inglês.",
+          "en": "This answer is vocabulary evidence in this context, not proof of English proficiency."
+        },
+        "effect": {
+          "reportReady": true
+        },
+        "concept": "technical-english",
+        "skills": [
+          "english"
+        ],
+        "terms": [
+          "expected-output"
+        ],
+        "requires": [
+          "assertion-limit"
+        ],
+        "layers": {
+          "definition": {
+            "pt": "Resultado que o contrato exige para uma entrada.",
+            "mixed": "Resultado que o contrato exige para uma entrada.",
+            "en": "The result required by the contract for an input."
+          },
+          "example": {
+            "pt": "Esta resposta é evidência de vocabulário neste contexto, não de proficiência em inglês.",
+            "mixed": "Esta resposta é evidência de vocabulário neste contexto, não de proficiência em inglês.",
+            "en": "This answer is vocabulary evidence in this context, not proof of English proficiency."
+          },
+          "professional": {
+            "pt": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "mixed": "Ferramentas de agentes precisam de contratos verificáveis antes de integração.",
+            "en": "Agent tools need verifiable contracts before integration."
+          }
+        },
+        "reviewMissionId": "english-variable-names"
+      }
+    ],
+    "traces": [
+      {
+        "id": "assert-flow",
+        "title": {
+          "pt": "Da entrada à asserção",
+          "mixed": "From input to assertion (da entrada à asserção)",
+          "en": "From input to assertion"
+        },
+        "nodes": [
+          {
+            "id": "input",
+            "title": {
+              "pt": "Entrada",
+              "mixed": "Input (entrada)",
+              "en": "Input"
+            },
+            "input": 3,
+            "output": {
+              "valor": 3
+            },
+            "explanation": {
+              "pt": "A chamada fornece o argumento.",
+              "mixed": "A chamada fornece o argumento.",
+              "en": "The call supplies the argument."
+            },
+            "failure": false
+          },
+          {
+            "id": "return",
+            "title": {
+              "pt": "Retorno",
+              "mixed": "Return (retorno)",
+              "en": "Return"
+            },
+            "input": {
+              "valor": 3
+            },
+            "output": 6,
+            "explanation": {
+              "pt": "A ferramenta dobra o valor.",
+              "mixed": "A ferramenta dobra o valor.",
+              "en": "The tool doubles the value."
+            },
+            "failure": false
+          },
+          {
+            "id": "assert",
+            "title": {
+              "pt": "Asserção",
+              "mixed": "Assertion (asserção)",
+              "en": "Assertion"
+            },
+            "input": {
+              "expected": 6,
+              "observed": 6
+            },
+            "output": true,
+            "explanation": {
+              "pt": "A igualdade é verdadeira para este caso.",
+              "mixed": "A igualdade é verdadeira para este caso.",
+              "en": "Equality is true for this case."
+            },
+            "failure": false
+          }
+        ]
+      }
+    ],
+    "solutionCode": "def dobro(valor):\n    return valor * 2\nassert dobro(3) == 6\n",
+    "tests": [
+      {
+        "id": "double-three",
+        "call": "dobro(3)",
+        "input": 3,
+        "expected": 6
+      },
+      {
+        "id": "double-zero",
+        "call": "dobro(0)",
+        "input": 0,
+        "expected": 0
+      }
+    ]
+  }
+]
