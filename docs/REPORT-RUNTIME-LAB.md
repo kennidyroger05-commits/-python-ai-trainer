@@ -109,6 +109,8 @@ Recomendação: revisar o diff, executar o percurso em Safari/iPhone antes de pu
 
 Principais arquivos criados: `runtime/`, `model-lab/`, fixtures/suítes novas em `tests/`, `scripts/test.cjs`, `scripts/check-static.py`, `docs/PYTHON-RUNTIME.md`, `KAGGLE-INTEGRATION.md`, `MODEL-LAB.md`, `SECURITY.md` e este relatório. Integração em `app.js`, `index.html`, `projects/view.js`, README e documentos existentes. Configuração do GitHub Pages e dados V2 não foram alterados.
 
-Commits de marcos já enviados: `9c228d8` (runtime isolado verificável) e `d9bb52b` (14 desafios/editor/Model Lab). O marco final acrescenta testes de regressão, recuperação, clareza mobile e documentação; o histórico da branch contém o SHA exato da revisão de entrega.
+Commits funcionais enviados: `9c228d8` (runtime isolado verificável), `d9bb52b` (14 desafios/editor/Model Lab) e `d55bd70` (auditoria, recuperação, regressões mobile e documentação). O commit seguinte registra o resultado da entrega/PR, sem alterar funcionalidades; seu SHA exato é o HEAD da branch e consta na resposta de entrega.
 
-Destino do PR de rascunho: `feature/v3-python-ai-lab`. Sem merge/publicação. O resultado da tentativa de abertura e o link de revisão serão registrados abaixo; o texto preparado fica em `docs/PR-RUNTIME-LAB.md`.
+A tentativa real de `gh pr create --draft --base feature/v3-python-ai-lab --head feature/python-runtime-kaggle-lab --body-file docs/PR-RUNTIME-LAB.md` falhou: `Post "https://api.github.com/graphql": Forbidden`. O ambiente negou acesso à API; nenhum PR novo foi criado. Push Git funcionou e os commits estão no remoto. Não se alterou política de rede, credenciais ou configuração administrativa para contornar o bloqueio.
+
+[Comparar V3 com esta branch / preparar PR](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/v3-python-ai-lab...feature/python-runtime-kaggle-lab?expand=1). Texto pronto: [PR-RUNTIME-LAB.md](PR-RUNTIME-LAB.md). Deve ser rascunho contra `feature/v3-python-ai-lab`, nunca main. PRs anteriores não foram integrados ou alterados; não houve publicação.
