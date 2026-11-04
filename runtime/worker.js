@@ -19,6 +19,15 @@ globalThis.onmessage = async event => {
     for (const name of ['Worker','SharedWorker','WebSocket','XMLHttpRequest','EventSource','BroadcastChannel','indexedDB','caches']) {
       try { Object.defineProperty(globalThis,name,{value:undefined,writable:false,configurable:false}); } catch {}
     }
+    // Enforce the actual WebAssembly linear-memory maximum before bootstrap.
+    // This does not cap the JS heap or all browser overhead.
+    const memoryLimitBytes=64*1024*1024,NativeMemory=WebAssembly.Memory;
+    const BoundedMemory=new Proxy(NativeMemory,{construct(Target,args){
+      const descriptor={...args[0],maximum:Math.min(args[0].maximum??1024,1024)};
+      if(descriptor.initial>descriptor.maximum)throw Error('Runtime exceeds the 64 MiB WASM memory budget');
+      return Reflect.construct(Target,[descriptor]);
+    }});
+    Object.defineProperty(WebAssembly,'Memory',{value:BoundedMemory,writable:false,configurable:false});
     importScripts(blobModule('pyodide.js'),blobModule('pyodide.asm.js'));
     const py = await loadPyodide({ indexURL:'https://offline.invalid/',
       lockFileContents:JSON.parse(new TextDecoder().decode(resources.get('pyodide-lock.json'))),
@@ -28,6 +37,6 @@ globalThis.onmessage = async event => {
     emit('phase',{phase:'running'});
     const started=performance.now();
     const result=JSON.parse(py.runPython('_lab_execute_json(_lab_payload)'));
-    emit('result',{result:{...result,durationMs:Math.round(performance.now()-started)}});
+    emit('result',{result:{...result,memoryLimitBytes,durationMs:Math.round(performance.now()-started)}});
   } catch(error) {emit('failure',{message:String(error?.message||error).slice(0,4000)});}
 };

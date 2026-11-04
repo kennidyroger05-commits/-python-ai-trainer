@@ -10,7 +10,7 @@ Origem opaca/CSP separam o programa dos dados do app. A política Python é defe
 
 Código com mais de 24 mil caracteres é recusado. Saída tem limite de 32 mil caracteres. Execução tem watchdog de cinco segundos por caso; inicialização, 90 segundos. Interromper/reiniciar encerra o worker e descarta a VM. Cada caso avaliado tem VM nova, inclusive módulos e builtins, evitando contaminação. Funções críticas de comparação/serialização são capturadas antes de código do aluno. Esse verificador não é certificação antifraude: testes/expectativas são recursos públicos e inspeccionáveis.
 
-Não há quota rígida de memória por worker. WASM, cópias de recursos e pressão de memória no iPhone podem causar encerramento do navegador; uma alocação extrema pode afetar a aba antes do watchdog. Não prometemos sandbox absoluta, persistência da VM ou disponibilidade offline. Importar pacotes, acessar arquivos do dispositivo, `input()` e rede não são oferecidos.
+A memória linear WASM tem teto efetivo de 64 MiB antes de carregar o interpretador, verificado com MemoryError real e recuperação. Não há quota rígida para a heap JS e todo o overhead do worker. Cópias de recursos e pressão de memória no iPhone ainda podem causar encerramento do navegador; o teto não é sandbox absoluta. Não prometemos sandbox absoluta, persistência da VM ou disponibilidade offline. Importar pacotes, acessar arquivos do dispositivo, `input()` e rede não são oferecidos.
 
 ## Interface, dados e canal
 
