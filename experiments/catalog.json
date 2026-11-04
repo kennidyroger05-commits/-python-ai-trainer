@@ -1,0 +1,314 @@
+[
+  {
+    "id": "intent-inference",
+    "title": {
+      "pt": "Classificar um pedido",
+      "mixed": "Classify a request (classificar um pedido)",
+      "en": "Classify a request"
+    },
+    "goal": {
+      "pt": "Carregar os pesos incluídos, tokenizar um pedido e inspecionar label, scores, latência e tokens de palavra.",
+      "mixed": "Carregar os pesos incluídos, tokenizar um pedido e inspecionar label, scores, latência e tokens de palavra.",
+      "en": "Load bundled weights, tokenize a request and inspect its label, scores, latency and word tokens."
+    },
+    "pythonLesson": "exec-response-field",
+    "steps": [
+      {
+        "id": "goal",
+        "title": {
+          "pt": "Objetivo",
+          "mixed": "Goal (objetivo)",
+          "en": "Goal"
+        },
+        "body": {
+          "pt": "Entenda o contrato: modelo linear de 87 parâmetros, três intenções e dados sintéticos. Não é LLM.",
+          "mixed": "Entenda o contrato: modelo linear de 87 parâmetros, três intenções e dados sintéticos. Não é LLM.",
+          "en": "Understand the contract: an 87-parameter linear model, three intents and synthetic data. This is not an LLM."
+        }
+      },
+      {
+        "id": "notebook",
+        "title": {
+          "pt": "Inspecionar notebook",
+          "mixed": "Inspect notebook (inspecionar notebook)",
+          "en": "Inspect notebook"
+        },
+        "body": {
+          "pt": "O notebook é código executável, não só um arquivo JSON. A receita é fixa, sem rede, e os pesos são JSON validado.",
+          "mixed": "O notebook é código executável, não só um arquivo JSON. A receita é fixa, sem rede, e os pesos são JSON validado.",
+          "en": "A notebook is executable code, not just JSON. This recipe is fixed, offline, and weights are validated JSON."
+        }
+      },
+      {
+        "id": "parameters",
+        "title": {
+          "pt": "Entender parâmetros",
+          "mixed": "Understand parameters (entender parâmetros)",
+          "en": "Understand parameters"
+        },
+        "body": {
+          "pt": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
+          "mixed": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
+          "en": "Seed controls initialization and batch order. Epochs visit training examples. Changing parameters prepares another job; nothing is executed."
+        }
+      },
+      {
+        "id": "inputs",
+        "title": {
+          "pt": "Ler dados de entrada",
+          "mixed": "Read input data (ler dados de entrada)",
+          "en": "Read input data"
+        },
+        "body": {
+          "pt": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
+          "mixed": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
+          "en": "There are 18 training, six validation and six test examples. IDs and texts do not overlap across splits. Vocabulary uses training data only."
+        }
+      },
+      {
+        "id": "execution",
+        "title": {
+          "pt": "Preparar execução autorizada",
+          "mixed": "Prepare authorized execution (preparar execução autorizada)",
+          "en": "Prepare authorized execution"
+        },
+        "body": {
+          "pt": "O site exporta arquivos. O executor separado fica desativado por padrão. Envio exige autorização ligada ao SHA do job; salvar sem rodar é diferente de executar.",
+          "mixed": "O site exporta arquivos. O executor separado fica desativado por padrão. Envio exige autorização ligada ao SHA do job; salvar sem rodar é diferente de executar.",
+          "en": "The site exports files. The separate executor is disabled by default. Submission requires authorization bound to the job SHA; saving without running differs from execution."
+        }
+      },
+      {
+        "id": "logs",
+        "title": {
+          "pt": "Interpretar logs",
+          "mixed": "Interpret logs (interpretar logs)",
+          "en": "Interpret logs"
+        },
+        "body": {
+          "pt": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
+          "mixed": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
+          "en": "In local reference logs, each epoch records measured training and validation loss. This site does not show live remote progress."
+        }
+      },
+      {
+        "id": "metrics",
+        "title": {
+          "pt": "Comparar métricas",
+          "mixed": "Compare metrics (comparar métricas)",
+          "en": "Compare metrics"
+        },
+        "body": {
+          "pt": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
+          "mixed": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
+          "en": "Accuracy is the fraction of correct answers. Latency and memory are distinct measurements. Six synthetic examples do not demonstrate overall quality. Softmax scores are not calibrated confidence."
+        }
+      },
+      {
+        "id": "failures",
+        "title": {
+          "pt": "Investigar falhas",
+          "mixed": "Investigate failures (investigar falhas)",
+          "en": "Investigate failures"
+        },
+        "body": {
+          "pt": "AUTH_MISSING não é erro do modelo. OUTPUT_MISSING não é conclusão. Timeout no envio deixa o resultado incerto: não repita automaticamente. Parar acompanhamento não cancela execução.",
+          "mixed": "AUTH_MISSING não é erro do modelo. OUTPUT_MISSING não é conclusão. Timeout no envio deixa o resultado incerto: não repita automaticamente. Parar acompanhamento não cancela execução.",
+          "en": "AUTH_MISSING is not a model error. OUTPUT_MISSING is not completion. Submission timeout is uncertain: never retry automatically. Stopping monitoring does not cancel execution."
+        }
+      },
+      {
+        "id": "report",
+        "title": {
+          "pt": "Preparar relatório",
+          "mixed": "Prepare a report (preparar relatório)",
+          "en": "Prepare a report"
+        },
+        "body": {
+          "pt": "Confira origem, versão do notebook, fingerprint e hashes. Um arquivo importado declara sua origem; este navegador não autenticou a conta Kaggle para confirmá-la.",
+          "mixed": "Confira origem, versão do notebook, fingerprint e hashes. Um arquivo importado declara sua origem; este navegador não autenticou a conta Kaggle para confirmá-la.",
+          "en": "Check origin, notebook version, fingerprint and hashes. An imported file declares its origin; this browser has not authenticated a Kaggle account to confirm it."
+        }
+      },
+      {
+        "id": "review",
+        "title": {
+          "pt": "Revisar conceitos",
+          "mixed": "Review concepts (revisar conceitos)",
+          "en": "Review concepts"
+        },
+        "body": {
+          "pt": "Você pode continuar praticando Python real no navegador sem Kaggle. Consultar um relatório não concede XP nem comprova domínio de treinamento.",
+          "mixed": "Você pode continuar praticando Python real no navegador sem Kaggle. Consultar um relatório não concede XP nem comprova domínio de treinamento.",
+          "en": "You can keep practicing real Python in the browser without Kaggle. Reading a report awards no XP and does not prove training mastery."
+        }
+      }
+    ],
+    "terms": [
+      "exp-weights",
+      "exp-tokenizer",
+      "exp-batch",
+      "exp-epoch",
+      "exp-gradient",
+      "exp-artifact",
+      "exp-provenance",
+      "exp-checkpoint"
+    ]
+  },
+  {
+    "id": "intent-training",
+    "title": {
+      "pt": "Treinar um classificador",
+      "mixed": "Train a classifier (treinar um classificador)",
+      "en": "Train a classifier"
+    },
+    "goal": {
+      "pt": "Treinar com seed e batches, comparar perdas e selecionar um checkpoint por validação separada.",
+      "mixed": "Treinar com seed e batches, comparar perdas e selecionar um checkpoint por validação separada.",
+      "en": "Train with a seed and batches, compare losses and select a checkpoint using separate validation."
+    },
+    "pythonLesson": "exec-checkpoint",
+    "steps": [
+      {
+        "id": "goal",
+        "title": {
+          "pt": "Objetivo",
+          "mixed": "Goal (objetivo)",
+          "en": "Goal"
+        },
+        "body": {
+          "pt": "Entenda o contrato: modelo linear de 87 parâmetros, três intenções e dados sintéticos. Não é LLM.",
+          "mixed": "Entenda o contrato: modelo linear de 87 parâmetros, três intenções e dados sintéticos. Não é LLM.",
+          "en": "Understand the contract: an 87-parameter linear model, three intents and synthetic data. This is not an LLM."
+        }
+      },
+      {
+        "id": "notebook",
+        "title": {
+          "pt": "Inspecionar notebook",
+          "mixed": "Inspect notebook (inspecionar notebook)",
+          "en": "Inspect notebook"
+        },
+        "body": {
+          "pt": "O notebook é código executável, não só um arquivo JSON. A receita é fixa, sem rede, e os pesos são JSON validado.",
+          "mixed": "O notebook é código executável, não só um arquivo JSON. A receita é fixa, sem rede, e os pesos são JSON validado.",
+          "en": "A notebook is executable code, not just JSON. This recipe is fixed, offline, and weights are validated JSON."
+        }
+      },
+      {
+        "id": "parameters",
+        "title": {
+          "pt": "Entender parâmetros",
+          "mixed": "Understand parameters (entender parâmetros)",
+          "en": "Understand parameters"
+        },
+        "body": {
+          "pt": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
+          "mixed": "Seed controla a inicialização e a ordem dos batches. Epochs percorrem os exemplos de treino. Alterar parâmetros prepara outro job; não executa nada.",
+          "en": "Seed controls initialization and batch order. Epochs visit training examples. Changing parameters prepares another job; nothing is executed."
+        }
+      },
+      {
+        "id": "inputs",
+        "title": {
+          "pt": "Ler dados de entrada",
+          "mixed": "Read input data (ler dados de entrada)",
+          "en": "Read input data"
+        },
+        "body": {
+          "pt": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
+          "mixed": "Há 18 exemplos de treino, seis de validação e seis de teste. IDs e textos não se repetem entre divisões. O vocabulário usa somente treino.",
+          "en": "There are 18 training, six validation and six test examples. IDs and texts do not overlap across splits. Vocabulary uses training data only."
+        }
+      },
+      {
+        "id": "execution",
+        "title": {
+          "pt": "Preparar execução autorizada",
+          "mixed": "Prepare authorized execution (preparar execução autorizada)",
+          "en": "Prepare authorized execution"
+        },
+        "body": {
+          "pt": "O site exporta arquivos. O executor separado fica desativado por padrão. Envio exige autorização ligada ao SHA do job; salvar sem rodar é diferente de executar.",
+          "mixed": "O site exporta arquivos. O executor separado fica desativado por padrão. Envio exige autorização ligada ao SHA do job; salvar sem rodar é diferente de executar.",
+          "en": "The site exports files. The separate executor is disabled by default. Submission requires authorization bound to the job SHA; saving without running differs from execution."
+        }
+      },
+      {
+        "id": "logs",
+        "title": {
+          "pt": "Interpretar logs",
+          "mixed": "Interpret logs (interpretar logs)",
+          "en": "Interpret logs"
+        },
+        "body": {
+          "pt": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
+          "mixed": "Nos logs de referência locais, cada epoch registra training loss e validation loss medidos. Não há progresso remoto ao vivo neste site.",
+          "en": "In local reference logs, each epoch records measured training and validation loss. This site does not show live remote progress."
+        }
+      },
+      {
+        "id": "metrics",
+        "title": {
+          "pt": "Comparar métricas",
+          "mixed": "Compare metrics (comparar métricas)",
+          "en": "Compare metrics"
+        },
+        "body": {
+          "pt": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
+          "mixed": "Acurácia é a fração de acertos. Latência e memória são medidas distintas. Seis exemplos sintéticos não demonstram qualidade geral. Scores softmax não são confiança calibrada.",
+          "en": "Accuracy is the fraction of correct answers. Latency and memory are distinct measurements. Six synthetic examples do not demonstrate overall quality. Softmax scores are not calibrated confidence."
+        }
+      },
+      {
+        "id": "failures",
+        "title": {
+          "pt": "Investigar falhas",
+          "mixed": "Investigate failures (investigar falhas)",
+          "en": "Investigate failures"
+        },
+        "body": {
+          "pt": "AUTH_MISSING não é erro do modelo. OUTPUT_MISSING não é conclusão. Timeout no envio deixa o resultado incerto: não repita automaticamente. Parar acompanhamento não cancela execução.",
+          "mixed": "AUTH_MISSING não é erro do modelo. OUTPUT_MISSING não é conclusão. Timeout no envio deixa o resultado incerto: não repita automaticamente. Parar acompanhamento não cancela execução.",
+          "en": "AUTH_MISSING is not a model error. OUTPUT_MISSING is not completion. Submission timeout is uncertain: never retry automatically. Stopping monitoring does not cancel execution."
+        }
+      },
+      {
+        "id": "report",
+        "title": {
+          "pt": "Preparar relatório",
+          "mixed": "Prepare a report (preparar relatório)",
+          "en": "Prepare a report"
+        },
+        "body": {
+          "pt": "Confira origem, versão do notebook, fingerprint e hashes. Um arquivo importado declara sua origem; este navegador não autenticou a conta Kaggle para confirmá-la.",
+          "mixed": "Confira origem, versão do notebook, fingerprint e hashes. Um arquivo importado declara sua origem; este navegador não autenticou a conta Kaggle para confirmá-la.",
+          "en": "Check origin, notebook version, fingerprint and hashes. An imported file declares its origin; this browser has not authenticated a Kaggle account to confirm it."
+        }
+      },
+      {
+        "id": "review",
+        "title": {
+          "pt": "Revisar conceitos",
+          "mixed": "Review concepts (revisar conceitos)",
+          "en": "Review concepts"
+        },
+        "body": {
+          "pt": "Você pode continuar praticando Python real no navegador sem Kaggle. Consultar um relatório não concede XP nem comprova domínio de treinamento.",
+          "mixed": "Você pode continuar praticando Python real no navegador sem Kaggle. Consultar um relatório não concede XP nem comprova domínio de treinamento.",
+          "en": "You can keep practicing real Python in the browser without Kaggle. Reading a report awards no XP and does not prove training mastery."
+        }
+      }
+    ],
+    "terms": [
+      "exp-weights",
+      "exp-tokenizer",
+      "exp-batch",
+      "exp-epoch",
+      "exp-gradient",
+      "exp-artifact",
+      "exp-provenance",
+      "exp-checkpoint"
+    ]
+  }
+]

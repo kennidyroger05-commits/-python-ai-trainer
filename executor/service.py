@@ -93,6 +93,12 @@ class Executor:
                     state['last_error']=error.code;files.atomic(root,'state.json',state);raise
             report={'schema_version':1,'status':'completed','spec':job,'spec_sha256':fingerprint(job),'provenance':{'source':'kaggle-sdk' if isinstance(self.transport,SdkTransport) else 'injected-transport','verification':'version-and-artifact-contract','remote_ref':state['remote_ref'],'remote_version':state['remote_version']},**artifact}
             state.update(status='completed',report=report,last_error=None);state['events'].append({'event':'artifacts_validated'});files.atomic(root,'state.json',state);files.atomic(root,'report.json',report);return report
+    def snapshot(self,job):
+        state=self.prepare(validate(job))
+        if state['status']=='completed':return state['report']
+        return {'schema_version':1,'status':state['status'],'spec':job,'spec_sha256':fingerprint(job),
+          'provenance':{'source':'operator-state','verification':'local-state-only','remote_ref':state['remote_ref'],'remote_version':state['remote_version']},
+          'notebook_result':None,'artifacts':[],'errors':[{'code':state['last_error']}] if state['last_error'] else []}
     def stop_following(self,job):
         self.prepare(validate(job));root=self.directory(job['id'])
         with files.lock(root):

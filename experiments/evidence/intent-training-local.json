@@ -66,8 +66,8 @@
         "stdlib": "3.12.14"
       },
       "platform": "Linux",
-      "started_at": "2026-11-04T01:48:21.401949+00:00",
-      "duration_ms": 7.7416359999915585,
+      "started_at": "2026-11-04T01:59:06.008331+00:00",
+      "duration_ms": 7.948738999402849,
       "model_kind": "linear-softmax",
       "parameters": 87,
       "dataset": "synthetic-intents-30-v1",
@@ -129,8 +129,8 @@
     },
     {
       "name": "result.json",
-      "bytes": 1353,
-      "sha256": "e2ad2ccc7abb586d43d9102f2d3a0f98460ef82276e89c9b3d38b15d8f752db6"
+      "bytes": 1352,
+      "sha256": "a9f760bd3ee67652bc6d11d566881d346de44467c9a5cb4eeed20f0617f8982b"
     },
     {
       "name": "splits.json",

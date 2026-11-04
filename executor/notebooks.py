@@ -3,7 +3,7 @@ import base64
 import copy
 import hashlib
 import json
-from .contracts import ROOT, manifest, validate
+from .contracts import ROOT, manifest, validate, canonical
 from .errors import ExecutorError
 
 def assets():
@@ -19,7 +19,7 @@ def assets():
     return loaded
 
 def config_source(job):
-    encoded=base64.b64encode(json.dumps(job,ensure_ascii=False,allow_nan=False).encode()).decode()
+    encoded=base64.b64encode(canonical(job).encode()).decode()
     return 'import base64, json\nJOB = json.loads(base64.b64decode("'+encoded+'"))\n'
 
 def build(job):

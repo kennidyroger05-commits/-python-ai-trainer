@@ -113,7 +113,7 @@ class ExecutorTests(unittest.TestCase):
         def cli(operation):
             r=subprocess.run([sys.executable,'-m','executor.cli',operation,'--job',str(job),'--workspace',str(self.root)],cwd=ROOT,text=True,capture_output=True,env={'PATH':os.defpath},timeout=10)
             return r,json.loads(r.stdout)
-        self.assertTrue(cli('validate')[1]['result']['valid']);self.assertTrue(cli('prepare')[1]['result']['network_used'] is False);self.assertTrue((self.root/self.job['id']/'experiment.ipynb').exists());result,body=cli('submit');self.assertEqual(result.returncode,2);self.assertEqual(body['error'],'REMOTE_DISABLED');self.assertEqual(cli('local')[1]['result']['provenance']['source'],'local-cpu')
+        self.assertTrue(cli('validate')[1]['result']['valid']);self.assertTrue(cli('prepare')[1]['result']['network_used'] is False);self.assertTrue((self.root/self.job['id']/'experiment.ipynb').exists());result,body=cli('submit');self.assertEqual(result.returncode,2);self.assertEqual(body['error'],'REMOTE_DISABLED');self.assertEqual(cli('local')[1]['result']['provenance']['source'],'local-cpu');self.assertEqual(cli('report')[1]['result']['provenance']['source'],'operator-state');self.assertTrue((self.root/self.job['id']/'status-report.json').exists())
     def test_24_missing_and_failed_status(self):
         self.submitted();original=self.fake.call
         self.fake.call=lambda op,payload:None

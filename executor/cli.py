@@ -14,7 +14,7 @@ from . import files
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description='Offline-first Python AI Trainer executor. Remote actions require separate authorization.')
-    parser.add_argument('operation',choices=['validate','prepare','local','submit','status','follow','logs','collect','stop-following'])
+    parser.add_argument('operation',choices=['validate','prepare','local','submit','status','follow','logs','collect','report','stop-following'])
     parser.add_argument('--job',required=True);parser.add_argument('--workspace',default='.executor-state')
     parser.add_argument('--allow-network',action='store_true',help='Explicit operator authorization for this remote operation')
     parser.add_argument('--run',action='store_true',help='Also authorize execution on submit; without it only save a version')
@@ -40,6 +40,8 @@ def main(argv=None):
             elif args.operation=='status':value=e.status(job)
             elif args.operation=='logs':value=e.logs(job)
             elif args.operation=='collect':value=e.collect(job)
+            elif args.operation=='report':
+                value=e.snapshot(job);files.atomic(e.directory(job['id']),'status-report.json',value)
             elif args.operation=='stop-following':value=e.stop_following(job)
             else:
                 try:value=e.follow(job,max_checks=args.max_checks)
