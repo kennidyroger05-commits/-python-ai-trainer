@@ -8,7 +8,7 @@ from .contracts import fingerprint,validate,canonical,ROOT
 from .notebooks import build,metadata
 from .transport import Policy,SdkTransport
 from .errors import ExecutorError,ERROR_CODES
-from .artifacts import verify,expected
+from .artifacts import verify,expected,validate_cached_report
 from . import files
 
 STATUS={'QUEUED':'queued','RUNNING':'running','COMPLETE':'remote_complete','ERROR':'failed','CANCEL_REQUESTED':'cancel_requested','CANCEL_ACKNOWLEDGED':'cancelled','NEW_SCRIPT':'saved_only'}
@@ -40,6 +40,7 @@ class Executor:
             if type(value['run_requested']) is not bool or value['run_requested']!=intent:raise ValueError()
             if value['report'] is not None and (type(value['report']) is not dict or value['status']!='completed' or value['report'].get('spec_sha256')!=value['spec_sha256']):raise ValueError()
             if value['status']=='completed' and value['report'] is None:raise ValueError()
+            if value['report'] is not None:validate_cached_report(value['report'],value['spec'],value['remote_ref'],value['remote_version'])
             return value
         except (ExecutorError,KeyError,TypeError,ValueError):raise ExecutorError('STATE_CORRUPT') from None
     def prepare(self,job):

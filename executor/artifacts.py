@@ -28,6 +28,10 @@ def _verify(root,job):
     # Hash the same no-follow bytes that were parsed and validated; never reopen paths afterwards.
     documents={name:files.read_document(root,name) for name in names};values={name:item[0] for name,item in documents.items()}
     if sum(len(item[1]) for item in documents.values())>job['resources']['max_artifact_bytes']:raise ExecutorError('ARTIFACT_TOO_LARGE')
+    _validate_values(values,job)
+    return {'notebook_result':values['result.json'],'artifacts':[{'name':name,'bytes':len(documents[name][1]),'sha256':hashlib.sha256(documents[name][1]).hexdigest()} for name in sorted(names)]}
+
+def _validate_values(values,job,*,check_files=True):
     result=values['result.json'];metrics=values['metrics.json']
     def require(ok):
         if not ok:raise ExecutorError('INVALID_ARTIFACT')
@@ -59,14 +63,27 @@ def _verify(root,job):
         # fabricated before/after numbers, split changes, extra parameters and false history.
         # This validates values; it does NOT replace or fabricate remote timing measurements.
         replay=core['train'](data,job['config'])
-        require(close(values['history.json'],replay['history']) and close(values['checkpoint-best.json'],replay['model']) and values['splits.json']==replay['splits'])
+        if check_files:require(close(values['history.json'],replay['history']) and close(values['checkpoint-best.json'],replay['model']) and values['splits.json']==replay['splits'])
         require(type(metrics['epochs_completed']) is int and metrics['epochs_completed']==len(replay['history']) and type(metrics['selected_epoch']) is int and metrics['selected_epoch']==replay['selected_epoch'])
         for k,expected_value in {'before_validation_accuracy':replay['before_validation']['accuracy'],'after_validation_accuracy':replay['after_validation']['accuracy'],'heldout_test_accuracy':replay['heldout_test']['accuracy'],'training_loss_last':replay['history'][-1]['training_loss'],'validation_loss_best':replay['after_validation']['loss']}.items():require(number(metrics[k],0,100) and close(metrics[k],expected_value))
         require(close(result['details'],{k:replay[k] for k in ['before_validation','after_validation','heldout_test','selected_epoch']}))
         events=[{'event':'dataset_loaded','train':18,'validation':6,'test':6},*replay['history']]
-    require(close(values['events.json'],events))
+    if check_files:require(close(values['events.json'],events))
     require(metrics['peak_process_memory_kib'] is None or number(metrics['peak_process_memory_kib'],0,1048576))
-    return {'notebook_result':result,'artifacts':[{'name':name,'bytes':len(documents[name][1]),'sha256':hashlib.sha256(documents[name][1]).hexdigest()} for name in sorted(names)]}
+
+def validate_cached_report(report,job,remote_ref,remote_version):
+    """Revalidate the closed ledger snapshot; this is not a cryptographic remote attestation."""
+    try:
+        def require(ok):
+            if not ok:raise ExecutorError('INVALID_ARTIFACT')
+        require(type(report) is dict and set(report)=={'schema_version','status','spec','spec_sha256','provenance','notebook_result','artifacts'})
+        require(type(report['schema_version']) is int and report['schema_version']==1 and report['status']=='completed' and validate(report['spec'])==job and report['spec_sha256']==fingerprint(job))
+        p=report['provenance'];require(type(p) is dict and set(p)=={'source','verification','remote_ref','remote_version'} and p['source'] in ['kaggle-sdk','injected-transport'] and p['verification']=='version-and-artifact-contract' and p['remote_ref']==remote_ref and type(p['remote_version']) is int and p['remote_version']==remote_version)
+        result=report['notebook_result'];_validate_values({'result.json':result,'metrics.json':result['metrics']},job,check_files=False)
+        rows=report['artifacts'];require(type(rows) is list and all(type(a) is dict and set(a)=={'name','bytes','sha256'} and type(a['name']) is str and a['name'] in expected(job) and type(a['bytes']) is int and number(a['bytes'],0,1048576) and type(a['sha256']) is str and re.fullmatch(r'[a-f0-9]{64}',a['sha256']) for a in rows))
+        require(sorted(a['name'] for a in rows)==sorted(expected(job)) and sum(a['bytes'] for a in rows)<=job['resources']['max_artifact_bytes'])
+    except ExecutorError:raise
+    except (ValueError,TypeError,KeyError,AttributeError,RecursionError):raise ExecutorError('INVALID_ARTIFACT') from None
 
 def verify(root,job):
     try:return _verify(root,job)

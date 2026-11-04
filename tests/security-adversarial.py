@@ -103,4 +103,20 @@ class SecurityTests(unittest.TestCase):
         result=subprocess.run([sys.executable,'-m','executor.cli','prepare','--job','experiments/intent-inference-job.json'],cwd=ROOT,capture_output=True,text=True,timeout=5,env={'PATH':os.defpath})
         self.assertEqual(result.returncode,2);self.assertEqual(json.loads(result.stdout),{'ok':False,'error':'WORKSPACE_REQUIRED'})
 
+    def test_18_cached_completed_report_cannot_export_unknown_nested_fields(self):
+        original=self.fake.call
+        def with_outputs(operation,payload):
+            if operation=='outputs':execute(self.job,payload['destination']);return {'downloaded':payload['names']}
+            return original(operation,payload)
+        self.fake.call=with_outputs;self.fake.status='COMPLETE';self.e.submit(self.job,run=True);self.e.status(self.job);self.e.collect(self.job)
+        path=self.root/self.job['id']/'state.json'
+        self.rewrite(path,lambda v:v['report']['notebook_result']['details'].update(api_key='SYNTHETIC_CANARY_ONLY'))
+        self.expect_reject(self.e.snapshot,self.job)
+
+    def test_19_old_ledger_migrates_run_intent_and_save_can_run_only_once(self):
+        self.e.submit(self.job,run=False);self.e.submit(self.job,run=True)
+        path=self.root/self.job['id']/'state.json';self.rewrite(path,lambda v:v.pop('run_requested'))
+        self.e.status(self.job);self.e.submit(self.job,run=True)
+        self.assertTrue(self.e.prepare(self.job)['run_requested']);self.assertEqual(sum(op=='submit' for op,_ in self.fake.calls),2)
+
 if __name__=='__main__':unittest.main(verbosity=2)
