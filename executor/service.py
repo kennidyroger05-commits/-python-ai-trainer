@@ -3,7 +3,8 @@ import json
 import re
 import tempfile
 import time
-from .contracts import fingerprint,validate,canonical
+from pathlib import Path
+from .contracts import fingerprint,validate,canonical,ROOT
 from .notebooks import build,metadata
 from .transport import Policy,SdkTransport
 from .errors import ExecutorError,ERROR_CODES
@@ -13,6 +14,8 @@ from . import files
 STATUS={'QUEUED':'queued','RUNNING':'running','COMPLETE':'remote_complete','ERROR':'failed','CANCEL_REQUESTED':'cancel_requested','CANCEL_ACKNOWLEDGED':'cancelled','NEW_SCRIPT':'saved_only'}
 class Executor:
     def __init__(self,root,*,policy=Policy(),transport=None,clock=time.time,sleep=time.sleep):
+        candidate=Path(root).resolve()
+        if candidate==ROOT or ROOT in candidate.parents:raise ExecutorError('PUBLIC_WORKSPACE')
         self.root=files.private_directory(root,private=True);self.policy=policy;self.transport=transport if transport is not None else SdkTransport(policy);self.clock=clock;self.sleep=sleep
     def directory(self,job_id):return files.private_directory(files.child(self.root,job_id),private=True)
     def _read(self,root):
@@ -105,7 +108,7 @@ class Executor:
             with tempfile.TemporaryDirectory(prefix='output-',dir=root) as folder:
                 try:
                     self.transport.call('outputs',{'version_ref':self._remote(state),'destination':folder,'names':sorted(expected(job))})
-                    artifact=verify(__import__('pathlib').Path(folder),job)
+                    artifact=verify(Path(folder),job)
                 except ExecutorError as error:
                     state['last_error']=error.code if error.code in ERROR_CODES else 'TRANSPORT_FAILURE';files.atomic(root,'state.json',state);raise
             report={'schema_version':1,'status':'completed','spec':job,'spec_sha256':fingerprint(job),'provenance':{'source':'kaggle-sdk' if isinstance(self.transport,SdkTransport) else 'injected-transport','verification':'version-and-artifact-contract','remote_ref':state['remote_ref'],'remote_version':state['remote_version']},**artifact}

@@ -15,7 +15,7 @@ from . import files
 def main(argv=None):
     parser=argparse.ArgumentParser(description='Offline-first Python AI Trainer executor. Remote actions require separate authorization.')
     parser.add_argument('operation',choices=['validate','prepare','local','submit','status','follow','logs','collect','report','stop-following'])
-    parser.add_argument('--job',required=True);parser.add_argument('--workspace',default='.executor-state')
+    parser.add_argument('--job',required=True);parser.add_argument('--workspace',help='Private operator directory outside the frontend webroot (required except for validate)')
     parser.add_argument('--allow-network',action='store_true',help='Explicit operator authorization for this remote operation')
     parser.add_argument('--run',action='store_true',help='Also authorize execution on submit; without it only save a version')
     parser.add_argument('--owner');parser.add_argument('--approve',help='SHA-256 printed by validate; binds permission to this exact spec')
@@ -25,6 +25,7 @@ def main(argv=None):
         path=Path(args.job).absolute();job=files.read(path.parent,path.name,16384);validate(job)
         if args.operation=='validate':value={'valid':True,'spec_sha256':fingerprint(job),'network_used':False}
         else:
+            if not args.workspace:raise ExecutorError('WORKSPACE_REQUIRED')
             policy=Policy(enabled=args.allow_network,allow_run=args.run,owner=args.owner,approved_sha256=args.approve)
             e=Executor(args.workspace,policy=policy)
             if args.operation=='prepare':

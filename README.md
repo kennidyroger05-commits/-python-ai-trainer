@@ -121,8 +121,8 @@ Os dois notebooks executam de verdade um modelo linear pequeno, com stdlib e dad
 
 ```bash
 python3 -m executor.cli validate --job experiments/intent-inference-job.json
-python3 -m executor.cli prepare --job experiments/intent-inference-job.json
-python3 -m executor.cli local --job experiments/intent-inference-job.json
+python3 -m executor.cli prepare --job experiments/intent-inference-job.json --workspace ../python-ai-experiments-private
+python3 -m executor.cli local --job experiments/intent-inference-job.json --workspace ../python-ai-experiments-private
 ```
 
-Operações remotas continuam desativadas e dependem de autorização futura separada, SDK fixado e autenticação no ambiente do operador. Não há credencial no frontend. Veja [executor](executor/README.md), [capacidades Kaggle verificadas](docs/KAGGLE-INTEGRATION.md), [matriz de qualidade](docs/QUALITY-AUDIT.md) e [relatório de entrega](docs/REPORT-KAGGLE-EXECUTION.md).
+O workspace do executor é privado e deve ficar fora de qualquer diretório servido por HTTP; caminhos dentro deste repositório são recusados. Operações remotas continuam desativadas e dependem de autorização futura separada, SDK fixado e autenticação no ambiente do operador. Não há credencial no frontend. Veja [executor](executor/README.md), [capacidades Kaggle verificadas](docs/KAGGLE-INTEGRATION.md), [matriz de qualidade](docs/QUALITY-AUDIT.md) e [relatório de entrega](docs/REPORT-KAGGLE-EXECUTION.md).

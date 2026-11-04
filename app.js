@@ -14,8 +14,9 @@
   const content = () => ({ ...exercise(), ...exercise().translations[state.language] });
   function storageWarning(message){$('storageStatus').hidden=false;$('storageStatus').textContent=message;}
   function preference() { try{storage.setItem('trainer-language', state.language); storage.setItem('trainer-known', JSON.stringify(state.known));}catch{storageWarning(reviewText('Preferência mantida apenas nesta sessão.','Preference kept only in this session.'));} }
+  function renderXP(){const label=reviewText('XP das missões','Mission XP');$('xp').textContent=`${state.progress.xp} XP`;$('xp').title=label;$('xp').setAttribute('aria-label',label+' '+state.progress.xp);}
   function updateText() {
-    const t = ui();$('xp').title=reviewText('XP das missões','Mission XP');$('xp').setAttribute('aria-label',$('xp').title+' '+state.progress.xp); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
+    const t = ui();renderXP(); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
     $('reviewButton').textContent=reviewText('Revisar conceitos','Review concepts');$('debugButton').textContent=reviewText('Laboratório de debugging','Debugging lab');$('aiLabButton').textContent=reviewText('Laboratório de IA simulada','Simulated AI lab');
     if(labs)labs.render();
     $('projectsButton').textContent=reviewText('Python AI Lab — Projetos','Python AI Lab — Projects');$('returnToProject').textContent=reviewText('← Voltar ao projeto','← Return to project');
@@ -76,14 +77,14 @@
   function renderHome() {
     saveSession();$('aiLab').hidden=true;if(projects)projects.hide();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();
     $('home').hidden = false; $('mission').hidden = true;
-    $('xp').textContent = `${state.progress.xp} XP`;
+    renderXP();
     updateText();
   }
   function renderMission() {
     if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();const e = state.exercises[state.index];activeId=e.id;if(projects){projects.hide();projects.missionPresented(e);}
     Object.assign(state,sessions.get(e.id)); $('simulation').hidden=!state.simOpen; $('glossary').hidden=true; $('simulate').hidden=!e.simulation;
     $('aiLab').hidden=true;$('home').hidden = true; $('mission').hidden = false;
-    $('xp').textContent = `${state.progress.xp} XP`;
+    renderXP();
     $('module').textContent = e.module;
     $('counter').textContent = `Missão ${state.index + 1} de ${state.exercises.length}`;
     $('bar').style.width = `${state.progress.completed.length / state.exercises.length * 100}%`;
@@ -119,7 +120,7 @@
       state.feedback={kind:'correct',gained};renderFeedback();
       $('next').hidden = false;
     } else {if(projects)projects.missionAttempt(e,false);progressAPI.record(state.progress,e,false,0,!!reviewQueue);state.feedback={kind:'wrong'};renderFeedback();}
-    syncProgress();saveSession();$('bar').style.width=`${state.progress.completed.length/state.exercises.length*100}%`; $('xp').textContent = `${state.progress.xp} XP`;
+    syncProgress();saveSession();$('bar').style.width=`${state.progress.completed.length/state.exercises.length*100}%`; renderXP();
   }
   function showHint() {
     const e = state.exercises[state.index];

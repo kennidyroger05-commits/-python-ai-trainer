@@ -6,11 +6,13 @@ Não é um backend instalado nem serviço HTTP. Nenhuma execução remota está 
 
 ```bash
 python3 -m executor.cli validate --job experiments/intent-inference-job.json
-python3 -m executor.cli prepare --job experiments/intent-inference-job.json
-python3 -m executor.cli local --job experiments/intent-inference-job.json
+python3 -m executor.cli prepare --job experiments/intent-inference-job.json --workspace ../python-ai-experiments-private
+python3 -m executor.cli local --job experiments/intent-inference-job.json --workspace ../python-ai-experiments-private
 ```
 
-`local` executa o notebook inteiro em CPU, em subprocesso sem credenciais herdadas e com limites de 256 MiB de espaço de endereços, 10 s de CPU, 15 s de parede e 2 MiB por arquivo. Só usa stdlib. O relatório fica em `.executor-state/<job>/local-report.json`, fora do Git. A execução não marca um job Kaggle como concluído.
+`local` executa o notebook inteiro em CPU, em subprocesso sem credenciais herdadas e com limites de 256 MiB de espaço de endereços, 10 s de CPU, 15 s de parede e 2 MiB por arquivo. Só usa stdlib. O relatório fica em `<workspace>/<job>/local-report.json`. A execução não marca um job Kaggle como concluído.
+
+Todas as operações, exceto `validate`, exigem `--workspace` explícito. Use um diretório do operador fora de qualquer raiz pública HTTP, incluindo seus ancestrais: o guard recusa caminhos dentro deste repositório, mas não conhece a configuração de outros servidores. O executor cria diretórios com modo 0700 e arquivos 0600; diretórios existentes compartilhados ou symlinks são recusados sem alterar suas permissões. Não sirva o workspace pelo GitHub Pages ou pelo servidor de desenvolvimento.
 
 ## Futuro uso remoto autorizado
 
@@ -22,6 +24,7 @@ Exemplo **para autorização futura, não executado nesta missão**:
 
 ```bash
 python3 -m executor.cli submit --job experiments/intent-inference-job.json \
+  --workspace ../python-ai-experiments-private \
   --allow-network --owner AUTHORIZED_OWNER --approve SHA_FROM_VALIDATE
 ```
 

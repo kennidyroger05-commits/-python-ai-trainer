@@ -97,4 +97,10 @@ class SecurityTests(unittest.TestCase):
         shared=self.root/'shared';shared.mkdir(mode=0o755);shared.chmod(0o755);before=shared.stat().st_mode
         self.expect_reject(Executor,shared);self.assertEqual(shared.stat().st_mode,before)
 
+    def test_17_executor_state_cannot_live_in_frontend_webroot(self):
+        with tempfile.TemporaryDirectory(prefix='.unsafe-workspace-test-',dir=ROOT) as folder:
+            self.expect_reject(Executor,folder)
+        result=subprocess.run([sys.executable,'-m','executor.cli','prepare','--job','experiments/intent-inference-job.json'],cwd=ROOT,capture_output=True,text=True,timeout=5,env={'PATH':os.defpath})
+        self.assertEqual(result.returncode,2);self.assertEqual(json.loads(result.stdout),{'ok':False,'error':'WORKSPACE_REQUIRED'})
+
 if __name__=='__main__':unittest.main(verbosity=2)
