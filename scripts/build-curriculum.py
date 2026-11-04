@@ -170,7 +170,7 @@ def generate():
             matrix[id]=[previous] if previous else [];previous=id
             if id not in byid:continue
             r=byid[id];term='v4-'+r['term'];definition=r['definition'];en_definition=r['en_definition']
-            glossary[term]=[r['term'].replace('-',' '),TERM_PT[r['term']],definition,en_definition,r['code'].splitlines()[0],goal,en_goal]
+            glossary.setdefault(term,[r['term'].replace('-',' '),TERM_PT[r['term']],definition,en_definition,r['code'].splitlines()[0],goal,en_goal])
             options=[r['output'],*r['wrong']];en_options=list(options);kind='predict';code=r['code'];solution=None;replacement=None
             if r['reading']:
                 prompt,en_prompt,options,en_options=r['reading'];kind='read'

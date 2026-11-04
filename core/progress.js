@@ -21,7 +21,8 @@
   function usable(value){return value&&typeof value==='object'&&!Array.isArray(value)&&Number.isInteger(value.current)&&value.current>=0&&Array.isArray(value.completed)&&Number.isFinite(value.xp)&&value.xp>=0;}
   function valid(value){return usable(value)&&value.version===2&&Array.isArray(value.unlocked)&&['attempts','awards','concepts'].every(k=>value[k]&&typeof value[k]==='object'&&!Array.isArray(value[k]))&&['attempts','awards'].every(k=>Object.values(value[k]).every(n=>Number.isSafeInteger(n)&&n>=0))&&Object.values(value.concepts).every(c=>c&&typeof c==='object'&&['attempts','correct','errors','hints'].every(k=>Number.isSafeInteger(c[k])&&c[k]>=0)&&Array.isArray(c.recent)&&c.recent.every(v=>typeof v==='boolean')&&(c.lastReview===null||Number.isFinite(c.lastReview)));}
   function load(storage){for(const key of [KEY,'pythonAiTrainerV1']){try{const raw=storage.getItem(key);if(raw){const value=JSON.parse(raw);if(usable(value))return migrate(value);}}catch{}}return empty();}
-  function save(storage,p){return storageAPI.write(storage,KEY,p,valid);}
+  function stable(v){if(Array.isArray(v))return v.map(stable);if(v&&typeof v==='object')return Object.fromEntries(Object.keys(v).sort().map(k=>[k,stable(v[k])]));return v;}
+  function save(storage,p){try{return storageAPI.write(storage,KEY,stable(p),valid);}catch{return false;}}
   function record(p,e,correct,hints=0,review=false,now=Date.now()){
     const key=e.concept||e.concepts[0];
     const c=p.concepts[key] ||= {attempts:0,correct:0,errors:0,hints:0,lastReview:null,recent:[]};

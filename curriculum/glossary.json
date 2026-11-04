@@ -344,11 +344,11 @@
   "v4-membership": [
     "membership",
     "pertencimento",
-    "in em um dicionário procura nas chaves, não nos valores.",
-    "in on a dictionary searches its keys, not its values.",
-    "response = {\"model\": \"local\"}",
-    "Leia e valide dados estruturados.",
-    "Read and validate structured data."
+    "in verifica se um elemento ou trecho está presente.",
+    "in checks whether an element or substring is present.",
+    "prompt = \"please classify this\"",
+    "Prepare textos de prompts e respostas.",
+    "Prepare prompt and response text."
   ],
   "v4-text-pipeline": [
     "text pipeline",
@@ -578,9 +578,9 @@
   "v4-assert": [
     "assert",
     "asserção",
-    "Um teste falho produz AssertionError e não comprova correção.",
-    "A failed test raises AssertionError and does not establish correctness.",
-    "assert 2 + 2 == 5",
+    "assert verifica uma condição e falha se ela for falsa.",
+    "assert checks a condition and fails when it is false.",
+    "def double(value):",
     "Investigue, corrija e verifique.",
     "Investigate, repair and verify."
   ],

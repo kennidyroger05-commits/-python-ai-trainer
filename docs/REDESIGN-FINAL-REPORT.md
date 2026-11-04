@@ -7,3 +7,13 @@ Implementados: currículo de 14 unidades/145 missões, 40 originais preservadas,
 Preservados: runtime Pyodide/worker/limites, 14 desafios reais, projetos e 70 etapas totais de atividades guiadas, idiomas, glossário, revisão, laboratórios, notebooks CPU, executor e gates Kaggle, exportações/importações e portfólio. Nenhuma credencial real ou execução remota foi utilizada.
 
 Marcos já validados: `2017d2b` currículo inicial e migração; `887e984` identidade/interface integrada e jornada. A revisão atual acrescentou uma missão necessária para fallback por valor, pré-requisitos específicos de Python e preparação explícita de projetos. Os testes direcionados passaram; duas passagens completas ainda pendentes. O relatório será atualizado somente com evidência de execução.
+
+## Revisão da primeira tentativa
+
+A primeira tentativa completa passou pelas 40 missões e laboratórios antigos, mas parou em `projects-browser.cjs`: o teste de isolamento encontrou JSON equivalente regravado com ordem diferente dos novos campos de migração. Não houve perda de valores. A serialização foi estabilizada e o teste de reload agora exige os mesmos bytes; os projetos passaram novamente nas três larguras.
+
+A revisão também reproduziu trilha invisível enquanto labs.json estava pendente (Continue já funcionava, mas havia zero cartões de unidade). O currículo agora aparece antes dos módulos opcionais; estes ficam indisponíveis explicitamente enquanto carregam. Um teste segura a requisição e exige 14 unidades e uma missão em andamento preservada.
+
+A definição compartilhada de `in` e `assert` estava sendo sobrescrita por um exemplo posterior mais específico. O glossário agora conserva a definição da primeira apresentação; cada exercício mantém sua explicação contextual. A conclusão de todas as missões também passou a orientar para os quatro projetos, em vez de sugerir outra vez a primeira missão.
+
+Os testes direcionados atuais passaram: 25 suítes locais, 145 missões/14 unidades pela interface, 40 originais em três larguras, projetos com 70 etapas totais nas três larguras e 10 cenários novos de migração/carregamento/XP/contraste/acessibilidade. A tentativa parcial não será contada como passagem completa. Log preservado em `.quality-results/v4-attempt1-before-fixes.log`.
