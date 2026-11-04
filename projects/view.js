@@ -1,7 +1,7 @@
 (function(root){
   const E=root.PythonLabEngine,M=root.PythonLabModels,Portfolio=root.PythonLabPortfolio;
   const skillNames={fundamentals:['Fundamentos Python','Python fundamentals'],data:['Estruturas de dados','Data structures'],functions:['Funções','Functions'],debugging:['Debugging','Debugging'],api:['APIs','APIs'],logic:['Raciocínio lógico','Logical reasoning'],ai:['Fluxos de IA','AI workflows'],evaluation:['Avaliação de modelos','Model evaluation'],training:['Fundamentos de treinamento','Training foundations'],english:['Inglês técnico','Technical English']};
-  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true}){
+  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true,onContext=()=>{}}){
     const $=id=>document.getElementById(id);let state=E.load(storage,catalog),view='hub',selected=null,group='project';
     E.importMissions(state,missionProgress(),missions);
     const t=(pt,en)=>language()==='en'?en:pt;
@@ -13,7 +13,7 @@
     function header(){
       document.querySelector('.project-nav').setAttribute('aria-label',t('Navegação do Lab','Lab navigation'));
       $('pMenuLabel').textContent=t('Menu do Lab','Lab menu');$('pObjectiveLabel').textContent=t('Problema e objetivo','Problem and goal');
-      $('pHome').textContent=t('← Treino de missões','← Mission training');$('pHub').textContent=t('Projetos guiados','Guided projects');$('pDebug').textContent=t('Desafios de debugging','Debugging challenges');$('pTesting').textContent=t('Aprender a testar','Learn testing');$('pSkills').textContent=t('Minhas competências','My learning evidence');$('pPortfolio').textContent=t('Meus projetos','My projects');
+      $('pHome').textContent=t('← Início','← Home');$('pHub').textContent=t('Projetos guiados','Guided projects');$('pDebug').textContent=t('Desafios de debugging','Debugging challenges');$('pTesting').textContent=t('Aprender a testar','Learn testing');$('pSkills').textContent=t('Minhas competências','My learning evidence');$('pPortfolio').textContent=t('Meus projetos','My projects');
       $('pXP').textContent=`${t('XP do Lab já conquistado','Lab XP already earned')}: ${E.xp(state)}`;
     }
     function renderList(){
@@ -65,7 +65,7 @@
       $('pConclusionPython').hidden=a.kind!=='project'||!onPython||!pythonAvailable();$('pConclusionPython').textContent=t('Praticar com Python real (opcional)','Practice in real Python (optional)');$('pConclusionPython').onclick=()=>openPython(a);
       const r=E.get(state,a);$('pConclusionTitle').textContent=`${a.title[language()]} — ${t('concluído','completed')}`;$('pConclusionResult').textContent=a.result[language()];$('pConclusionLimit').textContent=a.limitations[language()];$('pRevisit').textContent=t('Revisitar etapas','Revisit stages');$('pExport').hidden=a.kind!=='project';$('pExport').textContent=t('Salvar relatório Markdown','Save Markdown report');$('pRevisit').onclick=()=>{r.conclusion=false;r.currentStepId=a.steps[0].id;render();save();};$('pExport').onclick=()=>download(a);
     }
-    function download(a){try{Portfolio.download(`python-ai-lab-${a.id}.md`,Portfolio.markdown(a,state,E,M,datasets,language())+(pythonReport?.(a.id)?`\n\n---\n\n${pythonReport(a.id)}`:''));}catch{onWarning(t('Conclua o projeto antes de exportar.','Complete the project before exporting.'));}}
+    function download(a){try{Portfolio.download(`python-ai-lab-${a.id}.md`,Portfolio.markdown(a,state,E,M,datasets,language())+(pythonReport?.(a.id)?`\n\n---\n\n${pythonReport(a.id)}`:''));}catch{onWarning(t('Não foi possível exportar. Confira a conclusão e permita downloads; o progresso foi mantido.','Could not export. Check completion and allow downloads; progress was kept.'));}}
     function renderPortfolio(){
       $('pPortfolioTitle').textContent=t('Meus projetos','My projects');$('pPortfolioIntro').textContent=t('Registros locais de aprendizagem simulada. Não comprovam experiência profissional.','Local records of simulated learning. They do not prove professional experience.');$('pPortfolioList').replaceChildren();
       for(const a of catalog.filter(a=>a.kind==='project')){const r=E.get(state,a),card=document.createElement('article');card.className='project-card';const heading=document.createElement('h3');heading.textContent=a.title[language()];card.append(heading);const status=document.createElement('p');status.textContent=r.completedAt?t('Concluído — projeto didático','Completed — educational project'):r.openedAt?t('Em andamento','In progress'):t('Não iniciado','Not started');card.append(status);button(card,t('Abrir','Open'),()=>openActivity(E.key(a)));if(r.completedAt)button(card,t('Salvar Markdown','Save Markdown'),()=>download(a),{'data-export':a.id});$('pPortfolioList').append(card);}
@@ -75,13 +75,15 @@
       for(const row of E.competencies(state)){const card=document.createElement('article');card.className='project-card';const h=document.createElement('h3');h.textContent=skillNames[row.skill][language()==='en'?1:0];card.append(h);for(const [field,pt,en]of [['presented','Apresentado','Presented'],['practiced','Praticado','Practiced'],['correct','Acertado ao menos uma vez','Correct at least once'],['review','Para revisar','Review suggested']]){const line=document.createElement('p');line.textContent=`${t(pt,en)}: ${row[field]}`;card.append(line);}$('pSkillsCards').append(card);}
     }
     function render(){
+      const activeKind=view==='activity'?activity()?.kind:null;
+      onContext({kind:view==='activity'?'activity':'projects',id:view==='activity'?selected:view,area:view==='skills'?'progress':view==='hub'&&group==='debug'||['debug','testing'].includes(activeKind)?'practice':'projects'});
       header();for(const id of ['pListPanel','pActivity','pConclusion','pPortfolioPanel','pSkillsPanel'])$(id).hidden=true;
       if(view==='hub'){ $('pListPanel').hidden=false;renderList(); }
       else if(view==='activity'){const a=activity();if(!a)return;const r=E.get(state,a);if(r.conclusion&&r.completedAt){$('pConclusion').hidden=false;renderConclusion(a);}else{$('pActivity').hidden=false;renderStep(a);}}
       else if(view==='portfolio'){$('pPortfolioPanel').hidden=false;renderPortfolio();}
       else if(view==='skills'){$('pSkillsPanel').hidden=false;renderSkills();}
     }
-    function open(){ $('projectsArea').hidden=false;view='hub';group='project';render();save(); }
+    function open(target=null){ $('projectsArea').hidden=false;if(catalog.some(a=>E.key(a)===target)){openActivity(target);return;}view=['portfolio','skills'].includes(target)?target:'hub';group=target==='debug'?'debug':'project';render();save();focusHeading(view==='portfolio'?'pPortfolioTitle':view==='skills'?'pSkillsTitle':'pListTitle'); }
     function hide(){ $('projectsArea').hidden=true;save(); }
     function missionPresented(e){E.present(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track));save();}
     function EvidenceSkills(track){return ({A:['fundamentals'],B:['logic'],C:['data'],D:['functions'],E:['api'],F:['debugging'],G:['ai'],H:['training','evaluation']})[track]||['fundamentals'];}
@@ -92,7 +94,7 @@
     $('pRestart').onclick=()=>{if(!confirm(t('Reiniciar etapas desta atividade? O XP já conquistado e o histórico de dificuldade serão mantidos.','Restart this activity stages? Already earned XP and difficulty history will be kept.')))return;E.restart(state,activity());render();save();};
     $('pRunTests').onclick=()=>{const a=activity(),artifact=E.artifact(state,a);E.testRun(state,a,M.tests(a,artifact,datasets),M.signature(a,artifact));render();save();};
     save();
-    return {open,hide,runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
+    return {open,hide,snapshot:()=>structuredClone(state),runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
       missionAttempt(e,correct){E.observe(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track),correct);save();},
       reset(){state=E.empty();if(!root.TrainerStorage.remove(storage,[E.KEY]))onWarning(t('Não foi possível apagar os registros do Lab.','Could not delete Lab records.')); view='hub';selected=null;},
       missionHint(e){E.evidence(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track)).hints++;save();}};

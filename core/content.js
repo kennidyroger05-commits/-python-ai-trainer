@@ -24,6 +24,13 @@
     }
     return exercises;
   }
-  async function load(glossary){const r=await fetch('exercises.json');if(!r.ok)throw Error('Exercise request failed');return validate(await r.json(),glossary);}
-  return {TYPES,validate,load};
+  async function json(path,{timeoutMs=15000,fetcher=globalThis.fetch}={}){
+    if(typeof path!=='string'||!/^[a-z0-9][a-z0-9/-]*\.json$/i.test(path))throw Error('Only relative content JSON paths are supported');
+    const controller=new AbortController(),budget=Number.isFinite(timeoutMs)?Math.max(10,Math.min(30000,timeoutMs)):15000;
+    const timer=setTimeout(()=>controller.abort(),budget);
+    try{const r=await fetcher(path,{signal:controller.signal});if(!r.ok)throw Error('Content unavailable: '+path);return await r.json();}
+    finally{clearTimeout(timer);}
+  }
+  async function load(glossary){return validate(await json('exercises.json'),glossary);}
+  return {TYPES,validate,json,load};
 });

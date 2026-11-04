@@ -1,6 +1,6 @@
 (function(root){
  const P=root.ExecutableProgress;
- function create({catalog,missions,glossary,language,storage,missionProgress,onHome,onWarning,onEvidence}){
+ function create({catalog,missions,glossary,language,storage,missionProgress,onHome,onWarning,onEvidence,onContext=()=>{}}){
   const $=id=>document.getElementById(id),area=$('runtimeArea'),executor=root.PythonExecutor.create();
   let state=P.load(storage,catalog),selected=null,back=null,busy=false,task=0;
   const drafts=new Map(),t=(pt,en,mixed)=>language()==='en'?en:language()==='mixed'?(mixed||pt):pt;
@@ -12,7 +12,8 @@
   function button(parent,label,action,attributes={}){const b=document.createElement('button');b.textContent=label;b.onclick=action;for(const[k,v]of Object.entries(attributes))b.setAttribute(k,v);parent.append(b);return b;}
   function statusLabel(status){return ({success:t('Execução concluída','Execution completed'),tests_failed:t('Testes não aprovados','Tests failed'),syntax_error:t('Erro de sintaxe','Syntax error'),runtime_error:t('Exceção em execução','Runtime exception'),assertion_error:t('Assertion falhou','Assertion failed'),initialization_error:t('Falha ao inicializar Python. Tente reiniciar.','Python initialization failed. Try resetting.'),timeout:t('Limite de tempo: execução encerrada','Time limit: execution terminated'),cancelled:t('Execução interrompida','Execution stopped'),policy_error:t('Recurso fora dos limites deste runtime didático','Feature outside this learning runtime limits')})[status]||status;}
   function render(){
-   $('rHome').textContent=t('← Início','← Home');$('rBack').hidden=!back;$('rBack').textContent=t('← Voltar ao projeto','← Return to project');
+   onContext({kind:selected?'executable':'practice',id:selected});
+   $('rHome').textContent=t('← Início','← Home');$('rBack').hidden=!back;$('rBack').textContent=t('← Voltar à atividade','← Return to activity');
    $('rTitle').textContent=selected?lesson().title[language()]:t('Python executável','Executable Python','Run Python (executar Python)');
    $('rNotice').textContent=t('Python real local, separado das simulações. O interpretador (~14 MB) carrega apenas ao executar. Sem chamadas de API ou modelos reais. Rascunhos ficam nesta aba; são perdidos ao recarregar.','Real local Python, separate from simulations. The interpreter (~14 MB) loads only on execution. No API calls or real models. Drafts stay in this tab and are lost on reload.');
    $('rAboutLabel').textContent=t('Como funciona e pré-requisitos','How it works and prerequisites');$('rGlossLabel').textContent=t('Glossário contextual','Contextual glossary');$('rPrerequisites').hidden=!selected;
@@ -54,13 +55,13 @@
   async function execute(mode){
    if(busy)return;const l=lesson(),d=draft(),source=code(),id=++task;busy=true;render();
    try{const value=await executor.run({code:source,mode,globals:l.demoGlobals,tests:mode==='validate'?l.tests:[]},{onProgress:showProgress});if(id!==task)return;
-    let gain=0;if(mode==='validate'){const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(source));if(id!==task)return;const hash=[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');gain=P.record(state,l,value,hash);save();if(['success','tests_failed','syntax_error','runtime_error','assertion_error','timeout'].includes(value.status))onEvidence?.(l,value.status==='success');}
-    d.result={code:source,mode,value,gain};
+    P.recordRun(state,l,value);let gain=0;if(mode==='validate'){const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(source));if(id!==task)return;const hash=[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');gain=P.record(state,l,value,hash);save();if(['success','tests_failed','syntax_error','runtime_error','assertion_error','timeout'].includes(value.status))onEvidence?.(l,value.status==='success');}
+    save();d.result={code:source,mode,value,gain};
    }catch(e){d.result={code:source,mode,value:{status:'initialization_error',stderr:String(e.message),stdout:'',cases:[]}};}finally{if(id===task){busy=false;render();}}
   }
   function stop(){executor.stop();}
   function hide(){if(busy){task++;executor.stop();busy=false;}area.hidden=true;}
-  function open(id=null,returnTo=null){if(busy){task++;executor.stop();busy=false;}selected=catalog.some(l=>l.id===id)?id:null;if(returnTo)back=returnTo;else if(!id)back=null;area.hidden=false;render();$('rTitle').focus({preventScroll:true});$('rTitle').scrollIntoView({block:'start'});}
+  function open(id=null,returnTo=null){if(busy){task++;executor.stop();busy=false;}selected=catalog.some(l=>l.id===id)?id:null;back=typeof returnTo==='function'?returnTo:null;if(selected){P.get(state,lesson()).openedAt ||= Date.now();save();}area.hidden=false;render();$('rTitle').focus({preventScroll:true});$('rTitle').scrollIntoView({block:'start'});}
   $('rHome').onclick=()=>{hide();onHome();};$('rBack').onclick=()=>{hide();back?.();};$('rNext').onclick=()=>open();
   $('rMode').onchange=()=>{const d=draft(),old=code(),mode=$('rMode').value;d.mode=mode;d.codes[mode]??=mode==='blocks'?'':mode==='complete'?lesson().starter:old;render();};
   $('rEditor').oninput=()=>{draft().codes.free=$('rEditor').value;renderResult();};$('rEditor').maxLength=24000;
@@ -70,9 +71,9 @@
   $('rUndo').onclick=()=>{draft().codes.blocks=draft().stack.pop()??'';render();};$('rHint').onclick=()=>{P.hint(state,lesson());draft().hint=true;save();render();};
   $('rRun').onclick=()=>execute('run');$('rValidate').onclick=()=>execute('validate');$('rStop').onclick=stop;
   $('rResetVM').onclick=()=>{task++;executor.release();busy=false;draft().result=null;render();$('rStatus').textContent=t('Ambiente encerrado; a próxima execução inicia um interpretador novo.','Environment terminated; the next run starts a fresh interpreter.');};
-  function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  function download(text,name){if(!root.TrainerDownload.save(name,text))onWarning(t('Não foi possível exportar o registro. O progresso foi mantido.','Could not export the record. Progress was kept.'));}
   $('rExport').onclick=()=>download(P.report(state,lesson(),language()),`${selected}-python.md`);
-  return {open,hide,languageChanged(){if(!area.hidden)render();},reset(){task++;executor.release();busy=false;state=P.empty();drafts.clear();selected=null;back=null;if(!root.TrainerStorage.remove(storage,[P.KEY]))onWarning(t('Não foi possível apagar o progresso Python.','Could not delete Python progress.'));},projectReport(id){const l=catalog.find(l=>l.projectId===id);return l&&P.get(state,l).completedAt?P.report(state,l,language()):'';}};
+  return {open,hide,snapshot:()=>structuredClone(state),languageChanged(){if(!area.hidden)render();},reset(){task++;executor.release();busy=false;state=P.empty();drafts.clear();selected=null;back=null;if(!root.TrainerStorage.remove(storage,[P.KEY]))onWarning(t('Não foi possível apagar o progresso Python.','Could not delete Python progress.'));},projectReport(id){const l=catalog.find(l=>l.projectId===id);return l&&P.get(state,l).completedAt?P.report(state,l,language()):'';}};
  }
  root.ExecutableView={create};
 })(globalThis);

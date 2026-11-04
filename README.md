@@ -1,10 +1,18 @@
-# Python AI Trainer — Python Runtime & AI Model Lab
+# Python AI Trainer
 
-Aprendizado de Python aplicado a IA e inglês técnico por missões e projetos guiados. A V3 conserva as **40 missões da V2** e acrescenta quatro projetos, oito desafios de debugging e uma introdução a testes. Funciona como site estático, com HTML, CSS e JavaScript, sem backend, framework ou APIs de modelos.
+Uma plataforma para aprender Python aplicado a IA e inglês técnico: ler, montar, executar, testar, depurar e construir soluções guiadas. Reúne **40 missões**, quatro projetos, oito desafios de debugging, introdução a testes e 14 desafios com Python real. Funciona como site estático, com HTML, CSS e JavaScript, sem backend obrigatório, framework ou APIs de modelos.
 
-Desenvolvimento contínuo em `feature/kaggle-execution-quality`, baseado em `feature/python-runtime-kaggle-lab`. Nenhuma versão desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+Desenvolvimento contínuo em `feature/integrated-learning-experience`, baseado em `feature/kaggle-execution-quality` (`2ceb711`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
 
 A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** mantém seu simulador. A área **AI experiments** acrescenta notebooks autocontidos de inferência/treinamento de um modelo linear de 87 parâmetros, executados e medidos em CPU local, e um **executor Kaggle separado, desativado por padrão**. O site não autentica contas, submete jobs ou inicia treino remoto. Relatórios importados têm origem declarada. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
+
+## Uma experiência integrada
+
+O menu compacto **Áreas** conecta Aprender, Praticar, Projetos, Laboratório IA e Meu progresso. A home oferece uma próxima atividade e permite explorar as 40 missões livremente. Conexões por conceito levam da leitura ao programa real, do programa ao debugging e de projetos a experimentos. Pré-requisitos orientam sem bloquear exploração.
+
+O progresso mostra apresentado, praticado, acertado e sugestão de revisão, além de conclusão por atividade. XP é apresentado por origem; não mede domínio ou experiência profissional. O portfólio e o resumo Markdown distinguem simulação, código executado, testes reais aprovados e preparação Kaggle. Não existe conexão Kaggle autenticada disfarçada de simulação.
+
+Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório desta entrega](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
 
 ## Projetos guiados
 
@@ -108,6 +116,8 @@ Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode s
 - `model-lab/`: contratos, exportação de notebooks preparatórios, adaptador simulado e interface de experimentos.
 - `experiments/`: contratos compartilhados, percursos bilíngues, notebooks fixos, dados/pesos e medições locais de referência.
 - `executor/`: referência Python de operador, CLI, gates, SDK em processo limitado, ledger e validação de artefatos; sem servidor implantado.
+- `learning/`: navegação comum, conexões por IDs, recomendações, preparação contextual, projeção de evidências e resumo didático.
+- `core/download.js`: downloads locais compartilhados, com falha tratada e limpeza de recursos.
 - `tests/`: regressões V1–V2, preservação de conteúdo, estado V3, fixtures e navegador.
 
 O [relatório do runtime anterior](docs/REPORT-RUNTIME-LAB.md) separa execução real, simulações, testes e limites de integração.
@@ -116,7 +126,7 @@ Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta expansão deve abrir PR de rascunho contra `feature/python-runtime-kaggle-lab`, preservando PRs anteriores.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração deve abrir PR de rascunho contra `feature/kaggle-execution-quality`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
 
 As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 

@@ -1,5 +1,5 @@
 (function(root){
- function validate(catalog,missions,projects,glossary){
+ function validate(catalog,missions,projects,glossary,{allowMissingProjects=false}={}){
   const ids=new Set(),titles=new Set(),known=new Set(missions.map(m=>m.id));
   if(!Array.isArray(catalog)||catalog.length<12)throw Error('At least twelve executable challenges are required');
   for(const l of catalog){
@@ -15,7 +15,7 @@
    for(const lang of ['pt','mixed','en']){for(const key of ['title','goal','explanation','legend'])check(typeof l[key][lang]==='string'&&l[key][lang].trim(),`${key}/${lang}`);check(l.hints[lang].length===2&&l.hints[lang].every(Boolean),'two hints');check(!titles.has(`${lang}/${l.title[lang]}`),'distinct title');titles.add(`${lang}/${l.title[lang]}`);}
    check(typeof l.concept==='string'&&l.concept.trim()&&l.terms.length>0,'concept and terms');
    check(l.requires.length&&l.requires.every(id=>known.has(id)),'prerequisite mission');check(l.terms.every(id=>glossary[id]),'glossary');
-   check(!l.projectId||projects.some(p=>p.id===l.projectId),'project link');
+   check(!l.projectId||(Array.isArray(projects)&&projects.some(p=>p.id===l.projectId))||(allowMissingProjects&&projects===null&&typeof l.projectId==='string'&&/^[a-z][a-z-]+$/.test(l.projectId)),'project link');
   }return catalog;
  }
  const api={validate};if(typeof module==='object'&&module.exports&&typeof require==='function')module.exports=api;root.ExecutableContent=api;

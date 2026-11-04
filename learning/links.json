@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "id": "scores",
+      "missions": [
+        "score-variable",
+        "print-score",
+        "token-budget"
+      ],
+      "executable": "exec-score"
+    },
+    {
+      "id": "lists",
+      "missions": [
+        "max-scores",
+        "read-index",
+        "find-index-error",
+        "debug-index"
+      ],
+      "executable": "exec-list",
+      "activity": "debug/empty-scores"
+    },
+    {
+      "id": "threshold",
+      "missions": [
+        "compare-scores",
+        "minimum-confidence",
+        "debug-logic"
+      ],
+      "executable": "exec-threshold",
+      "activity": "debug/inverted-budget"
+    },
+    {
+      "id": "return",
+      "missions": [
+        "define-tool",
+        "return-score"
+      ],
+      "executable": "exec-return",
+      "activity": "debug/missing-return"
+    },
+    {
+      "id": "model-selection",
+      "missions": [
+        "choose-fallback",
+        "trace-selection",
+        "handle-api-error"
+      ],
+      "executable": "exec-select-model",
+      "activity": "project/model-router"
+    },
+    {
+      "id": "response-fields",
+      "missions": [
+        "response-dictionary",
+        "read-response-field",
+        "debug-key"
+      ],
+      "executable": "exec-response-field",
+      "activity": "debug/nested-missing-key",
+      "experiment": "intent-inference"
+    },
+    {
+      "id": "response-types",
+      "missions": [
+        "validate-field-type",
+        "debug-types"
+      ],
+      "executable": "exec-validate-dict",
+      "activity": "debug/token-type"
+    },
+    {
+      "id": "missing-data",
+      "missions": [
+        "optional-field"
+      ],
+      "executable": "exec-missing-data",
+      "activity": "project/api-client"
+    },
+    {
+      "id": "tools",
+      "missions": [
+        "deterministic-tool",
+        "keyword-tool"
+      ],
+      "executable": "exec-token-tool",
+      "activity": "testing/testing-basics"
+    },
+    {
+      "id": "json",
+      "missions": [
+        "parse-json",
+        "response-envelope",
+        "http-status"
+      ],
+      "executable": "exec-json",
+      "activity": "project/api-client"
+    },
+    {
+      "id": "fallback",
+      "missions": [
+        "choose-fallback",
+        "fallback-challenge",
+        "unknown-tool-fallback"
+      ],
+      "executable": "exec-fallback",
+      "activity": "debug/unreachable-fallback"
+    },
+    {
+      "id": "router",
+      "missions": [
+        "trace-selection",
+        "classify-route",
+        "tool-call-contract"
+      ],
+      "executable": "exec-router",
+      "activity": "project/model-router"
+    },
+    {
+      "id": "evaluation",
+      "missions": [
+        "heldout-evaluation"
+      ],
+      "executable": "exec-evaluation",
+      "activity": "project/model-evaluation",
+      "experiment": "intent-inference"
+    },
+    {
+      "id": "checkpoint",
+      "missions": [
+        "training-example",
+        "epoch-log",
+        "training-loss"
+      ],
+      "executable": "exec-checkpoint",
+      "activity": "project/training-pipeline",
+      "experiment": "intent-training"
+    }
+  ],
+  "projectRequires": {
+    "project/model-router": [
+      "trace-selection"
+    ],
+    "project/api-client": [
+      "optional-field",
+      "handle-api-error"
+    ],
+    "project/model-evaluation": [
+      "heldout-evaluation"
+    ],
+    "project/training-pipeline": [
+      "training-loss"
+    ]
+  },
+  "lessonPreparation": {
+    "exec-router": [
+      "project/model-router"
+    ],
+    "exec-evaluation": [
+      "project/model-evaluation"
+    ]
+  }
+}

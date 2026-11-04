@@ -119,3 +119,19 @@ O frontend continua estático. Não conversa com um endpoint executor, não rece
 Notebooks e job specs são exportados por ação local. Ler um relatório mantém a origem declarada, distinguindo `local-cpu`, `injected-transport`, `operator-state` e `kaggle-sdk`. Nenhuma origem é convertida em certificação pelo navegador. O progresso das dez etapas guarda consulta, não conclusão de treino. Importações brutas permanecem em RAM; o reset não cancela jobs nem apaga arquivos externos.
 
 A integração real segue um caminho de operador autorizado: autorização por SHA/dono, SDK, versão remota, estado remoto observado, recuperação e validação. O envio fica desativado por padrão. A referência não implementa login, HTTP, implantação, cancelamento remoto ou sincronização; os limites estão em `KAGGLE-INTEGRATION.md` e `SECURITY.md`.
+
+## Navegação e orientação unificadas
+
+`learning/engine.js` é uma projeção pura dos estados existentes: valida o grafo, classifica atividades, recomenda próximos passos e gera um resumo textual. `learning/view.js` apresenta as cinco áreas, catálogo livre, conexões, preparação e evidências. O controller em `app.js` delega abertura/fechamento aos módulos; não executa código nem calcula outro ledger de XP.
+
+As views expõem `snapshot()` por cópia e emitem `onContext({kind,id})`; a área comum não altera seus objetos. O grafo em `learning/links.json` conecta missão, desafio, atividade e experimento por IDs estáveis. Pré-requisitos originais, preparação recomendada de projetos, progresso e revisão determinam sugestões; não há ranking de habilidade ou geração por IA.
+
+O resumo distingue consulta/apresentação, tentativa, acerto, conclusão, execução real e validação completa. Contadores de conceitos deduplicam IDs iguais e não são notas científicas. Pontos de missões, atividades guiadas e Python permanecem separados. Preparação/consulta de experimento não concede XP ou comprova execução remota.
+
+O runtime adiciona metadados opcionais de abertura e resultados reais (`runs`, estado/momento/versão), normalizados com zero/desconhecido para versões anteriores. Histórico ausente não é estimado. As mesmas chaves e provas de conclusão são preservadas; nenhum código livre passa a ser gravado.
+
+`core/download.js` concentra criação, clique e revogação de Blob URLs, usando anchor no DOM e feedback quando o download não pode ser iniciado. Não há upload, armazenamento de segredos ou execução do conteúdo exportado na origem principal.
+
+O menu de áreas é nativo, compacto e fecha após seleção. Seleções mantêm foco em headings, não em campos de edição; navegação cancela workers ativos através do ciclo de vida existente. Não foi introduzido roteador de URLs ou caminho absoluto de recursos, mantendo GitHub Pages sob subdiretório.
+
+Inicialização vincula missões antes dos recursos opcionais e preserva a tela atual quando o restante termina. `TrainerContent.json` usa somente paths JSON relativos com deadline/AbortController (15 s padrão, até 30 s); isso é separado dos 90 s do bootstrap WASM. Falha de projetos não impede Python; termos do runtime são carregados separadamente para não quebrar o planner. Quando um catálogo falta, o validador aceita ausência de ligação a projeto somente no modo degradado explícito; o build/teste exige a referência completa. A projeção identifica dados indisponíveis, em vez de tratá-los como zero ou apagar o histórico.

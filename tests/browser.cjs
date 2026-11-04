@@ -35,7 +35,7 @@ const data=require('../exercises.json');
     assert.equal(await page.locator('#nextLine').isDisabled(),true);await page.locator('#homeButton').tap();await page.locator('#continue').tap();assert.deepEqual(JSON.parse(await page.locator('#simVariables').textContent()),e.simulation.steps.at(-1).variables);await page.locator('#prevLine').tap();assert.deepEqual(JSON.parse(await page.locator('#simVariables').textContent()),e.simulation.steps.at(-2).variables);await page.locator('#resetSim').tap();assert.equal(await page.locator('#simVariables').textContent(),'{}');
    }
    await page.locator('#submit').tap();assert.match(await page.locator('#feedback').textContent(),/Correto!/);
-   const xp=await page.locator('#xp').textContent();await page.locator('#submit').tap();assert.equal(await page.locator('#xp').textContent(),xp);
+   const xp=await page.locator('#xp').textContent();assert.equal(await page.locator('#submit').isDisabled(),true);await page.locator('#submit').evaluate(el=>el.onclick());assert.equal(await page.locator('#xp').textContent(),xp);
    assert.equal(await page.locator('input:visible,textarea:visible,[contenteditable=true]:visible').count(),0);assert.equal(await page.evaluate(()=>['INPUT','TEXTAREA'].includes(document.activeElement.tagName)||document.activeElement.isContentEditable),false);
    assert.equal(await page.locator('button:visible').evaluateAll(bs=>bs.every(b=>{const r=b.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth;})),true);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${width}: ${e.id} overflow`);

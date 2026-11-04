@@ -1,0 +1,15 @@
+.app-shell{padding-top:max(12px,env(safe-area-inset-top));padding-right:max(12px,env(safe-area-inset-right));padding-bottom:max(24px,env(safe-area-inset-bottom));padding-left:max(12px,env(safe-area-inset-left))}
+.learning-nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;margin-bottom:14px}
+.learning-nav details{margin:0}.learning-nav summary{min-height:48px;display:list-item;cursor:pointer;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+.learning-nav-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0;max-height:60svh;overflow-y:auto}
+.learning-nav-links button[aria-current=page]{border-color:#a5b4fc;outline:2px solid #a5b4fc;outline-offset:-2px}
+.learning-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin:16px 0;min-width:0;overflow-wrap:anywhere}
+.learning-card>h2,.learning-card>h3{margin:0 0 12px}.learning-card p{line-height:1.5}.learning-card details{margin-top:12px}.learning-card summary{min-height:44px;padding:10px 0;cursor:pointer}
+.learning-stack{display:grid;gap:10px}.learning-stack button{width:100%;text-align:left;white-space:normal;overflow-wrap:anywhere;min-height:48px}
+.learning-card button,.learning-nav button{max-width:100%;white-space:normal;overflow-wrap:anywhere}.learning-card dl{margin:12px 0}.learning-card dt{font-weight:700;margin-top:14px}.learning-card dd{margin:4px 0 12px;color:#cbd5e1;line-height:1.5}
+.learning-notice{border-left:3px solid #a5b4fc;padding:10px;background:var(--card)}
+#jMissionList{max-height:60svh;overflow-y:auto;padding:4px}#jEvidence article{border-bottom:1px solid var(--border);padding:8px 0}#jPreparation pre{padding:10px;border:1px solid var(--border);border-radius:10px}#jPreparation details{border-bottom:1px solid var(--border)}
+#storageStatus{position:relative;z-index:6;padding:12px;margin:0;background:#3b2840;color:#fef3c7;overflow-wrap:anywhere}#xpScope{color:#cbd5e1}
+:is(h2,h3)[tabindex]{scroll-margin-top:90px}:is(summary,a,h2,h3):focus-visible{outline:3px solid #a5b4fc;outline-offset:3px}button:disabled{opacity:.7;color:#cbd5e1}
+@media(max-width:340px){.learning-nav-links{grid-template-columns:1fr}.learning-card{padding:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
