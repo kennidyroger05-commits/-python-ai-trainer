@@ -10,6 +10,8 @@ const tests=[{id:'one',kind:'call',function:'dobro',args:[3],expected:6},{id:'tw
 r=await run('import json\nprevious = json.__dict__.get("seen", 0)\njson.seen = previous + 1\ndef count():\n    return json.seen',{mode:'validate',tests:[{id:'fresh-a',kind:'call',function:'count',args:[],expected:1},{id:'fresh-b',kind:'call',function:'count',args:[],expected:1}]});assert.equal(r.status,'policy_error');
 r=await run('import json\ntry:\n    previous = json.seen\nexcept Exception:\n    previous = 0\njson.seen = previous + 1\ndef count():\n    return json.seen',{mode:'validate',tests:[{id:'fresh-a',kind:'call',function:'count',args:[],expected:1},{id:'fresh-b',kind:'call',function:'count',args:[],expected:1}]});assert.equal(r.status,'success');
 r=await run('import math\nmath.isclose = lambda *args, **kwargs: True\ndef dobro(x):\n    return 0',{mode:'validate',tests});assert.equal(r.status,'tests_failed');
+r=await run('def dobro(x):\n    assert False, "real learner assertion"',{mode:'validate',tests});assert.equal(r.cases[0].kind,'assertion_error');assert.match(r.stderr,/real learner assertion/);
+r=await run('x'.repeat(24001));assert.equal(r.status,'policy_error');
 r=await run('print("x" * 50000)');assert.ok(r.stdout.length<34000);assert.match(r.stdout,/limited/);
 r=await page.evaluate(()=>runtime.run({code:'while True:\n    pass',mode:'run'},{timeoutMs:200}));assert.equal(r.status,'timeout');r=await run('print("after timeout")');assert.equal(r.stdout,'after timeout\n');
 r=await page.evaluate(()=>runtime.run({code:'while True:\n    pass',mode:'run'},{onProgress:p=>{if(p.phase==='running')setTimeout(()=>runtime.stop(),50);}}));assert.equal(r.status,'cancelled');

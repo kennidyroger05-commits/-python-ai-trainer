@@ -63,15 +63,19 @@ node tests/projects-edge-browser.cjs
 node tests/project-evaluation-browser.cjs
 node scripts/verify-runtime.cjs
 node tests/runtime-core.cjs
+node tests/runtime-migration.cjs
 python3 tests/runtime-python.py
 node tests/runtime-browser.cjs
 node tests/runtime-lessons-browser.cjs
+node tests/runtime-edge-browser.cjs
+node tests/runtime-mobile-browser.cjs
+node tests/runtime-language-browser.cjs
 node tests/model-lab.cjs
 python3 tests/model-notebook.py
 node tests/model-lab-browser.cjs
 ```
 
-As quatro suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
+As suítes de navegador usam Playwright e Chromium já disponíveis no ambiente Codex e verificam toque/layout em 320, 375 e 390 px. A suíte de casos extremos usa 375 px. CPython executa somente soluções e fixtures confiáveis do repositório em desenvolvimento, nunca código recebido do aluno.
 
 Em outro ambiente, uma instalação isolada das ferramentas de teste é possível:
 
@@ -79,6 +83,8 @@ Em outro ambiente, uma instalação isolada das ferramentas de teste é possíve
 npm install --prefix /tmp/python-ai-trainer-tests playwright
 NODE_PATH=/tmp/python-ai-trainer-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node tests/projects-browser.cjs
 ```
+
+Atalho: `node scripts/test.cjs` executa 14 suítes locais. `node scripts/test.cjs --browser`, com o servidor ativo, executa também onze suítes de navegador. `--list` lista os comandos sem executá-los.
 
 Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode selecionar um Chromium instalado.
 
@@ -93,6 +99,8 @@ Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode s
 - `runtime/`: CPython/Pyodide verificado, isolamento, editor, conteúdo executável e progresso independente.
 - `model-lab/`: contratos, exportação de notebooks preparatórios, adaptador simulado e interface de experimentos.
 - `tests/`: regressões V1–V2, preservação de conteúdo, estado V3, fixtures e navegador.
+
+O [relatório desta expansão](docs/REPORT-RUNTIME-LAB.md) separa execução real, simulações, testes e limites de integração.
 
 Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/LEARNING-PATH.md), as [diretrizes para cadastrar conteúdo](docs/CONTENT-GUIDELINES.md), a [matriz de compatibilidade](docs/COMPATIBILITY-V3.md) e o [relatório V3](docs/REPORT-V3.md).
 

@@ -1,0 +1,8 @@
+// No test framework: small repository suites, Node built-ins, CPython and optional Playwright.
+const {spawnSync}=require('node:child_process');
+const logic=[['python3','scripts/check-static.py'],['node','scripts/verify-runtime.cjs'],['node','tests/validate.js'],['node','tests/core.cjs'],['node','tests/projects-core.cjs'],['node','tests/projects-data.cjs'],['node','tests/storage-migration.cjs'],['python3','tests/python-fixtures.py'],['python3','tests/projects-python.py'],['node','tests/runtime-core.cjs'],['node','tests/runtime-migration.cjs'],['python3','tests/runtime-python.py'],['node','tests/model-lab.cjs'],['python3','tests/model-notebook.py']];
+const browser=['browser','labs-browser','projects-browser','projects-edge-browser','project-evaluation-browser','runtime-browser','runtime-lessons-browser','runtime-edge-browser','runtime-mobile-browser','runtime-language-browser','model-lab-browser'].map(f=>['node',`tests/${f}.cjs`]);
+const suites=process.argv.includes('--browser')?[...logic,...browser]:logic;
+if(process.argv.includes('--list')){for(const c of suites)console.log(c.join(' '));process.exit(0);}
+for(const [command,...args]of suites){const r=spawnSync(command,args,{stdio:'inherit',env:process.env});if(r.error){console.error(r.error.message);process.exit(1);}if(r.status!==0)process.exit(r.status||1);}
+console.log(`PASS ${suites.length} suites. ${process.argv.includes('--browser')?'Chromium is automated desktop/mobile emulation, not physical iPhone validation.':'Use --browser with HTTP server on 127.0.0.1:8000 for UI/runtime suites.'}`);

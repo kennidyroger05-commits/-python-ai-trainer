@@ -29,3 +29,23 @@ Safari/WebKit e iPhone real não estavam disponíveis na auditoria inicial. Chro
 As regressões de quarenta missões e laboratórios V2 passaram novamente em 320/375/390 px. O percurso V3 completou 70 etapas nas três larguras, incluindo recarga, idiomas, revisão opcional, fluxos e download real. Casos extremos de V1/V1.5/V2, registros inválidos e armazenamento negado passaram em navegador. A última correção da avaliação, relativa à listagem de previsões ausentes, recebeu verificação focada com CPython/JavaScript e exportação nas três larguras.
 
 O relatório final detalha escopo, metodologia, problemas corrigidos e riscos: `REPORT-V3.md`. A auditoria não substitui validação manual no Safari/iPhone.
+
+## Expansão Runtime / Model Lab
+
+Base: V3 `5705485b630bbb2177147590117b75a7c68f7e43`. Branch exclusiva `feature/python-runtime-kaggle-lab`. Nenhuma alteração nos dados V2, branches anteriores ou configuração do Pages.
+
+| Área | Verificação atual |
+| --- | --- |
+| V1/V1.5/V2/V3 | Suítes anteriores + `runtime-migration.cjs`: chaves antigas e XP conservados, novos registros separados |
+| 40 missões / 70 etapas V3 | Regressões completas nas três larguras, conteúdo preservado por hash |
+| Quatro projetos | Percurso simulado preservado; prática Python opcional e retorno ao ponto anterior |
+| Editor/runtime | 14 desafios com soluções certas e 28 peças erradas em CPython e CPython WASM |
+| Toque / teclado / layout | 320/375/390 px; montagem, saída real, limites dos botões, ausência de foco automático em textarea |
+| Persistência nova | Ledger sem duplicação, cópia de corrupção, quota negada, reset confirmado e dados alheios preservados |
+| Portfólio | Seção simulada mantida; anexo real somente após testes aprovados, sem fonte persistida |
+| Kaggle | Documentação/código oficiais pesquisados; mock e notebook preparatório verificados; nenhuma operação autenticada |
+| Segurança do runtime | VM limpa por caso, watchdog, cancelamento, output limitado, integridade, origem opaca e rede bloqueada por CSP |
+
+Testes antigos que exigiam zero textareas em todo o DOM foram ajustados para exigir zero campos visíveis e nenhum foco de digitação nas missões/projetos. O editor opcional em outra tela torna a antiga premissa estrutural inadequada; a garantia de uso sem teclado nessas atividades foi preservada e reforçada.
+
+A matriz não declara Safari/iPhone real verificados. Consumo de memória WASM, comportamento do sandbox/worker no WebKit e ergonomia física permanecem riscos antes de publicação. Veja `REPORT-RUNTIME-LAB.md`.

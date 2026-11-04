@@ -1,6 +1,6 @@
-# Arquitetura V2
+# Arquitetura — missões, projetos e execução
 
-Aplicação estática, servida por HTTP ou GitHub Pages. HTML, CSS e JavaScript sem compilação ou dependências de produção. Os módulos pequenos usam uma exportação compatível com navegador e Node para compartilhar lógica entre produto e testes.
+Aplicação estática, servida por HTTP ou GitHub Pages. HTML, CSS e JavaScript sem build de frontend; o runtime opcional possui artefatos WASM redistribuídos. Os módulos pequenos usam uma exportação compatível com navegador e Node para compartilhar lógica entre produto e testes.
 
 | Responsabilidade | Arquivo |
 | --- | --- |
@@ -28,13 +28,13 @@ A seleção utiliza taxa de erro, erros nas últimas cinco respostas e dicas por
 
 ## Simulação e laboratórios
 
-Traces são snapshots cadastrados: linha, variáveis, saída, explicação e exceção opcional. Não há interpretador no frontend. O passo `else` é uma transição didática, e a explicação de função distingue escopo local de retorno ao chamador.
+Traces são snapshots cadastrados: linha, variáveis, saída, explicação e exceção opcional. Esses traces não utilizam o interpretador opcional. O passo `else` é uma transição didática, e a explicação de função distingue escopo local de retorno ao chamador.
 
 O laboratório de debugging reutiliza seis missões com investigação, erro/sintoma, alternativas de correção e preview da substituição. Pré-requisitos bloqueiam saltos na sequência. O laboratório de IA usa cinco cenários com oito etapas e uma escolha de ação validada. Dados são fictícios, nenhuma API é chamada e nenhuma ferramenta externa executa. O laboratório de IA é exploratório e não concede XP.
 
 ## Evolução
 
-Uma integração futura pode consumir ID da missão, conceito, idioma e tentativa a partir dos módulos existentes. Um professor, executor isolado ou SDK de modelos deve ser uma camada opcional com limites próprios. Não existem integrações, credenciais, botões de funcionalidades futuras ou serviços nesta versão.
+Uma integração futura pode consumir ID da missão, conceito, idioma e tentativa a partir dos módulos existentes. Um professor ou SDK de modelos permanece uma camada futura opcional com limites próprios. O executor adicionado nesta expansão é independente das simulações; não existem serviços de modelos nem credenciais.
 
 # Extensão V3 — projetos guiados
 
@@ -74,8 +74,28 @@ Uma dificuldade pode abrir uma missão de revisão ou um exemplo. Isso é opcion
 ## Alternativas deliberadamente rejeitadas
 
 - Reescrever as quarenta missões ou misturar seus IDs/XP com projetos: arriscaria o histórico validado.
-- Interpretador Python ou execução dinâmica de código do aluno: desnecessário para estas tarefas e incompatível com o escopo seguro estático.
+- Reinterpretar todos os projetos guiados como código livre: a execução real é uma área opcional e isolada, preservando o percurso por escolhas.
 - Backend, sincronização ou geração de explicações por LLM: não foram autorizados nesta versão e criariam novas dependências/custos.
 - “Nota de empregabilidade” ou nível profissional: os dados locais não sustentam essa inferência.
 
 A exportação produz Markdown apenas após conclusão, com etapas e testes registrados, solução de referência e limites. Um Blob local é baixado por ação explícita; não há upload ou credenciais. O estado é por navegador/aba, sem coordenação de escrita entre múltiplas abas. Não é certificado verificável externamente.
+
+
+## Python Runtime e AI Model Lab
+
+| Camada | Contrato/implementação |
+| --- | --- |
+| Catálogo executável | `runtime/lessons.json`, `content.js`, fixtures `tests/runtime-solutions.json` |
+| Estado independente e XP por ID | `runtime/progress.js`, chave `pythonExecutableV1` |
+| Editor e feedback | `runtime/view.js`, sem editor externo, rascunhos em memória |
+| Execução real | `runtime/client.js → frame.js → worker.js → runner.py` |
+| Recursos verificáveis sob demanda | `runtime/manifest.json`, `vendor/pyodide` |
+| Contratos de experimentos e bundle | `model-lab/contracts.js` |
+| Adaptadores Kaggle mock/preparatório | `model-lab/kaggle.js` |
+| Contratos locais e interface | `model-lab/state.js`, `view.js`, chave `pythonModelLabV1` |
+
+O catálogo executável tem testes de variáveis, funções ou stdout com entradas e valores esperados. O harness executa asserções reais. A montagem/seleção no editor apenas produz fonte; não concede acerto. Cada caso tem worker novo. Resultados são ligados ao snapshot executado; edição posterior recebe aviso. Conceitos praticados são observados no painel existente a partir das validações reais, sem reclassificar simulações.
+
+As novas chaves não migram nem sobrescrevem XP de V1/V1.5/V2/V3: a migração é aditiva. Contratos antigos continuam sendo lidos pelos carregadores anteriores. O portfólio mantém a seção de projeto simulado e anexa, somente quando concluído, o registro independente do desafio Python associado. Nenhum treino/inferência real é inferido desse anexo.
+
+Decisões: textarea e seletores em vez de editor pesado; artefatos do próprio site em vez de CDN no runtime; worker clássico em origem opaca em vez de enfraquecer sandbox para aceitar module worker; VMs novas em vez de reaproveitar estado na avaliação; contrato preparatório em vez de token Kaggle público ou backend não autorizado. Os detalhes e limites estão em `PYTHON-RUNTIME.md`, `KAGGLE-INTEGRATION.md` e `SECURITY.md`.

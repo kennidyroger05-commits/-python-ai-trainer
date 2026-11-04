@@ -41,3 +41,19 @@ A introdução a testes liga entrada/esperado, cenário positivo, negativo, bord
 As dez competências exibidas não recebem níveis profissionais. O painel mostra somente conceitos com evidências coletadas no navegador. O inglês técnico é contextual e uma tradução consultada não comprova compreensão; há uma questão de vocabulário ligada ao caso de teste utilizado.
 
 O portfólio exporta projetos didáticos concluídos, identificando simulação e limites. Antes de considerar aplicação profissional, são necessárias atividades externas, revisão de código, testes em ambientes reais autorizados e prática além destes exemplos.
+
+
+## Da simulação ao programa real
+
+O percurso opcional é **blocos → completar trechos → editar linhas → código livre**. Nenhum modo exige teclado antes de o aluno escolher editar. Os 14 desafios não substituem as 40 missões:
+
+- A (4): ajustar variável recebida, acessar lista, comparação inclusiva e função com retorno.
+- B (4): regra de modelo, campo obrigatório, tipo de resposta e chave ausente.
+- C (4): ferramenta determinística, parsing de JSON, fallback e roteador com vários casos.
+- Projetos (2): denominador da acurácia com previsões ausentes e escolha de época por perda de validação, com empate/lista vazia.
+
+Cada desafio recomenda missões anteriores. Um exemplo demonstrativo vem separado das outras entradas de validação. Erro de sintaxe, exceção, resultado incorreto e falha de inicialização têm causas diferentes. Repetir validação não duplica XP; consultar dicas reduz a recompensa da primeira conclusão, mas não bloqueia aprendizagem.
+
+Os quatro projetos oferecem acesso opcional a um desafio Python após cinco etapas ou na conclusão. O projeto continua simulado; o desafio executa Python real sobre entradas didáticas. Escolher uma época não treina modelo nem produz checkpoint; calcular uma acurácia não roda inferência. O portfólio registra essas origens separadamente.
+
+No Model Lab, o aluno inspeciona o contrato antes de executar qualquer experimento futuro e compara simulação, cálculo Python local e preparação remota. GPU/quantização/tamanho não garantem viabilidade. Um notebook Kaggle é um experimento em lote com autenticação e recursos variáveis, não endpoint de modelo permanente. O inglês novo inclui run code, test case, expected output, runtime error, job status, inference, training e checkpoint, com tradução contextual.

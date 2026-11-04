@@ -61,7 +61,7 @@ def _lab_execute_json(payload):
         for spec in runs:
             namespace = {'__builtins__':dict(_SAFE), '__name__':'__learner__'}
             namespace.update(spec.get('globals', {}) if spec else request.get('globals', {}))
-            local_out = _Output(); local_err = _Output(); observed = None
+            local_out = _Output(); local_err = _Output(); observed = None; comparing_result = False
             try:
                 with _contextlib.redirect_stdout(local_out), _contextlib.redirect_stderr(local_err):
                     exec(compiled, namespace, namespace)
@@ -75,9 +75,12 @@ def _lab_execute_json(payload):
                         elif spec['kind'] == 'stdout': observed = local_out.text()
                         else: raise ValueError('Unknown registered test kind')
                         # This is an actual Python assertion, not a source-text check.
+                        comparing_result = True
                         assert _equal(observed, spec['expected']), 'Observed result differs from the registered expected result'
             except AssertionError as exception:
-                if spec: result['cases'].append({'id':spec['id'],'passed':False,'kind':'wrong_result','observed':_encode(observed),'error':{'type':'AssertionError','message':str(exception)[:2000]}})
+                if spec:
+                    result['cases'].append({'id':spec['id'],'passed':False,'kind':'wrong_result' if comparing_result else 'assertion_error','observed':_encode(observed),'error':{'type':'AssertionError','message':str(exception)[:2000]}})
+                    if not comparing_result: local_err.write(''.join(_traceback.format_exception(exception)))
                 else: result.update(status='assertion_error',error={'type':'AssertionError','message':str(exception)[:2000]});local_err.write(''.join(_traceback.format_exception(exception)))
             except Exception as exception:
                 error = {'type':type(exception).__name__,'message':str(exception)[:2000]}

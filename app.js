@@ -15,7 +15,7 @@
   function storageWarning(message){$('storageStatus').hidden=false;$('storageStatus').textContent=message;}
   function preference() { try{storage.setItem('trainer-language', state.language); storage.setItem('trainer-known', JSON.stringify(state.known));}catch{storageWarning(reviewText('Preferência mantida apenas nesta sessão.','Preference kept only in this session.'));} }
   function updateText() {
-    const t = ui(); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
+    const t = ui();$('xp').title=reviewText('XP das missões','Mission XP');$('xp').setAttribute('aria-label',$('xp').title+' '+state.progress.xp); document.documentElement.lang = state.language === 'en' ? 'en' : 'pt-BR';
     $('reviewButton').textContent=reviewText('Revisar conceitos','Review concepts');$('debugButton').textContent=reviewText('Laboratório de debugging','Debugging lab');$('aiLabButton').textContent=reviewText('Laboratório de IA simulada','Simulated AI lab');
     if(labs)labs.render();
     $('projectsButton').textContent=reviewText('Python AI Lab — Projetos','Python AI Lab — Projects');$('returnToProject').textContent=reviewText('← Voltar ao projeto','← Return to project');
@@ -158,7 +158,7 @@
     try {
       const [catalog,debugging,testing,datasets,terms]=await Promise.all(['catalog','debugging','testing','datasets','terms'].map(async name=>{const r=await fetch(`projects/${name}.json`);if(!r.ok)throw Error('Project content unavailable');return r.json();}));
       Object.assign(languageData.glossary,terms);const activities=window.PythonLabEngine.validate([...catalog,...debugging,...testing],languageData.glossary);
-      projects=window.PythonLabProjects.create({catalog:activities,datasets,glossary:languageData.glossary,language:()=>state.language,storage,missions:state.exercises,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onPython:(projectId,back)=>{if(runtime){projects.hide();runtime.open(projectId,back);}},pythonReport:id=>runtime?.projectReport(id)||'',onReview:(id,back)=>{
+      projects=window.PythonLabProjects.create({catalog:activities,datasets,glossary:languageData.glossary,language:()=>state.language,storage,missions:state.exercises,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onPython:(projectId,back)=>{if(runtime){projects.hide();runtime.open(projectId,back);}},pythonReport:id=>runtime?.projectReport(id)||'',pythonAvailable:()=>!!runtime,onReview:(id,back)=>{
         const index=state.exercises.findIndex(e=>e.id===id);if(index<0)return;saveSession();const previousIndex=state.index;projectReviewMode=true;returnProject=()=>{state.index=previousIndex;projectReviewMode=false;returnProject=null;back();};reviewQueue=null;state.index=index;sessions.save(id,{answer:'',attempts:0,hintLevel:0,simStep:-1,feedback:null,solved:false,investigation:null,simOpen:false});$('returnToProject').hidden=false;renderMission();
       }});
       $('projectsButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;projects.open();};
@@ -169,7 +169,7 @@
       const [lessons,terms]=await Promise.all(['lessons','terms'].map(async n=>{const r=await fetch(`runtime/${n}.json`);if(!r.ok)throw Error('Executable content unavailable');return r.json();}));
       Object.assign(languageData.glossary,terms);
       window.ExecutableContent.validate(lessons,state.exercises,await (await fetch('projects/catalog.json')).json(),languageData.glossary);
-      runtime=window.ExecutableView.create({catalog:lessons,glossary:languageData.glossary,language:()=>state.language,storage,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onEvidence:(l,correct)=>projects?.runtimeAttempt(l,correct)});
+      runtime=window.ExecutableView.create({catalog:lessons,missions:state.exercises,glossary:languageData.glossary,language:()=>state.language,storage,missionProgress:()=>state.progress,onHome:renderHome,onWarning:storageWarning,onEvidence:(l,correct)=>projects?.runtimeAttempt(l,correct)});
       $('runtimeButton').onclick=()=>{saveSession();projects?.hide();modelLab?.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=true;runtime.open();};
     }catch(error){$('runtimeButton').disabled=true;storageWarning(reviewText('Os desafios executáveis não puderam carregar. As atividades anteriores continuam disponíveis.','Executable challenges could not load. Previous activities remain available.'));console.error(error);}
     try {

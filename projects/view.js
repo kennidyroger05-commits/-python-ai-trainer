@@ -1,7 +1,7 @@
 (function(root){
   const E=root.PythonLabEngine,M=root.PythonLabModels,Portfolio=root.PythonLabPortfolio;
   const skillNames={fundamentals:['Fundamentos Python','Python fundamentals'],data:['Estruturas de dados','Data structures'],functions:['Funções','Functions'],debugging:['Debugging','Debugging'],api:['APIs','APIs'],logic:['Raciocínio lógico','Logical reasoning'],ai:['Fluxos de IA','AI workflows'],evaluation:['Avaliação de modelos','Model evaluation'],training:['Fundamentos de treinamento','Training foundations'],english:['Inglês técnico','Technical English']};
-  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport}){
+  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true}){
     const $=id=>document.getElementById(id);let state=E.load(storage,catalog),view='hub',selected=null,group='project';
     E.importMissions(state,missionProgress(),missions);
     const t=(pt,en)=>language()==='en'?en:pt;
@@ -40,7 +40,7 @@
       if(feedback==='right')message=`${t('Etapa validada.','Stage validated.')} ${s.explanation[lang]} ${draft.lastGain?t(`Conquista registrada: +${draft.lastGain} XP.`,`Recorded award: +${draft.lastGain} XP.`):t('XP desta etapa já havia sido conquistado.','This stage XP was already earned.')}`;
       $('pFeedback').textContent=message;
       renderSupport(a,s,draft,r);renderLayers(s,r);renderTerms(s,r);
-      $('pPython').hidden=a.kind!=='project'||!onPython||a.steps.filter(st=>r.steps[st.id]?.passed).length<5;$('pPython').textContent=t('Praticar esta ideia com Python real (opcional)','Practice this idea in real Python (optional)');$('pPython').onclick=()=>openPython(a);
+      $('pPython').hidden=a.kind!=='project'||!onPython||!pythonAvailable()||a.steps.filter(st=>r.steps[st.id]?.passed).length<5;$('pPython').textContent=t('Praticar esta ideia com Python real (opcional)','Practice this idea in real Python (optional)');$('pPython').onclick=()=>openPython(a);
       const artifact=E.artifact(state,a);$('pArtifact').textContent=JSON.stringify(artifact,null,2);$('pPreview').textContent=JSON.stringify(M.workspace(a,artifact,datasets).preview??{},null,2);$('pSolution').textContent=a.solutionCode;
       $('pWorkspaceLabel').textContent=t('Workspace — artefato e código de referência','Workspace — artifact and reference code');$('pArtifactSummary').textContent=t('Cada etapa validada atualiza este artefato; as respostas incorretas não são aplicadas.','Each validated stage updates this artifact; incorrect answers are not applied.');
       $('pRunTests').textContent=t('Executar testes didáticos','Run educational tests');$('pTestsNotice').textContent=t('Simulação determinística de funções cadastradas; sem executar código do aluno.','Deterministic simulation of registered functions; no learner code is executed.');$('pTestsResult').textContent=r.testRun?r.testRun.results.map(test=>`${E.equal(test.expected,test.observed)?'✓':'✗'} ${test.id} — ${t('esperado','expected')}: ${JSON.stringify(test.expected)}; ${t('obtido','observed')}: ${JSON.stringify(test.observed)}`).join('\n'):t('Nenhum teste executado nesta tentativa.','No tests run in this attempt.');
@@ -62,7 +62,7 @@
     }
     function openPython(a){const ids={'model-router':'exec-router','api-client':'exec-json','model-evaluation':'exec-evaluation','training-pipeline':'exec-checkpoint'};if(ids[a.id]&&onPython)onPython(ids[a.id],()=>{ $('projectsArea').hidden=false;render(); });}
     function renderConclusion(a){
-      $('pConclusionPython').hidden=a.kind!=='project'||!onPython;$('pConclusionPython').textContent=t('Praticar com Python real (opcional)','Practice in real Python (optional)');$('pConclusionPython').onclick=()=>openPython(a);
+      $('pConclusionPython').hidden=a.kind!=='project'||!onPython||!pythonAvailable();$('pConclusionPython').textContent=t('Praticar com Python real (opcional)','Practice in real Python (optional)');$('pConclusionPython').onclick=()=>openPython(a);
       const r=E.get(state,a);$('pConclusionTitle').textContent=`${a.title[language()]} — ${t('concluído','completed')}`;$('pConclusionResult').textContent=a.result[language()];$('pConclusionLimit').textContent=a.limitations[language()];$('pRevisit').textContent=t('Revisitar etapas','Revisit stages');$('pExport').hidden=a.kind!=='project';$('pExport').textContent=t('Salvar relatório Markdown','Save Markdown report');$('pRevisit').onclick=()=>{r.conclusion=false;r.currentStepId=a.steps[0].id;render();save();};$('pExport').onclick=()=>download(a);
     }
     function download(a){try{Portfolio.download(`python-ai-lab-${a.id}.md`,Portfolio.markdown(a,state,E,M,datasets,language())+(pythonReport?.(a.id)?`\n\n---\n\n${pythonReport(a.id)}`:''));}catch{onWarning(t('Conclua o projeto antes de exportar.','Complete the project before exporting.'));}}

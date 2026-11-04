@@ -34,4 +34,6 @@ assert run('accepted = "True"',lessons[2]['tests'])['status']=='tests_failed'
 assert run('print(1/0)')['error']['type']=='ZeroDivisionError'
 assert run('if True print(1)')['status']=='syntax_error'
 assert run('assert False')['status']=='assertion_error'
+assertion_case=run('def double_tokens(x):\n    assert False, "learning assertion"',lessons[3]['tests'])
+assert assertion_case['cases'][0]['kind']=='assertion_error' and 'learning assertion' in assertion_case['stderr']
 print(f'PASS CPython {sys.version.split()[0]}: {len(lessons)} complete solutions, {sum(len(l["tests"]) for l in lessons)} cases, 28 rejected repairs, alternate solutions, real errors and fresh namespaces')

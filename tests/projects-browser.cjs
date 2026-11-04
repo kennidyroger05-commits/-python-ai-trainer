@@ -53,7 +53,7 @@ const E=require('../projects/engine'),M=require('../projects/models'),datasets=r
     await page.evaluate(()=>document.getElementById('pSubmit').click());assert.match(await page.locator('#pXP').textContent(),new RegExp(`${expectedXP}$`));
     if(a.id==='model-router'&&s.id==='find-inversion'){await page.locator('#pRunTests').tap();assert.equal((await record(a)).testRun.passed,false,'The investigated buggy copy must really fail tests');}
     if(i>0){await page.locator('#pPrev').tap();await page.locator('#pNext').tap();assert.ok((await page.locator('#pStep').textContent()).includes(s.title.mixed));assert.equal(await page.locator('#pSubmit').isDisabled(),true);}
-    assert.equal(await page.locator('input,textarea,[contenteditable=true]').count(),0);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${width}: ${a.id}/${s.id}`);
+    assert.equal(await page.locator('input:visible,textarea:visible,[contenteditable=true]:visible').count(),0);assert.equal(await page.evaluate(()=>['INPUT','TEXTAREA'].includes(document.activeElement.tagName)||document.activeElement.isContentEditable),false);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${width}: ${a.id}/${s.id}`);
     assert.equal(await page.locator('#projectsArea button:visible').evaluateAll(bs=>bs.every(b=>{const r=b.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth;})),true);
     await page.locator('#pNext').tap();
    }
