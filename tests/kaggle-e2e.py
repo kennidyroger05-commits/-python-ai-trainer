@@ -118,4 +118,81 @@ class WorkflowTests(unittest.TestCase):
                 self.ref=ref;self.path=path;Path(path).write_text(json.dumps(build(j)));Path(path).with_name('kernel-metadata.json').write_text('{}')
         a=Api();r=invoke(a,'inspect',{'version_ref':'testowner/slug/9'});self.assertEqual(a.ref,'testowner/slug/9');self.assertEqual(Path(a.path).name,'remote.ipynb');self.assertEqual(source_identity(r['notebook']),source_identity(build(j)))
 
+    def test_prepared_file_edit_invalidates_receipt(self):
+        self.approve();root=self.e.directory(self.job['id'])
+        for name in ['experiment.ipynb','kernel-metadata.json']:
+            original=files.read(root,name);bad=copy.deepcopy(original)
+            if name.endswith('ipynb'):bad['cells'][2]['source'].append('print("changed")\n')
+            else:bad['enable_gpu']=True
+            files.atomic(root,name,bad);self.code('APPROVAL_MISMATCH',self.e.submit,self.job,run=True)
+            self.assertEqual(self.e.snapshot(self.job)['status'],'awaiting_authorization');files.atomic(root,name,original)
+        self.assertEqual(self.fake.calls,[])
+    def test_actual_builder_change_invalidates_receipt(self):
+        self.approve();bad=build(self.job);bad['cells'][0]['source'].append('Changed builder\n')
+        with patch('executor.package.build',return_value=bad):self.code('APPROVAL_MISMATCH',self.e.submit,self.job,run=True)
+        self.assertEqual(self.fake.calls,[])
+    def test_atomic_write_syncs_directory(self):
+        import os,stat
+        real=os.fsync;modes=[]
+        def sync(fd):modes.append(stat.S_ISDIR(os.fstat(fd).st_mode));return real(fd)
+        with patch('executor.files.os.fsync',side_effect=sync):files.atomic(self.root,'probe.json',{'valid':True})
+        self.assertEqual(modes,[False,True]);self.assertEqual(files.read(self.root,'probe.json'),{'valid':True})
+    def test_directory_sync_failure_prevents_external_write(self):
+        import os,stat
+        self.approve();real=os.fsync;root=self.e.directory(self.job['id'])
+        def sync(fd):
+            if stat.S_ISDIR(os.fstat(fd).st_mode) and files.read(root,'state.json')['status']=='submitting':raise OSError('injected durability failure')
+            return real(fd)
+        with patch('executor.files.os.fsync',side_effect=sync):
+            with self.assertRaises(OSError):self.e.submit(self.job,run=True)
+        self.assertEqual(self.fake.calls,[]);self.code('RECONCILIATION_REQUIRED',self.restart().submit,self.job,run=True)
+    def test_malformed_status_is_unknown_then_recovers(self):
+        self.submit();original=self.fake.call
+        self.fake.call=lambda op,payload:{'status':[]} if op=='status' else original(op,payload)
+        self.code('UNEXPECTED_RESPONSE',self.e.status,self.job);self.assertEqual(self.e.snapshot(self.job)['status'],'unknown')
+        self.fake.call=original;self.fake.statuses=['COMPLETE'];self.clock.sleep(15);self.assertEqual(self.e.status(self.job)['status'],'remote_complete')
+    def test_real_transport_missing_auth_never_imports_sdk(self):
+        import os
+        e=Workflow(self.root,policy=self.policy);e.approve(self.job)
+        with patch.dict(os.environ,{},clear=True):self.code('AUTH_MISSING',e.submit,self.job,run=True)
+        self.assertEqual(e.prepare(self.job)['status'],'prepared');self.assertNotIn('kaggle',sys.modules)
+    def test_legacy_core_cannot_bypass_operational_gate(self):
+        from executor.service import Executor
+        e=Executor(self.root,policy=Policy(enabled=True,allow_run=True,owner='testowner',approved_sha256=fingerprint(self.job)))
+        self.code('AUTHORIZATION_REQUIRED',e.submit,self.job,run=True);self.assertNotIn('kaggle',sys.modules)
+    def test_concurrent_queries_keep_one_writer(self):
+        self.submit();original=self.fake.call;entered=threading.Event();release=threading.Event();answers=[];failures=[]
+        def slow(op,payload):
+            if op=='status':entered.set();release.wait(3)
+            return original(op,payload)
+        self.fake.call=slow
+        def query():
+            try:answers.append(self.e.status(self.job))
+            except Exception as error:failures.append(type(error).__name__)
+        thread=threading.Thread(target=query);thread.start()
+        try:self.assertTrue(entered.wait(1));self.code('JOB_BUSY',self.e.status,self.job)
+        finally:release.set();thread.join(3)
+        self.assertFalse(thread.is_alive());self.assertEqual(failures,[]);self.assertEqual(len(answers),1);self.assertEqual(sum(op=='status' for op,_ in self.fake.calls),1)
+    def test_sdk_source_normalization_preserves_exact_code(self):
+        self.uncertain();original=self.fake.call
+        def formatted(op,payload):
+            r=original(op,payload)
+            if op=='inspect':
+                for c in r['notebook']['cells']:
+                    c['source']=''.join(c['source'])
+                    if c['cell_type']=='code':c['execution_count']=9;c['outputs']=[{'output_type':'stream','text':'decoration'}]
+                r['metadata']['language']='Python';r['metadata']['kernel_type']='Notebook'
+            return r
+        self.fake.call=formatted;self.assertEqual(self.e.reconcile(self.job,2)['remote_version'],2)
+    def test_collected_artifacts_keep_original_bytes_and_permissions(self):
+        import hashlib,stat
+        self.submit();self.fake.statuses=['COMPLETE'];self.e.status(self.job);report=self.e.collect(self.job)
+        root=self.e.directory(self.job['id'])/'artifacts'
+        for a in report['artifacts']:
+            raw=(root/a['name']).read_bytes();self.assertEqual(len(raw),a['bytes']);self.assertEqual(hashlib.sha256(raw).hexdigest(),a['sha256']);self.assertEqual(stat.S_IMODE((root/a['name']).stat().st_mode),0o600)
+        self.assertEqual(self.restart().collect(self.job),report)
+    def test_receipt_storage_migration_and_corruption(self):
+        script="""const assert=require('node:assert/strict'),E=require('./experiments/contracts'),S=require('./experiments/state'),C=E.create(require('./experiments/assets.json')),crypto=require('node:crypto');const j=C.example(),sha=crypto.createHash('sha256').update(E.canonical(j)).digest('hex');const m=new Map(),storage={getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k),get length(){return m.size},key:i=>[...m.keys()][i]};let s=S.empty();S.get(s,'intent-inference',C);S.save(storage,s,C);assert.equal(S.load(storage,C).drafts['intent-inference'].receipts,undefined);S.remember(s,'intent-inference',{spec:j,spec_sha256:sha,status:'submitted',provenance:{source:'injected-transport',remote_ref:'testowner/pat-'+j.id+'-'+sha.slice(0,8),remote_version:1}},C);assert.equal(S.save(storage,s,C),true);assert.equal(S.load(storage,C).drafts['intent-inference'].receipts.length,1);s.drafts['intent-inference'].receipts[0].remote_ref='../malicious';storage.setItem(S.KEY,JSON.stringify(s));let loaded=S.load(storage,C);assert.equal(loaded.drafts['intent-inference'].receipts.length,0);assert.deepEqual(loaded.drafts['intent-inference'].spec,j);console.log('PASS additive identifier migration and corrupt receipt filtering');"""
+        r=subprocess.run(['node','-e',script],cwd=ROOT,text=True,capture_output=True,timeout=10);self.assertEqual(r.returncode,0,r.stderr)
+
 if __name__=='__main__':unittest.main(verbosity=2)

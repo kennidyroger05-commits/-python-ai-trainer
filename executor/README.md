@@ -45,3 +45,5 @@ O ledger usa escrita atômica e lock por job. Toque/submit repetido não cria ou
 Um transporte injetado retorna proveniência `injected-transport`, nunca evidência real de Kaggle. Relatórios locais declaram `local-cpu`. O arquivo exportado não é atestado criptográfico; o frontend o rotula como relatório importado com origem declarada.
 
 Testes: `python3 tests/executor.py` (SDK/transportes falsos e artefatos reais locais), `python3 tests/notebooks.py`. Nenhuma conta, GPU ou job remoto participa desses testes.
+
+O uso operacional remoto é `Workflow`/CLI; uso direto da classe interna antiga com SDK é bloqueado para impedir aprovação só por hash de job. A aprovação grava os arquivos exatos e submit recusa edição posterior. Writes sincronizam arquivo e diretório antes de contato externo. Novas recuperações preservam os bytes validados em `<job>/artifacts/`, com os hashes do relatório; logs filtrados ficam em `<job>/logs.json`. Relatórios antigos que não tinham cópia de arquivos continuam históricos, sem inventar arquivos ausentes.

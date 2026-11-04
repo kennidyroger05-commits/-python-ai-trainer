@@ -22,6 +22,9 @@ class Workflow(Executor):
         with files.lock(root):
             state=self._read(root)
             if state['status'] not in ['prepared','saved_only']:raise ExecutorError('APPROVAL_LOCKED')
+            files.atomic(root,'experiment.ipynb',build(job))
+            slug='pat-'+job['id']+'-'+fingerprint(job)[:8]
+            files.atomic(root,'kernel-metadata.json',metadata(job,self.operator_policy.owner,slug))
             receipt={'execution':descriptor,'execution_sha256':fingerprint(descriptor)}
             files.atomic(root,'authorization.json',receipt)
         return {'status':'authorized',**receipt,'network_used':False}
@@ -37,8 +40,15 @@ class Workflow(Executor):
         if run and self.operator_policy.allow_run is not True:raise ExecutorError('RUN_NOT_AUTHORIZED')
         self.policy=replace(self.operator_policy,approved_sha256=fingerprint(job))
         super().authorize(job,run)
+    def _check_prepared(self,job):
+        root=self.directory(job['id']);slug='pat-'+job['id']+'-'+fingerprint(job)[:8]
+        try:
+            if canonical(files.read(root,'experiment.ipynb',262144))!=canonical(build(job)) or canonical(files.read(root,'kernel-metadata.json',16384))!=canonical(metadata(job,self.operator_policy.owner,slug)):raise ExecutorError('APPROVAL_MISMATCH')
+        except ExecutorError:raise ExecutorError('APPROVAL_MISMATCH') from None
     def submit(self,job,*,run=False):
         if run!=self.operator_policy.allow_run:raise ExecutorError('APPROVAL_MISMATCH')
+        job=json.loads(canonical(validate(job)))
+        self.authorize(job,run);self._check_prepared(job)
         return super().submit(job,run=run)
     def reconcile(self,job,version):
         """Read an explicit version and its source before removing an uncertain-submit fence."""
@@ -56,11 +66,12 @@ class Workflow(Executor):
                 if canonical(source_identity(remote['notebook']))!=canonical(source_identity(build(job))):raise ValueError()
                 wanted=metadata(job,self.operator_policy.owner,ref.split('/')[1]);actual=remote['metadata']
                 for k in ['id','is_private','enable_gpu','enable_tpu','enable_internet','language','kernel_type','dataset_sources','competition_sources','kernel_sources','model_sources']:
-                    if canonical(actual[k])!=canonical(wanted[k]):raise ValueError()
+                    observed=actual[k].lower() if k in ['language','kernel_type'] and isinstance(actual[k],str) else actual[k]
+                    if canonical(observed)!=canonical(wanted[k]):raise ValueError()
             except (KeyError,ValueError,TypeError):raise ExecutorError('REMOTE_IDENTITY_MISMATCH') from None
             result=self.transport.call('status',{'version_ref':ref+'/'+str(version)})
             from .service import STATUS
-            if type(result) is not dict or set(result)!={'status'} or result['status'] not in STATUS:raise ExecutorError('UNEXPECTED_RESPONSE')
+            if type(result) is not dict or set(result)!={'status'} or not isinstance(result['status'],str) or result['status'] not in STATUS:raise ExecutorError('UNEXPECTED_RESPONSE')
             if state['run_requested'] and result['status']=='NEW_SCRIPT':raise ExecutorError('REMOTE_STATE_UNKNOWN')
             state.update(remote_version=version,status=STATUS[result['status']],remote_status=result['status'],last_error=None,next_check_after=self.clock()+max(15,self.policy.poll_seconds))
             state['events'].append({'event':'reconciled','version':version});files.atomic(root,'state.json',state)
@@ -74,12 +85,14 @@ class Workflow(Executor):
         return safe
     def snapshot(self,job):
         report=super().snapshot(job)
+        if report['status'] in ['submitted','queued','running','unknown'] and report.get('errors'):
+            report['status']='unknown'  # last observed state is no longer a fresh remote observation
         if report['status']=='prepared':
             root=self.directory(job['id'])
             if (root/'authorization.json').exists():
                 # Offline projection still checks receipt against today's exact notebook/config.
                 try:
-                    descriptor=self.descriptor(job);receipt=files.read(root,'authorization.json',4096)
+                    descriptor=self.descriptor(job);receipt=files.read(root,'authorization.json',4096);self._check_prepared(job)
                     report['status']='authorized' if canonical(receipt)==canonical({'execution':descriptor,'execution_sha256':fingerprint(descriptor)}) else 'awaiting_authorization'
                 except ExecutorError:report['status']='awaiting_authorization'
             else:report['status']='awaiting_authorization'

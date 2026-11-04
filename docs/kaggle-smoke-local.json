@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "spec": {
+    "schema_version": 2,
+    "id": "cpu-smoke",
+    "recipe_id": "intent-inference",
+    "experiment_type": "inference",
+    "model": {
+      "id": "tiny-intent-softmax-v1",
+      "parameters": 87,
+      "weights_sha256": "0cc31078081eb0d4a349d55b1f748451c7e3f4da0b5a0c9ea75f5b8561e5cc77"
+    },
+    "dataset": {
+      "id": "synthetic-intents-30-v1",
+      "sha256": "8524ef46d9baa0e6d3030c31d112f7ce42f0738ddac8ed7e9aec214f90bf5178",
+      "train_examples": 18,
+      "validation_examples": 6,
+      "test_examples": 6
+    },
+    "objective": "Minimal CPU smoke on bundled synthetic data; no external downloads or GPU.",
+    "environment": {
+      "python_min": "3.10",
+      "libraries": {
+        "stdlib": "builtin"
+      },
+      "hardware": {
+        "device": "cpu",
+        "memory_mb": 512
+      },
+      "internet": false
+    },
+    "config": {
+      "inputs": [
+        "support login issue"
+      ]
+    },
+    "resources": {
+      "timeout_seconds": 300,
+      "max_artifact_bytes": 1048576
+    },
+    "provenance": {
+      "template_version": 1,
+      "core_sha256": "97514954da72131ec58091140809d893499fa31123cd2f5fc1b6cba517cc11e9",
+      "producer": "python-ai-trainer"
+    }
+  },
+  "spec_sha256": "2ed96f5fcb2ca176f96367ed36707a0587febffd4908a60b1d8085317d105a5c",
+  "provenance": {
+    "source": "local-cpu",
+    "verification": "bounded-local-process",
+    "remote_ref": null,
+    "remote_version": null
+  },
+  "notebook_result": {
+    "schema_version": 1,
+    "status": "completed",
+    "spec_sha256": "2ed96f5fcb2ca176f96367ed36707a0587febffd4908a60b1d8085317d105a5c",
+    "recipe_id": "intent-inference",
+    "experiment_type": "inference",
+    "provenance": {
+      "source": "notebook-process",
+      "python": "3.12.14",
+      "libraries": {
+        "stdlib": "3.12.14"
+      },
+      "platform": "Linux",
+      "started_at": "2026-11-04T10:30:51.774223+00:00",
+      "duration_ms": 0.43586599349509925,
+      "model_kind": "linear-softmax",
+      "parameters": 87,
+      "dataset": "synthetic-intents-30-v1",
+      "remote_verified": false
+    },
+    "metrics": {
+      "prediction_count": 1,
+      "input_word_tokens": 3,
+      "latency_ms_total": 0.019999999494757503,
+      "peak_process_memory_kib": 11264
+    },
+    "details": {
+      "predictions": [
+        {
+          "input": "support login issue",
+          "tokens": [
+            "support",
+            "login",
+            "issue"
+          ],
+          "label": "support",
+          "scores": {
+            "billing": 0.013031613432815337,
+            "support": 0.9739013869769468,
+            "schedule": 0.013066999590237884
+          },
+          "word_tokens": 3,
+          "latency_ms": 0.019999999494757503
+        }
+      ],
+      "scores_are_calibrated": false,
+      "tokenizer": "lower-ascii-words-v1"
+    },
+    "errors": []
+  },
+  "artifacts": [
+    {
+      "name": "events.json",
+      "bytes": 156,
+      "sha256": "e82b5cfeb32c06ec5ab53117101205e2f638c16c451edae1fe4304e56acc64fe"
+    },
+    {
+      "name": "metrics.json",
+      "bytes": 133,
+      "sha256": "aaa1ee0c53f8ca47544975e681f8ad416296df4cff2cfe8c3e9feedf53f23c48"
+    },
+    {
+      "name": "result.json",
+      "bytes": 1284,
+      "sha256": "b7c7e60fb5dd0533bd7fc8c3dfb58ea14f769c068eefce507cba6ef1ccb85237"
+    }
+  ]
+}

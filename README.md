@@ -2,7 +2,7 @@
 
 Uma plataforma para aprender Python aplicado a IA e inglês técnico: ler, montar, executar, testar, depurar e construir soluções guiadas. Reúne **40 missões**, quatro projetos, oito desafios de debugging, introdução a testes e 14 desafios com Python real. Funciona como site estático, com HTML, CSS e JavaScript, sem backend obrigatório, framework ou APIs de modelos.
 
-Desenvolvimento contínuo em `feature/integrated-learning-experience`, baseado em `feature/kaggle-execution-quality` (`2ceb711`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+Desenvolvimento contínuo em `feature/kaggle-end-to-end`, baseado em `feature/integrated-learning-experience` (`d392beb`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
 
 A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** mantém seu simulador. A área **AI experiments** acrescenta notebooks autocontidos de inferência/treinamento de um modelo linear de 87 parâmetros, executados e medidos em CPU local, e um **executor Kaggle separado, desativado por padrão**. O site não autentica contas, submete jobs ou inicia treino remoto. Relatórios importados têm origem declarada. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
 

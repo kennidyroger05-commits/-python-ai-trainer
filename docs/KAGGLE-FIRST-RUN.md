@@ -34,7 +34,7 @@ Após autorização explícita externa para aquele experimento, use o hash revis
 python3 -m executor.cli authorize --job experiments/kaggle-smoke-job.json --workspace ../pat-private --owner seu-usuario --run --approve HASH_DE_EXECUCAO
 ```
 
-Isso grava apenas `authorization.json` privado. O recibo não é identidade criptográfica de uma pessoa; quem pode editar o diretório do operador controla essa confiança. A aplicação pública não pode criar essa autorização no executor.
+Isso grava o notebook/metadados aprovados e `authorization.json` no workspace privado. Alterar os arquivos depois da aprovação impede submit, sem substituir silenciosamente a edição. O recibo não é identidade criptográfica de uma pessoa; quem pode editar o diretório do operador controla essa confiança. A aplicação pública não pode criar essa autorização no executor.
 
 ## Envio e acompanhamento futuros
 
@@ -68,7 +68,7 @@ python3 -m executor.cli collect --job experiments/kaggle-smoke-job.json --worksp
 python3 -m executor.cli report --job experiments/kaggle-smoke-job.json --workspace ../pat-private --owner seu-usuario --run --approve HASH_DE_EXECUCAO
 ```
 
-`COMPLETE` vira `remote_complete`: execução concluída, resultados ainda não validados. `collect` baixa somente a whitelist de arquivos da versão explícita, verifica tamanho, JSON, hashes e cálculos determinísticos, e grava `report.json` com estado `completed` (resultado recuperado). Falha no download mantém o estado recuperável, sem reenviar job. Logs filtrados ficam em `logs.json`; não são despejadas mensagens brutas do SDK.
+`COMPLETE` vira `remote_complete`: execução concluída, resultados ainda não validados. `collect` baixa somente a whitelist de arquivos da versão explícita, verifica tamanho, JSON, hashes e cálculos determinísticos, preserva os bytes validados em `artifacts/` (0600) e grava `report.json` com estado `completed` (resultado recuperado). Falha no download mantém o estado recuperável, sem reenviar job. Logs filtrados ficam em `logs.json`; não são despejadas mensagens brutas do SDK.
 
 Importe `report.json` (ou `status-report.json`, sem métricas para estados intermediários) na receita de inferência do aplicativo. Identificador remoto, versão, estado e origem declarada ficam no histórico local, até dez registros por receita. Métricas completas permanecem no arquivo/aba; nenhum upload automático ocorre. Job editado e relatório com outra configuração são identificados separadamente.
 

@@ -1,5 +1,6 @@
 """Stateful reference job lifecycle; no service is deployed or exposed over HTTP."""
 import json
+import hashlib
 import re
 import tempfile
 import time
@@ -54,6 +55,7 @@ class Executor:
             files.atomic(root,'state.json',state);return state
     def authorize(self,job,run=False):
         if self.policy.enabled is not True:raise ExecutorError('REMOTE_DISABLED')
+        if type(self) is Executor and isinstance(self.transport,SdkTransport):raise ExecutorError('AUTHORIZATION_REQUIRED')
         if self.policy.approved_sha256!=fingerprint(job):raise ExecutorError('APPROVAL_MISMATCH')
         if not isinstance(self.policy.owner,str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{2,29}',self.policy.owner):raise ExecutorError('INVALID_OWNER')
         if run and self.policy.allow_run is not True:raise ExecutorError('RUN_NOT_AUTHORIZED')
@@ -92,7 +94,7 @@ class Executor:
                 result=self.transport.call('status',{'version_ref':ref})
                 if type(result) is not dict or set(result)!={'status'}:raise ExecutorError('UNEXPECTED_RESPONSE')
                 remote=result['status']
-                if remote not in STATUS:raise ExecutorError('UNEXPECTED_RESPONSE')
+                if not isinstance(remote,str) or remote not in STATUS:raise ExecutorError('UNEXPECTED_RESPONSE')
                 state['remote_status']=remote;state['status']='unknown' if remote=='NEW_SCRIPT' and state['run_requested'] else STATUS[remote];state['last_error']='REMOTE_JOB_FAILED' if remote=='ERROR' else None
             except ExecutorError as error:
                 state['last_error']=error.code if error.code in ERROR_CODES else 'TRANSPORT_FAILURE';state['next_check_after']=self.clock()+max(15,error.retry_after or self.policy.poll_seconds)*(2 if error.code=='RATE_LIMIT' and not error.retry_after else 1);files.atomic(root,'state.json',state);raise
@@ -110,6 +112,12 @@ class Executor:
                 try:
                     self.transport.call('outputs',{'version_ref':self._remote(state),'destination':folder,'names':sorted(expected(job))})
                     artifact=verify(Path(folder),job)
+                    saved=files.private_directory(files.child(root,'artifacts'),private=True)
+                    for entry in artifact['artifacts']:
+                        _,raw=files.read_document(Path(folder),entry['name'])
+                        if hashlib.sha256(raw).hexdigest()!=entry['sha256'] or len(raw)!=entry['bytes']:raise ExecutorError('INVALID_ARTIFACT')
+                        files.atomic_bytes(saved,entry['name'],raw)
+                    if canonical(verify(saved,job))!=canonical(artifact):raise ExecutorError('INVALID_ARTIFACT')
                 except ExecutorError as error:
                     state['last_error']=error.code if error.code in ERROR_CODES else 'TRANSPORT_FAILURE';files.atomic(root,'state.json',state);raise
             report={'schema_version':1,'status':'completed','spec':job,'spec_sha256':fingerprint(job),'provenance':{'source':'kaggle-sdk' if isinstance(self.transport,SdkTransport) else 'injected-transport','verification':'version-and-artifact-contract','remote_ref':state['remote_ref'],'remote_version':state['remote_version']},**artifact}

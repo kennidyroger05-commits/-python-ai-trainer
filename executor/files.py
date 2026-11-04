@@ -29,14 +29,21 @@ def child(root,name):
     return p
 
 def atomic(root,name,value):
+    atomic_bytes(root,name,json.dumps(value,ensure_ascii=False,sort_keys=True,allow_nan=False).encode())
+
+def atomic_bytes(root,name,value):
+    if type(value) is not bytes or len(value)>1048576:raise ExecutorError('ARTIFACT_TOO_LARGE')
     path=child(root,name)
     fd,temp=tempfile.mkstemp(prefix='.atomic-',dir=root)
     try:
         os.fchmod(fd,0o600)
-        with os.fdopen(fd,'w') as out:
-            json.dump(value,out,ensure_ascii=False,sort_keys=True,allow_nan=False);out.flush();os.fsync(out.fileno())
+        with os.fdopen(fd,'wb') as out:
+            out.write(value);out.flush();os.fsync(out.fileno())
         if path.is_symlink():raise ExecutorError('UNSAFE_PATH')
         os.replace(temp,path)
+        directory_fd=os.open(root,os.O_RDONLY|getattr(os,'O_DIRECTORY',0))
+        try:os.fsync(directory_fd)
+        finally:os.close(directory_fd)
     finally:
         if os.path.exists(temp):os.unlink(temp)
 

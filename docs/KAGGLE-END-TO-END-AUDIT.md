@@ -56,7 +56,22 @@ Os 15 novos casos Python iniciais verificaram pacote alterado, falta/adulteraç�
 
 As suítes anteriores de executor/segurança incluem autenticação ausente/inválida, 429, rede, resposta malformada, concorrência, symlinks, JSON duplicado e métricas adulteradas. Testes perigosos mantêm contenção de processo/memória/tempo. ZIP/TAR não são suportados: nenhum extrator de arquivo foi introduzido.
 
-As duas passagens completas da nova missão serão registradas após execução. Resultados da missão anterior não serão reutilizados como se tivessem testado estas mudanças.
+A primeira passagem desta missão terminou em 2026-11-04 10:39 UTC: **42 suítes aprovadas, zero reprovadas**, sobre `a4bb70c`. Evidência: [kaggle-e2e-pass1.json](kaggle-e2e-pass1.json). A revisão posterior ampliou a suíte específica de 15 para 26 casos. A segunda passagem completa será registrada após a execução real; resultados anteriores não serão reutilizados como se tivessem testado as novas correções.
+
+### Revisão adversarial entre passagens
+
+| Achado | Severidade / evidência | Correção e teste |
+| --- | --- | --- |
+| Arquivo preparado editado após aprovação era sobrescrito, sem recusa | Médio, reprodução `kaggle-post-approval-before.json`: 1 chamada injetada; nenhum código alterado executado | Autorizar grava o notebook/metadados exatos; submit recusa edições antes do SDK; testes dos dois arquivos e mudança do builder |
+| Outputs validados eram removidos com o temporário | Alto operacional, `kaggle-artifacts-before.json`: 3 entradas no manifesto, 0 arquivos retidos | Arquivo validado é copiado sem alterar bytes para `artifacts/`, com hashes, 0600 e nova validação antes de concluir |
+| Origem injetada não aparecia no histórico após reload | Médio, `kaggle-tracking-before.json`: origem estava no storage, mas não no texto | Origem aparece junto ao ID/versão; E2E nas três larguras exige `injected-transport` visível |
+| Rename não sincronizava o diretório | Alto em perda abrupta de energia, achado por inspeção; não simulamos hardware/power loss | fsync de arquivo e diretório; falha de sincronização antes do SDK impede envio e preserva fence de recuperação |
+| API antiga poderia usar SDK sem o novo recibo | Alto como caminho de uso acidental, achado por inspeção | Uso direto da classe interna antiga com SDK é bloqueado; Workflow é a entrada operacional. Transporte injetado continua testável |
+| Status malformado podia lançar TypeError em vez de código estável | Médio, caso adversarial de lista em status | Tipo fechado e erro estável; snapshot desconhecido após consulta falha, recuperação após resposta válida |
+
+Os três primeiros comportamentos foram reproduzidos em processos/navegadores isolados antes das correções, sempre com transporte injetado. Logs de reprodução ficam no workspace ignorado `.quality-results/`. As duas revisões foram realizadas separadamente pelo mesmo agente; não são auditoria externa ou teste autenticado.
+
+A suíte específica também testa corrida entre consultas, credencial ausente no transporte real sem importar SDK, estados corrompidos, recibos novos/antigos, normalizações do SDK e persistência dos bytes. Smoke CPU completo medido nesta missão: [kaggle-smoke-local.json](kaggle-smoke-local.json).
 
 ## Riscos e gates restantes
 
