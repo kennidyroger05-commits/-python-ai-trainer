@@ -23,3 +23,9 @@ Os testes direcionados atuais passaram: 25 suítes locais, 145 missões/14 unida
 A repetição avançou por migrações, avaliação e testes do runtime isolado, mas encontrou um defeito real no editor redesenhado: ao sair do textarea, a barra de navegação mudava de `static` para `fixed`. O botão de validar mudava 78 px entre pointerdown e pointerup; o toque terminava em outro elemento e mantinha o resultado antigo. Isso não era uma rejeição do Python nem foi corrigido com espera artificial no teste.
 
 A barra conserva a geometria e apenas fica invisível durante o foco de edição. O teste de todos os desafios agora exige que pointerdown e pointerup atinjam Validar e que o botão permaneça no lugar, além de verificar resultados reais certos/errados. A interpolação de cor dos botões também foi removida para impedir contraste intermediário baixo ao trocar tema. O log da tentativa interrompida permanece separado; ela não conta como passagem aprovada.
+
+## Jornada e contexto de revisão
+
+A terceira tentativa avançou por todo o runtime, laboratórios, experimentos e falhas de exportação; parou porque o teste legado de jornada reutilizava um details aberto dentro de uma área escondida, sem abrir novamente o arquivo de revisões. O helper foi corrigido para seguir o botão real. Na investigação, a revisão herdava os rótulos da unidade depois de reload: agora possui contagem de atividades restantes, botão de conclusão e retorno próprios a Meu progresso.
+
+Foram reexecutadas com sucesso as jornadas completas em 320/375/390 px, revisão/laboratórios nas três larguras, 15 cenários adversariais de integração, os percursos Kaggle com SDK injetado e zero chamadas de conta, e hospedagem sob subdiretório. A suíte V4 passou a ter 11 cenários, incluindo revisão com saída antecipada, idioma e XP não duplicado. As tentativas interrompidas continuam registradas separadamente e não contam como passagens completas aprovadas.

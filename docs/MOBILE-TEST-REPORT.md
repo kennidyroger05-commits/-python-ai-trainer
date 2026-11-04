@@ -15,3 +15,5 @@ A auditoria do editor reproduziu deslocamento de 78 px no blur do textarea, perd
 ## Medições locais
 
 [v4-performance.json](v4-performance.json) registra amostras reais, com servidor local e contexto de navegador novo: trilha disponível em 188–205 ms; módulos opcionais em 249–274 ms; zero recursos do interpretador antes de executar. Primeira execução Python, incluindo carga, 2106 ms; execução interna exibida, 3 ms; três testes em ambientes limpos, 5763 ms. Isso não é benchmark de rede móvel/iPhone e pode variar com a CPU compartilhada. O runtime mantém 13.532.188 bytes de recursos sob demanda. Pico de memória física no iPhone não foi medido.
+
+A revisão adaptativa tem contagem e conclusão próprias, sem confundir a rodada com o avanço da unidade. Onze cenários V4 verificam também saída antecipada, idioma e prêmio não duplicado; as jornadas por toque e laboratórios passaram nas três larguras após essa correção.
