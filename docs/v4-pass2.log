@@ -1,0 +1,220 @@
+PASS static HTML balanced tags/unique IDs/labels/assets; JSON parse; first-party JavaScript syntax. Not full HTML conformance certification.
+PASS verified Pyodide 314.0.7, 5 unmodified artifacts, 13532188 bytes.
+PASS: JSON integrity; 40 unique missions; modules/references/concepts; all answer keys accept correct and reject every incorrect choice; hints; XP first/retry/hint/no duplicate; storage round trip/corruption; navigation; module reset.
+PASS: preserved V1 content; prerequisites; 3 languages; glossary references; six simulation structures; malformed answers rejected.
+PASS core: mutation rejection, V1/V1.5 migration without deleting history, review prerequisites/ranking/cooldown, XP, independent sessions, immutable traces, five AI lab contracts
+PASS all 15 V1.5 lesson fields preserved; V2 metadata/traces additive.
+PASS projects core: four coherent projects, 8 debugging cases, tutorial, 70 steps and all choices; persistence/restart/idempotent XP, corruption/quota, evidence and V2 hashes
+PASS V3 data: mutation rejection, 70 unique scoped steps, reviewed choices/translations/layers, safe review links, test-run gating/staleness, honest Markdown and evidence-only competencies
+PASS migration V1/V1.5/V2 to independent V3 evidence; legacy XP/language untouched, partial corrupt records salvaged, recovery copies kept, reset scoped to this app, quota handled
+PASS CPython: 40 lesson outcomes, all patch choices, five exact exception messages, logic error, six complete traces including functions and errors
+PASS CPython V3: four full project solutions, 8 broken/repair cases, 16 rejected repairs, 24 debug cases, JSON roundtrip, evaluation/training traces and JS/Python parity
+PASS executable contracts, rejected invalid content, progressive hints, real result aggregation, XP no duplication, completion evidence on failed revisit, independent storage, corruption backup and scoped reset
+PASS additive migration V1/V1.5/V2/V3 → runtime/model lab: original byte records, XP, project steps and preferences preserved; new progress independent; damaged completion proof not exported
+PASS CPython 3.12.14: 14 complete solutions, 46 cases, 28 rejected repairs, alternate solutions, real errors and fresh namespaces
+PASS Model Lab: closed contracts, safe metadata/notebook, deterministic simulation state machine/results, cancellations/failure, auth/network faults, forbidden remote execution and independent persistence
+PASS CPython: exported notebook produces only its declared preparation artifact, without inference/training
+PASS WASM memory transform: genuine engine-enforced 64 MiB maximum on pinned module, valid binary, idempotence and malformed/truncated/unsupported formats fail closed
+test_01_inference_full (__main__.NotebookTests.test_01_inference_full) ... ok
+test_02_training_full_reproducible (__main__.NotebookTests.test_02_training_full_reproducible) ... ok
+test_03_data_no_leakage (__main__.NotebookTests.test_03_data_no_leakage) ... ok
+test_04_invalid_model (__main__.NotebookTests.test_04_invalid_model) ... ok
+test_05_invalid_training (__main__.NotebookTests.test_05_invalid_training) ... ok
+test_06_notebook_structure_and_failure (__main__.NotebookTests.test_06_notebook_structure_and_failure) ... ok
+test_07_contract_mutations (__main__.NotebookTests.test_07_contract_mutations) ... ok
+test_08_static_exports_match_builder (__main__.NotebookTests.test_08_static_exports_match_builder) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.158s
+
+OK
+test_01_disabled_before_transport (__main__.ExecutorTests.test_01_disabled_before_transport) ... ok
+test_02_approval_and_owner (__main__.ExecutorTests.test_02_approval_and_owner) ... ok
+test_03_save_only_default (__main__.ExecutorTests.test_03_save_only_default) ... ok
+test_04_run_gate_and_submitted_not_completed (__main__.ExecutorTests.test_04_run_gate_and_submitted_not_completed) ... ok
+test_05_duplicate_submit (__main__.ExecutorTests.test_05_duplicate_submit) ... ok
+test_06_conflict (__main__.ExecutorTests.test_06_conflict) ... ok
+test_07_uncertain_submission_fenced (__main__.ExecutorTests.test_07_uncertain_submission_fenced) ... ok
+test_08_preflight_auth (__main__.ExecutorTests.test_08_preflight_auth) ... ok
+test_09_status_version_and_throttle (__main__.ExecutorTests.test_09_status_version_and_throttle) ... ok
+test_10_network_and_rate_limit (__main__.ExecutorTests.test_10_network_and_rate_limit) ... ok
+test_11_missing_outputs_not_completed (__main__.ExecutorTests.test_11_missing_outputs_not_completed) ... ok
+test_12_corrupt_and_symlink_outputs (__main__.ExecutorTests.test_12_corrupt_and_symlink_outputs) ... ok
+test_13_valid_outputs_and_injected_provenance (__main__.ExecutorTests.test_13_valid_outputs_and_injected_provenance) ... ok
+test_14_stop_is_not_cancel (__main__.ExecutorTests.test_14_stop_is_not_cancel) ... ok
+test_15_follow_bounded (__main__.ExecutorTests.test_15_follow_bounded) ... ok
+test_16_concurrent_double_submission (__main__.ExecutorTests.test_16_concurrent_double_submission) ... ok
+test_17_local_paths_and_corrupt_state (__main__.ExecutorTests.test_17_local_paths_and_corrupt_state) ... ok
+test_18_foreign_account_and_version_tampering (__main__.ExecutorTests.test_18_foreign_account_and_version_tampering) ... ok
+test_19_transport_no_credentials_no_network (__main__.ExecutorTests.test_19_transport_no_credentials_no_network) ... ok
+test_20_logs_no_secrets (__main__.ExecutorTests.test_20_logs_no_secrets) ... ok
+test_21_artifact_json_adversarial (__main__.ExecutorTests.test_21_artifact_json_adversarial) ... ok
+test_22_training_artifacts (__main__.ExecutorTests.test_22_training_artifacts) ... ok
+test_23_cli_offline_flow (__main__.ExecutorTests.test_23_cli_offline_flow) ... ok
+test_24_missing_and_failed_status (__main__.ExecutorTests.test_24_missing_and_failed_status) ... ok
+test_sdk_faults_are_stable_codes (__main__.SdkTests.test_sdk_faults_are_stable_codes) ... ok
+test_sdk_output_preflight_paths (__main__.SdkTests.test_sdk_output_preflight_paths) ... ok
+test_sdk_response_mapping_and_version (__main__.SdkTests.test_sdk_response_mapping_and_version) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.715s
+
+OK
+PASS experiment contracts/builders/fingerprints match Python; 2 complete notebooks, real local evidence/traces, malformed/false provenance rejected, three languages, isolated persistence/recovery/quota and scoped reset
+test_01_new_script_cannot_reauthorize_a_second_run (__main__.SecurityTests.test_01_new_script_cannot_reauthorize_a_second_run) ... ok
+test_02_caller_mutation_cannot_corrupt_submission_receipt (__main__.SecurityTests.test_02_caller_mutation_cannot_corrupt_submission_receipt) ... ok
+test_03_training_details_are_closed (__main__.SecurityTests.test_03_training_details_are_closed) ... ok
+test_04_split_membership_not_only_counts (__main__.SecurityTests.test_04_split_membership_not_only_counts) ... ok
+test_05_checkpoint_parameter_count_matches_contract (__main__.SecurityTests.test_05_checkpoint_parameter_count_matches_contract) ... ok
+test_06_before_metrics_match_seeded_initialization (__main__.SecurityTests.test_06_before_metrics_match_seeded_initialization) ... ok
+test_07_sdk_auxiliary_files_do_not_break_filtered_download (__main__.SecurityTests.test_07_sdk_auxiliary_files_do_not_break_filtered_download) ... ok
+test_08_corrupt_state_cannot_export_unknown_secret_fields (__main__.SecurityTests.test_08_corrupt_state_cannot_export_unknown_secret_fields) ... ok
+test_09_unknown_error_code_not_exported (__main__.SecurityTests.test_09_unknown_error_code_not_exported) ... ok
+test_10_nested_json_and_nonfinite_are_rejected (__main__.SecurityTests.test_10_nested_json_and_nonfinite_are_rejected) ... ok
+test_11_logs_drop_raw_tokens_and_unknown_strings (__main__.SecurityTests.test_11_logs_drop_raw_tokens_and_unknown_strings) ... ok
+test_12_process_memory_failure_is_contained (__main__.SecurityTests.test_12_process_memory_failure_is_contained) ... ok
+test_13_boolean_versions_and_counts_are_not_numbers (__main__.SecurityTests.test_13_boolean_versions_and_counts_are_not_numbers) ... ok
+test_14_malformed_checkpoint_is_domain_error (__main__.SecurityTests.test_14_malformed_checkpoint_is_domain_error) ... ok
+test_15_hashes_describe_the_validated_snapshot (__main__.SecurityTests.test_15_hashes_describe_the_validated_snapshot) ... ok
+test_16_shared_workspace_is_rejected_without_chmod (__main__.SecurityTests.test_16_shared_workspace_is_rejected_without_chmod) ... ok
+test_17_executor_state_cannot_live_in_frontend_webroot (__main__.SecurityTests.test_17_executor_state_cannot_live_in_frontend_webroot) ... ok
+test_18_cached_completed_report_cannot_export_unknown_nested_fields (__main__.SecurityTests.test_18_cached_completed_report_cannot_export_unknown_nested_fields) ... ok
+test_19_old_ledger_migrates_run_intent_and_save_can_run_only_once (__main__.SecurityTests.test_19_old_ledger_migrates_run_intent_and_save_can_run_only_once) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.629s
+
+OK
+PASS safe local download, attached anchor, failure cleanup and invalid export rejection
+PASS integration graph/preparations, deterministic recommendations, read-only evidence, real execution versus validation, additive run migration, no duplicate XP, closed labs and honest exports
+PASS bounded JSON loading/abort/errors, relative paths and explicit degraded runtime without weakening full project-reference validation
+test_actual_builder_change_invalidates_receipt (__main__.WorkflowTests.test_actual_builder_change_invalidates_receipt) ... ok
+test_approval_binds_notebook_owner_and_intent (__main__.WorkflowTests.test_approval_binds_notebook_owner_and_intent) ... ok
+test_archives_not_extracted (__main__.WorkflowTests.test_archives_not_extracted) ... ok
+test_atomic_write_syncs_directory (__main__.WorkflowTests.test_atomic_write_syncs_directory) ... ok
+test_collected_artifacts_keep_original_bytes_and_permissions (__main__.WorkflowTests.test_collected_artifacts_keep_original_bytes_and_permissions) ... ok
+test_concurrent_queries_keep_one_writer (__main__.WorkflowTests.test_concurrent_queries_keep_one_writer) ... ok
+test_directory_sync_failure_prevents_external_write (__main__.WorkflowTests.test_directory_sync_failure_prevents_external_write) ... ok
+test_download_retry_does_not_submit (__main__.WorkflowTests.test_download_retry_does_not_submit) ... ok
+test_legacy_core_cannot_bypass_operational_gate (__main__.WorkflowTests.test_legacy_core_cannot_bypass_operational_gate) ... ok
+test_logs_persist_without_sensitive_lines (__main__.WorkflowTests.test_logs_persist_without_sensitive_lines) ... ok
+test_malformed_status_is_unknown_then_recovers (__main__.WorkflowTests.test_malformed_status_is_unknown_then_recovers) ... ok
+test_missing_corrupt_approval_and_state_fail_closed (__main__.WorkflowTests.test_missing_corrupt_approval_and_state_fail_closed) ... ok
+test_no_receipt_no_submission (__main__.WorkflowTests.test_no_receipt_no_submission) ... ok
+test_offline_authorize_then_restart_submit (__main__.WorkflowTests.test_offline_authorize_then_restart_submit) ... ok
+test_offline_cli_package_authorization_and_smoke (__main__.WorkflowTests.test_offline_cli_package_authorization_and_smoke) ... ok
+test_package_mutations_rejected (__main__.WorkflowTests.test_package_mutations_rejected) ... ok
+test_prepared_file_edit_invalidates_receipt (__main__.WorkflowTests.test_prepared_file_edit_invalidates_receipt) ... ok
+test_real_transport_missing_auth_never_imports_sdk (__main__.WorkflowTests.test_real_transport_missing_auth_never_imports_sdk) ... ok
+test_receipt_storage_migration_and_corruption (__main__.WorkflowTests.test_receipt_storage_migration_and_corruption) ... ok
+test_reconcile_rejects_changed_remote_source (__main__.WorkflowTests.test_reconcile_rejects_changed_remote_source) ... ok
+test_reconcile_rejects_remote_gpu_and_unknown_state (__main__.WorkflowTests.test_reconcile_rejects_remote_gpu_and_unknown_state) ... ok
+test_sdk_pull_fixed_path_and_version (__main__.WorkflowTests.test_sdk_pull_fixed_path_and_version) ... ok
+test_sdk_source_normalization_preserves_exact_code (__main__.WorkflowTests.test_sdk_source_normalization_preserves_exact_code) ... ok
+test_tampered_approval_not_used (__main__.WorkflowTests.test_tampered_approval_not_used) ... ok
+test_timeout_restart_reconcile_version_then_collect (__main__.WorkflowTests.test_timeout_restart_reconcile_version_then_collect) ... ok
+test_uncertain_reconcile_network_error_never_releases_fence (__main__.WorkflowTests.test_uncertain_reconcile_network_error_never_releases_fence) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 1.206s
+
+OK
+PASS V4: 145 stable IDs, translations, correct/incorrect answers, 14-unit DAG and project prerequisites, historical XP/IDs and additive migration, free exploration, unit restart and idempotent XP
+PASS stable serialized progress and first-introduction glossary definitions
+PASS CPython: 105 distinct new fixtures; all correct/wrong patch choices; block solutions, predictions, exceptions; syntax progression for 145 missions
+PASS full project syntax/builtin preparation and all 14 executable prerequisite positions
+PASS 320px: 40 missions, six types, three languages, preserved answer/code, glossary offline, six traces, hints, XP, storage, restart, reset, no keyboard fields/overflow.
+PASS 375px: 40 missions, six types, three languages, preserved answer/code, glossary offline, six traces, hints, XP, storage, restart, reset, no keyboard fields/overflow.
+PASS 390px: 40 missions, six types, three languages, preserved answer/code, glossary offline, six traces, hints, XP, storage, restart, reset, no keyboard fields/overflow.
+PASS 320px: V1.5 migration, reviews/cooldown, five AI flows, six debugging cases, language, investigation, repairs and nonduplicated XP.
+PASS 375px: V1.5 migration, reviews/cooldown, five AI flows, six debugging cases, language, investigation, repairs and nonduplicated XP.
+PASS 390px: V1.5 migration, reviews/cooldown, five AI flows, six debugging cases, language, investigation, repairs and nonduplicated XP.
+PASS V3 320px: 70 stages, 4 projects, 8 debugging cases, tutorial, flows, reload/translation/return, test gating, evidence, exports, restart/reset and isolated mission XP.
+PASS V3 375px: 70 stages, 4 projects, 8 debugging cases, tutorial, flows, reload/translation/return, test gating, evidence, exports, restart/reset and isolated mission XP.
+PASS V3 390px: 70 stages, 4 projects, 8 debugging cases, tutorial, flows, reload/translation/return, test gating, evidence, exports, restart/reset and isolated mission XP.
+PASS browser migration 5 legacy completions to V3: XP/preferences preserved, drafts/hints/flow survive reload.
+PASS browser migration 15 legacy completions to V3: XP/preferences preserved, drafts/hints/flow survive reload.
+PASS browser migration 40 legacy completions to V3: XP/preferences preserved, drafts/hints/flow survive reload.
+PASS V3 browser extremes: missing/corrupt records, field recovery, isolated history and denied storage/quota without false persistence claims.
+PASS evaluation 320px: missing-output reference guard, required test run, all four checks, honest exported solution.
+PASS evaluation 375px: missing-output reference guard, required test run, all four checks, honest exported solution.
+PASS evaluation 390px: missing-output reference guard, required test run, all four checks, honest exported solution.
+PASS real runtime: Python 3.14.2, stdout, syntax/runtime/assert errors, policies, fresh VM per run/case, real tests, timeout, cancellation, recovery, output cap and no external requests.
+PASS runtime integrity failure: corrupted runtime is rejected.
+PASS browser CPython lesson exec-score
+PASS browser CPython lesson exec-list
+PASS browser CPython lesson exec-threshold
+PASS browser CPython lesson exec-return
+PASS browser CPython lesson exec-select-model
+PASS browser CPython lesson exec-response-field
+PASS browser CPython lesson exec-validate-dict
+PASS browser CPython lesson exec-missing-data
+PASS browser CPython lesson exec-token-tool
+PASS browser CPython lesson exec-json
+PASS browser CPython lesson exec-fallback
+PASS browser CPython lesson exec-router
+PASS browser CPython lesson exec-evaluation
+PASS browser CPython lesson exec-checkpoint
+PASS executable UI: real pass/fail for all 14 lessons/28 wrong repairs, XP/hints, equivalent solution, editor modes, languages, persistence without source, no auto keyboard, mobile widths.
+PASS runtime edge UI: project link/return, honest portfolio appendix, XSS-safe real output, assertions, stop/reset/recovery, retained XP, opaque-origin storage/CSP network isolation and confirmed scoped reset
+PASS runtime corruption and quota denial: recovery or visible warning, no unrelated data loss
+PASS real Python + touch 320px: blocks/run/validation, stdout, XP, editor modes, no auto textarea focus, button bounds, reduced motion and Model Lab.
+PASS real Python + touch 375px: blocks/run/validation, stdout, XP, editor modes, no auto textarea focus, button bounds, reduced motion and Model Lab.
+PASS real Python + touch 390px: blocks/run/validation, stdout, XP, editor modes, no auto textarea focus, button bounds, reduced motion and Model Lab.
+PASS 14 executable challenges in three languages, contextual legend/glossary and human-readable prerequisites
+PASS Model Lab UI: modes, editable reviewed contracts, simulated auth/network/status/cancel/fail/artifact, safe exports, local Python link/return, language, saved preparation and mobile widths
+PASS runtime races: synchronous stop, immutable request, rapid runs, malformed request, bounded download timeout and bounded memory allocation
+PASS experiments 320px: 2 ten-stage learning flows, three languages, real local references/logs, honest origin, job/notebook/metadata/Markdown exports, file validation, Python return, resume/reset, no keyboard/overflow or external requests
+PASS experiments 375px: 2 ten-stage learning flows, three languages, real local references/logs, honest origin, job/notebook/metadata/Markdown exports, file validation, Python return, resume/reset, no keyboard/overflow or external requests
+PASS experiments 390px: 2 ten-stage learning flows, three languages, real local references/logs, honest origin, job/notebook/metadata/Markdown exports, file validation, Python return, resume/reset, no keyboard/overflow or external requests
+PASS reject report from another recipe
+PASS rapid navigation/language, stale response and no fabricated partial metrics
+PASS corrupt experiment storage keeps a recovery copy
+PASS storage quota denial preserves usable in-tab learning
+PASS corrupt notebook assets fail integrity then recover
+PASS import cancels a pending notebook display without leaving busy buttons
+PASS XP accessible label updates immediately after success
+PASS 7 adversarial browser scenarios; SDK/Kaggle network is never used.
+PASS optional lab failure cannot prevent mission training
+PASS malformed optional lab data cannot break initialization
+PASS download refusal gives accessible feedback and preserves activity
+PASS integration initialization/export failures
+PASS complete learner journey 320px: selection/hints/glossary/XP, reload, bridge, real exception/correction/tests, navigation cancellation, resumed/completed project/export, simulation/prepared Kaggle, truthful portfolio, review, limited offline, confirmed reset and recovery
+PASS complete learner journey 375px: selection/hints/glossary/XP, reload, bridge, real exception/correction/tests, navigation cancellation, resumed/completed project/export, simulation/prepared Kaggle, truthful portfolio, review, limited offline, confirmed reset and recovery
+PASS complete learner journey 390px: selection/hints/glossary/XP, reload, bridge, real exception/correction/tests, navigation cancellation, resumed/completed project/export, simulation/prepared Kaggle, truthful portfolio, review, limited offline, confirmed reset and recovery
+PASS subdirectory: all resources scoped, lazy real CPython, warm resource reuse, all five areas, prepared notebook integrity/export; actual local performance measurements recorded
+PASS pending optional lab cannot hold the core mission handlers
+PASS missing project data leaves real Python independently usable
+PASS missing runtime catalog does not crash the model lab glossary
+PASS home recommendation discards an old activity return callback
+PASS ordinary review cannot inherit a project return destination
+PASS fatal loading uses stored language, preserves data and offers working retry
+PASS malformed learning data degrades to accessible core areas
+PASS unavailable localStorage permits the complete in-tab core interaction
+PASS WASM failure, recovery, double run and global export failures keep honest evidence
+PASS language change during interpreter initialization preserves code and result
+PASS solved mission cannot display modified code as a correct answer
+PASS unknown legacy completion IDs do not inflate progress or erase history
+PASS learning area follows the activity purpose across shared project views
+PASS confirmed global reset removes unloaded area records and recovery copies
+PASS large text, reduced motion, keyboard focus and rapid navigation stay usable
+PASS 15 integration adversarial scenarios; no remote jobs or credentials
+PASS Kaggle E2E 320px: browser package -> exact Python authorization -> injected SDK lifecycle -> real local artifacts -> validated import, forged path rejection, durable remote identifiers, three languages; zero account calls
+PASS Kaggle E2E 375px: browser package -> exact Python authorization -> injected SDK lifecycle -> real local artifacts -> validated import, forged path rejection, durable remote identifiers, three languages; zero account calls
+PASS Kaggle E2E 390px: browser package -> exact Python authorization -> injected SDK lifecycle -> real local artifacts -> validated import, forged path rejection, durable remote identifiers, three languages; zero account calls
+PASS V4 320px: guided start, persisted hints/XP, themes, bilingual units, touch, explanation layers and project preparation
+PASS V4 375px: guided start, persisted hints/XP, themes, bilingual units, touch, explanation layers and project preparation, all 145 lessons and 14 units completed through the UI
+PASS V4 390px: guided start, persisted hints/XP, themes, bilingual units, touch, explanation layers and project preparation
+PASS V4 edge optional lab cannot delay the curriculum or interrupt the active lesson
+PASS V4 edge historical 40 completions and XP remain; new missions are not completed
+PASS V4 edge retry after reload cannot regain first-attempt XP
+PASS V4 edge a bounded review has its own labels, exit, language and nonduplicated reward
+PASS V4 edge invalid curriculum degrades to working original missions and navigation
+PASS V4 edge unit Python recommends blocks without opening the keyboard
+PASS V4 edge a new learner can prepare a project from the very first concept
+PASS V4 edge corrupt selection and theme do not corrupt exercise progress
+PASS V4 edge root text enlargement, focus, motion, two themes and actual contrast
+PASS V4 edge new mission evidence imports after optional projects recover
+PASS V4 edge reset confirms removal of V4 preferences and preserves unrelated apps
+PASS 11 V4 adversarial and accessibility scenarios
+PASS 46 suites. Chromium is automated desktop/mobile emulation, not physical iPhone validation.

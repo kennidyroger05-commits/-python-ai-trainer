@@ -12,8 +12,10 @@ São ensinados separadamente argumentos, parâmetros, retorno, composição, tex
 
 Os testes CPython executam os exemplos confiáveis e cada alternativa de reparo, recusando alternativas equivalentes indevidas. Os testes de dados verificam IDs, traduções, seis modos, dependências e preservação de progresso. Durante a construção detectaram três strings de arquivo com escape incorreto, um alvo de reparo duplicado e duas alternativas iguais; as causas foram corrigidas nos registros autorais.
 
-O currículo e a interface estão integrados. A revisão dos desafios acrescentou a semântica de `or` como valor alternativo, e uma matriz própria de pré-requisitos do runtime. As validações completas serão registradas após execução real.
+O currículo e a interface estão integrados. A revisão dos desafios acrescentou a semântica de `or` como valor alternativo, e uma matriz própria de pré-requisitos do runtime. As duas passagens completas foram executadas com 46 suítes aprovadas em cada; provas e limitações estão no relatório final.
 
 Na revisão do motor foi corrigido XP de primeira tentativa indevido após recarregar uma resposta errada, e perda da contagem de dicas por missão. Novos campos são aditivos. A recuperação dos projetos também passou a importar a taxonomia explícita de novos conceitos sem criar evidência inválida para tracks desconhecidos. Os testes cobrem a indisponibilidade temporária desse módulo.
 
 A preservação é verificável em [v4-preservation.json](v4-preservation.json): 58 arquivos comparados byte a byte com a main de origem, incluindo o catálogo original, dados dos quatro projetos, mecanismos do runtime, experimentos e executor. `runtime/view.js` só acrescenta o modo inicial recomendado por unidade; a segurança de execução permanece no mecanismo anterior.
+
+Validação final: [primeira prova](v4-pass1.json), [segunda prova](v4-pass2.json) e [relatório](REDESIGN-FINAL-REPORT.md).

@@ -1,35 +1,23 @@
-# Prontidão para lançamento — V4
+# Prontidão para revisão — V4
 
-A reconstrução V4 contém 145 missões/14 unidades, preservando as 40 originais. A evidência atual é consolidada em [REDESIGN-FINAL-REPORT.md](REDESIGN-FINAL-REPORT.md), [MOBILE-TEST-REPORT.md](MOBILE-TEST-REPORT.md) e nos relatórios V4 das duas passagens completas, após conclusão. Os números e provas `integration-pass*.json` abaixo pertencem ao marco de integração anterior e não são usados para declarar aprovação V4.
+A implementação está pronta para revisão; **não foi publicada nem integrada**. A base main e sua configuração GitHub Pages não foram alteradas.
 
-## Histórico de integração preservado
-
-Esta branch é para revisão, **não para publicação automática**. Main e a configuração do GitHub Pages permanecem preservados. Não foi feito merge.
-
-| Critério | Estado / evidência |
+| Critério | Evidência atual |
 | --- | --- |
-| Aplicação anterior preservada | 40 missões e dados-base com manifesto; quatro projetos, 14 desafios, labs, idiomas, glossário e migrações mantidos |
-| Navegação integrada | Cinco áreas em menu compacto, catálogo livre e ligações por IDs; testes de jornada nas três larguras passaram no marco funcional |
-| Progresso e XP | Estados e pontos permanecem com seus subsistemas; projeção comum sem inventar domínio ou execução |
-| Python real | CPython 3.14.2/Pyodide 314.0.7 em origem opaca/worker; políticas e limites anteriores preservados |
-| Experimentos | Simulação, Python local, preparação e origem declarada de relatórios distinguíveis; sem conexão Kaggle ativa |
-| Notebooks CPU | Dois notebooks completos e reproduzíveis, testes locais sem credenciais ou GPU |
-| GitHub Pages em subdiretório | Teste automatizado executou Python e exportou notebook sob prefixo, sem caminhos escapando para a raiz |
-| Acessibilidade disponível | Foco, roles, área ativa, texto do corpo ampliado a 24 px, movimento reduzido e controles de toque testados; seis pares de paleta com contraste calculado em `integration-accessibility.json` |
-| Duas passagens completas | Primeira e segunda: 40 suítes aprovadas em cada, zero reprovadas. A segunda foi executada integralmente após corrigir o reset com área indisponível; provas em `integration-pass1.json` e `integration-pass2.json` |
-| Safari/WebKit | WebKit não instalado; não foi declarado aprovado |
-| iPhone físico | Não testado; comportamento, teclado, safe areas e pressão de memória precisam de validação no hardware |
-| Kaggle autenticado | Desativado e não testado em conta real; requer autorização e ambiente separado |
-| Backend público | Não implantado, nem necessário para a jornada básica; não há tokens no frontend |
+| Progressão | 145 missões/14 unidades, 105 novas e 40 preservadas; [matriz](CURRICULUM-MATRIX.md) e fixtures CPython |
+| Experiência integrada | Trilha, preparação, seis modalidades, cinco áreas, temas e idiomas; jornadas nas três larguras |
+| Dados anteriores | Migrações, XP, dicas, tentativas, projetos e evidências; [preservação](v4-preservation.json) |
+| Python real | 14 desafios em CPython 3.14.2, casos corretos/incorretos, isolamento, interrupção, integridade e limites |
+| Projetos e laboratórios | Quatro projetos, 70 etapas totais de atividades guiadas, fluxos, portfólio, exportação/importação |
+| Experimentos | Dois notebooks executados integralmente em CPU local; Kaggle autenticado continua desativado |
+| GitHub Pages | Caminhos relativos, inclusive WASM e notebooks, testados sob subdiretório |
+| Duas passagens completas | 46 suítes aprovadas em cada, zero reprovadas: [1](v4-pass1.json), [2](v4-pass2.json) |
+| Mobile e acessibilidade disponível | Chromium 320/375/390, toque, foco, texto ampliado, movimento reduzido, temas; [relatório](MOBILE-TEST-REPORT.md) |
 
-## Bloqueios para declarar publicação pronta
+Antes de declarar publicação pronta: validar Safari/iPhone físico, VoiceOver, barras, safe areas, teclado, downloads e pressão total de memória. WebKit não está instalado neste ambiente. Emulação e contraste de pares selecionados não são certificação WCAG nem validação física.
 
-Não declarar compatibilidade física com Safari/iPhone sem executar os testes nesse ambiente. A memória linear WASM tem teto, mas o consumo total de JS/buffers/navegador não possui quota rígida; fechamento de aba sob pressão no dispositivo ainda é risco. O bootstrap utiliza opção experimental publicada e fixada do Pyodide, exigindo nova regressão em upgrades.
+A memória linear WASM tem teto, mas JS/buffers/navegador não possuem quota total rígida. O runtime não é sandbox absoluta, mantém imports/tempo/saída restritos e pode enfrentar pressão de memória no dispositivo. Sem service worker, recarga offline não é garantida. Rascunho livre continua apenas na aba.
 
-A verificação de paleta não é certificação WCAG completa. VoiceOver, teclado virtual, barras do Safari, safe areas físicas, orientação do aparelho e salvamento de downloads no iOS não foram testados no hardware. CSS/semântica e emulação não substituem esses testes.
+Não há conexão Kaggle autenticada no frontend, tokens ou backend implantado. Uma execução remota exige autorização específica e ambiente separado; não é necessária para a jornada básica. Projetos simulados, Python real, notebooks preparados e origem declarada de resultados permanecem distintos.
 
-As falhas críticas/altas reproduzidas nesta missão foram corrigidas com regressões passando, incluindo reset de áreas indisponíveis. Isso não comprova ausência de outros bugs. Falhas de persistência não são ocultadas como sucesso de gravação. O app não promete certificação, domínio técnico ou generalização de modelos em dataset sintético pequeno.
-
-O primeiro ensaio Kaggle é uma validação externa futura, somente com autorização explícita, SDK fixado e credenciais fora do frontend. Não é necessário habilitá-lo para utilizar missões, projetos, simuladores ou Python local. A ausência de autenticação não deve ser disfarçada por resultados simulados.
-
-Antes de qualquer publicação autorizada: revisar as evidências finais, validar Safari/iPhone, revisar os limites de segurança e manter as origens de relatórios visíveis. Publicar, fazer merge ou habilitar conta remota continua fora desta missão.
+Os achados corrigidos e os limites de validação estão no [relatório final](REDESIGN-FINAL-REPORT.md). Os relatórios `integration-pass*.json` pertencem ao marco anterior e não foram contados como validação V4. Merge e publicação dependem de aprovação futura explícita.

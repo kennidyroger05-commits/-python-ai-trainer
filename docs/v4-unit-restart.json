@@ -1,0 +1,31 @@
+{
+  "measured_utc": "2026-11-04T18:39:38.594Z",
+  "revision": "52ef1382203ee18cd94cb150477a568c3466ee78",
+  "browser": "Chromium automated touch; not physical iPhone",
+  "results": [
+    {
+      "width": 320,
+      "cancel_preserved_bytes": true,
+      "confirmed_restart_removed_only_unit_ids": true,
+      "other_unit_completion_and_award_preserved": true,
+      "xp_before": 30,
+      "xp_after": 10
+    },
+    {
+      "width": 375,
+      "cancel_preserved_bytes": true,
+      "confirmed_restart_removed_only_unit_ids": true,
+      "other_unit_completion_and_award_preserved": true,
+      "xp_before": 30,
+      "xp_after": 10
+    },
+    {
+      "width": 390,
+      "cancel_preserved_bytes": true,
+      "confirmed_restart_removed_only_unit_ids": true,
+      "other_unit_completion_and_award_preserved": true,
+      "xp_before": 30,
+      "xp_after": 10
+    }
+  ]
+}
