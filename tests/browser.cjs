@@ -36,7 +36,7 @@ const data=require('../exercises.json');
    }
    await page.locator('#submit').tap();assert.match(await page.locator('#feedback').textContent(),/Correto!/);
    const xp=await page.locator('#xp').textContent();await page.locator('#submit').tap();assert.equal(await page.locator('#xp').textContent(),xp);
-   assert.equal(await page.locator('input,textarea,[contenteditable=true]').count(),0);
+   assert.equal(await page.locator('input:visible,textarea:visible,[contenteditable=true]:visible').count(),0);assert.equal(await page.evaluate(()=>['INPUT','TEXTAREA'].includes(document.activeElement.tagName)||document.activeElement.isContentEditable),false);
    assert.equal(await page.locator('button:visible').evaluateAll(bs=>bs.every(b=>{const r=b.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth;})),true);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${width}: ${e.id} overflow`);
    await page.locator('#language').selectOption('mixed');

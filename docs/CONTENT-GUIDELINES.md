@@ -52,7 +52,7 @@ Se a etapa exigir execução dos casos cadastrados, use `requiresTests: true`. O
 
 ## Debugging e fixtures
 
-Reproduza `sourceEvidence` com CPython. Uma falha lógica pode ter resultado errado sem exceção. Registre pelo menos casos normais e extremos relevantes e duas `incorrectSolutions` que os testes rejeitem. Use chamadas confiáveis do repositório em desenvolvimento; jamais ofereça essa execução como entrada arbitrária no frontend.
+Reproduza `sourceEvidence` com CPython. Uma falha lógica pode ter resultado errado sem exceção. Registre pelo menos casos normais e extremos relevantes e duas `incorrectSolutions` que os testes rejeitem. Use chamadas confiáveis do repositório em desenvolvimento; não reutilize esse executor de fixtures CPython como endpoint remoto para entradas do aluno. A área opcional de execução utiliza isolamento próprio no dispositivo.
 
 `tests/projects-python.py` confronta soluções e evidências com CPython e compara os modelos JavaScript. `tests/projects-core.cjs` percorre os estados e escolhas. `projects-data.cjs` rejeita estruturas mutadas inválidas e verifica exportação/evidências. `storage-migration.cjs` testa migração/corrupção. As suítes de navegador precisam completar atividades, retomar rascunhos, navegar fluxos e baixar o relatório de fato.
 
@@ -63,3 +63,20 @@ Associe etapas somente às competências realmente praticadas. O motor distingue
 A exportação usa etapas concluídas, artefato e testes registrados. Deve declarar simulação, critério, limitações e ausência de comprovação de experiência profissional. Não exporte projeto parcial como concluído, não invente métricas e não faça upload. Identificadores técnicos e código permanecem estáveis entre idiomas para rastreabilidade.
 
 Para um projeto de domínio novo, acrescente um adaptador puro em `projects/models.js` para workspace/testes e vincule seu dataset no exportador. Isso isola a lógica de negócio: o motor e a tela genérica continuam usando IDs e não precisam de um novo fluxo de interface. Compare o adaptador com a solução CPython e não rotule uma transformação não implementada como executada.
+
+
+## Cadastrar desafio executável
+
+Adicione um ID estável a `runtime/lessons.json`. Forneça `group`, títulos/objetivo/explicação em `pt/mixed/en`, duas dicas por idioma, `legend` curta, conceito, IDs `requires` das missões e termos existentes. `projectId` é opcional e referencia projeto real do catálogo, nunca um título/índice.
+
+Defina `template` com um `___`, três `patches` distintos, `initialPatchId` e `starter` errado mas útil para depurar. `blocks` deve montar uma solução revisada. Disponibilizar uma construção guiada não substitui testes de comportamento. Mantenha o exemplo dentro do código visível, sem anexar chamadas invisíveis.
+
+`demoGlobals` fornece entradas visíveis às atividades sem função. `tests` contém um caso `role: demo` e pelo menos dois `role: validation`, com IDs únicos. Tipo `call`: nome de função, args e expected; `variable`: name, globals e expected; `stdout`: expected. O contrato deve dizer como tratar vazio, ausência, limite, tipos e desempates relevantes. Não suponha que um caso aprovado valida toda solução.
+
+Inclua solução confiável em `tests/runtime-solutions.json` (somente testes de desenvolvimento; a UI não carrega esse arquivo). Rode `runtime-core.cjs`, `runtime-python.py` e `runtime-lessons-browser.cjs`: CPython e WASM devem aceitar solução/alternativas equivalentes e rejeitar ambas as peças incorretas. A comparação é de resultado real, com tolerância numérica explícita, não presença de palavras.
+
+`runtime/terms.json` usa os sete campos bilíngues existentes e IDs com prefixo `rt-`, sem sobrescrever glossário antigo. Misto mantém título técnico com tradução e explicações acessíveis. Não traduza nomes de funções ou mude respostas por idioma.
+
+## Contratos de experimentos
+
+Use `model-lab/contracts.js`; valide versões, campos, modo e proveniência. Fixtures simuladas devem ter valores consistentes e origem explícita em métricas/logs/artefatos. Nunca invente duração real, treinamento executado ou inferência. Para novo dataset do mock, amplie também o adaptador e casos de teste. O notebook atual é apenas preparação, testada em CPython; futuros treinamentos exigirão autorização e infraestrutura separadas. Consulte `MODEL-LAB.md` e `KAGGLE-INTEGRATION.md`.

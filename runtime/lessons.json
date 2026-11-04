@@ -1,0 +1,1617 @@
+[
+  {
+    "id": "exec-score",
+    "group": "A",
+    "title": {
+      "pt": "Ajuste um score",
+      "mixed": "Adjust a score (ajuste um score)",
+      "en": "Adjust a score"
+    },
+    "goal": {
+      "pt": "Some 0.1 ao valor recebido em base_score e guarde em score.",
+      "mixed": "Some 0.1 ao valor recebido em base_score e guarde em score.",
+      "en": "Add 0.1 to the received base_score and store it in score."
+    },
+    "template": "score = base_score ___ 0.1\nprint(score)",
+    "patches": [
+      {
+        "id": "exec-score-0",
+        "code": "+"
+      },
+      {
+        "id": "exec-score-1",
+        "code": "-"
+      },
+      {
+        "id": "exec-score-2",
+        "code": "*"
+      }
+    ],
+    "initialPatchId": "exec-score-1",
+    "starter": "score = base_score - 0.1\nprint(score)",
+    "blocks": [
+      "score = base_score + 0.1\n",
+      "print(score)"
+    ],
+    "demoGlobals": {
+      "base_score": 0.5
+    },
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "variable",
+        "expected": 0.6,
+        "role": "demo",
+        "name": "score",
+        "globals": {
+          "base_score": 0.5
+        }
+      },
+      {
+        "id": "higher",
+        "kind": "variable",
+        "expected": 0.9,
+        "role": "validation",
+        "name": "score",
+        "globals": {
+          "base_score": 0.8
+        }
+      },
+      {
+        "id": "zero",
+        "kind": "variable",
+        "expected": 0.1,
+        "role": "validation",
+        "name": "score",
+        "globals": {
+          "base_score": 0
+        }
+      }
+    ],
+    "hints": {
+      "pt": [
+        "A entrada muda entre os casos; evite um resultado fixo.",
+        "Use adição para ajustar o valor recebido."
+      ],
+      "mixed": [
+        "A entrada muda entre os casos; evite um resultado fixo.",
+        "Use adição para ajustar o valor recebido."
+      ],
+      "en": [
+        "The input changes across cases; avoid a constant result.",
+        "Use addition to adjust the received value."
+      ]
+    },
+    "explanation": {
+      "pt": "Os casos conferem o resultado numérico real, com tolerância explícita de 1e-9.",
+      "mixed": "Os casos conferem o resultado numérico real, com tolerância explícita de 1e-9.",
+      "en": "Cases check the real numeric result with an explicit 1e-9 tolerance."
+    },
+    "requires": [
+      "score-variable"
+    ],
+    "concept": "assignment",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "score = expressão guarda o valor; print(score) mostra o resultado.",
+      "mixed": "score = expressão guarda o valor; print(score) mostra o resultado.",
+      "en": "score = expression stores a value; print(score) displays it."
+    }
+  },
+  {
+    "id": "exec-list",
+    "group": "A",
+    "title": {
+      "pt": "Leia o primeiro modelo",
+      "mixed": "Read the first model (leia o primeiro modelo)",
+      "en": "Read the first model"
+    },
+    "goal": {
+      "pt": "Guarde o primeiro item de models em selected. As listas desta tarefa não são vazias.",
+      "mixed": "Guarde o primeiro item de models em selected. As listas desta tarefa não são vazias.",
+      "en": "Store the first models item in selected. Lists in this task are nonempty."
+    },
+    "template": "selected = models[___]\nprint(selected)",
+    "patches": [
+      {
+        "id": "exec-list-0",
+        "code": "0"
+      },
+      {
+        "id": "exec-list-1",
+        "code": "1"
+      },
+      {
+        "id": "exec-list-2",
+        "code": "-1"
+      }
+    ],
+    "initialPatchId": "exec-list-1",
+    "starter": "selected = models[1]\nprint(selected)",
+    "blocks": [
+      "selected = models[0]\n",
+      "print(selected)"
+    ],
+    "demoGlobals": {
+      "models": [
+        "local",
+        "fast"
+      ]
+    },
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "variable",
+        "expected": "local",
+        "role": "demo",
+        "name": "selected",
+        "globals": {
+          "models": [
+            "local",
+            "fast"
+          ]
+        }
+      },
+      {
+        "id": "single",
+        "kind": "variable",
+        "expected": "only",
+        "role": "validation",
+        "name": "selected",
+        "globals": {
+          "models": [
+            "only"
+          ]
+        }
+      },
+      {
+        "id": "other",
+        "kind": "variable",
+        "expected": "quality",
+        "role": "validation",
+        "name": "selected",
+        "globals": {
+          "models": [
+            "quality",
+            "local",
+            "fast"
+          ]
+        }
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Índices começam em zero.",
+        "O primeiro item sempre tem índice 0."
+      ],
+      "mixed": [
+        "Índices começam em zero.",
+        "O primeiro item sempre tem índice 0."
+      ],
+      "en": [
+        "Indices start at zero.",
+        "The first item always has index 0."
+      ]
+    },
+    "explanation": {
+      "pt": "As entradas diferentes impedem acertar apenas decorando o nome local.",
+      "mixed": "As entradas diferentes impedem acertar apenas decorando o nome local.",
+      "en": "Different inputs prevent passing by memorizing the name local."
+    },
+    "requires": [
+      "read-index"
+    ],
+    "concept": "index",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "models[0] acessa o primeiro item da lista.",
+      "mixed": "models[0] acessa o primeiro item da lista.",
+      "en": "models[0] accesses the first item in the list."
+    }
+  },
+  {
+    "id": "exec-threshold",
+    "group": "A",
+    "title": {
+      "pt": "Inclua o limite de confiança",
+      "mixed": "Include the confidence boundary (inclua o limite de confiança)",
+      "en": "Include the confidence boundary"
+    },
+    "goal": {
+      "pt": "accepted deve ser True quando confidence_score for maior ou igual a threshold. Score não é presumido como probabilidade calibrada.",
+      "mixed": "accepted deve ser True quando confidence_score for maior ou igual a threshold. Score não é presumido como probabilidade calibrada.",
+      "en": "accepted must be True when confidence_score is at least threshold. A score is not assumed to be a calibrated probability."
+    },
+    "template": "accepted = confidence_score ___ threshold\nprint(accepted)",
+    "patches": [
+      {
+        "id": "exec-threshold-0",
+        "code": ">="
+      },
+      {
+        "id": "exec-threshold-1",
+        "code": ">"
+      },
+      {
+        "id": "exec-threshold-2",
+        "code": "<"
+      }
+    ],
+    "initialPatchId": "exec-threshold-1",
+    "starter": "accepted = confidence_score > threshold\nprint(accepted)",
+    "blocks": [
+      "accepted = confidence_score >= threshold\n",
+      "print(accepted)"
+    ],
+    "demoGlobals": {
+      "confidence_score": 0.81,
+      "threshold": 0.7
+    },
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "variable",
+        "expected": true,
+        "role": "demo",
+        "name": "accepted",
+        "globals": {
+          "confidence_score": 0.81,
+          "threshold": 0.7
+        }
+      },
+      {
+        "id": "equal",
+        "kind": "variable",
+        "expected": true,
+        "role": "validation",
+        "name": "accepted",
+        "globals": {
+          "confidence_score": 0.7,
+          "threshold": 0.7
+        }
+      },
+      {
+        "id": "below",
+        "kind": "variable",
+        "expected": false,
+        "role": "validation",
+        "name": "accepted",
+        "globals": {
+          "confidence_score": 0.6,
+          "threshold": 0.7
+        }
+      }
+    ],
+    "hints": {
+      "pt": [
+        "O caso igual ao limite é diferente de maior estrito.",
+        ">= inclui a igualdade."
+      ],
+      "mixed": [
+        "O caso igual ao limite é diferente de maior estrito.",
+        ">= inclui a igualdade."
+      ],
+      "en": [
+        "The equal-boundary case differs from strictly greater.",
+        ">= includes equality."
+      ]
+    },
+    "explanation": {
+      "pt": "O interpretador testa True/False reais, inclusive na borda.",
+      "mixed": "O interpretador testa True/False reais, inclusive na borda.",
+      "en": "The interpreter checks real True/False values, including the boundary."
+    },
+    "requires": [
+      "compare-scores",
+      "minimum-confidence"
+    ],
+    "concept": "comparison",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": ">= compara incluindo o limite; o resultado é True ou False.",
+      "mixed": ">= compara incluindo o limite; o resultado é True ou False.",
+      "en": ">= compares including the boundary; the result is True or False."
+    }
+  },
+  {
+    "id": "exec-return",
+    "group": "A",
+    "title": {
+      "pt": "Devolva tokens em dobro",
+      "mixed": "Return double tokens (devolva tokens em dobro)",
+      "en": "Return double tokens"
+    },
+    "goal": {
+      "pt": "Complete double_tokens para devolver o dobro do argumento, sem valor fixo.",
+      "mixed": "Complete double_tokens para devolver o dobro do argumento, sem valor fixo.",
+      "en": "Complete double_tokens to return twice its argument, without a constant."
+    },
+    "template": "def double_tokens(count):\n    ___\n\nprint(double_tokens(3))",
+    "patches": [
+      {
+        "id": "exec-return-0",
+        "code": "return count * 2"
+      },
+      {
+        "id": "exec-return-1",
+        "code": "count * 2"
+      },
+      {
+        "id": "exec-return-2",
+        "code": "return count + 2"
+      }
+    ],
+    "initialPatchId": "exec-return-1",
+    "starter": "def double_tokens(count):\n    count * 2\n\nprint(double_tokens(3))",
+    "blocks": [
+      "def double_tokens(count):\n",
+      "    return count * 2\n",
+      "\n",
+      "print(double_tokens(3))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": 6,
+        "role": "demo",
+        "function": "double_tokens",
+        "args": [
+          3
+        ]
+      },
+      {
+        "id": "zero",
+        "kind": "call",
+        "expected": 0,
+        "role": "validation",
+        "function": "double_tokens",
+        "args": [
+          0
+        ]
+      },
+      {
+        "id": "another",
+        "kind": "call",
+        "expected": 14,
+        "role": "validation",
+        "function": "double_tokens",
+        "args": [
+          7
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Calcular sem return não devolve o valor.",
+        "O retorno deve depender de count."
+      ],
+      "mixed": [
+        "Calcular sem return não devolve o valor.",
+        "O retorno deve depender de count."
+      ],
+      "en": [
+        "Calculating without return does not return the value.",
+        "The return must depend on count."
+      ]
+    },
+    "explanation": {
+      "pt": "Uma implementação equivalente escrita no editor também pode passar; não comparamos o texto.",
+      "mixed": "Uma implementação equivalente escrita no editor também pode passar; não comparamos o texto.",
+      "en": "An equivalent implementation written in the editor can also pass; we do not compare source text."
+    },
+    "requires": [
+      "return-score"
+    ],
+    "concept": "return",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "return entrega o resultado ao chamador da função.",
+      "mixed": "return entrega o resultado ao chamador da função.",
+      "en": "return gives the result back to the function caller."
+    }
+  },
+  {
+    "id": "exec-select-model",
+    "group": "B",
+    "title": {
+      "pt": "Selecione por prioridade",
+      "mixed": "Select by priority (selecione por prioridade)",
+      "en": "Select by priority"
+    },
+    "goal": {
+      "pt": "Se priority for quality, retorne quality_model; nos outros casos, fast_model.",
+      "mixed": "Se priority for quality, retorne quality_model; nos outros casos, fast_model.",
+      "en": "If priority is quality return quality_model; otherwise return fast_model."
+    },
+    "template": "def select_model(priority):\n    if priority == \"quality\":\n        return ___\n    return \"fast_model\"\n\nprint(select_model(\"quality\"))",
+    "patches": [
+      {
+        "id": "exec-select-model-0",
+        "code": "\"quality_model\""
+      },
+      {
+        "id": "exec-select-model-1",
+        "code": "\"fast_model\""
+      },
+      {
+        "id": "exec-select-model-2",
+        "code": "\"local_model\""
+      }
+    ],
+    "initialPatchId": "exec-select-model-1",
+    "starter": "def select_model(priority):\n    if priority == \"quality\":\n        return \"fast_model\"\n    return \"fast_model\"\n\nprint(select_model(\"quality\"))",
+    "blocks": [
+      "def select_model(priority):\n",
+      "    if priority == \"quality\":\n",
+      "        return \"quality_model\"\n",
+      "    return \"fast_model\"\n",
+      "\n",
+      "print(select_model(\"quality\"))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "quality_model",
+        "role": "demo",
+        "function": "select_model",
+        "args": [
+          "quality"
+        ]
+      },
+      {
+        "id": "fast",
+        "kind": "call",
+        "expected": "fast_model",
+        "role": "validation",
+        "function": "select_model",
+        "args": [
+          "fast"
+        ]
+      },
+      {
+        "id": "default",
+        "kind": "call",
+        "expected": "fast_model",
+        "role": "validation",
+        "function": "select_model",
+        "args": [
+          "other"
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Leia a regra antes de comparar modelos.",
+        "O ramo quality deve devolver quality_model."
+      ],
+      "mixed": [
+        "Leia a regra antes de comparar modelos.",
+        "O ramo quality deve devolver quality_model."
+      ],
+      "en": [
+        "Read the rule before comparing models.",
+        "The quality branch must return quality_model."
+      ]
+    },
+    "explanation": {
+      "pt": "Esta função aplica uma regra fictícia, sem chamar modelos.",
+      "mixed": "Esta função aplica uma regra fictícia, sem chamar modelos.",
+      "en": "This function applies a fictional rule without calling models."
+    },
+    "requires": [
+      "minimum-confidence",
+      "choose-fallback"
+    ],
+    "concept": "routing",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "if escolhe um ramo; um return encerra a chamada da função.",
+      "mixed": "if escolhe um ramo; um return encerra a chamada da função.",
+      "en": "if selects a branch; return ends the function call."
+    }
+  },
+  {
+    "id": "exec-response-field",
+    "group": "B",
+    "title": {
+      "pt": "Extraia o campo model",
+      "mixed": "Extract the model field (extraia o campo model)",
+      "en": "Extract the model field"
+    },
+    "goal": {
+      "pt": "Devolva response[model]. O campo model está presente nos casos desta tarefa.",
+      "mixed": "Devolva response[model]. O campo model está presente nos casos desta tarefa.",
+      "en": "Return the model field. It is present in this task cases."
+    },
+    "template": "def model_name(response):\n    return response[___]\n\nprint(model_name({\"model\":\"local\", \"score\":0.8, \"text\":\"ready\"}))",
+    "patches": [
+      {
+        "id": "exec-response-field-0",
+        "code": "\"model\""
+      },
+      {
+        "id": "exec-response-field-1",
+        "code": "\"score\""
+      },
+      {
+        "id": "exec-response-field-2",
+        "code": "\"text\""
+      }
+    ],
+    "initialPatchId": "exec-response-field-2",
+    "starter": "def model_name(response):\n    return response[\"text\"]\n\nprint(model_name({\"model\":\"local\", \"score\":0.8, \"text\":\"ready\"}))",
+    "blocks": [
+      "def model_name(response):\n",
+      "    return response[\"model\"]\n",
+      "\n",
+      "print(model_name({\"model\":\"local\", \"score\":0.8, \"text\":\"ready\"}))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "local",
+        "role": "demo",
+        "function": "model_name",
+        "args": [
+          {
+            "model": "local",
+            "score": 0.8,
+            "text": "ready"
+          }
+        ]
+      },
+      {
+        "id": "fast",
+        "kind": "call",
+        "expected": "fast",
+        "role": "validation",
+        "function": "model_name",
+        "args": [
+          {
+            "model": "fast",
+            "score": 0.6
+          }
+        ]
+      },
+      {
+        "id": "quality",
+        "kind": "call",
+        "expected": "quality",
+        "role": "validation",
+        "function": "model_name",
+        "args": [
+          {
+            "model": "quality"
+          }
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Chaves diferentes têm significados diferentes.",
+        "A chave model identifica o nome do modelo."
+      ],
+      "mixed": [
+        "Chaves diferentes têm significados diferentes.",
+        "A chave model identifica o nome do modelo."
+      ],
+      "en": [
+        "Different keys have different meanings.",
+        "The model key identifies the model name."
+      ]
+    },
+    "explanation": {
+      "pt": "Os resultados reais são extraídos de dicionários com valores distintos.",
+      "mixed": "Os resultados reais são extraídos de dicionários com valores distintos.",
+      "en": "Real results are extracted from dictionaries with different values."
+    },
+    "requires": [
+      "read-response-field"
+    ],
+    "concept": "key-access",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "response[\"model\"] acessa uma chave obrigatória do dicionário.",
+      "mixed": "response[\"model\"] acessa uma chave obrigatória do dicionário.",
+      "en": "response[\"model\"] accesses a required dictionary key."
+    }
+  },
+  {
+    "id": "exec-validate-dict",
+    "group": "B",
+    "title": {
+      "pt": "Valide um campo textual",
+      "mixed": "Validate a text field (valide um campo textual)",
+      "en": "Validate a text field"
+    },
+    "goal": {
+      "pt": "Retorne True se model existir e for str. Neste contrato, texto vazio ainda é str.",
+      "mixed": "Retorne True se model existir e for str. Neste contrato, texto vazio ainda é str.",
+      "en": "Return True if model exists and is str. In this contract, empty text is still str."
+    },
+    "template": "def valid_response(response):\n    return isinstance(response.get(\"model\"), ___)\n\nprint(valid_response({\"model\":\"local\"}))",
+    "patches": [
+      {
+        "id": "exec-validate-dict-0",
+        "code": "str"
+      },
+      {
+        "id": "exec-validate-dict-1",
+        "code": "int"
+      },
+      {
+        "id": "exec-validate-dict-2",
+        "code": "bool"
+      }
+    ],
+    "initialPatchId": "exec-validate-dict-1",
+    "starter": "def valid_response(response):\n    return isinstance(response.get(\"model\"), int)\n\nprint(valid_response({\"model\":\"local\"}))",
+    "blocks": [
+      "def valid_response(response):\n",
+      "    return isinstance(response.get(\"model\"), str)\n",
+      "\n",
+      "print(valid_response({\"model\":\"local\"}))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": true,
+        "role": "demo",
+        "function": "valid_response",
+        "args": [
+          {
+            "model": "local"
+          }
+        ]
+      },
+      {
+        "id": "number",
+        "kind": "call",
+        "expected": false,
+        "role": "validation",
+        "function": "valid_response",
+        "args": [
+          {
+            "model": 42
+          }
+        ]
+      },
+      {
+        "id": "missing",
+        "kind": "call",
+        "expected": false,
+        "role": "validation",
+        "function": "valid_response",
+        "args": [
+          {}
+        ]
+      },
+      {
+        "id": "empty-string",
+        "kind": "call",
+        "expected": true,
+        "role": "validation",
+        "function": "valid_response",
+        "args": [
+          {
+            "model": ""
+          }
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Não confunda presença/tipo com texto não vazio.",
+        "isinstance verifica o tipo declarado no contrato."
+      ],
+      "mixed": [
+        "Não confunda presença/tipo com texto não vazio.",
+        "isinstance verifica o tipo declarado no contrato."
+      ],
+      "en": [
+        "Do not confuse presence/type with nonempty text.",
+        "isinstance checks the type declared in the contract."
+      ]
+    },
+    "explanation": {
+      "pt": "O resultado deve ser booleano; uma string True não é um bool.",
+      "mixed": "O resultado deve ser booleano; uma string True não é um bool.",
+      "en": "The result must be a boolean; the string True is not a bool."
+    },
+    "requires": [
+      "validate-field-type"
+    ],
+    "concept": "type-check",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "isinstance(valor, str) verifica se o valor é texto.",
+      "mixed": "isinstance(valor, str) verifica se o valor é texto.",
+      "en": "isinstance(value, str) checks whether the value is a string."
+    }
+  },
+  {
+    "id": "exec-missing-data",
+    "group": "B",
+    "title": {
+      "pt": "Trate a chave ausente",
+      "mixed": "Handle a missing field (trate a chave ausente)",
+      "en": "Handle a missing field"
+    },
+    "goal": {
+      "pt": "Devolva text quando presente, inclusive vazio; apenas a chave ausente deve resultar em pending.",
+      "mixed": "Devolva text quando presente, inclusive vazio; apenas a chave ausente deve resultar em pending.",
+      "en": "Return text when present, including empty text; only a missing key should produce pending."
+    },
+    "template": "def response_text(response):\n    return response.get(\"text\", ___)\n\nprint(response_text({}))",
+    "patches": [
+      {
+        "id": "exec-missing-data-0",
+        "code": "\"pending\""
+      },
+      {
+        "id": "exec-missing-data-1",
+        "code": "None"
+      },
+      {
+        "id": "exec-missing-data-2",
+        "code": "\"\""
+      }
+    ],
+    "initialPatchId": "exec-missing-data-1",
+    "starter": "def response_text(response):\n    return response.get(\"text\", None)\n\nprint(response_text({}))",
+    "blocks": [
+      "def response_text(response):\n",
+      "    return response.get(\"text\", \"pending\")\n",
+      "\n",
+      "print(response_text({}))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "pending",
+        "role": "demo",
+        "function": "response_text",
+        "args": [
+          {}
+        ]
+      },
+      {
+        "id": "present",
+        "kind": "call",
+        "expected": "ready",
+        "role": "validation",
+        "function": "response_text",
+        "args": [
+          {
+            "text": "ready"
+          }
+        ]
+      },
+      {
+        "id": "empty",
+        "kind": "call",
+        "expected": "",
+        "role": "validation",
+        "function": "response_text",
+        "args": [
+          {
+            "text": ""
+          }
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "O padrão de get é usado quando a chave não existe.",
+        "Uma string vazia existente deve ser preservada."
+      ],
+      "mixed": [
+        "O padrão de get é usado quando a chave não existe.",
+        "Uma string vazia existente deve ser preservada."
+      ],
+      "en": [
+        "The get default is used when the key does not exist.",
+        "An existing empty string must be preserved."
+      ]
+    },
+    "explanation": {
+      "pt": "Ausência de chave e valor vazio são casos diferentes.",
+      "mixed": "Ausência de chave e valor vazio são casos diferentes.",
+      "en": "A missing key and an empty value are different cases."
+    },
+    "requires": [
+      "optional-field"
+    ],
+    "concept": "default",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "get(chave, padrão) usa o padrão somente quando a chave não existe.",
+      "mixed": "get(chave, padrão) usa o padrão somente quando a chave não existe.",
+      "en": "get(key, default) uses the default only if the key is missing."
+    }
+  },
+  {
+    "id": "exec-token-tool",
+    "group": "C",
+    "title": {
+      "pt": "Crie uma ferramenta determinística",
+      "mixed": "Build a deterministic tool (crie uma ferramenta determinística)",
+      "en": "Build a deterministic tool"
+    },
+    "goal": {
+      "pt": "Devolva a soma de prompt_tokens e reply_tokens para diferentes entradas.",
+      "mixed": "Devolva a soma de prompt_tokens e reply_tokens para diferentes entradas.",
+      "en": "Return the sum of prompt_tokens and reply_tokens for different inputs."
+    },
+    "template": "def total_tokens(prompt_tokens, reply_tokens):\n    return ___\n\nprint(total_tokens(10, 5))",
+    "patches": [
+      {
+        "id": "exec-token-tool-0",
+        "code": "prompt_tokens + reply_tokens"
+      },
+      {
+        "id": "exec-token-tool-1",
+        "code": "prompt_tokens * reply_tokens"
+      },
+      {
+        "id": "exec-token-tool-2",
+        "code": "prompt_tokens"
+      }
+    ],
+    "initialPatchId": "exec-token-tool-1",
+    "starter": "def total_tokens(prompt_tokens, reply_tokens):\n    return prompt_tokens * reply_tokens\n\nprint(total_tokens(10, 5))",
+    "blocks": [
+      "def total_tokens(prompt_tokens, reply_tokens):\n",
+      "    return prompt_tokens + reply_tokens\n",
+      "\n",
+      "print(total_tokens(10, 5))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": 15,
+        "role": "demo",
+        "function": "total_tokens",
+        "args": [
+          10,
+          5
+        ]
+      },
+      {
+        "id": "no-prompt",
+        "kind": "call",
+        "expected": 8,
+        "role": "validation",
+        "function": "total_tokens",
+        "args": [
+          0,
+          8
+        ]
+      },
+      {
+        "id": "no-reply",
+        "kind": "call",
+        "expected": 7,
+        "role": "validation",
+        "function": "total_tokens",
+        "args": [
+          7,
+          0
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "A ferramenta precisa considerar os dois argumentos.",
+        "Os casos com zero distinguem soma e multiplicação."
+      ],
+      "mixed": [
+        "A ferramenta precisa considerar os dois argumentos.",
+        "Os casos com zero distinguem soma e multiplicação."
+      ],
+      "en": [
+        "The tool must consider both arguments.",
+        "Zero cases distinguish addition and multiplication."
+      ]
+    },
+    "explanation": {
+      "pt": "É Python real sem API; as mesmas entradas dão o mesmo cálculo.",
+      "mixed": "É Python real sem API; as mesmas entradas dão o mesmo cálculo.",
+      "en": "This is real Python without an API; the same inputs produce the same calculation."
+    },
+    "requires": [
+      "deterministic-tool"
+    ],
+    "concept": "deterministic",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "Dois parâmetros recebem valores de cada chamada.",
+      "mixed": "Dois parâmetros recebem valores de cada chamada.",
+      "en": "Two parameters receive values from each call."
+    }
+  },
+  {
+    "id": "exec-json",
+    "group": "C",
+    "title": {
+      "pt": "Interprete uma resposta JSON",
+      "mixed": "Parse a JSON response (interprete uma resposta json)",
+      "en": "Parse a JSON response"
+    },
+    "goal": {
+      "pt": "Interprete o texto JSON e devolva label. O contrato desta tarefa fornece JSON válido com label.",
+      "mixed": "Interprete o texto JSON e devolva label. O contrato desta tarefa fornece JSON válido com label.",
+      "en": "Parse JSON text and return label. This task contract provides valid JSON with label."
+    },
+    "template": "import json\n\ndef read_label(payload):\n    response = json.loads(payload)\n    return response[___]\n\nprint(read_label('{\"label\":\"billing\",\"model\":\"local\"}'))",
+    "patches": [
+      {
+        "id": "exec-json-0",
+        "code": "\"label\""
+      },
+      {
+        "id": "exec-json-1",
+        "code": "\"model\""
+      },
+      {
+        "id": "exec-json-2",
+        "code": "\"score\""
+      }
+    ],
+    "initialPatchId": "exec-json-1",
+    "starter": "import json\n\ndef read_label(payload):\n    response = json.loads(payload)\n    return response[\"model\"]\n\nprint(read_label('{\"label\":\"billing\",\"model\":\"local\"}'))",
+    "blocks": [
+      "import json\n",
+      "\n",
+      "def read_label(payload):\n",
+      "    response = json.loads(payload)\n",
+      "    return response[\"label\"]\n",
+      "\n",
+      "print(read_label('{\"label\":\"billing\",\"model\":\"local\"}'))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "billing",
+        "role": "demo",
+        "function": "read_label",
+        "args": [
+          "{\"label\":\"billing\",\"model\":\"local\"}"
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "call",
+        "expected": "support",
+        "role": "validation",
+        "function": "read_label",
+        "args": [
+          "{\"label\":\"support\",\"model\":\"fast\"}"
+        ]
+      },
+      {
+        "id": "other",
+        "kind": "call",
+        "expected": "other",
+        "role": "validation",
+        "function": "read_label",
+        "args": [
+          "{\"label\":\"other\"}"
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "json.loads converte texto em dados Python.",
+        "Depois do parsing, leia a chave label."
+      ],
+      "mixed": [
+        "json.loads converte texto em dados Python.",
+        "Depois do parsing, leia a chave label."
+      ],
+      "en": [
+        "json.loads converts text into Python data.",
+        "After parsing, read the label key."
+      ]
+    },
+    "explanation": {
+      "pt": "Parsing JSON não significa fazer uma chamada de API.",
+      "mixed": "Parsing JSON não significa fazer uma chamada de API.",
+      "en": "Parsing JSON does not mean making an API call."
+    },
+    "requires": [
+      "parse-json"
+    ],
+    "concept": "serialization",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": "api-client",
+    "legend": {
+      "pt": "json.loads transforma texto JSON válido em valores Python.",
+      "mixed": "json.loads transforma texto JSON válido em valores Python.",
+      "en": "json.loads converts valid JSON text into Python values."
+    }
+  },
+  {
+    "id": "exec-fallback",
+    "group": "C",
+    "title": {
+      "pt": "Implemente fallback de texto",
+      "mixed": "Implement text fallback (implemente fallback de texto)",
+      "en": "Implement text fallback"
+    },
+    "goal": {
+      "pt": "Retorne text quando não vazio; para ausência ou vazio retorne local.",
+      "mixed": "Retorne text quando não vazio; para ausência ou vazio retorne local.",
+      "en": "Return text when nonempty; for missing or empty text return local."
+    },
+    "template": "def fallback_text(response):\n    return response.get(\"text\") ___ \"local\"\n\nprint(fallback_text({}))",
+    "patches": [
+      {
+        "id": "exec-fallback-0",
+        "code": "or"
+      },
+      {
+        "id": "exec-fallback-1",
+        "code": "and"
+      },
+      {
+        "id": "exec-fallback-2",
+        "code": "=="
+      }
+    ],
+    "initialPatchId": "exec-fallback-1",
+    "starter": "def fallback_text(response):\n    return response.get(\"text\") and \"local\"\n\nprint(fallback_text({}))",
+    "blocks": [
+      "def fallback_text(response):\n",
+      "    return response.get(\"text\") or \"local\"\n",
+      "\n",
+      "print(fallback_text({}))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "local",
+        "role": "demo",
+        "function": "fallback_text",
+        "args": [
+          {}
+        ]
+      },
+      {
+        "id": "present",
+        "kind": "call",
+        "expected": "ready",
+        "role": "validation",
+        "function": "fallback_text",
+        "args": [
+          {
+            "text": "ready"
+          }
+        ]
+      },
+      {
+        "id": "empty",
+        "kind": "call",
+        "expected": "local",
+        "role": "validation",
+        "function": "fallback_text",
+        "args": [
+          {
+            "text": ""
+          }
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "Este contrato trata vazio como motivo de fallback.",
+        "or usa a alternativa quando o primeiro valor é vazio ou None."
+      ],
+      "mixed": [
+        "Este contrato trata vazio como motivo de fallback.",
+        "or usa a alternativa quando o primeiro valor é vazio ou None."
+      ],
+      "en": [
+        "This contract treats empty text as a fallback reason.",
+        "or uses the fallback when the first value is empty or None."
+      ]
+    },
+    "explanation": {
+      "pt": "Compare com o exercício de get: contratos diferentes exigem testes diferentes.",
+      "mixed": "Compare com o exercício de get: contratos diferentes exigem testes diferentes.",
+      "en": "Compare with the get exercise: different contracts require different tests."
+    },
+    "requires": [
+      "choose-fallback",
+      "optional-field"
+    ],
+    "concept": "availability",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": null,
+    "legend": {
+      "pt": "or usa o segundo valor se o primeiro for falso ou vazio.",
+      "mixed": "or usa o segundo valor se o primeiro for falso ou vazio.",
+      "en": "or uses the second value if the first is false or empty."
+    }
+  },
+  {
+    "id": "exec-router",
+    "group": "C",
+    "title": {
+      "pt": "Teste um pequeno roteador",
+      "mixed": "Test a small router (teste um pequeno roteador)",
+      "en": "Test a small router"
+    },
+    "goal": {
+      "pt": "Selecione por priority, aplique fallback local disponível e retorne None se nenhum modelo estiver disponível.",
+      "mixed": "Selecione por priority, aplique fallback local disponível e retorne None se nenhum modelo estiver disponível.",
+      "en": "Select by priority, use an available local fallback and return None if no model is available."
+    },
+    "template": "def route(request, available):\n    primary = \"quality_model\" if request[\"priority\"] == \"quality\" else \"fast_model\"\n    if primary in available:\n        return primary\n    return ___\n\nprint(route({\"priority\":\"quality\"}, [\"quality_model\",\"local_model\"]))",
+    "patches": [
+      {
+        "id": "exec-router-0",
+        "code": "\"local_model\" if \"local_model\" in available else None"
+      },
+      {
+        "id": "exec-router-1",
+        "code": "primary"
+      },
+      {
+        "id": "exec-router-2",
+        "code": "\"fast_model\""
+      }
+    ],
+    "initialPatchId": "exec-router-1",
+    "starter": "def route(request, available):\n    primary = \"quality_model\" if request[\"priority\"] == \"quality\" else \"fast_model\"\n    if primary in available:\n        return primary\n    return primary\n\nprint(route({\"priority\":\"quality\"}, [\"quality_model\",\"local_model\"]))",
+    "blocks": [
+      "def route(request, available):\n",
+      "    primary = \"quality_model\" if request[\"priority\"] == \"quality\" else \"fast_model\"\n",
+      "    if primary in available:\n",
+      "        return primary\n",
+      "    return \"local_model\" if \"local_model\" in available else None\n",
+      "\n",
+      "print(route({\"priority\":\"quality\"}, [\"quality_model\",\"local_model\"]))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": "quality_model",
+        "role": "demo",
+        "function": "route",
+        "args": [
+          {
+            "priority": "quality"
+          },
+          [
+            "quality_model",
+            "local_model"
+          ]
+        ]
+      },
+      {
+        "id": "fast",
+        "kind": "call",
+        "expected": "fast_model",
+        "role": "validation",
+        "function": "route",
+        "args": [
+          {
+            "priority": "fast"
+          },
+          [
+            "fast_model",
+            "local_model"
+          ]
+        ]
+      },
+      {
+        "id": "fallback",
+        "kind": "call",
+        "expected": "local_model",
+        "role": "validation",
+        "function": "route",
+        "args": [
+          {
+            "priority": "quality"
+          },
+          [
+            "local_model"
+          ]
+        ]
+      },
+      {
+        "id": "no-models",
+        "kind": "call",
+        "expected": null,
+        "role": "validation",
+        "function": "route",
+        "args": [
+          {
+            "priority": "quality"
+          },
+          []
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "O exemplo principal não cobre indisponibilidade.",
+        "Verifique se a alternativa está disponível antes de devolvê-la."
+      ],
+      "mixed": [
+        "O exemplo principal não cobre indisponibilidade.",
+        "Verifique se a alternativa está disponível antes de devolvê-la."
+      ],
+      "en": [
+        "The primary example does not cover unavailability.",
+        "Check fallback availability before returning it."
+      ]
+    },
+    "explanation": {
+      "pt": "Os testes reais incluem um caso de lista vazia; não executamos nenhum modelo.",
+      "mixed": "Os testes reais incluem um caso de lista vazia; não executamos nenhum modelo.",
+      "en": "Real tests include an empty-list case; no model is executed."
+    },
+    "requires": [
+      "trace-selection",
+      "unknown-tool-fallback"
+    ],
+    "concept": "routing",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": "model-router",
+    "legend": {
+      "pt": "x if condição else y escolhe uma expressão; in verifica presença.",
+      "mixed": "x if condição else y escolhe uma expressão; in verifica presença.",
+      "en": "x if condition else y selects an expression; in checks membership."
+    }
+  },
+  {
+    "id": "exec-evaluation",
+    "group": "Projetos",
+    "title": {
+      "pt": "Calcule acurácia com saídas ausentes",
+      "mixed": "Calculate accuracy with missing outputs (calcule acurácia com saídas ausentes)",
+      "en": "Calculate accuracy with missing outputs"
+    },
+    "goal": {
+      "pt": "Conte correspondências exatas sobre todas as respostas esperadas. Sem tarefas, devolva None.",
+      "mixed": "Conte correspondências exatas sobre todas as respostas esperadas. Sem tarefas, devolva None.",
+      "en": "Count exact matches over all expected answers. With no tasks, return None."
+    },
+    "template": "def accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / ___\n\nprint(accuracy([\"a\"], [\"a\",\"b\"]))",
+    "patches": [
+      {
+        "id": "exec-evaluation-0",
+        "code": "len(expected)"
+      },
+      {
+        "id": "exec-evaluation-1",
+        "code": "len(predicted)"
+      },
+      {
+        "id": "exec-evaluation-2",
+        "code": "1"
+      }
+    ],
+    "initialPatchId": "exec-evaluation-1",
+    "starter": "def accuracy(predicted, expected):\n    if not expected:\n        return None\n    correct = sum(p == e for p, e in zip(predicted, expected))\n    return correct / len(predicted)\n\nprint(accuracy([\"a\"], [\"a\",\"b\"]))",
+    "blocks": [
+      "def accuracy(predicted, expected):\n",
+      "    if not expected:\n",
+      "        return None\n",
+      "    correct = sum(p == e for p, e in zip(predicted, expected))\n",
+      "    return correct / len(expected)\n",
+      "\n",
+      "print(accuracy([\"a\"], [\"a\",\"b\"]))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": 0.5,
+        "role": "demo",
+        "function": "accuracy",
+        "args": [
+          [
+            "a"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ]
+      },
+      {
+        "id": "full",
+        "kind": "call",
+        "expected": 1.0,
+        "role": "validation",
+        "function": "accuracy",
+        "args": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ]
+      },
+      {
+        "id": "empty",
+        "kind": "call",
+        "expected": null,
+        "role": "validation",
+        "function": "accuracy",
+        "args": [
+          [],
+          []
+        ]
+      },
+      {
+        "id": "missing-all",
+        "kind": "call",
+        "expected": 0.0,
+        "role": "validation",
+        "function": "accuracy",
+        "args": [
+          [],
+          [
+            "a"
+          ]
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "O denominador precisa manter as tarefas sem resposta.",
+        "Use a quantidade de alvos, não a quantidade de previsões."
+      ],
+      "mixed": [
+        "O denominador precisa manter as tarefas sem resposta.",
+        "Use a quantidade de alvos, não a quantidade de previsões."
+      ],
+      "en": [
+        "The denominator must include tasks without predictions.",
+        "Use the target count, not the prediction count."
+      ]
+    },
+    "explanation": {
+      "pt": "A métrica é limitada à igualdade textual e ao conjunto fornecido.",
+      "mixed": "A métrica é limitada à igualdade textual e ao conjunto fornecido.",
+      "en": "This metric is limited to exact text matching and the provided dataset."
+    },
+    "requires": [
+      "heldout-evaluation",
+      "debug-logic"
+    ],
+    "concept": "accuracy",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": "model-evaluation",
+    "legend": {
+      "pt": "sum(p == e for p, e in zip(...)) conta os pares iguais disponíveis.",
+      "mixed": "sum(p == e for p, e in zip(...)) conta os pares iguais disponíveis.",
+      "en": "sum(p == e for p, e in zip(...)) counts matching available pairs."
+    }
+  },
+  {
+    "id": "exec-checkpoint",
+    "group": "Projetos",
+    "title": {
+      "pt": "Selecione uma época pelos logs",
+      "mixed": "Select an epoch from logs (selecione uma época pelos logs)",
+      "en": "Select an epoch from logs"
+    },
+    "goal": {
+      "pt": "Devolva a época com menor validation_loss. Empate mantém a primeira; lista vazia devolve None. Não há treinamento real.",
+      "mixed": "Devolva a época com menor validation_loss. Empate mantém a primeira; lista vazia devolve None. Não há treinamento real.",
+      "en": "Return the epoch with the lowest validation_loss. Ties keep the first; an empty list returns None. No real training occurs."
+    },
+    "template": "def choose_epoch(logs):\n    if not logs:\n        return None\n    best = logs[0]\n    for row in logs:\n        if row[\"validation_loss\"] ___ best[\"validation_loss\"]:\n            best = row\n    return best[\"epoch\"]\n\nprint(choose_epoch([{\"epoch\":1,\"validation_loss\":0.9},{\"epoch\":2,\"validation_loss\":0.6}]))",
+    "patches": [
+      {
+        "id": "exec-checkpoint-0",
+        "code": "<"
+      },
+      {
+        "id": "exec-checkpoint-1",
+        "code": ">"
+      },
+      {
+        "id": "exec-checkpoint-2",
+        "code": "=="
+      }
+    ],
+    "initialPatchId": "exec-checkpoint-1",
+    "starter": "def choose_epoch(logs):\n    if not logs:\n        return None\n    best = logs[0]\n    for row in logs:\n        if row[\"validation_loss\"] > best[\"validation_loss\"]:\n            best = row\n    return best[\"epoch\"]\n\nprint(choose_epoch([{\"epoch\":1,\"validation_loss\":0.9},{\"epoch\":2,\"validation_loss\":0.6}]))",
+    "blocks": [
+      "def choose_epoch(logs):\n",
+      "    if not logs:\n",
+      "        return None\n",
+      "    best = logs[0]\n",
+      "    for row in logs:\n",
+      "        if row[\"validation_loss\"] < best[\"validation_loss\"]:\n",
+      "            best = row\n",
+      "    return best[\"epoch\"]\n",
+      "\n",
+      "print(choose_epoch([{\"epoch\":1,\"validation_loss\":0.9},{\"epoch\":2,\"validation_loss\":0.6}]))"
+    ],
+    "demoGlobals": {},
+    "tests": [
+      {
+        "id": "demo",
+        "kind": "call",
+        "expected": 2,
+        "role": "demo",
+        "function": "choose_epoch",
+        "args": [
+          [
+            {
+              "epoch": 1,
+              "validation_loss": 0.9
+            },
+            {
+              "epoch": 2,
+              "validation_loss": 0.6
+            },
+            {
+              "epoch": 3,
+              "validation_loss": 0.8
+            }
+          ]
+        ]
+      },
+      {
+        "id": "first",
+        "kind": "call",
+        "expected": 1,
+        "role": "validation",
+        "function": "choose_epoch",
+        "args": [
+          [
+            {
+              "epoch": 1,
+              "validation_loss": 0.2
+            },
+            {
+              "epoch": 2,
+              "validation_loss": 0.7
+            }
+          ]
+        ]
+      },
+      {
+        "id": "empty",
+        "kind": "call",
+        "expected": null,
+        "role": "validation",
+        "function": "choose_epoch",
+        "args": [
+          []
+        ]
+      },
+      {
+        "id": "tie",
+        "kind": "call",
+        "expected": 5,
+        "role": "validation",
+        "function": "choose_epoch",
+        "args": [
+          [
+            {
+              "epoch": 5,
+              "validation_loss": 0.3
+            },
+            {
+              "epoch": 6,
+              "validation_loss": 0.3
+            }
+          ]
+        ]
+      }
+    ],
+    "hints": {
+      "pt": [
+        "A menor perda de treino não é o critério desta seleção.",
+        "Substitua best só quando validation_loss for menor."
+      ],
+      "mixed": [
+        "A menor perda de treino não é o critério desta seleção.",
+        "Substitua best só quando validation_loss for menor."
+      ],
+      "en": [
+        "The lowest training loss is not this selection criterion.",
+        "Replace best only when validation_loss is lower."
+      ]
+    },
+    "explanation": {
+      "pt": "O código interpreta logs fictícios com Python real; não ajusta pesos nem prova qualidade futura.",
+      "mixed": "O código interpreta logs fictícios com Python real; não ajusta pesos nem prova qualidade futura.",
+      "en": "The code interprets fictional logs with real Python; it does not update weights or prove future quality."
+    },
+    "requires": [
+      "epoch-log",
+      "training-loss"
+    ],
+    "concept": "checkpoint",
+    "terms": [
+      "rt-run",
+      "rt-test"
+    ],
+    "projectId": "training-pipeline",
+    "legend": {
+      "pt": "for visita os logs; < atualiza o melhor somente quando a perda diminui.",
+      "mixed": "for visita os logs; < atualiza o melhor somente quando a perda diminui.",
+      "en": "for visits the logs; < updates the best only when loss decreases."
+    }
+  }
+]

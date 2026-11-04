@@ -1,7 +1,7 @@
 (function(root){
   const E=root.PythonLabEngine,M=root.PythonLabModels,Portfolio=root.PythonLabPortfolio;
   const skillNames={fundamentals:['Fundamentos Python','Python fundamentals'],data:['Estruturas de dados','Data structures'],functions:['Funções','Functions'],debugging:['Debugging','Debugging'],api:['APIs','APIs'],logic:['Raciocínio lógico','Logical reasoning'],ai:['Fluxos de IA','AI workflows'],evaluation:['Avaliação de modelos','Model evaluation'],training:['Fundamentos de treinamento','Training foundations'],english:['Inglês técnico','Technical English']};
-  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning}){
+  function create({catalog,datasets,glossary,language,storage,missions,missionProgress,onHome,onReview,onWarning,onPython,pythonReport,pythonAvailable=()=>true}){
     const $=id=>document.getElementById(id);let state=E.load(storage,catalog),view='hub',selected=null,group='project';
     E.importMissions(state,missionProgress(),missions);
     const t=(pt,en)=>language()==='en'?en:pt;
@@ -40,6 +40,7 @@
       if(feedback==='right')message=`${t('Etapa validada.','Stage validated.')} ${s.explanation[lang]} ${draft.lastGain?t(`Conquista registrada: +${draft.lastGain} XP.`,`Recorded award: +${draft.lastGain} XP.`):t('XP desta etapa já havia sido conquistado.','This stage XP was already earned.')}`;
       $('pFeedback').textContent=message;
       renderSupport(a,s,draft,r);renderLayers(s,r);renderTerms(s,r);
+      $('pPython').hidden=a.kind!=='project'||!onPython||!pythonAvailable()||a.steps.filter(st=>r.steps[st.id]?.passed).length<5;$('pPython').textContent=t('Praticar esta ideia com Python real (opcional)','Practice this idea in real Python (optional)');$('pPython').onclick=()=>openPython(a);
       const artifact=E.artifact(state,a);$('pArtifact').textContent=JSON.stringify(artifact,null,2);$('pPreview').textContent=JSON.stringify(M.workspace(a,artifact,datasets).preview??{},null,2);$('pSolution').textContent=a.solutionCode;
       $('pWorkspaceLabel').textContent=t('Workspace — artefato e código de referência','Workspace — artifact and reference code');$('pArtifactSummary').textContent=t('Cada etapa validada atualiza este artefato; as respostas incorretas não são aplicadas.','Each validated stage updates this artifact; incorrect answers are not applied.');
       $('pRunTests').textContent=t('Executar testes didáticos','Run educational tests');$('pTestsNotice').textContent=t('Simulação determinística de funções cadastradas; sem executar código do aluno.','Deterministic simulation of registered functions; no learner code is executed.');$('pTestsResult').textContent=r.testRun?r.testRun.results.map(test=>`${E.equal(test.expected,test.observed)?'✓':'✗'} ${test.id} — ${t('esperado','expected')}: ${JSON.stringify(test.expected)}; ${t('obtido','observed')}: ${JSON.stringify(test.observed)}`).join('\n'):t('Nenhum teste executado nesta tentativa.','No tests run in this attempt.');
@@ -59,10 +60,12 @@
       $('pTerms').replaceChildren();for(const id of s.terms){const g=glossary[id];button($('pTerms'),language()==='en'?g[0]:`${g[0]} (${g[1]})`,()=>{r.term=r.term===id?null:id;E.present(state,`vocabulary/${id}`,id,['english']);render();save();},{'data-term':id,'aria-expanded':r.term===id});}
       const term=r.term&&glossary[r.term];$('pTermText').hidden=!term;$('pTermText').textContent=term?`${term[0]} — ${term[1]}: ${term[language()==='en'?3:2]}\n${term[4]}\n${term[language()==='en'?6:5]}`:'';
     }
+    function openPython(a){const ids={'model-router':'exec-router','api-client':'exec-json','model-evaluation':'exec-evaluation','training-pipeline':'exec-checkpoint'};if(ids[a.id]&&onPython)onPython(ids[a.id],()=>{ $('projectsArea').hidden=false;render(); });}
     function renderConclusion(a){
+      $('pConclusionPython').hidden=a.kind!=='project'||!onPython||!pythonAvailable();$('pConclusionPython').textContent=t('Praticar com Python real (opcional)','Practice in real Python (optional)');$('pConclusionPython').onclick=()=>openPython(a);
       const r=E.get(state,a);$('pConclusionTitle').textContent=`${a.title[language()]} — ${t('concluído','completed')}`;$('pConclusionResult').textContent=a.result[language()];$('pConclusionLimit').textContent=a.limitations[language()];$('pRevisit').textContent=t('Revisitar etapas','Revisit stages');$('pExport').hidden=a.kind!=='project';$('pExport').textContent=t('Salvar relatório Markdown','Save Markdown report');$('pRevisit').onclick=()=>{r.conclusion=false;r.currentStepId=a.steps[0].id;render();save();};$('pExport').onclick=()=>download(a);
     }
-    function download(a){try{Portfolio.download(`python-ai-lab-${a.id}.md`,Portfolio.markdown(a,state,E,M,datasets,language()));}catch{onWarning(t('Conclua o projeto antes de exportar.','Complete the project before exporting.'));}}
+    function download(a){try{Portfolio.download(`python-ai-lab-${a.id}.md`,Portfolio.markdown(a,state,E,M,datasets,language())+(pythonReport?.(a.id)?`\n\n---\n\n${pythonReport(a.id)}`:''));}catch{onWarning(t('Conclua o projeto antes de exportar.','Complete the project before exporting.'));}}
     function renderPortfolio(){
       $('pPortfolioTitle').textContent=t('Meus projetos','My projects');$('pPortfolioIntro').textContent=t('Registros locais de aprendizagem simulada. Não comprovam experiência profissional.','Local records of simulated learning. They do not prove professional experience.');$('pPortfolioList').replaceChildren();
       for(const a of catalog.filter(a=>a.kind==='project')){const r=E.get(state,a),card=document.createElement('article');card.className='project-card';const heading=document.createElement('h3');heading.textContent=a.title[language()];card.append(heading);const status=document.createElement('p');status.textContent=r.completedAt?t('Concluído — projeto didático','Completed — educational project'):r.openedAt?t('Em andamento','In progress'):t('Não iniciado','Not started');card.append(status);button(card,t('Abrir','Open'),()=>openActivity(E.key(a)));if(r.completedAt)button(card,t('Salvar Markdown','Save Markdown'),()=>download(a),{'data-export':a.id});$('pPortfolioList').append(card);}
@@ -89,7 +92,7 @@
     $('pRestart').onclick=()=>{if(!confirm(t('Reiniciar etapas desta atividade? O XP já conquistado e o histórico de dificuldade serão mantidos.','Restart this activity stages? Already earned XP and difficulty history will be kept.')))return;E.restart(state,activity());render();save();};
     $('pRunTests').onclick=()=>{const a=activity(),artifact=E.artifact(state,a);E.testRun(state,a,M.tests(a,artifact,datasets),M.signature(a,artifact));render();save();};
     save();
-    return {open,hide,languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
+    return {open,hide,runtimeAttempt(l,correct){E.observe(state,`executable/${l.id}`,l.concept,l.projectId==='model-evaluation'?['evaluation','functions']:l.projectId==='training-pipeline'?['training','data']:l.group==='A'?['fundamentals']:['functions','ai','data'],correct);save();},languageChanged(){if(!$('projectsArea').hidden)render();},missionPresented,
       missionAttempt(e,correct){E.observe(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track),correct);save();},
       reset(){state=E.empty();if(!root.TrainerStorage.remove(storage,[E.KEY]))onWarning(t('Não foi possível apagar os registros do Lab.','Could not delete Lab records.')); view='hub';selected=null;},
       missionHint(e){E.evidence(state,`mission/${e.id}`,e.concept,EvidenceSkills(e.track)).hints++;save();}};
