@@ -1,5 +1,14 @@
 (function(root){
+  function validate(data){
+    const ids=new Set();
+    if(!Array.isArray(data)||!data.length)throw Error('Missing simulated labs');
+    for(const c of data){
+      if(!c?.id||ids.has(c.id)||['pt','mixed','en'].some(l=>typeof c.title?.[l]!=='string'||!c.title[l].trim())||!Array.isArray(c.stages)||c.stages.length!==8||c.stages.some(s=>!s||typeof s.pt!=='string'||typeof s.en!=='string'||!s.pt.trim()||!s.en.trim()||!Object.hasOwn(s,'data')||!Object.hasOwn(s,'dataEn'))||!Array.isArray(c.choices)||c.choices.length!==3||new Set(c.choices).size!==3||!Number.isInteger(c.correct)||c.correct<0||c.correct>2)throw Error('Invalid simulated lab');
+      ids.add(c.id);
+    }return data;
+  }
   function create(data,language,onHome){
+    validate(data);
     const $=id=>document.getElementById(id);let selected=null,index=0,answer=null;
     const names={pt:['Entrada','Prompt','API simulada','Resposta','Validação Python simulada','Decisão','Ferramenta simulada','Resultado'],en:['Input','Prompt','Simulated API','Response','Simulated Python validation','Decision','Simulated tool','Result']};
     function render(){
@@ -17,5 +26,5 @@
     $('labPrev').onclick=()=>{index=Math.max(0,index-1);render();};$('labRestart').onclick=()=>{index=0;answer=null;render();};$('labHome').onclick=onHome;
     return {render};
   }
-  root.TrainerLabs={create};
+  root.TrainerLabs={create,validate};if(typeof module==='object'&&module.exports)module.exports=root.TrainerLabs;
 })(globalThis);

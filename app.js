@@ -136,7 +136,8 @@
   async function init() {
     const glossaryResponse=await fetch('glossary-v2.json');if(!glossaryResponse.ok)throw Error('Glossary unavailable');Object.assign(languageData.glossary,await glossaryResponse.json());
     state.exercises=await window.TrainerContent.load(languageData.glossary);state.progress=game.loadProgress(storage);syncProgress();
-    const labResponse=await fetch('labs.json');if(!labResponse.ok)throw Error('Labs unavailable');labs=window.TrainerLabs.create(await labResponse.json(),()=>state.language,renderHome);
+    try{const labResponse=await fetch('labs.json');if(!labResponse.ok)throw Error('Labs unavailable');labs=window.TrainerLabs.create(await labResponse.json(),()=>state.language,renderHome);}
+    catch{$('aiLabButton').disabled=true;storageWarning(reviewText('O laboratório simulado não carregou. As missões continuam disponíveis.','The simulated lab could not load. Missions remain available.'));}
     let preferredLanguage=null;try{preferredLanguage=storage.getItem('trainer-language');}catch{}
     state.language=['pt','mixed','en'].includes(preferredLanguage)?preferredLanguage:'mixed';
     try{state.known=JSON.parse(storage.getItem('trainer-known'))||[];if(!Array.isArray(state.known))state.known=[];}catch{state.known=[];}
@@ -155,7 +156,7 @@
     $('reset').onclick=()=>{if(window.confirm(ui().resetConfirm+' '+reviewText('Inclui projetos, portfólio e evidências do Lab.','Includes projects, portfolio and Lab evidence.'))){if(!progressAPI.clear(storage))storageWarning(reviewText('Não foi possível remover todos os dados locais.','Could not remove all local data.'));if(projects)projects.reset();if(runtime)runtime.reset();if(modelLab)modelLab.reset();if(experiments)experiments.reset();returnProject=null;projectReviewMode=false;$('returnToProject').hidden=true;sessions.clear();activeId=null;state.progress=game.createProgress();state.index=0;state.language='mixed';state.known=[];reviewQueue=null;renderHome();}};
     $('reviewButton').onclick=()=>{saveSession();reviewQueue=progressAPI.reviews(state.progress,state.exercises);if(!reviewQueue.length){reviewQueue=null;$('reviewNotice').textContent=reviewText('Nenhuma revisão elegível agora. Continue o treino; revisões recentes têm intervalo de um minuto.','No eligible review now. Continue training; recent reviews have a one-minute interval.');return;}state.index=state.exercises.findIndex(e=>e.id===reviewQueue[0]);sessions.save(exercise().id,{...sessions.get(exercise().id),solved:false,feedback:null});renderMission();};
     $('debugButton').onclick=()=>{$('debugList').hidden=!$('debugList').hidden;renderDebugList();};
-    $('aiLabButton').onclick=()=>{saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();if(projects)projects.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;labs.render();};
+    $('aiLabButton').onclick=()=>{if(!labs)return;saveSession();if(runtime)runtime.hide();if(modelLab)modelLab.hide();if(experiments)experiments.hide();if(projects)projects.hide();$('home').hidden=true;$('mission').hidden=true;$('aiLab').hidden=false;labs.render();};
 
     try {
       const [catalog,debugging,testing,datasets,terms]=await Promise.all(['catalog','debugging','testing','datasets','terms'].map(async name=>{const r=await fetch(`projects/${name}.json`);if(!r.ok)throw Error('Project content unavailable');return r.json();}));

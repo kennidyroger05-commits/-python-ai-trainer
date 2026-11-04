@@ -1,0 +1,6 @@
+const assert=require('node:assert/strict'),D=require('../core/download');
+function fixture(failure){const events=[],environment={Blob:class{constructor(content,options){this.content=content;this.options=options;}},URL:{createObjectURL(){if(failure==='url')throw Error('denied');events.push('create');return 'blob:local';},revokeObjectURL(){events.push('revoke');}},document:{createElement(){return {click(){if(failure==='click')throw Error('denied');events.push('click');},remove(){events.push('remove');}};},body:{append(){events.push('append');}}},setTimeout(fn){fn();}};return {save:D.create(environment),events};}
+let f=fixture();assert.equal(f.save('report.md','Measured locally'),true);assert.deepEqual(f.events,['create','append','click','revoke','remove']);
+for(const reason of ['url','click']){f=fixture(reason);assert.equal(f.save('report.md','Do not lose progress'),false);if(reason==='click')assert.deepEqual(f.events,['create','append','revoke','remove']);}
+for(const filename of ['../secrets','<script>','/absolute','a/b','']){f=fixture();assert.equal(f.save(filename,'data'),false);assert.deepEqual(f.events,[]);}
+assert.equal(f.save('report.html','html','text/html'),false);console.log('PASS safe local download, attached anchor, failure cleanup and invalid export rejection');

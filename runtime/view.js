@@ -70,7 +70,7 @@
   $('rUndo').onclick=()=>{draft().codes.blocks=draft().stack.pop()??'';render();};$('rHint').onclick=()=>{P.hint(state,lesson());draft().hint=true;save();render();};
   $('rRun').onclick=()=>execute('run');$('rValidate').onclick=()=>execute('validate');$('rStop').onclick=stop;
   $('rResetVM').onclick=()=>{task++;executor.release();busy=false;draft().result=null;render();$('rStatus').textContent=t('Ambiente encerrado; a próxima execução inicia um interpretador novo.','Environment terminated; the next run starts a fresh interpreter.');};
-  function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  function download(text,name){if(!root.TrainerDownload.save(name,text))onWarning(t('Não foi possível exportar o registro. O progresso foi mantido.','Could not export the record. Progress was kept.'));}
   $('rExport').onclick=()=>download(P.report(state,lesson(),language()),`${selected}-python.md`);
   return {open,hide,languageChanged(){if(!area.hidden)render();},reset(){task++;executor.release();busy=false;state=P.empty();drafts.clear();selected=null;back=null;if(!root.TrainerStorage.remove(storage,[P.KEY]))onWarning(t('Não foi possível apagar o progresso Python.','Could not delete Python progress.'));},projectReport(id){const l=catalog.find(l=>l.projectId===id);return l&&P.get(state,l).completedAt?P.report(state,l,language()):'';}};
  }
