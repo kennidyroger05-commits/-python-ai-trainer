@@ -75,7 +75,8 @@
       for(const row of E.competencies(state)){const card=document.createElement('article');card.className='project-card';const h=document.createElement('h3');h.textContent=skillNames[row.skill][language()==='en'?1:0];card.append(h);for(const [field,pt,en]of [['presented','Apresentado','Presented'],['practiced','Praticado','Practiced'],['correct','Acertado ao menos uma vez','Correct at least once'],['review','Para revisar','Review suggested']]){const line=document.createElement('p');line.textContent=`${t(pt,en)}: ${row[field]}`;card.append(line);}$('pSkillsCards').append(card);}
     }
     function render(){
-      onContext({kind:view==='activity'?'activity':'projects',id:view==='activity'?selected:view});
+      const activeKind=view==='activity'?activity()?.kind:null;
+      onContext({kind:view==='activity'?'activity':'projects',id:view==='activity'?selected:view,area:view==='skills'?'progress':view==='hub'&&group==='debug'||['debug','testing'].includes(activeKind)?'practice':'projects'});
       header();for(const id of ['pListPanel','pActivity','pConclusion','pPortfolioPanel','pSkillsPanel'])$(id).hidden=true;
       if(view==='hub'){ $('pListPanel').hidden=false;renderList(); }
       else if(view==='activity'){const a=activity();if(!a)return;const r=E.get(state,a);if(r.conclusion&&r.completedAt){$('pConclusion').hidden=false;renderConclusion(a);}else{$('pActivity').hidden=false;renderStep(a);}}

@@ -6,6 +6,8 @@ O app é uma plataforma única, sem cadastro. Misto é o idioma inicial: termos 
 
 Na abertura, leia o objetivo e use **Continuar treino**. Uma missão apresenta código, legenda e glossário. Você pode errar, consultar duas dicas e tentar novamente. O acerto recebe explicação e aplicação em IA. XP registra a atividade; não comprova domínio. Repetir uma conclusão não concede os mesmos pontos outra vez.
 
+Após o acerto, a resposta validada fica protegida contra mudanças; glossário, explicação e simulação continuam acessíveis. Se uma área estiver indisponível, seus dados não são mostrados como progresso zero. O histórico fica preservado e a interface informa a limitação.
+
 O menu **Áreas** fica disponível durante o treino. Ele organiza cinco caminhos:
 
 | Área | Para que usar |
@@ -45,5 +47,7 @@ A revisão usa erros, dicas, pré-requisitos e intervalo entre revisões. Cada l
 Armazenamento indisponível gera aviso: a sessão continua, mas pode não sobreviver à recarga. Registros corrompidos recebem cópia local antes de serem substituídos. Sem sincronização entre dispositivos ou coordenação transacional de abas.
 
 Uma sessão já carregada permite ler código, usar glossário e resolver escolhas com conectividade limitada. Recursos WASM precisam estar disponíveis para iniciar Python. Não há garantia de abertura ou recarga totalmente offline e não há service worker. Mensagens de falha devem permitir uma nova tentativa sem apagar progresso.
+
+As missões ficam disponíveis antes de terminar o carregamento opcional. Uma resposta atrasada não leva o aluno de volta ao início. Requisições de conteúdo possuem limite de espera; se falharem, as outras áreas continuam utilizáveis. Problema em projetos não desativa automaticamente Python. Erro essencial usa o idioma salvo e oferece recarga.
 
 Os testes automatizados de jornada usam Chromium com toque em 320/375/390 px. Eles não substituem validação em Safari/iPhone físico. Veja [prontidão de lançamento](RELEASE-READINESS.md).

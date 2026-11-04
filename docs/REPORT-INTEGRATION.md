@@ -34,7 +34,9 @@ Uma revisão crítica separada encontrou carregamento essencial preso em recurso
 
 ## Testes e medições
 
-Antes do segundo marco passaram 21 suítes locais, testes de falhas iniciais/exportação, jornada completa em 320/375/390 px e teste sob subdiretório com Python real e notebook. A primeira tentativa completa parou em um teste legado que não expandia o novo menu avançado; foi corrigido sem alterar critérios de resultado. A revisão adversarial inicial teve seis reprovações em 11 cenários, que motivaram correções. Após ampliar os casos, os 13 cenários passaram, assim como 22 suítes locais e regressões direcionadas de missões/mobile. As duas passagens completas finais de 40 suítes ainda serão registradas após execução real.
+Antes do segundo marco passaram 21 suítes locais, testes de falhas iniciais/exportação, jornada completa em 320/375/390 px e teste sob subdiretório com Python real e notebook. A primeira tentativa completa parou em um teste legado que não expandia o novo menu avançado; foi corrigido sem alterar critérios de resultado. A revisão adversarial inicial teve seis reprovações em 11 cenários, que motivaram correções.
+
+Após ampliar os casos, passou a primeira passagem final: **40 suítes aprovadas, zero reprovadas**, sobre `215c8cb`. A revisão entre passagens ajustou a classificação das telas compartilhadas no menu (evidências em Meu progresso; debugging/testes em Praticar). O novo cenário passou, totalizando 14 cenários adversariais de integração. A segunda passagem completa ainda será registrada após execução real.
 
 Medições reais são coletadas por `subdirectory-browser.cjs`: abertura observada, bytes servidos, carregamento/execução fria e quente, navegação automatizada e heap JS quando disponível. Elas incluem overhead do Playwright em HTTP local/Chromium emulado; não são benchmark de iPhone. WASM permanece sob demanda, com recursos verificados reutilizados em memória; cada execução/caso ainda tem VM nova.
 
@@ -52,7 +54,8 @@ Mobile automatizado usa Chromium com toque, sem teclado automático em escolhas,
 | --- | --- |
 | `6c1685d` | Falhas opcionais isoladas e exportação compartilhada com regressões |
 | `52f8df4` | Navegação, pontes pedagógicas, evidências e jornada completa |
+| `215c8cb` | Carregamento parcial, retornos, respostas imutáveis e regressões adversariais |
 
-Os marcos foram enviados incrementalmente à branch. Pendências atuais: duas passagens completas sobre as correções, evidências/documentação finais e tentativa de PR rascunho contra `feature/kaggle-execution-quality`. Nenhum merge ou publicação.
+Os marcos foram enviados incrementalmente à branch. Pendências atuais: segunda passagem completa, evidências/documentação finais e tentativa de PR rascunho contra `feature/kaggle-execution-quality`. Nenhum merge ou publicação.
 
 O guia de uso está em [USER-JOURNEY.md](USER-JOURNEY.md); requisitos restantes para lançamento em [RELEASE-READINESS.md](RELEASE-READINESS.md). O link de PR ou comparação e o resultado da tentativa serão registrados na entrega.

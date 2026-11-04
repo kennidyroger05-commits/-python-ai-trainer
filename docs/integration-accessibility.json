@@ -1,0 +1,50 @@
+{
+  "measured_utc": "2026-11-04T07:14:40.444Z",
+  "browser": "155.0.8059.79",
+  "width": 320,
+  "pairs": [
+    {
+      "name": "main text",
+      "foreground": "#f3f4f6",
+      "background": "#0b1020",
+      "contrast": 17.20332387662921,
+      "minimum": 4.5
+    },
+    {
+      "name": "card text",
+      "foreground": "#f3f4f6",
+      "background": "#172033",
+      "contrast": 14.782606275518686,
+      "minimum": 4.5
+    },
+    {
+      "name": "description",
+      "foreground": "#9ca3af",
+      "background": "#121a2b",
+      "contrast": 6.84521414487873,
+      "minimum": 4.5
+    },
+    {
+      "name": "primary button",
+      "foreground": "#ffffff",
+      "background": "#4f46e5",
+      "contrast": 6.287528596095884,
+      "minimum": 4.5
+    },
+    {
+      "name": "selection outline",
+      "foreground": "#6366f1",
+      "background": "#172033",
+      "contrast": 3.6420114833356636,
+      "minimum": 3
+    },
+    {
+      "name": "focus outline",
+      "foreground": "#a5b4fc",
+      "background": "#121a2b",
+      "contrast": 8.717613696921363,
+      "minimum": 3
+    }
+  ],
+  "scope": "Observed CSS palette contrast calculation; keyboard/focus/roles/large text/reduced motion are tested separately. Not a full WCAG certification or a physical VoiceOver/iPhone test."
+}

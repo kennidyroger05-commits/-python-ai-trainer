@@ -11,7 +11,8 @@ Esta branch é para revisão, **não para publicação automática**. Main e a c
 | Experimentos | Simulação, Python local, preparação e origem declarada de relatórios distinguíveis; sem conexão Kaggle ativa |
 | Notebooks CPU | Dois notebooks completos e reproduzíveis, testes locais sem credenciais ou GPU |
 | GitHub Pages em subdiretório | Teste automatizado executou Python e exportou notebook sob prefixo, sem caminhos escapando para a raiz |
-| Duas passagens completas | Em andamento; resultados finais serão registrados no relatório e arquivos de evidência |
+| Acessibilidade disponível | Foco, roles, área ativa, texto do corpo ampliado a 24 px, movimento reduzido e controles de toque testados; seis pares de paleta com contraste calculado em `integration-accessibility.json` |
+| Duas passagens completas | Primeira: 40 suítes aprovadas; segunda pendente após revisão final de classificação das áreas |
 | Safari/WebKit | WebKit não instalado; não foi declarado aprovado |
 | iPhone físico | Não testado; comportamento, teclado, safe areas e pressão de memória precisam de validação no hardware |
 | Kaggle autenticado | Desativado e não testado em conta real; requer autorização e ambiente separado |
@@ -20,6 +21,8 @@ Esta branch é para revisão, **não para publicação automática**. Main e a c
 ## Bloqueios para declarar publicação pronta
 
 Não declarar compatibilidade física com Safari/iPhone sem executar os testes nesse ambiente. A memória linear WASM tem teto, mas o consumo total de JS/buffers/navegador não possui quota rígida; fechamento de aba sob pressão no dispositivo ainda é risco. O bootstrap utiliza opção experimental publicada e fixada do Pyodide, exigindo nova regressão em upgrades.
+
+A verificação de paleta não é certificação WCAG completa. VoiceOver, teclado virtual, barras do Safari, safe areas físicas, orientação do aparelho e salvamento de downloads no iOS não foram testados no hardware. CSS/semântica e emulação não substituem esses testes.
 
 Falhas críticas/altas conhecidas devem ser corrigidas ou ter o recurso bloqueado antes de revisão final. Falhas de persistência não podem ser ocultadas como sucesso de gravação. O app não promete certificação, domínio técnico ou generalização de modelos em dataset sintético pequeno.
 
