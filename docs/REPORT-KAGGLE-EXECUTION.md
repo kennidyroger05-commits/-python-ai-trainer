@@ -97,13 +97,16 @@ Os logs de reprodução com falhas foram preservados no workspace; não são tra
 | `f7a5a7f` | Workspace privado externo, receita de relatório e XP acessível |
 | `d2e1358` | Revalidação do cache e recuperação de intenção do ledger |
 | `057a9a1` | Capacidades oficiais, matriz de auditoria, arquitetura e relatório |
+| `6e0dcc5` | Evidência da segunda passagem completa e relatório de recuperação |
 
 Os commits de documentação/evidência posteriores constam no histórico da mesma branch. Componentes principais: `runtime/client.js`, `frame.js`, `worker.js`, `memory.js`, manifesto/vendor; `executor/`; `experiments/`; novas suítes em `tests/`; README e documentos de runtime, Kaggle, modelos, segurança, arquitetura, trilha e conteúdo.
 
 ## Entrega e próximo passo
 
-O PR deve ser **rascunho** contra `feature/python-runtime-kaggle-lab`. Nenhum merge ou publicação é autorizado por esta entrega. O corpo preparado fica em [PR-KAGGLE-EXECUTION.md](PR-KAGGLE-EXECUTION.md); o resultado da tentativa de criação será registrado antes da entrega.
+Foi tentada a criação de PR **rascunho** contra `feature/python-runtime-kaggle-lab`, com `gh pr create --draft --base feature/python-runtime-kaggle-lab --head feature/kaggle-execution-quality --body-file docs/PR-KAGGLE-EXECUTION.md`. O CLI retornou `Post "https://api.github.com/graphql": Forbidden`; não foi possível confirmar/criar um PR por esta interface. Não se contornou a restrição nem se alterou permissão administrativa. O push Git funcionou, e o corpo está preparado em [PR-KAGGLE-EXECUTION.md](PR-KAGGLE-EXECUTION.md).
 
 [Comparação da branch](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/python-runtime-kaggle-lab...feature/kaggle-execution-quality?expand=1).
+
+Estado da entrega: implementação e duas passagens locais concluídas, branch enviada para revisão, PR bloqueado pela API. Permanecem pendentes a primeira execução autenticada Kaggle e os testes físicos Safari/iPhone. Isso não é declaração de integração remota validada ou autorização de publicação. Main/base/PRs anteriores foram preservados.
 
 Próximo passo para integração real: em ambiente separado e explicitamente autorizado, revisar SHA/receita/conta/recursos, instalar SDK fixado, configurar autenticação fora do app, autorizar um único job CPU privado, acompanhar a versão e validar outputs/relatório. Nenhuma dessas ações remotas foi iniciada nesta missão. Antes de publicação, validar Safari/iPhone e revisar consumo de memória no hardware.
