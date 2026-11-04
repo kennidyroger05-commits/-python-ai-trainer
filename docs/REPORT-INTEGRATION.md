@@ -63,10 +63,19 @@ Mobile automatizado usa Chromium com toque, sem teclado automático em escolhas,
 | `215c8cb` | Carregamento parcial, retornos, respostas imutáveis e regressões adversariais |
 | `02c1f76` | Classificação semântica das áreas, contraste observado e primeira revisão completa |
 | `4c72eaa` | Reset completo de módulos indisponíveis e prova da primeira passagem |
+| `8a67d26` | Segunda passagem completa, medições finais e documentação de lançamento |
 
 Os marcos foram enviados incrementalmente à branch. As duas passagens completas terminaram; as alterações posteriores ao commit funcional testado são somente documentação/evidências. A entrega utiliza PR rascunho contra `feature/kaggle-execution-quality`, ou comparação e corpo preparado se a API recusar sua criação. Nenhum merge ou publicação.
 
-O guia de uso está em [USER-JOURNEY.md](USER-JOURNEY.md); requisitos restantes para lançamento em [RELEASE-READINESS.md](RELEASE-READINESS.md). O link de PR ou comparação e o resultado da tentativa serão registrados na entrega.
+O guia de uso está em [USER-JOURNEY.md](USER-JOURNEY.md); requisitos restantes para lançamento em [RELEASE-READINESS.md](RELEASE-READINESS.md).
+
+## Entrega no GitHub
+
+A criação do PR foi tentada com `gh pr create --draft`, base `feature/kaggle-execution-quality` e head `feature/integrated-learning-experience`, após o envio da branch. A API retornou `Post "https://api.github.com/graphql": Forbidden`; nenhum PR foi criado por esta tentativa. O acesso Git de push funciona, mas o acesso necessário à API não está disponível neste ambiente. Não houve tentativa de contornar a política de rede ou solicitar segredos.
+
+[Comparação para criação posterior do PR](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/kaggle-execution-quality...feature/integrated-learning-experience?expand=1). O [corpo do PR](PR-INTEGRATION.md) está preparado e versionado. A base e main não foram modificados; não houve merge ou publicação.
+
+Próxima ação: revisar a branch e as evidências; antes de autorizar lançamento, validar os pontos de Safari/iPhone físico listados em RELEASE-READINESS. A primeira execução Kaggle autenticada permanece futura, separada e dependente de autorização por job.
 
 ## Decisões e limites de arquitetura
 
