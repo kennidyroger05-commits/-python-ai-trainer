@@ -1,3 +1,19 @@
+# Currículo e experiência V4
+
+A entrada atual é uma trilha de **14 unidades e 145 missões**. `curriculum/engine.js` valida a matriz por IDs, calcula próxima atividade e preserva a migração. `curriculum/view.js` renderiza home/unidades e recomenda preparação dos quatro projetos e 14 desafios. `style.css` e `curriculum/design.css` definem a identidade comum. Os módulos técnicos descritos abaixo continuam responsáveis pelo seu próprio estado.
+
+O carregamento da trilha depende apenas do catálogo e dos três JSONs curriculares. Laboratórios, projetos e runtime são opcionais e não atrasam o primeiro exercício. Controles indisponíveis durante carga são explicitamente identificados. Caminhos continuam relativos ao documento para GitHub Pages sob prefixo.
+
+`exercises.json` mantém os 40 registros originais intactos. Os 105 novos ficam em `curriculum/exercises.json`. `units.json` fornece a ordem recomendada, pré-requisitos e relações com projetos/runtime. A validação recusa referências ausentes, dependências posteriores/circulares e traduções incompletas. A orientação não cria bloqueio permanente à exploração.
+
+A chave de missões permanece a mesma. Campos aditivos: `curriculumVersion`, `legacyCompleted` e `missionHints`. Tentativas/dicas persistidas são usadas no cálculo do prêmio; recarregar não reinicia a primeira tentativa. Serialização canônica evita alterações de bytes sem mudança de estado. Reset de unidade usa IDs explícitos, sem transferir conclusões para atividades novas. Rever uma missão histórica concluída continua possível mesmo que sua nova preparação ainda não esteja feita.
+
+As recomendações de modo do editor alteram somente o modo inicial de um novo rascunho: blocos, trechos, linhas e livre. Não mudam worker, política de imports, isolamento, limites, testes ou armazenamento de código. Projetos continuam em `pythonAiLabV3`; execução em `pythonExecutableV1`; experimentos/executor mantêm os contratos anteriores.
+
+A barra inferior mantém geometria fixa durante foco/blur do editor; fica invisível enquanto a área de texto está focada. Isso evita deslocar o botão de execução entre pointerdown e pointerup. Consulte [matriz](CURRICULUM-MATRIX.md) e [sistema visual](UX-DESIGN-SYSTEM.md).
+
+---
+
 # Arquitetura — missões, projetos e execução
 
 Aplicação estática, servida por HTTP ou GitHub Pages. HTML, CSS e JavaScript sem build de frontend; o runtime opcional possui artefatos WASM redistribuídos. Os módulos pequenos usam uma exportação compatível com navegador e Node para compartilhar lógica entre produto e testes.

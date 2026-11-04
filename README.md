@@ -1,18 +1,18 @@
 # Python AI Trainer
 
-Uma plataforma para aprender Python aplicado a IA e inglês técnico: ler, montar, executar, testar, depurar e construir soluções guiadas. Reúne **40 missões**, quatro projetos, oito desafios de debugging, introdução a testes e 14 desafios com Python real. Funciona como site estático, com HTML, CSS e JavaScript, sem backend obrigatório, framework ou APIs de modelos.
+Uma plataforma para aprender Python aplicado a IA e inglês técnico: ler, montar, executar, testar, depurar e construir soluções guiadas. Reúne **145 missões em 14 unidades** (40 preservadas e 105 novas), quatro projetos, oito desafios de debugging, introdução a testes e 14 desafios com Python real. Funciona como site estático, com HTML, CSS e JavaScript, sem backend obrigatório, framework ou APIs de modelos.
 
-Desenvolvimento contínuo em `feature/kaggle-end-to-end`, baseado em `feature/integrated-learning-experience` (`d392beb`). Nenhuma alteração desta branch foi publicada ou integrada. `main` e os PRs anteriores permanecem preservados.
+Reconstrução pedagógica e visual em `feature/learning-experience-v4`, criada diretamente da main `57eaec8`. Esta branch não foi publicada nem integrada; o destino do PR de rascunho é main. A infraestrutura anterior foi preservada.
 
 A expansão atual acrescenta **14 desafios executáveis**, editor por blocos/trechos/linhas/código livre e **CPython real no navegador com Pyodide**, carregado sob demanda. O **AI Model Lab** mantém seu simulador. A área **AI experiments** acrescenta notebooks autocontidos de inferência/treinamento de um modelo linear de 87 parâmetros, executados e medidos em CPU local, e um **executor Kaggle separado, desativado por padrão**. O site não autentica contas, submete jobs ou inicia treino remoto. Relatórios importados têm origem declarada. Veja [runtime](docs/PYTHON-RUNTIME.md), [Kaggle](docs/KAGGLE-INTEGRATION.md), [Model Lab](docs/MODEL-LAB.md) e [segurança](docs/SECURITY.md).
 
 ## Uma experiência integrada
 
-O menu compacto **Áreas** conecta Aprender, Praticar, Projetos, Laboratório IA e Meu progresso. A home oferece uma próxima atividade e permite explorar as 40 missões livremente. Conexões por conceito levam da leitura ao programa real, do programa ao debugging e de projetos a experimentos. Pré-requisitos orientam sem bloquear exploração.
+A navegação móvel **Aprender · Praticar · Mais** conecta as cinco áreas: Aprender, Praticar, Projetos, Laboratório IA e Meu progresso. A home mostra a próxima unidade, seu progresso e uma atividade principal. A trilha reúne 145 missões em 14 unidades e permite explorar livremente. O tema claro é padrão; o escuro é opcional. Conexões por conceito levam da leitura ao programa real, do programa ao debugging e de projetos a experimentos. Pré-requisitos orientam sem bloquear exploração.
 
 O progresso mostra apresentado, praticado, acertado e sugestão de revisão, além de conclusão por atividade. XP é apresentado por origem; não mede domínio ou experiência profissional. O portfólio e o resumo Markdown distinguem simulação, código executado, testes reais aprovados e preparação Kaggle. Não existe conexão Kaggle autenticada disfarçada de simulação.
 
-Veja o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório da integração anterior](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
+Veja a [matriz das 14 unidades](docs/CURRICULUM-MATRIX.md), a [reconstrução pedagógica](docs/PEDAGOGICAL-REDESIGN.md), o [sistema visual](docs/UX-DESIGN-SYSTEM.md), os [testes mobile](docs/MOBILE-TEST-REPORT.md), a [entrega V4](docs/REDESIGN-FINAL-REPORT.md) e o [guia da jornada](docs/USER-JOURNEY.md), a [auditoria de integração](docs/INTEGRATION-AUDIT.md), a [prontidão para lançamento](docs/RELEASE-READINESS.md) e o [relatório da integração anterior](docs/REPORT-INTEGRATION.md). A branch é para revisão; Safari/iPhone físico ainda precisa de validação antes de declarar publicação pronta.
 
 ## Projetos guiados
 
@@ -29,6 +29,7 @@ O Lab mantém rascunho, dicas, respostas, etapa e fluxo ao recarregar. É possí
 
 ## Recursos
 
+- 145 missões graduais: valores, listas, condições, funções, texto, laços, dicionários/JSON, erros/testes, arquivos, APIs, ferramentas/agentes, avaliação, treinamento e integração.
 - As seis modalidades das missões, três idiomas (Português, Misto padrão e English), glossário, revisão e simulações da V2.
 - Workspace acumulado: respostas incorretas não alteram o artefato; decisões corretas atualizam a construção. Testes didáticos comparam esperado e obtido usando funções cadastradas.
 - Oito casos novos de debugging: chave interna, conversão de tipo, retorno ausente, limite invertido, fallback inalcançável, JSON malformado, coleção vazia e denominador da métrica.
@@ -48,7 +49,7 @@ Abra `http://localhost:8000`. O primeiro carregamento precisa de HTTP para obter
 
 ## Persistência e compatibilidade
 
-As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Desafios executáveis usam `pythonExecutableV1`; contratos do planner, `pythonModelLabV1`; percursos de experimentos, `pythonExperimentLearningV1`. O percurso registra etapas consultadas, sem XP ou alegação de treino concluído. Os novos dados não substituem nem recalculam XP antigo. Código livre e saídas não são persistidos automaticamente. Idioma e familiaridade continuam nas chaves anteriores. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
+As missões mantêm `pythonAiTrainerV2`, com migração existente da chave V1. A migração curricular acrescenta `curriculumVersion`, IDs históricos e dicas por missão, preservando XP e conclusões anteriores. Novas missões começam não concluídas. Tentativas e dicas continuam contando após reload; não é possível recuperar o prêmio de primeira tentativa recarregando. Projetos, desafios, tutorial, evidências e seu XP ficam separados em `pythonAiLabV3`. Desafios executáveis usam `pythonExecutableV1`; contratos do planner, `pythonModelLabV1`; percursos de experimentos, `pythonExperimentLearningV1`. O percurso registra etapas consultadas, sem XP ou alegação de treino concluído. Os novos dados não substituem nem recalculam XP antigo. Código livre e saídas não são persistidos automaticamente. Idioma e familiaridade continuam nas chaves anteriores. Tema e unidade usam `trainer-theme` e `trainer-unit-v4`. A V3 importa somente evidências verificáveis do histórico, sem inventar erros ou tentativas ausentes.
 
 Registros danificados são normalizados e uma cópia local `.recovery` é preservada antes da substituição. O reset geral confirmado remove também os dados e cópias de recuperação deste app, preservando chaves de outros aplicativos. Se o armazenamento estiver bloqueado ou sem quota, a interface avisa que a sessão pode não ser salva. Downloads já salvos pelo usuário não são removidos.
 
@@ -106,6 +107,9 @@ Playwright não é dependência da aplicação publicada. `CHROMIUM_PATH` pode s
 
 ## Estrutura
 
+- `curriculum/engine.js`, `view.js`, `design.css`: matriz de pré-requisitos, trilha, preparação de projetos e identidade visual.
+- `curriculum/exercises.json`, `glossary.json`, `units.json`: 105 novas missões, termos e ordem estável de 145 IDs.
+- `scripts/build-curriculum.py`: fonte autoral dos novos registros; gerar não substitui a revisão das alternativas.
 - `app.js`, `game.js`, `core/`: missões, respostas, XP, persistência, revisão e sessões V2.
 - `language.js`, `glossary-v2.json`, `exercises.json`, `labs.*`: conteúdo e laboratórios preservados da V2.
 - `projects/engine.js`: estado, validação, navegação, XP, evidências e retomada das atividades.
@@ -126,9 +130,9 @@ Consulte a [arquitetura](docs/ARCHITECTURE.md), a [trilha de aprendizagem](docs/
 
 ## Publicação e limites
 
-GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta integração Kaggle deve abrir PR de rascunho contra `feature/integrated-learning-experience`, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
+GitHub Pages continua configurado para `main`. Nenhuma configuração administrativa deve ser alterada para testar estas branches. Merge e publicação dependem de aprovação explícita; esta reconstrução deve abrir PR de rascunho contra main, preservando PRs anteriores. Recursos são relativos ao documento; o teste `subdirectory-browser.cjs` verifica hospedagem sob prefixo, inclusive WASM e notebooks.
 
-As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Trinta ou quarenta respostas certas não demonstram competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
+As áreas de missões e projetos usam escolhas, correções e funções previamente cadastradas. A área executável usa Python real, com subconjunto de bibliotecas e limites de tempo/saída. Fluxos anteriores, APIs, custos e o projeto guiado de treinamento permanecem simulados. As novas receitas executam um modelo linear real em CPU, com origem identificada. Concluir o currículo não demonstra competência profissional completa. O portfólio é um registro local de aprendizagem, não certificado de experiência.
 
 Chromium com emulação de toque não equivale a iPhone real. Safari/WebKit e hardware Apple ainda precisam de validação. Recursos JavaScript modernos, como `structuredClone`, exigem Safari moderno. Antes de publicar: validar no Safari/iPhone real e revisar o consumo de memória do WASM. Integrações de voz, professor opcional, APIs externas de modelos e backend hospedado permanecem fora desta missão.
 
@@ -147,4 +151,4 @@ O workspace do executor é privado e deve ficar fora de qualquer diretório serv
 
 ## Kaggle End-to-End preparado
 
-Desenvolvimento em `feature/kaggle-end-to-end`, base `feature/integrated-learning-experience` (`d392beb`). O Laboratório IA exporta pacote único para o executor separado; a CLI exige autorização do notebook/configuração/conta exatos, reconcilia versões após envio incerto e gera relatórios importáveis com origem declarada. Nenhum job remoto foi executado. Veja [primeiro smoke CPU](docs/KAGGLE-FIRST-RUN.md) e [auditoria/limites](docs/KAGGLE-END-TO-END-AUDIT.md).
+A infraestrutura Kaggle anterior foi preservada. O Laboratório IA exporta pacote único para o executor separado; a CLI exige autorização do notebook/configuração/conta exatos, reconcilia versões após envio incerto e gera relatórios importáveis com origem declarada. Nenhum job remoto foi executado. Veja [primeiro smoke CPU](docs/KAGGLE-FIRST-RUN.md) e [auditoria/limites](docs/KAGGLE-END-TO-END-AUDIT.md).

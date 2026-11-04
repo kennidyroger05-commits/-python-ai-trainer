@@ -1,3 +1,19 @@
+# Trilha atual — 14 unidades
+
+O percurso principal agora contém **145 missões: 40 preservadas e 105 novas**, além dos 14 desafios executáveis e quatro projetos. A [matriz curricular](CURRICULUM-MATRIX.md) é a referência de unidades, IDs e dependências. A sequência histórica descrita abaixo permanece como biblioteca de revisão; deixou de ser a ordem inicial recomendada.
+
+O aluno reconhece um valor antes da primeira atribuição; conhece a lista antes de acessar índices; lê condições antes de montar roteamento; distingue parâmetros, argumentos e retorno antes de compor funções. Texto, laços e dicionários precedem parsing de JSON e contratos de API. Erros, testes e casos de borda são praticados antes dos integradores. Compreensões, geradores, desempacotamento, lambda e key são apresentados antes dos códigos dos projetos que os utilizam.
+
+Cada unidade alterna reconhecimento, leitura/previsão, montagem/completar, investigação/reparo e aplicação. Nem todas as modalidades precisam aparecer em cada conceito; repetir mecanicamente a mesma pergunta não é a metodologia. O editor real avança de blocos para trechos, linhas e livre de acordo com a unidade. Pré-requisitos orientam e oferecem retorno ao primeiro fundamento pendente; não impedem explorar outras áreas.
+
+A unidade 14 oferece quatro mini-integrações e ligação aos quatro projetos. Cada projeto mostra objetivo, conhecimentos necessários, preparação, etapas e resultado. Ao concluir as 145 missões, a próxima atividade leva aos projetos. XP não é domínio profissional; projetos didáticos e simulações mantêm sua identificação.
+
+A revisão usa dificuldades registradas. Dicas são opcionais, com dois níveis, e seus efeitos no prêmio persistem após reload. Misto continua padrão: enunciados acessíveis em português e vocabulário técnico traduzido.
+
+---
+
+## Histórico pedagógico preservado
+
 # Caminho pedagógico
 
 A V2 usa uma progressão em espiral: conserva a ordem e os IDs das 15 missões da V1.5 e acrescenta preparação e desafios. Os módulos organizam assuntos e são revisitados; não são oito blocos isolados a serem executados sem retorno.

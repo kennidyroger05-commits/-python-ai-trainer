@@ -1,3 +1,16 @@
+# Adicionar conteúdo ao currículo atual
+
+1. Escreva um registro autoral em `scripts/build-curriculum.py`, com ID `v4-...` inédito, conceito principal, contexto realista de IA e duas alternativas plausíveis. Não reutilize um ID antigo para outro conteúdo.
+2. Forneça PT/English e termo técnico traduzido; a geração monta Misto sem alterar resposta. Cadastre definição curta antes da primeira tentativa, duas dicas graduais, explicação e aplicação. O glossário compartilhado conserva a primeira definição; cada exercício pode contextualizar.
+3. Coloque o ID na unidade e ordem corretas em `curriculum/units.json`, com `requires` explícitos. Uma novidade relevante por missão; conhecimentos necessários devem estar antes na matriz. Ajuste `projectUnits`/`runtimeRequires` somente com justificativa pedagógica.
+4. Execute `python3 scripts/build-curriculum.py`. Revise o diff dos dados gerados. O arquivo original `exercises.json` é preservado; o novo catálogo é aditivo.
+5. Execute `node tests/curriculum-core.cjs` e `python3 tests/curriculum-python.py`. Verifique resposta correta e todas as incorretas em CPython, AST, referências e traduções. Acrescente preparação explícita se um projeto/executável usar construção ainda não ensinada.
+6. Execute os testes de interface V4 e a regressão completa antes de entregar. Capturas reais ajudam revisar leitura e hierarquia; não substituem comportamento nem Safari físico.
+
+As modalidades e contratos técnicos abaixo continuam válidos. Missões estáticas de montagem aceitam soluções cadastradas e verificadas, sem interpretar Python no navegador. Nos desafios executáveis, soluções equivalentes são avaliadas pelo comportamento real nos casos de teste; passar os casos limitados não prova ausência de todos os bugs.
+
+---
+
 # Como cadastrar conteúdo
 
 1. Use um ID estável, título próprio e código que resolva um problema concreto de IA.

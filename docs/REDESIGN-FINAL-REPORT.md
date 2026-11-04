@@ -17,3 +17,9 @@ A revisão também reproduziu trilha invisível enquanto labs.json estava penden
 A definição compartilhada de `in` e `assert` estava sendo sobrescrita por um exemplo posterior mais específico. O glossário agora conserva a definição da primeira apresentação; cada exercício mantém sua explicação contextual. A conclusão de todas as missões também passou a orientar para os quatro projetos, em vez de sugerir outra vez a primeira missão.
 
 Os testes direcionados atuais passaram: 25 suítes locais, 145 missões/14 unidades pela interface, 40 originais em três larguras, projetos com 70 etapas totais nas três larguras e 10 cenários novos de migração/carregamento/XP/contraste/acessibilidade. A tentativa parcial não será contada como passagem completa. Log preservado em `.quality-results/v4-attempt1-before-fixes.log`.
+
+## Repetição da primeira passagem — defeito de toque
+
+A repetição avançou por migrações, avaliação e testes do runtime isolado, mas encontrou um defeito real no editor redesenhado: ao sair do textarea, a barra de navegação mudava de `static` para `fixed`. O botão de validar mudava 78 px entre pointerdown e pointerup; o toque terminava em outro elemento e mantinha o resultado antigo. Isso não era uma rejeição do Python nem foi corrigido com espera artificial no teste.
+
+A barra conserva a geometria e apenas fica invisível durante o foco de edição. O teste de todos os desafios agora exige que pointerdown e pointerup atinjam Validar e que o botão permaneça no lugar, além de verificar resultados reais certos/errados. A interpolação de cor dos botões também foi removida para impedir contraste intermediário baixo ao trocar tema. O log da tentativa interrompida permanece separado; ela não conta como passagem aprovada.
