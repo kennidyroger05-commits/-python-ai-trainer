@@ -73,7 +73,9 @@ Logs de reprodução preservados em `.quality-results/`: `adversarial-expanded-b
 
 ## Segunda passagem completa
 
-Em execução nesta retomada: `node scripts/test.cjs --browser`, incluindo as 19 suítes locais e 14 de navegador. O resultado final, horário e hash do log serão registrados em `quality-pass2.json` após o encerramento real do processo.
+Em 2026-11-04 às 05:02:02 UTC, `node scripts/test.cjs --browser` terminou com **33 suítes aprovadas e zero reprovadas**: 19 locais e 14 de navegador. Os novos testes Python somam 54 casos nomeados (8 notebooks + 27 executor + 19 segurança), todos aprovados, além das verificações anteriores e sete cenários adversariais novos de UI. Os dois notebooks foram novamente executados completos em CPU.
+
+O sumário, lista de suítes, versões e hash do log ficam em [quality-pass2.json](quality-pass2.json); log integral no workspace em `.quality-results/pass2.log`. O código funcional testado corresponde a `d2e1358`; durante a suíte foi enviado apenas o commit de documentação `057a9a1`. Não houve mudança funcional após esta passagem. As regressões das 40 missões, 70 etapas, 14 soluções/28 reparos incorretos e novos experimentos passaram nas larguras documentadas. Não restou suíte reprovada; os limites não testados abaixo permanecem explícitos.
 
 ## Não testado ou deliberadamente desativado
 

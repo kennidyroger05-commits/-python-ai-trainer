@@ -6,8 +6,8 @@ AI experiments oferece dois percursos de dez etapas em Português/Misto/English,
 
 ## Validação
 
-- Primeira passagem completa: 31 suítes aprovadas; segunda passagem final em verificação.
-- Dois notebooks completos em CPU; 54 casos Python de notebooks/executor/segurança e sete novos cenários adversariais de navegador aprovados nos testes direcionados.
+- Duas passagens completas: primeira com 31 suítes e segunda com 33; nenhuma suíte reprovada no encerramento.
+- Dois notebooks completos em CPU; 54 casos Python de notebooks/executor/segurança e sete novos cenários adversariais de navegador aprovados na segunda passagem completa.
 - Chromium com toque em 320/375/390 px; migrações, progresso/XP, desafios certos/errados, interrupção, memória contida, falhas de SDK injetadas, artefatos/paths e exportação/importação.
 - Fontes/capacidades oficiais Kaggle pesquisadas; nenhuma autenticação, conta, GPU ou execução remota usada. WebKit/iPhone físico não testados.
 

@@ -63,7 +63,7 @@ O carregamento V3 não reescreve o histórico de missões em um formato novo. V1
 
 O botão de teste usa funções JavaScript cadastradas e entradas conhecidas. Os resultados são confrontados com soluções CPython em desenvolvimento. Etapas que exigem testes verificam sucesso e assinatura da configuração, evitando reaproveitar um resultado de um rascunho diferente. JSON é comparado por estrutura, sem depender da ordem de chaves.
 
-O workspace mostra a construção atual. Os fluxos são rotulados como referência da solução: não fingem interpretar o código do aluno. Cada fluxo guarda snapshots de entrada/saída e uma transformação explicada, inclusive falhas. APIs e treinamento nunca fazem chamadas ou executam ajustes reais de pesos.
+O workspace mostra a construção atual. Os fluxos são rotulados como referência da solução: não fingem interpretar o código do aluno. Cada fluxo guarda snapshots de entrada/saída e uma transformação explicada, inclusive falhas. Nesses projetos guiados, APIs e treinamento são simulados e não executam chamadas ou ajustes reais de pesos.
 
 ## Competências e revisão
 

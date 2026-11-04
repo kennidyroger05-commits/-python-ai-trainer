@@ -18,7 +18,7 @@ As alterações locais válidas do executor foram revalidadas: 16 casos adversar
 | AI experiments | Duas receitas com dez etapas cada, parâmetros por toque, inspeção do código, glossário, revisão e prática Python vinculada, Português/Misto/English |
 | Arquivos/exportações | Job JSON, notebook executável, metadados Kaggle e relatório Markdown; importação local de relatório com origem declarada |
 | Contrato de job | Esquema fechado v2 equivalente em JS/Python, SHA do spec, modelo/dataset/ambiente/recursos/configuração/proveniência |
-| Executor separado | CLI Python POSIX com SDK opcional, disabled por padrão, autorização por dono/SHA e permissão adicional de execução; nenhum serviço HTTP implantado |
+| Executor separado | CLI Python POSIX com SDK opcional, desativado por padrão, autorização por dono/SHA e permissão adicional de execução; nenhum serviço HTTP implantado |
 | Ciclo de vida | Preparação, save-only, pedido de execução, versão/status, logs estruturados, coleta/validação e relatório; lock/ledger/fence, orçamento de consultas/backoff |
 | Segurança | Workspace privado externo ao frontend, sem tokens públicos; sem shell de usuário; fontes fixas; limites de processo; schemas/tamanhos/paths/hashes/replay numérico; estado corrompido bloqueia novos envios |
 
@@ -54,9 +54,9 @@ A matriz de operações, fontes documentais, autenticação e testes fica em [KA
 ## Testes e duas passagens
 
 1. **Funcionalidade/integração:** suíte completa terminou com 31 suítes aprovadas e zero reprovadas (18 locais, 13 navegador). Sumário e hash do log: [quality-pass1.json](quality-pass1.json).
-2. **Segurança/casos extremos/regressão:** segunda revisão encontrou defeitos adicionais, criou casos que falhavam antes das correções e reexecutou os testes direcionados. A segunda suíte completa está em execução; seu resultado será registrado após conclusão real em `quality-pass2.json`.
+2. **Segurança/casos extremos/regressão:** segunda revisão encontrou defeitos adicionais, criou casos que falhavam antes das correções e reexecutou os testes direcionados. A segunda suíte completa terminou às 05:02:02 UTC com **33 suítes aprovadas e zero reprovadas** (19 locais, 14 navegador). Sumário, versões e hash: [quality-pass2.json](quality-pass2.json).
 
-Os testes novos de notebooks/executor/segurança somam **54 casos Python nomeados** (8 + 27 + 19); todos passaram nos testes direcionados desta retomada. Além deles, sete novos cenários adversariais de navegador passaram. Esses números não incluem todas as asserções das suítes anteriores e não representam cobertura integral do produto.
+Os testes novos de notebooks/executor/segurança somam **54 casos Python nomeados** (8 + 27 + 19); todos passaram nos testes direcionados e na segunda passagem completa. Além deles, sete novos cenários adversariais de navegador passaram. Esses números não incluem todas as asserções das suítes anteriores e não representam cobertura integral do produto. O código funcional testado foi `d2e1358`; as alterações posteriores são documentação/evidência.
 
 A regressão cobre migrações V1/V1.5/V2/V3, persistência danificada/indisponível, XP/dicas/reinício/reset, navegação/tradução, desafios certos/errados, isolamento por caso, loop infinito com watchdog, alocação contida, saída excessiva, cancelamento durante execução/bootstrap e pedidos concorrentes. Contratos/executor incluem credencial ausente/inválida simulada, timeout/rede/429, versão inválida, envio duplicado/incerto, artefato ausente/corrompido, symlink/traversal e logs com canários.
 
@@ -96,12 +96,13 @@ Os logs de reprodução com falhas foram preservados no workspace; não são tra
 | `cd58196` | Recuperação dos ajustes adversariais preservados |
 | `f7a5a7f` | Workspace privado externo, receita de relatório e XP acessível |
 | `d2e1358` | Revalidação do cache e recuperação de intenção do ledger |
+| `057a9a1` | Capacidades oficiais, matriz de auditoria, arquitetura e relatório |
 
 Os commits de documentação/evidência posteriores constam no histórico da mesma branch. Componentes principais: `runtime/client.js`, `frame.js`, `worker.js`, `memory.js`, manifesto/vendor; `executor/`; `experiments/`; novas suítes em `tests/`; README e documentos de runtime, Kaggle, modelos, segurança, arquitetura, trilha e conteúdo.
 
 ## Entrega e próximo passo
 
-O PR deve ser **rascunho** contra `feature/python-runtime-kaggle-lab`. Nenhum merge ou publicação é autorizado por esta entrega. A criação será tentada após a verificação final; o corpo preparado fica em `PR-KAGGLE-EXECUTION.md`.
+O PR deve ser **rascunho** contra `feature/python-runtime-kaggle-lab`. Nenhum merge ou publicação é autorizado por esta entrega. O corpo preparado fica em [PR-KAGGLE-EXECUTION.md](PR-KAGGLE-EXECUTION.md); o resultado da tentativa de criação será registrado antes da entrega.
 
 [Comparação da branch](https://github.com/kennidyroger05-commits/-python-ai-trainer/compare/feature/python-runtime-kaggle-lab...feature/kaggle-execution-quality?expand=1).
 
