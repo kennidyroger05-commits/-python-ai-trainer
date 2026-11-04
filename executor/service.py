@@ -32,8 +32,8 @@ class Executor:
             if not isinstance(value['next_check_after'],(int,float)) or not 0<=value['next_check_after']<1e12:raise ValueError()
             if not isinstance(value['events'],list) or len(value['events'])>200:raise ValueError()
             for event in value['events']:
-                if type(event) is not dict or event.get('event') not in ['prepared','submit_requested','submitted','saved_only','submission_uncertain','artifacts_validated']:raise ValueError()
-                allowed={'prepared':{'event'},'submit_requested':{'event','run'},'submitted':{'event','version'},'saved_only':{'event','version'},'submission_uncertain':{'event'},'artifacts_validated':{'event'}}[event['event']]
+                if type(event) is not dict or event.get('event') not in ['prepared','submit_requested','submitted','saved_only','submission_uncertain','artifacts_validated','reconciled']:raise ValueError()
+                allowed={'prepared':{'event'},'submit_requested':{'event','run'},'submitted':{'event','version'},'saved_only':{'event','version'},'submission_uncertain':{'event'},'artifacts_validated':{'event'},'reconciled':{'event','version'}}[event['event']]
                 if set(event)!=allowed or 'run' in event and type(event['run']) is not bool or 'version' in event and (type(event['version']) is not int or event['version']<1):raise ValueError()
             intent=any(e['event']=='submit_requested' and e['run'] is True for e in value['events'])
             if 'run_requested' not in value:value['run_requested']=intent  # additive recovery from durable observed history

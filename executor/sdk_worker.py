@@ -37,6 +37,14 @@ def invoke(api,operation,payload):
         return {'remote_ref':ref,'version':version}
     ref=payload.get('version_ref')
     if not isinstance(ref,str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]{2,29}/[a-z0-9][a-z0-9-]{2,79}/[1-9][0-9]{0,8}',ref):raise ExecutorError('INVALID_REMOTE_REF')
+    if operation=='inspect':
+        import tempfile
+        from executor import files
+        with tempfile.TemporaryDirectory(prefix='pat-pull-') as folder:
+            root=Path(folder);files.atomic(root,'remote.ipynb',{})
+            api.kernels_pull(ref,str(root/'remote.ipynb'),metadata=True,quiet=True)
+            # Fixed pre-created file path prevents SDK slug-based file naming/traversal.
+            return {'notebook':files.read(root,'remote.ipynb',262144),'metadata':files.read(root,'kernel-metadata.json',16384)}
     if operation=='status':
         response=api.kernels_status(ref);status=getattr(response,'status',None);name=getattr(status,'name',status)
         if name not in ['QUEUED','RUNNING','COMPLETE','ERROR','CANCEL_REQUESTED','CANCEL_ACKNOWLEDGED','NEW_SCRIPT']:raise ExecutorError('UNEXPECTED_RESPONSE')

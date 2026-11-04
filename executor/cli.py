@@ -7,27 +7,31 @@ from pathlib import Path
 from .contracts import validate,fingerprint
 from .errors import ExecutorError
 from .transport import Policy
-from .service import Executor
+from .workflow import Workflow
+from .package import inspect as inspect_package, execution
 from .notebooks import build,metadata
 from .local import execute
 from . import files
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description='Offline-first Python AI Trainer executor. Remote actions require separate authorization.')
-    parser.add_argument('operation',choices=['validate','prepare','local','submit','status','follow','logs','collect','report','stop-following'])
+    parser.add_argument('operation',choices=['validate','prepare','local','submit','status','follow','logs','collect','report','stop-following','authorize','reconcile'])
     parser.add_argument('--job',required=True);parser.add_argument('--workspace',help='Private operator directory outside the frontend webroot (required except for validate)')
     parser.add_argument('--allow-network',action='store_true',help='Explicit operator authorization for this remote operation')
     parser.add_argument('--run',action='store_true',help='Also authorize execution on submit; without it only save a version')
-    parser.add_argument('--owner');parser.add_argument('--approve',help='SHA-256 printed by validate; binds permission to this exact spec')
+    parser.add_argument('--owner');parser.add_argument('--approve',help='Execution SHA-256 from validate --owner ... [--run]; binds exact notebook, spec, account and operation')
+    parser.add_argument('--remote-version',type=int,help='Explicit observed version for read-only reconciliation')
     parser.add_argument('--max-checks',type=int,default=10)
     args=parser.parse_args(argv)
     try:
-        path=Path(args.job).absolute();job=files.read(path.parent,path.name,16384);validate(job)
-        if args.operation=='validate':value={'valid':True,'spec_sha256':fingerprint(job),'network_used':False}
+        path=Path(args.job).absolute();job=files.read(path.parent,path.name,262144)
+        if isinstance(job,dict) and job.get('format')=='python-ai-trainer-package':job=inspect_package(job)
+        validate(job)
+        if args.operation=='validate':value={'valid':True,'spec_sha256':fingerprint(job),'network_used':False,'execution_sha256':fingerprint(execution(job,args.owner,args.run)) if args.owner else None}
         else:
             if not args.workspace:raise ExecutorError('WORKSPACE_REQUIRED')
             policy=Policy(enabled=args.allow_network,allow_run=args.run,owner=args.owner,approved_sha256=args.approve)
-            e=Executor(args.workspace,policy=policy)
+            e=Workflow(args.workspace,policy=policy)
             if args.operation=='prepare':
                 state=e.prepare(job);root=e.directory(job['id'])
                 with files.lock(root):
@@ -37,6 +41,8 @@ def main(argv=None):
                 e.prepare(job);root=e.directory(job['id'])
                 with files.lock(root),tempfile.TemporaryDirectory(prefix='local-',dir=root) as output:
                     value=execute(job,output);files.atomic(root,'local-report.json',value)
+            elif args.operation=='authorize':value=e.approve(job)
+            elif args.operation=='reconcile':value=e.reconcile(job,args.remote_version)
             elif args.operation=='submit':value=e.submit(job,run=args.run)
             elif args.operation=='status':value=e.status(job)
             elif args.operation=='logs':value=e.logs(job)
