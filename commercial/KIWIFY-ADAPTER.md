@@ -1,0 +1,7 @@
+# Adaptador Kiwify — isolado, sem endpoint ativo
+Fontes consultadas em 25/11/2026: https://docs.kiwify.com.br/api-reference/webhooks/receiving e https://docs.kiwify.com.br/api-reference/sales/single.
+O contrato de venda usa HMAC-SHA1 no corpo bruto e signature na query. O evento assinado é apenas um gatilho para consultar a venda autenticada; o estado atual prevalece sobre notificações antigas. O adaptador não escreve no banco, não libera acesso e não envia cobranças. O módulo Node é destinado a um componente servidor separado, não ao frontend.
+20 verificações executadas em Node local, com o vetor oficial e respostas de API simuladas. Blobs locais verificados: código 7210eaa692b384d8d07e16a4b20a034144dc4ecd; testes 99a6b67ab89f41bb7787f723e12534fb8cb8f3ba.
+Run: node commercial/kiwify-adapter-tests.mjs
+Antes de ativar: obter credenciais com escopo mínimo, produto autorizado de pagamento único, confirmar configuração real e token aleatório, conectar a função SQL com credencial restrita, testar idempotência em PostgreSQL, gerenciar fila/retry/reconciliação, validar política de dados e criar endpoint protegido com limite de corpo e sem log de assinatura ou dados pessoais. Revisar tipo e modalidade de compra; assinaturas e parcelado recorrente não são suportados. O checkout permanece desligado. O teste do painel Kiwify usa pedidos fictícios; nunca conceder acesso com base nele.
+Branch separada para não cancelar a regressão em andamento no PR #9.
