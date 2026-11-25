@@ -1,0 +1,4 @@
+# Portal comercial e coleta voluntária do piloto
+Página de apresentação com proposta, planos Free e Pro planejado, FAQ e acesso de testadores. Nenhum botão de compra, preço meramente proposto (R$ 79,90 por 12 meses). Não afirmar que há certificação ou compatibilidade com todos os aparelhos.
+A demonstração oferece exportação voluntária de contadores da sessão, sem identificação, e-mail, código, cookies de rastreamento ou envio automático. O teste real de eficácia e métricas de conversão centralizadas continuam pendentes. Coletar arquivos apenas com concordância do testador e sem dados pessoais adicionais.
+Browser test: Worker com assets reais do build, sem Supabase externo, 320/375/1280px, todas as 13 missões, execução Python real, relatório local e tentativa de acesso premium sem sessão. Ainda não substitui iPhone/Android físico ou homologação real de login.

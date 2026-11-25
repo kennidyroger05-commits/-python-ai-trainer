@@ -40,13 +40,16 @@ jobs:
           assert (d/'app/runtime/lessons.json').is_file()
           print('Free/premium asset layout verified')
           PY
-          rm -rf commercial/dist
       - name: Prepare browser without modifying repository
         run: |
           npm install --prefix /tmp/trainer-deps --no-package-lock --no-save playwright@1.51.1
           /tmp/trainer-deps/node_modules/.bin/playwright install --with-deps chromium
           CHROMIUM_PATH=$(NODE_PATH=/tmp/trainer-deps/node_modules node -p "require('playwright').chromium.executablePath()")
           sudo ln -sf "$CHROMIUM_PATH" /usr/bin/chromium
+      - name: Commercial browser journey (Worker and real local Python)
+        env:
+          NODE_PATH: /tmp/trainer-deps/node_modules
+        run: node commercial/browser-test.mjs
       - name: Full original regression
         env:
           NODE_PATH: /tmp/trainer-deps/node_modules
