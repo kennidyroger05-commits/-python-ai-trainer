@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {readFileSync} from 'node:fs';const require=createRequire(import.meta.url),{summarize}=require('./completion-core.js');
+const read=p=>JSON.parse(readFileSync(new URL('../'+p,import.meta.url),'utf8'));
+const plan=read('curriculum/units.json'),lessons=read('runtime/lessons.json'),projects=read('projects/catalog.json');
+const all=plan.units.flatMap(u=>u.missions),p={completed:all},r={lessons:Object.fromEntries(lessons.map(l=>[l.id,{completedAt:1,validatedTests:l.tests.length,codeHash:'a'.repeat(64),pythonVersion:'3.14.2'}]))},a={activities:Object.fromEntries(projects.map(x=>['project/'+x.id,{completedAt:1,steps:Object.fromEntries(x.steps.map(s=>[s.id,{passed:true}]))}]))};
+let n=0;const eq=(x,y)=>{assert.deepEqual(x,y);n++};
+eq(summarize(plan,lessons,projects,{}, {}, {}),{missionCount:0,units:0,runtimeCount:0,projectCount:0,ready:false,verified:false});
+eq(summarize(plan,lessons,projects,p,r,a),{missionCount:145,units:14,runtimeCount:14,projectCount:4,ready:true,verified:false});
+eq(summarize(plan,lessons,projects,{completed:[...all,all[0],'unknown']},r,a).missionCount,145);
+eq(summarize(plan,lessons,projects,{completed:all.slice(1)},r,a).ready,false);
+const bad=structuredClone(r);bad.lessons[lessons[0].id].codeHash='fake';
+eq(summarize(plan,lessons,projects,p,bad,a).runtimeCount,13);
+const incomplete=structuredClone(a);incomplete.activities['project/'+projects[0].id].steps[projects[0].steps[0].id].passed=false;
+eq(summarize(plan,lessons,projects,p,r,incomplete).projectCount,3);
+assert.throws(()=>summarize(plan,lessons.slice(1),projects,p,r,a));n++;
+console.log(n+' completion record checks passed; local evidence only.');
