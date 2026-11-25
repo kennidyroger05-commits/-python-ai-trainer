@@ -22,3 +22,6 @@ Não é release comercial. A main permanece intacta. Base V4 já mesclada no PR 
 
 ## Prática de autonomia
 Seis exercícios de código livre adicionais, acessíveis no app protegido pelo link Prática de autonomia. Reutilizam PythonExecutor e três casos por exercício; não contam como missões concluídas no currículo. Precisam de teste real de navegador, revisão pedagógica e avaliação com alunos. Não há alegação de ganho de aprendizagem.
+
+## Cadastro e recuperação opcionais (não ativados)
+Configuração AUTH_EMAIL_ENABLED=false por padrão. O código usa OTP de e-mail; antes de habilitar, configurar os templates de confirmação e recuperação com {{ .Token }}, confirmação de e-mail obrigatória, SMTP próprio, limites, proteção contra bots e política de senhas. O componente exige binding AUTH_LIMITER. Namespace 1001 é placeholder: confirmar unicidade no painel. A proteção de bots/CAPTCHA precisa de integração e teste real antes de signup público. Login atual dura até uma hora; reautenticação explícita é mantida, sem refresh silencioso. Não habilitar cadastro até validar a identidade e e-mails reais.

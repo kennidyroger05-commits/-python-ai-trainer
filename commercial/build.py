@@ -9,7 +9,7 @@ for name in ('index.html','app.js','style.css','favicon.svg','game.js','language
  shutil.copy2(ROOT/name,app/name)
 for name in ('core','curriculum','learning','model-lab','projects','runtime','experiments'):
  shutil.copytree(ROOT/name,app/name)
-for name in ('index.html','portal.css','portal.js','demo.html','demo.js'):
+for name in ('index.html','portal.css','portal.js','demo.html','demo.js','account.html','account.js'):
  shutil.copy2(BASE/'public'/name,OUT/name)
 # Preserve upstream learning files; patch only the deployment copy.
 p=app/'index.html'; html=p.read_text()

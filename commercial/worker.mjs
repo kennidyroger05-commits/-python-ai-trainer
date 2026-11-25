@@ -1,10 +1,11 @@
+import {authEmail} from './auth-email.mjs';
 // Staging only. No live checkout or public signup.
 const headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
 const json=(data,status=200,extra={})=>new Response(JSON.stringify(data),{status,headers:{...headers,'Content-Type':'application/json; charset=utf-8',...extra}});
 const redirect=(location,extra={})=>new Response(null,{status:303,headers:{...headers,Location:location,...extra}});
 const cookie=(token,maxAge)=>'__Host-trainer_session='+token+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age='+maxAge;
 const tokenOf=r=>r.headers.get('Cookie')?.match(/(?:^|;\s*)__Host-trainer_session=([A-Za-z0-9._-]+)/)?.[1];
-const publicPaths=new Set(['/','/index.html','/demo.html','/demo.js','/demo.json','/portal.css','/portal.js','/demo-exec.json',"/runtime/client.js","/runtime/manifest.json","/runtime/worker.js","/runtime/frame.js","/runtime/runner.py","/runtime/memory.js","/runtime/vendor/pyodide/pyodide.js","/runtime/vendor/pyodide/pyodide.asm.mjs","/runtime/vendor/pyodide/pyodide.asm.wasm","/runtime/vendor/pyodide/python_stdlib.zip","/runtime/vendor/pyodide/pyodide-lock.json"]);
+const publicPaths=new Set(['/','/index.html','/demo.html','/demo.js','/demo.json','/portal.css','/portal.js','/demo-exec.json','/account.html','/account.js',"/runtime/client.js","/runtime/manifest.json","/runtime/worker.js","/runtime/frame.js","/runtime/runner.py","/runtime/memory.js","/runtime/vendor/pyodide/pyodide.js","/runtime/vendor/pyodide/pyodide.asm.mjs","/runtime/vendor/pyodide/pyodide.asm.wasm","/runtime/vendor/pyodide/python_stdlib.zip","/runtime/vendor/pyodide/pyodide-lock.json"]);
 export function activeGrant(rows,now=Date.now()){return Array.isArray(rows)&&rows.some(x=>x.revoked_at===null&&Date.parse(x.expires_at)>now);}
 export function validSnapshot(data){return data&&typeof data==='object'&&!Array.isArray(data)&&Object.keys(data).length<=100&&Object.entries(data).every(([k,v])=>/^[A-Za-z0-9_.-]{1,120}$/.test(k)&&typeof v==='string');}
 async function boundedJSON(r,max=262144){
@@ -26,7 +27,7 @@ async function identity(env,r){
 async function asset(env,r,path){
  const u=new URL(r.url);u.pathname=path;u.search='';
  const res=await env.ASSETS.fetch(new Request(u,r));const h=new Headers(res.headers);for(const [k,v] of Object.entries(headers))h.set(k,v);
- if(path==='/index.html')h.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'self' about:; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
+ if(path==='/index.html'||path==='/account.html')h.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'self' about:; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
  return new Response(res.body,{status:res.status,headers:h});
 }
 export default {async fetch(r,env){
@@ -36,7 +37,9 @@ export default {async fetch(r,env){
  if(!['GET','HEAD','POST','PUT'].includes(r.method))return json({error:'Método não permitido'},405);
  if(!['GET','HEAD'].includes(r.method)&&r.headers.get('Origin')!==url.origin)return json({error:'Origem inválida'},403);
  if(publicPaths.has(p)&&['GET','HEAD'].includes(r.method))return asset(env,r,p==='/'?'/index.html':p);
+ const authResponse=await authEmail(r,env,{sup,boundedJSON,json});if(authResponse)return authResponse;
  if(p==='/api/login'&&r.method==='POST'){
+   if(env.AUTH_LIMITER){const rate=await env.AUTH_LIMITER.limit({key:r.headers.get('CF-Connecting-IP')||'unknown'});if(!rate.success)return json({error:'Muitas tentativas'},429);}
    const b=await boundedJSON(r,4096);if(typeof b.email!=='string'||typeof b.password!=='string'||b.email.length>254||b.password.length>256)return json({error:'Dados inválidos'},400);
    const a=await sup(env,'/auth/v1/token?grant_type=password',null,{method:'POST',body:JSON.stringify({email:b.email,password:b.password})});
    if(!a.ok)return json({error:'Não foi possível entrar'},401);const s=await a.json();
