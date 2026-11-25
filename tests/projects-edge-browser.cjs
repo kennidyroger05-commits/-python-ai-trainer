@@ -15,7 +15,7 @@ const catalog=[...require('../projects/catalog.json'),...require('../projects/de
  // A damaged Lab record does not erase valid mission history.
  {
   const p={version:2,current:1,completed:[missions[0].id],xp:10,attempts:{},awards:{[missions[0].id]:10},concepts:{},unlocked:['Fundamentos']};const {context,page,errors}=await launch({fn:p=>{localStorage.setItem('pythonAiTrainerV2',JSON.stringify(p));localStorage.setItem('pythonAiLabV3','{damaged');},args:p});
-  assert.equal(await page.locator('#xp').textContent(),'10 XP');assert.equal(await page.evaluate(()=>localStorage.getItem('pythonAiLabV3.recovery')),'{damaged');await V4.area(page,'projects');assert.equal(await page.locator('[data-activity]').count(),4);assert.deepEqual(errors,[]);await context.close();
+  assert.equal(await page.locator('#xp').textContent(),'10 XP');await page.waitForFunction(()=>document.querySelector('#bootStatus').hidden);assert.equal(await page.evaluate(()=>localStorage.getItem('pythonAiLabV3.recovery')),'{damaged');await V4.area(page,'projects');assert.equal(await page.locator('[data-activity]').count(),4);assert.deepEqual(errors,[]);await context.close();
  }
  // Corruption in one project is salvaged field by field; completed records are not globally discarded.
  {

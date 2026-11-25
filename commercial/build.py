@@ -11,6 +11,9 @@ for name in ('core','curriculum','learning','model-lab','projects','runtime','ex
  shutil.copytree(ROOT/name,app/name)
 for name in ('index.html','portal.css','portal.js','demo.html','demo.js','account.html','account.js'):
  shutil.copy2(BASE/'public'/name,OUT/name)
+admin=OUT/'admin';admin.mkdir()
+for name in ('index.html','admin.js'):
+ shutil.copy2(BASE/'admin'/name,admin/name)
 # Preserve upstream learning files; patch only the deployment copy.
 p=app/'index.html'; html=p.read_text()
 assert '</head>' in html and '</body>' in html

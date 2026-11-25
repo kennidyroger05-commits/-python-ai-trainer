@@ -1,3 +1,4 @@
+import {adminRoute} from './admin.mjs';
 import {authEmail} from './auth-email.mjs';
 // Staging only. No live checkout or public signup.
 const headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
@@ -27,7 +28,7 @@ async function identity(env,r){
 async function asset(env,r,path){
  const u=new URL(r.url);u.pathname=path;u.search='';
  const res=await env.ASSETS.fetch(new Request(u,r));const h=new Headers(res.headers);for(const [k,v] of Object.entries(headers))h.set(k,v);
- if(path==='/index.html'||path==='/account.html')h.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'self' about:; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
+ if(path==='/index.html'||path==='/account.html'||path==='/admin/index.html')h.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'self' about:; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
  return new Response(res.body,{status:res.status,headers:h});
 }
 export default {async fetch(r,env){
@@ -48,6 +49,7 @@ export default {async fetch(r,env){
  }
  if(p==='/api/logout'&&r.method==='POST'){const token=tokenOf(r);if(token){try{await sup(env,'/auth/v1/logout?scope=local',token,{method:'POST'});}catch{/* local cookie still cleared */}}return json({ok:true},200,{'Set-Cookie':cookie('',0)});}
  const who=await identity(env,r);if(!who)return p.startsWith('/api/')?json({error:'Entre novamente'},401):redirect('/');
+ const admin=await adminRoute(r,env,who,{sup,boundedJSON,json,asset});if(admin)return admin;
  if(p==='/api/progress'&&r.headers.get('X-Trainer-Account')!==who.id)return json({error:'Conta alterada. Entre novamente antes de salvar ou restaurar.'},409);
  const grants=await sup(env,'/rest/v1/trainer_entitlements?select=expires_at,revoked_at',who.token);
  if(!grants.ok)return json({error:'Permissões indisponíveis'},503);
