@@ -1,0 +1,40 @@
+name: Commercial payment and SQL checks
+on:
+  push:
+    branches: [feature/commercial-payment-adapter]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: disposable-test-only
+          POSTGRES_DB: trainer_test
+        options: >-
+          --health-cmd "pg_isready -U postgres -d trainer_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Kiwify signature and sale reconciliation
+        run: node commercial/kiwify-adapter-tests.mjs
+      - name: Disposable PostgreSQL rules (mock auth schema)
+        env:
+          CONTAINER_ID: ${{ job.services.postgres.id }}
+        run: |
+          docker cp commercial/schema.sql "$CONTAINER_ID":/tmp/schema.sql
+          docker cp commercial/payment-schema.sql "$CONTAINER_ID":/tmp/payment-schema.sql
+          docker cp commercial/test-payment-postgres.sql "$CONTAINER_ID":/tmp/test-payment-postgres.sql
+          docker exec "$CONTAINER_ID" psql -X -v ON_ERROR_STOP=1 -U postgres -d trainer_test -f /tmp/test-payment-postgres.sql
