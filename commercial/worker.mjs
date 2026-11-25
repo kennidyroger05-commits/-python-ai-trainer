@@ -2,9 +2,9 @@
 const headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
 const json=(data,status=200,extra={})=>new Response(JSON.stringify(data),{status,headers:{...headers,'Content-Type':'application/json; charset=utf-8',...extra}});
 const redirect=(location,extra={})=>new Response(null,{status:303,headers:{...headers,Location:location,...extra}});
-const cookie=(token,maxAge)=>'trainer_session='+token+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age='+maxAge;
-const tokenOf=r=>r.headers.get('Cookie')?.match(/(?:^|;\s*)trainer_session=([A-Za-z0-9._-]+)/)?.[1];
-const publicPaths=new Set(['/','/index.html','/demo.html','/demo.js','/demo.json','/portal.css','/portal.js']);
+const cookie=(token,maxAge)=>'__Host-trainer_session='+token+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age='+maxAge;
+const tokenOf=r=>r.headers.get('Cookie')?.match(/(?:^|;\s*)__Host-trainer_session=([A-Za-z0-9._-]+)/)?.[1];
+const publicPaths=new Set(['/','/index.html','/demo.html','/demo.js','/demo.json','/portal.css','/portal.js','/demo-exec.json',"/runtime/client.js","/runtime/manifest.json","/runtime/worker.js","/runtime/frame.js","/runtime/runner.py","/runtime/memory.js","/runtime/vendor/pyodide/pyodide.js","/runtime/vendor/pyodide/pyodide.asm.mjs","/runtime/vendor/pyodide/pyodide.asm.wasm","/runtime/vendor/pyodide/python_stdlib.zip","/runtime/vendor/pyodide/pyodide-lock.json"]);
 export function activeGrant(rows,now=Date.now()){return Array.isArray(rows)&&rows.some(x=>x.revoked_at===null&&Date.parse(x.expires_at)>now);}
 export function validSnapshot(data){return data&&typeof data==='object'&&!Array.isArray(data)&&Object.keys(data).length<=100&&Object.entries(data).every(([k,v])=>/^[A-Za-z0-9_.-]{1,120}$/.test(k)&&typeof v==='string');}
 async function boundedJSON(r,max=262144){
@@ -26,11 +26,13 @@ async function identity(env,r){
 async function asset(env,r,path){
  const u=new URL(r.url);u.pathname=path;u.search='';
  const res=await env.ASSETS.fetch(new Request(u,r));const h=new Headers(res.headers);for(const [k,v] of Object.entries(headers))h.set(k,v);
+ if(path==='/index.html')h.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'self' about:; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
  return new Response(res.body,{status:res.status,headers:h});
 }
 export default {async fetch(r,env){
  try{
  const url=new URL(r.url),p=url.pathname;
+ if(/%2f|%5c|%2e|%00/i.test(p)||p.includes('\\'))return json({error:'Caminho inválido'},400);
  if(!['GET','HEAD','POST','PUT'].includes(r.method))return json({error:'Método não permitido'},405);
  if(!['GET','HEAD'].includes(r.method)&&r.headers.get('Origin')!==url.origin)return json({error:'Origem inválida'},403);
  if(publicPaths.has(p)&&['GET','HEAD'].includes(r.method))return asset(env,r,p==='/'?'/index.html':p);
@@ -41,8 +43,9 @@ export default {async fetch(r,env){
    if(!s.user?.email_confirmed_at||!s.access_token)return json({error:'Confirme seu e-mail'},403);
    return json({ok:true},200,{'Set-Cookie':cookie(s.access_token,Math.min(3600,Number(s.expires_in)||3600))});
  }
- if(p==='/api/logout'&&r.method==='POST')return json({ok:true},200,{'Set-Cookie':cookie('',0)});
+ if(p==='/api/logout'&&r.method==='POST'){const token=tokenOf(r);if(token){try{await sup(env,'/auth/v1/logout?scope=local',token,{method:'POST'});}catch{/* local cookie still cleared */}}return json({ok:true},200,{'Set-Cookie':cookie('',0)});}
  const who=await identity(env,r);if(!who)return p.startsWith('/api/')?json({error:'Entre novamente'},401):redirect('/');
+ if(p==='/api/progress'&&r.headers.get('X-Trainer-Account')!==who.id)return json({error:'Conta alterada. Entre novamente antes de salvar ou restaurar.'},409);
  const grants=await sup(env,'/rest/v1/trainer_entitlements?select=expires_at,revoked_at',who.token);
  if(!grants.ok)return json({error:'Permissões indisponíveis'},503);
  const pro=activeGrant(await grants.json());

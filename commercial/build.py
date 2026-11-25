@@ -25,8 +25,17 @@ shutil.copy2(BASE/'cloud-panel.js',app/'cloud-panel.js')
 for name in ('writing.html','writing.js','writing.json'):
  shutil.copy2(BASE/name,app/name)
 p=app/'index.html'; p.write_text(p.read_text().replace('</main>','<section class="learning-card"><h2>Prática de autonomia (piloto)</h2><a href="writing.html">Seis desafios de código livre com testes reais</a></section></main>',1))
-new=json.loads((ROOT/'curriculum/exercises.json').read_text())
-demo=[{k:x[k] for k in ('id','title','prompt','code','options','correct','explanation','hints') if k in x} for x in new if x.get('unit')=='unit-01' and isinstance(x.get('correct'),int) and x.get('options')]
-assert len(demo)>=8
+# Build the exact first unit in curriculum order, including block assembly.
+plan=json.loads((ROOT/'curriculum/units.json').read_text())
+catalog={x['id']:x for name in ('exercises.json','curriculum/exercises.json') for x in json.loads((ROOT/name).read_text())}
+keys=('id','type','title','prompt','code','context','options','correct','blocks','answers','explanation','hints')
+demo=[{k:catalog[i][k] for k in keys if k in catalog[i]} for i in plan['units'][0]['missions']]
+assert len(demo)==13 and all(x.get('options') or x.get('blocks') for x in demo)
 (OUT/'demo.json').write_text(json.dumps(demo,ensure_ascii=False))
-print(f'Built staging: {len(demo)} demo questions; protected app separate.')
+# Only the runtime engine and ONE executable contract are public; the rest remains under /app.
+lessons=json.loads((ROOT/'runtime/lessons.json').read_text())
+lesson=next(x for x in lessons if x['id']=='exec-score')
+(OUT/'demo-exec.json').write_text(json.dumps(lesson,ensure_ascii=False))
+for name in ["client.js","manifest.json","worker.js","frame.js","runner.py","memory.js","vendor/pyodide/pyodide.js","vendor/pyodide/pyodide.asm.mjs","vendor/pyodide/pyodide.asm.wasm","vendor/pyodide/python_stdlib.zip","vendor/pyodide/pyodide-lock.json"]:
+ dest=OUT/'runtime'/name; dest.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(ROOT/'runtime'/name,dest)
+print(f'Built staging: {len(demo)} demo questions and one Python exercise; protected app separate.')

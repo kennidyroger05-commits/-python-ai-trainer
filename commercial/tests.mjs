@@ -10,4 +10,7 @@ assert.equal((await worker.fetch(new Request('https://test.example/app/index.htm
 assert.equal((await worker.fetch(new Request('https://test.example/api/progress'),env)).status,401);
 assert.equal((await worker.fetch(new Request('https://test.example/api/login',{method:'POST',headers:{Origin:'https://evil.example'}}),env)).status,403);
 assert.equal(await (await worker.fetch(new Request('https://test.example/demo.json'),env)).text(),'/demo.json');
-console.log('12 assertions passed; no live Supabase or payments tested.');
+assert.equal((await worker.fetch(new Request('https://test.example/app%2findex.html'),env)).status,400);
+assert.equal((await worker.fetch(new Request('https://test.example/runtime/lessons.json'),env)).status,303);
+assert.equal(await (await worker.fetch(new Request('https://test.example/runtime/client.js'),env)).text(),'/runtime/client.js');
+console.log('15 assertions passed; no live Supabase or payments tested.');

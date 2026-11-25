@@ -1,9 +1,9 @@
 # Preparação comercial — staging V1
 Não é release comercial. A main permanece intacta. Base V4 já mesclada no PR #8.
 ## Entregas
-- Portal e amostra pública independente, com perguntas de opção da primeira unidade; não equivale à unidade completa.
+- Portal e primeira unidade gratuita (13 missões e um desafio Python) isolada do conteúdo Pro.
 - Build em diretório separado, Worker com autorização server-side para /app/* e API; Supabase Auth de e-mail/senha, somente contas confirmadas, sessão curta HttpOnly.
-- RLS e concessão manual de acesso temporário/revogável para testadores; backup manual por conta e revisão otimista.
+- RLS e concessão manual de acesso temporário/revogável para testadores; backup por conta, salvamento automático opcional em sessão aberta e revisão otimista.
 - Não há compra real, webhook, cadastro público, renovação automática de sessão ou recuperação de senha.
 ## Rodar em ambiente isolado
 1. Criar NOVO projeto Supabase de staging (não usar base operacional). Aplicar schema.sql no SQL Editor. Desabilitar cadastro público e criar contas de teste confirmadas; conceder acesso de teste por UUID.
@@ -13,7 +13,7 @@ Não é release comercial. A main permanece intacta. Base V4 já mesclada no PR 
 5. Testar duas contas em dispositivos reais: usuário sem grant, ativo, expirado, revogado, sessão expirada, restauração, conflito de versões, isolamento de storage, acesso direto a JSON/WASM, consumo de memória e falhas de rede.
 ## Bloqueios de produção
 - O repositório é público e o conteúdo antigo pode ser obtido fora do Worker; privatizar distribuição premium futura após decisão do proprietário. Não prometer DRM.
-- Confirmar todos os acessos diretos a localStorage na V4 e referências de assets antes de aprovar o build. Backup manual não sincroniza abas em tempo real; testar restauração e conflitos.
+- Confirmar todos os acessos diretos a localStorage na V4 e referências de assets antes de aprovar o build. Backup não sincroniza abas em tempo real; testar restauração e conflitos.
 - Validar no Safari/iPhone e Android reais, teclado, downloads, 14 MB iniciais do runtime, rotação, conexão lenta. Revisar licenças e tamanho de arquivos Wrangler.
 - Avaliação pedagógica independente: pré/pós-teste com 10–20 iniciantes, tarefas sem alternativas (variáveis, função, JSON, tratamento de erro), medir autonomia; acrescentar desafios executáveis revisados antes de venda.
 - Kiwify: criar produto externo e checkout somente depois de teste real; verificar documentação de assinatura de webhook, payload e produto, validar eventos aprovados/reembolso/chargeback com autenticidade, idempotência e reconciliação. Nunca confiar em redirecionamento de sucesso. Até lá checkoutEnabled=false.
