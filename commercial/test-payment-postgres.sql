@@ -36,6 +36,8 @@ select pg_temp.check_eq(public.trainer_save_progress(0,'{"mission":"stale"}')::t
 select pg_temp.check_eq(public.trainer_save_progress(1,'{"mission":"two"}')::text,'2','A advances revision');
 do $$begin
  begin perform public.trainer_save_progress(2,'{"bad":12}');raise exception 'unsafe value accepted';exception when raise_exception then if sqlerrm<>'invalid snapshot' then raise;end if;end;
+ begin perform public.trainer_save_progress(2,'{"invalid key":"x"}');raise exception 'unsafe key accepted';exception when raise_exception then if sqlerrm<>'invalid snapshot' then raise;end if;end;
+ begin perform public.trainer_save_progress(null,'{}');raise exception 'null revision accepted';exception when raise_exception then if sqlerrm<>'invalid snapshot' then raise;end if;end;
  begin perform public.trainer_record_verified_order('fake','trainer-test','a@example.test','paid',now());raise exception 'client can grant access';exception when insufficient_privilege then null;end;
  begin insert into public.trainer_entitlements(user_id,source,expires_at) values(auth.uid(),'fake',now());raise exception 'client can insert grant';exception when insufficient_privilege then null;end;
 end$$;
