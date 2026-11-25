@@ -19,3 +19,6 @@ Não é release comercial. A main permanece intacta. Base V4 já mesclada no PR 
 - Kiwify: criar produto externo e checkout somente depois de teste real; verificar documentação de assinatura de webhook, payload e produto, validar eventos aprovados/reembolso/chargeback com autenticidade, idempotência e reconciliação. Nunca confiar em redirecionamento de sucesso. Até lá checkoutEnabled=false.
 - Implementar signup com confirmação, reset de senha, renovação de sessão, rate limits, retenção/eliminação de dados, logs sem PII, segurança independente e suporte; não liberar pagamento sem esses gates.
 - Referências: https://developers.cloudflare.com/workers/static-assets/binding/ ; https://supabase.com/docs/guides/auth ; https://ajuda.kiwify.com.br/pt-br/article/como-funcionam-os-webhooks-2ydtgl/
+
+## Prática de autonomia
+Seis exercícios de código livre adicionais, acessíveis no app protegido pelo link Prática de autonomia. Reutilizam PythonExecutor e três casos por exercício; não contam como missões concluídas no currículo. Precisam de teste real de navegador, revisão pedagógica e avaliação com alunos. Não há alegação de ganho de aprendizagem.
