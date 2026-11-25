@@ -1,0 +1,257 @@
+[
+  {
+    "id": "adjust-budget",
+    "title": "1 · Ajuste o orçamento de tokens",
+    "goal": "Implemente remaining(total, used). Retorne total menos used, inclusive quando não sobrar nada.",
+    "starter": "def remaining(total, used):\n    pass\n",
+    "hint": "A função recebe dois números; use return e subtração.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "remaining",
+        "args": [
+          100,
+          30
+        ],
+        "expected": 70,
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "remaining",
+        "args": [
+          0,
+          0
+        ],
+        "expected": 0,
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "remaining",
+        "args": [
+          500,
+          500
+        ],
+        "expected": 0,
+        "role": "validation"
+      }
+    ]
+  },
+  {
+    "id": "select-model",
+    "title": "2 · Escolha o modelo por confiança",
+    "goal": "Implemente choose(score). Retorne 'pro' se score for maior ou igual a 0.8; caso contrário, 'lite'.",
+    "starter": "def choose(score):\n    pass\n",
+    "hint": "Use if, >= e return. Não esqueça o caso exatamente 0.8.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "choose",
+        "args": [
+          0.8
+        ],
+        "expected": "pro",
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "choose",
+        "args": [
+          0.79
+        ],
+        "expected": "lite",
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "choose",
+        "args": [
+          1
+        ],
+        "expected": "pro",
+        "role": "validation"
+      }
+    ]
+  },
+  {
+    "id": "clean-text",
+    "title": "3 · Normalize uma entrada",
+    "goal": "Implemente clean(text). Remova espaços nas extremidades e converta para minúsculas.",
+    "starter": "def clean(text):\n    pass\n",
+    "hint": "Os métodos strip() e lower() podem ser encadeados.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "clean",
+        "args": [
+          "  PYTHON  "
+        ],
+        "expected": "python",
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "clean",
+        "args": [
+          ""
+        ],
+        "expected": "",
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "clean",
+        "args": [
+          " IA  Trainer "
+        ],
+        "expected": "ia  trainer",
+        "role": "validation"
+      }
+    ]
+  },
+  {
+    "id": "score-count",
+    "title": "4 · Conte avaliações aprovadas",
+    "goal": "Implemente count_pass(scores). Conte quantos números da lista são maiores ou iguais a 0.8. Lista vazia retorna zero.",
+    "starter": "def count_pass(scores):\n    pass\n",
+    "hint": "Use contador, for e condição. Não fixe a resposta de um exemplo.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "count_pass",
+        "args": [
+          [
+            0.5,
+            0.8,
+            0.95
+          ]
+        ],
+        "expected": 2,
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "count_pass",
+        "args": [
+          []
+        ],
+        "expected": 0,
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "count_pass",
+        "args": [
+          [
+            0.79,
+            0.1
+          ]
+        ],
+        "expected": 0,
+        "role": "validation"
+      }
+    ]
+  },
+  {
+    "id": "response-field",
+    "title": "5 · Leia uma resposta estruturada",
+    "goal": "Implemente answer(data). Retorne o valor da chave 'answer', ou 'sem resposta' se a chave estiver ausente. Uma string vazia é um valor presente.",
+    "starter": "def answer(data):\n    pass\n",
+    "hint": "O método get aceita um valor padrão.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "answer",
+        "args": [
+          {
+            "answer": "ok"
+          }
+        ],
+        "expected": "ok",
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "answer",
+        "args": [
+          {}
+        ],
+        "expected": "sem resposta",
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "answer",
+        "args": [
+          {
+            "answer": ""
+          }
+        ],
+        "expected": "",
+        "role": "validation"
+      }
+    ]
+  },
+  {
+    "id": "safe-average",
+    "title": "6 · Calcule a média com segurança",
+    "goal": "Implemente average(scores). Retorne a média dos números; lista vazia retorna 0.",
+    "starter": "def average(scores):\n    pass\n",
+    "hint": "Verifique se a lista está vazia antes de dividir.",
+    "tests": [
+      {
+        "id": "case-1",
+        "kind": "call",
+        "function": "average",
+        "args": [
+          [
+            2,
+            4,
+            6
+          ]
+        ],
+        "expected": 4,
+        "role": "demo"
+      },
+      {
+        "id": "case-2",
+        "kind": "call",
+        "function": "average",
+        "args": [
+          []
+        ],
+        "expected": 0,
+        "role": "validation"
+      },
+      {
+        "id": "case-3",
+        "kind": "call",
+        "function": "average",
+        "args": [
+          [
+            0,
+            1
+          ]
+        ],
+        "expected": 0.5,
+        "role": "validation"
+      }
+    ]
+  }
+]

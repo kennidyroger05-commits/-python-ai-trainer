@@ -1,0 +1,36 @@
+name: Admin isolated checks
+on:
+  push:
+    branches: [feature/commercial-readiness-v1]
+permissions:
+  contents: read
+jobs:
+  checks:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: disposable-test-only
+          POSTGRES_DB: trainer_test
+        options: >-
+          --health-cmd "pg_isready -U postgres -d trainer_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node commercial/admin-tests.mjs
+      - name: Admin SQL authorization checks
+        env:
+          CONTAINER_ID: ${{ job.services.postgres.id }}
+        run: |
+          for file in schema.sql admin-schema.sql test-admin-postgres.sql; do docker cp "commercial/$file" "$CONTAINER_ID:/tmp/$file"; done
+          docker exec "$CONTAINER_ID" psql -X -v ON_ERROR_STOP=1 -U postgres -d trainer_test -f /tmp/test-admin-postgres.sql

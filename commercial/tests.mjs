@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';import worker,{activeGrant,validSnapshot} from './worker.mjs';
+const future=new Date(Date.now()+60000).toISOString(),past=new Date(Date.now()-60000).toISOString();
+assert.equal(activeGrant([{expires_at:future,revoked_at:null}]),true);
+assert.equal(activeGrant([{expires_at:past,revoked_at:null}]),false);
+assert.equal(activeGrant([{expires_at:future,revoked_at:past}]),false);
+assert.equal(activeGrant([]),false);assert.equal(activeGrant(null),false);
+assert.equal(validSnapshot({'trainer-theme':'"light"'}),true);assert.equal(validSnapshot({a:5}),false);assert.equal(validSnapshot([]),false);
+const env={ASSETS:{fetch:async r=>new Response(new URL(r.url).pathname)}};
+assert.equal((await worker.fetch(new Request('https://test.example/app/index.html'),env)).status,303);
+assert.equal((await worker.fetch(new Request('https://test.example/api/progress'),env)).status,401);
+assert.equal((await worker.fetch(new Request('https://test.example/api/login',{method:'POST',headers:{Origin:'https://evil.example'}}),env)).status,403);
+assert.equal(await (await worker.fetch(new Request('https://test.example/demo.json'),env)).text(),'/demo.json');
+assert.equal((await worker.fetch(new Request('https://test.example/app%2findex.html'),env)).status,400);
+assert.equal((await worker.fetch(new Request('https://test.example/runtime/lessons.json'),env)).status,303);
+assert.equal(await (await worker.fetch(new Request('https://test.example/runtime/client.js'),env)).text(),'/runtime/client.js');
+console.log('15 assertions passed; no live Supabase or payments tested.');
