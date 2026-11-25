@@ -13,6 +13,7 @@ create table public.trainer_orders (
  status text not null check(status in ('paid','refunded','chargeback')),
  paid_at timestamptz,
  user_id uuid references auth.users(id) on delete set null,
+ linked_at timestamptz, -- deletion does not make an already claimed order claimable again
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now(),
  check(status<>'paid' or paid_at is not null)
@@ -46,8 +47,9 @@ begin
  -- Grant only after binding to a confirmed email account. Avoid a grant to an ambiguous identity.
  select case when count(*)=1 then min(id::text)::uuid else null end into uid
  from auth.users where lower(email)=mail and email_confirmed_at is not null;
+ if p_paid_at+interval '365 days'<=now() then return 'expired';end if;
  if uid is null then return 'awaiting_account';end if;
- update public.trainer_orders set user_id=uid where order_id=p_order;
+ update public.trainer_orders set user_id=uid,linked_at=now() where order_id=p_order;
  insert into public.trainer_entitlements(user_id,source,expires_at)
  values(uid,'kiwify:'||p_order,p_paid_at+interval '365 days');
  return 'granted';
@@ -62,8 +64,8 @@ begin
  select lower(email) into mail from auth.users where id=uid and email_confirmed_at is not null;
  if mail is null then return 0;end if;
  if (select count(*) from auth.users where lower(email)=mail and email_confirmed_at is not null)<>1 then return 0;end if;
- for rec in select * from public.trainer_orders where customer_email=mail and user_id is null and status='paid' and paid_at+interval '365 days'>now() for update loop
-  update public.trainer_orders set user_id=uid,updated_at=now() where order_id=rec.order_id;
+ for rec in select * from public.trainer_orders where customer_email=mail and user_id is null and linked_at is null and status='paid' and paid_at+interval '365 days'>now() for update loop
+  update public.trainer_orders set user_id=uid,linked_at=now(),updated_at=now() where order_id=rec.order_id;
   insert into public.trainer_entitlements(user_id,source,expires_at) values(uid,'kiwify:'||rec.order_id,rec.paid_at+interval '365 days');
   n:=n+1;
  end loop;
