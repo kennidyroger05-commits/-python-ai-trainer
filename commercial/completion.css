@@ -1,0 +1,1 @@
+#counts{display:grid;grid-template-columns:1fr auto;gap:12px}#counts dt,#counts dd{margin:0}#counts dd{font-weight:bold}#record{break-inside:avoid}@media print{.no-print{display:none!important}body{background:#fff;color:#111}main{max-width:none;padding:0}section{border:1px solid #555}#status{display:none}}

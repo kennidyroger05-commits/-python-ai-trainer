@@ -25,9 +25,9 @@ assert 'return window.localStorage;' in src
 src=src.replace('return window.localStorage;', '''const raw=window.localStorage,id=window.TrainerAccount;if(!id)throw Error('account context unavailable');const prefix='trainer-account:'+id+':';const keys=()=>Object.keys(raw).filter(k=>k.startsWith(prefix));return {getItem:k=>raw.getItem(prefix+k),setItem:(k,v)=>raw.setItem(prefix+k,v),removeItem:k=>raw.removeItem(prefix+k),get length(){return keys().length;},key:i=>keys()[i]?.slice(prefix.length)??null};''')
 p.write_text(src)
 shutil.copy2(BASE/'cloud-panel.js',app/'cloud-panel.js')
-for name in ('writing.html','writing.js','writing.json'):
+for name in ('writing.html','writing.js','writing.json','completion.html','completion.js','completion-core.js','completion.css'):
  shutil.copy2(BASE/name,app/name)
-p=app/'index.html'; p.write_text(p.read_text().replace('</main>','<section class="learning-card"><h2>Prática de autonomia (piloto)</h2><a href="writing.html">Seis desafios de código livre com testes reais</a></section></main>',1))
+p=app/'index.html'; p.write_text(p.read_text().replace('</main>','<section class="learning-card"><h2>Prática de autonomia (piloto)</h2><a href="writing.html">Seis desafios de código livre com testes reais</a><p><a href="completion.html">Meu registro de aprendizagem</a></p></section></main>',1))
 # Build the exact first unit in curriculum order, including block assembly.
 plan=json.loads((ROOT/'curriculum/units.json').read_text())
 catalog={x['id']:x for name in ('exercises.json','curriculum/exercises.json') for x in json.loads((ROOT/name).read_text())}
